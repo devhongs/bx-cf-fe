@@ -1,3 +1,4 @@
+import Button from '@/components/button/Button'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/login/')({
@@ -5,5 +6,9 @@ export const Route = createFileRoute('/login/')({
 })
 
 function App() {
-  return <div className="text-center">login page</div>
+  return (
+    <div className="text-center">
+      <Button label="Login" />
+    </div>
+  )
 }
