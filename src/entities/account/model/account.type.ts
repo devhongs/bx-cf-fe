@@ -1,15 +1,20 @@
-
-export interface AccountsQueryParams extends PaginationRequest {
-/**
- * 과정 정보
- */
-export interface Account {
+export interface AccountsQueryParams {
   /**
    * 아이디
    */
-  id?: number;
+  userId?: string
+}
+
+/**
+ * 계좌
+ */
+export interface Account {
   /**
-   * 이름
+   * 계좌 번호
    */
-  name?: string;
+  accountNo?: number
+  /**
+   * 계좌 명
+   */
+  accountName?: string
 }
