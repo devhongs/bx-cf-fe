@@ -1,4 +1,4 @@
-import Button from '@/shared/ui/button/Button'
+import Button from '@/shared/ui/components/button/Button'
 import { Breadcrumb } from '@bwg-ds/core'
 import { createFileRoute } from '@tanstack/react-router'
 
