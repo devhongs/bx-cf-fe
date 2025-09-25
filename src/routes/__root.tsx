@@ -1,14 +1,21 @@
-import Header from '@/widgets/layout/header/Header'
-import { TanstackDevtools } from '@tanstack/react-devtools'
+import '@/shared/styles/common_ui.css'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
+
+import { Footer } from '@/widgets/layout/footer/Footer'
+import { Header } from '@/widgets/layout/header/Header'
 
 export const Route = createRootRoute({
+  notFoundComponent: () => <div>404</div>,
   component: () => (
     <>
-      <Header />
-      <Outlet />
-      <TanstackDevtools
+      <html className="min-h-screen bg-background flex flex-col max-w-md mx-auto">
+        <Header />
+        <main className="flex-1 overflow-auto">
+          <Outlet />
+        </main>
+        <Footer />
+      </html>
+      {/* <TanstackDevtools
         config={{
           position: 'bottom-left',
         }}
@@ -18,7 +25,22 @@ export const Route = createRootRoute({
             render: <TanStackRouterDevtoolsPanel />,
           },
         ]}
-      />
+      /> */}
     </>
   ),
 })
+
+// function AuthRedirect() {
+//   const navigate = useNavigate()
+
+//   useEffect(() => {
+//     const userId = !sessionStorage.getItem('userid')
+//     if (userId) {
+//       navigate({ to: '/main' })
+//     } else {
+//       navigate({ to: '/login' })
+//     }
+//   }, [navigate])
+
+//   return null
+// }

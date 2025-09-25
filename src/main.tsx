@@ -1,12 +1,12 @@
+import { BwgProvider } from '@bwg-ds/core'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 
 // Import the generated route tree
+import reportWebVitals from './reportWebVitals.ts'
 import { routeTree } from './routeTree.gen'
 
-import { BwgProvider } from '@bwg-ds/core'
-import reportWebVitals from './reportWebVitals.ts'
 import './styles.css'
 
 // Create a new router instance
