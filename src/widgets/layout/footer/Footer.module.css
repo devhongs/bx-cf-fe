@@ -3,3 +3,7 @@
 .root {
   @apply border-t;
 }
+
+.buttonWrapper {
+  @apply flex w-full;
+}

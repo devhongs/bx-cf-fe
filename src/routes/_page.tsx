@@ -1,5 +1,7 @@
 import { Outlet, createFileRoute } from '@tanstack/react-router'
 
+import styles from './_page.module.css'
+
 import { Footer } from '@/widgets/layout/footer/Footer'
 import { Header } from '@/widgets/layout/header/Header'
 
@@ -10,12 +12,12 @@ export const Route = createFileRoute('/_page')({
 function RouteComponent() {
   return (
     <>
-      <Header />
-      <main className="flex-1 overflow-auto">
+      <Header className={styles.header} />
+      <main className={styles.main}>
         <div>page</div>
         <Outlet />
       </main>
-      <Footer />
+      <Footer className={styles.footer} />
     </>
   )
 }

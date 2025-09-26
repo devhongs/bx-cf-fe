@@ -2,15 +2,20 @@ import { Link } from '@tanstack/react-router'
 
 import styles from './Header.module.css'
 
-export function Header() {
+import { cn } from '@/shared/lib/utils'
+import type { BaseProps } from '@/shared/types'
+
+interface HeaderProps extends BaseProps {}
+
+export function Header(props: HeaderProps) {
   return (
-    <header className={styles.root}>
+    <header className={cn(styles.root, props.className)}>
       <nav className={styles.nav}>
         <div className={styles.home}>
           <Link to="/main">Home</Link>
         </div>
         <div className={styles.setting}>
-          <Link to="/main/setting">설정</Link>
+          <Link to="/setting">설정</Link>
         </div>
       </nav>
     </header>

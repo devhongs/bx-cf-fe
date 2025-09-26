@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+
+.header {
+  @apply fixed;
+}
+
+.main {
+  @apply flex-1 overflow-auto;
+}
+
+.footer {
+  @apply fixed bottom-0;
+}
