@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+
+.root {
+  @apply flex-1 flex flex-col items-center justify-center bg-gray-100 text-gray-800 h-[50px] gap-0;
+}
+
+.icon {
+  @apply w-12 h-12 flex items-center justify-center -mb-1;
+}
+
+.label {
+  @apply text-lg font-bold;
+}

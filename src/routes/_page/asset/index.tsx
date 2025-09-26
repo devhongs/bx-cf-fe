@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/setting/')({
+export const Route = createFileRoute('/_page/asset/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <div>setting page</div>
+  return <div>Hello "/_page/asset/"!</div>
 }

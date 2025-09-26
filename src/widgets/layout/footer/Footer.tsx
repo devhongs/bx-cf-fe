@@ -1,37 +1,22 @@
-import { Button } from '@bwg-ds/core'
-import { CreditCard, Grid3X3, Send, User } from 'lucide-react'
+import { House, Menu, PiggyBank, SquareChartGantt } from 'lucide-react'
+
+import styles from './Footer.module.css'
+
+import { FooterButton } from '@/widgets/components'
 
 interface FooterProps {
   activeTab?: string
   onTabChange?: (tab: string) => void
 }
 
-export function Footer({ activeTab, onTabChange }: FooterProps) {
-  const tabs = [
-    { id: 'account', label: '계좌조회', icon: CreditCard },
-    { id: 'transfer', label: '이체', icon: Send },
-    { id: 'user', label: '사용자', icon: User },
-    { id: 'menu', label: '전체메뉴', icon: Grid3X3 },
-  ]
-
+export function Footer(props: FooterProps) {
   return (
-    <footer className="border-t bg-background">
-      <div className="flex">
-        {tabs.map((tab) => {
-          const Icon = tab.icon
-          return (
-            <Button
-              key={tab.id}
-              className={`flex-1 flex-col h-16 rounded-none ${
-                activeTab === tab.id ? 'text-primary' : 'text-muted-foreground'
-              }`}
-              onClick={() => onTabChange?.(tab.id)}
-            >
-              <Icon className="h-5 w-5 mb-1" />
-              <span className="text-xs">{tab.label}</span>
-            </Button>
-          )
-        })}
+    <footer className={styles.root}>
+      <div className="flex w-full">
+        <FooterButton label="홈" icon={<House fill="#ff4d6d" />} />
+        <FooterButton label="자산" icon={<PiggyBank />} />
+        <FooterButton label="상품 " icon={<SquareChartGantt />} />
+        <FooterButton label="메뉴" icon={<Menu />} />
       </div>
     </footer>
   )

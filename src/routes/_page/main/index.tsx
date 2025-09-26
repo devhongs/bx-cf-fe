@@ -1,15 +1,11 @@
-import { Outlet, createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 
-export const MainRoute = createFileRoute('/main/')({
+export const Route = createFileRoute('/_page/main/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return (
-    <main className="flex-1 overflow-auto">
-      <Outlet />
-    </main>
-  )
+  return <div>main page</div>
 }
 
 // function DefaultContent() {

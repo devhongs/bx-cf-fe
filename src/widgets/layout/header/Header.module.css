@@ -1,9 +1,17 @@
 @import 'tailwindcss';
 
 .root {
-  @apply p-2 flex gap-2 bg-violet-400 text-black justify-between;
+  @apply p-2 flex gap-2 text-black justify-between h-[50px] bg-amber-50;
 }
 
 .nav {
-  @apply flex flex-row;
+  @apply flex flex-row gap-4;
+}
+
+.home {
+  @apply text-black;
+}
+
+.setting {
+  @apply text-black;
 }

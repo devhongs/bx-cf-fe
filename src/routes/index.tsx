@@ -5,5 +5,5 @@ export const Route = createFileRoute('/')({
 })
 
 function RouteComponent() {
-  return <div className="text-center">main page2</div>
+  return <>index page</>
 }
