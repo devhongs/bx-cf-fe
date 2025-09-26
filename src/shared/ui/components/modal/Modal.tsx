@@ -1,30 +1,39 @@
 import { useEffect, useRef, useState } from 'react'
 
-import useDetectBackButton from '@/hooks/common/useDetectBackButton'
-import useModal from '@/hooks/common/useModal'
 import useGetModal from '@/shared/model/modal/useGetModal'
+import useModal from '@/shared/model/modal/useModal'
 
 function Modal({ className = '', children }: any) {
   const $modalHooks = useModal()
 
   const { modal } = useGetModal()
 
-  const modalList = modal?.modalList || []
+  const modalList = modal.modalList
   const modalInfo = modalList[modalList.length - 1] || {}
 
-  useDetectBackButton(() => {
-    if (modalList?.length > 0) {
-      const currentUUID = window.location.search.split('modalUUID=')[1]
-      const currentModalIndex = modalList.findIndex(
-        (modalItem: any) => modalItem.modalUUID === currentUUID,
-      )
-      const closeModalInfo = modalList[currentModalIndex + 1]
+  // useDetectBackButton(() => {
+  //   if (modalList?.length > 0) {
+  //     const currentUUID = window.location.search.split('modalUUID=')[1]
+  //     const currentModalIndex = modalList.findIndex(
+  //       (modalItem: any) => modalItem.modalUUID === currentUUID,
+  //     )
+  //     const closeModalInfo = modalList[currentModalIndex + 1]
 
-      if (closeModalInfo) {
-        $modalHooks.closePopup(closeModalInfo, null, true)
-      }
-    }
-  })
+  //     if (closeModalInfo) {
+  //       $modalHooks.closePopup(closeModalInfo, null, true)
+  //     }
+  //   }
+  // })
+
+  if (modalList.length > 0) {
+    const currentUUID = window.location.search.split('modalUUID=')[1]
+    const currentModalIndex = modalList.findIndex(
+      (modalItem: any) => modalItem.modalUUID === currentUUID,
+    )
+    const closeModalInfo = modalList[currentModalIndex + 1]
+
+    $modalHooks.closePopup(closeModalInfo, null, true)
+  }
 
   const initModalRef = useRef<any>(null)
   const [render, setRender] = useState<boolean>(false)

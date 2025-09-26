@@ -1,5 +1,5 @@
 import { BwgContext } from '@bwg-ds/core'
-import dynamic from 'next/dynamic'
+// next/dynamic을 사용하지 않으므로 해당 import를 제거합니다.
 import { useContext } from 'react'
 import { v4 } from 'uuid'
 
@@ -117,6 +117,7 @@ function useModal() {
    * 팝업오픈
    * @param {object} params
    */
+  // TODO: params 타입 정의
   const openPopup = (params: any) =>
     new Promise((resolve, reject) => {
       if (typeof window !== 'undefined') {
@@ -124,12 +125,8 @@ function useModal() {
         const activeEl = document.activeElement as HTMLElement // 포커스된 element
         activeEl.blur()
         const settings = {
-          screenId: params.screenId || '',
-          instance: dynamic(import(`/src/${params.instance}.tsx`)),
+          ...params,
           modalUUID: v4(),
-          // TODO: dynamic loading Shimmer 페이지 적용시 이벤트 처리 & 리렌더링 이슈
-          // instance: params.instance,
-          params: params.params,
           activeEl,
           resolve,
         }
