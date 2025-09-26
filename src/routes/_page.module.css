@@ -1,13 +1,17 @@
 @import 'tailwindcss';
 
 .header {
-  @apply fixed;
+  @apply fixed top-0 left-0 w-full z-10 p-5;
+  height: 50px;
 }
 
 .main {
-  @apply flex-1 overflow-auto;
+  @apply flex-1 p-5;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 .footer {
-  @apply fixed bottom-0;
+  @apply fixed bottom-0 left-0 w-full z-10;
+  height: 50px;
 }

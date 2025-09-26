@@ -1,17 +1,20 @@
 @import 'tailwindcss';
 
 .root {
-  @apply p-2 flex gap-2 text-black justify-between h-[50px] bg-amber-50;
+  @apply flex gap-2 text-black justify-between h-[50px] bg-amber-50 items-center;
 }
 
-.nav {
+.left {
+  @apply flex flex-row gap-2;
+
+  .nickname {
+    @apply text-black font-bold;
+  }
+}
+
+.right {
   @apply flex flex-row gap-4;
 }
-
-.home {
-  @apply text-black;
-}
-
-.setting {
+.alarm {
   @apply text-black;
 }

@@ -21,6 +21,8 @@
     "@tanstack/react-router": "^1.130.2",
     "@tanstack/react-router-devtools": "^1.131.5",
     "@tanstack/router-plugin": "^1.121.2",
+    "uuid": "^9.0.1",
+    "i18next": "^24.2.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -34,6 +36,7 @@
     "@types/node": "^24.5.2",
     "@types/react": "^18.3.24",
     "@types/react-dom": "^18.3.7",
+    "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.21",
     "axios": "^1.12.2",
@@ -48,6 +51,7 @@
     "typescript": "^5.7.2",
     "vite": "^6.3.5",
     "vitest": "^3.0.5",
-    "web-vitals": "^4.2.4"
+    "web-vitals": "^4.2.4",
+    "zustand": "^5.0.8"
   }
 }

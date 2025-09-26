@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router'
+import { Bell } from 'lucide-react'
 
 import styles from './Header.module.css'
 
@@ -10,14 +10,14 @@ interface HeaderProps extends BaseProps {}
 export function Header(props: HeaderProps) {
   return (
     <header className={cn(styles.root, props.className)}>
-      <nav className={styles.nav}>
-        <div className={styles.home}>
-          <Link to="/main">Home</Link>
-        </div>
-        <div className={styles.setting}>
-          <Link to="/setting">설정</Link>
-        </div>
-      </nav>
+      <div className={styles.left}>
+        <span className={styles.nickname}>닉네임</span>
+      </div>
+      <div className={styles.right}>
+        <button className={styles.alarm}>
+          <Bell className={styles.bell} />
+        </button>
+      </div>
     </header>
   )
 }

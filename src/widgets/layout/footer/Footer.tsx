@@ -12,6 +12,7 @@ interface FooterProps extends BaseProps {
 }
 
 export function Footer(props: FooterProps) {
+  const clickFooterButton = (label: string) => {}
   return (
     <footer className={cn(styles.root, props.className)}>
       <div className={styles.buttonWrapper}>

@@ -1,4 +1,7 @@
 export * from './browser-util'
 export * from './cn'
+export * from './common.device'
+export * from './common.i18n'
+export * from './common.storage'
 export * from './component-util'
 export * from './query'
