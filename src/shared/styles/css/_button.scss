@@ -1,0 +1,358 @@
+@charset "utf-8";
+
+@use "sass:color";
+@use 'sass:math';
+
+$btn-font-family: 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Droid Sans', 'Helvetica Neue', "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+$btn-font-weight: 500;
+$btn-line-height: 20px;
+$btn-padding-y: 0;
+$btn-padding-x: 9px;
+$btn-font-size: 15px;
+$btn-border-radius: 6px;
+$btn-transition: all 0.15s ease-in-out;
+$btn-box-shadow: 0 0.2rem 0.2rem rgba(0, 0, 0, 0.05);
+$btn-focus-box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+$btn-active-box-shadow: inset 0 0.1rem 0.2rem rgba(0, 0, 0, 0.15);
+$btn-disabled-opacity: 0.65;
+
+$theme-colors: (
+  // 블루 계열
+  "blue": #3074f0,
+  "royalblue": #4169e1,
+  "dodgerblue": #388bff,
+  "navyblue": #405189,
+  "navy": #1e2c5e,
+  "cyan": #34bcd9,
+
+  // 퍼플 계열
+  "indigo": #6f6af8,
+  "purple": #8b5cf6,
+  "violet": #5963d9,
+  "pink": #f1416c,
+  "rose": #f56665,
+
+  // 레드 계열
+  "red": #ef4444,
+  "burgundy": #800020,
+
+  // 오렌지 계열
+  "orange": #fd7e14,
+  "amber": #f1b44c,
+
+  // 옐로우 계열
+  "yellow": #f7d24b,
+  "lime": #cddc39,
+  "brown": #92400e,
+  "darkbrown": #5f584c,
+
+  // 그린 계열
+  "darkgreen": #00828c,
+  "green": #0ab39c,
+  "emerald": #50c878,
+  "teal": #20c997,
+
+  // 그레이 계열
+  "black": #091124,
+  "dark": #5a6375,
+  "darkgray": #6b7280,
+  "gray": #8c949e,
+  "graylight": #dfe5e8,
+  "light": #edf1f6,
+  "white": #fff
+);
+
+@function custom-contrast($background) {
+  $light-color: #fff; // 밝은 글자 색상
+  $dark-color: #000; // 어두운 글자 색상
+
+  // 배경색의 RGB 값 추출
+  $r: color.channel($background, "red", $space: rgb);
+  $g: color.channel($background, "green", $space: rgb);
+  $b: color.channel($background, "blue", $space: rgb);
+
+  // 명도 계산 (luminance 공식 사용)
+  $luminance: math.div(0.2126 * $r, 255) + math.div(0.7152 * $g, 255) + math.div(0.0722 * $b, 255);
+
+  // 명도에 따라 밝은 글자/어두운 글자 반환
+  @return if($luminance > 0.5, $dark-color, $light-color);
+}
+
+:root {
+  --cmm-blue-filter: brightness(0) saturate(100%) invert(53%) sepia(70%)
+    saturate(2014%) hue-rotate(185deg) brightness(87%) contrast(97%);
+  --cmm-royalblue-filter: brightness(0) saturate(100%) invert(36%) sepia(22%)
+    saturate(4705%) hue-rotate(208deg) brightness(97%) contrast(81%);
+  --cmm-dodgerblue-filter: brightness(0) saturate(100%) invert(42%) sepia(37%)
+    saturate(3484%) hue-rotate(203deg) brightness(100%) contrast(94%);
+  --cmm-navyblue-filter: brightness(0) saturate(100%) invert(32%) sepia(48%)
+    saturate(605%) hue-rotate(189deg) brightness(87%) contrast(92%);
+  --cmm-navy-filter: brightness(0) saturate(100%) invert(10%) sepia(68%)
+    saturate(2475%) hue-rotate(219deg) brightness(92%) contrast(89%);
+  --cmm-cyan-filter: brightness(0) saturate(100%) invert(75%) sepia(47%)
+    saturate(1730%) hue-rotate(154deg) brightness(89%) contrast(90%);
+  --cmm-indigo-filter: brightness(0) saturate(100%) invert(35%) sepia(76%)
+    saturate(1308%) hue-rotate(221deg) brightness(103%) contrast(94%);
+  --cmm-indigo-filter: brightness(0) saturate(100%) invert(35%) sepia(76%)
+    saturate(1308%) hue-rotate(221deg) brightness(103%) contrast(94%);
+  --cmm-purple-filter: brightness(0) saturate(100%) invert(58%) sepia(72%)
+    saturate(6179%) hue-rotate(237deg) brightness(98%) contrast(96%);
+  --cmm-violet-filter: brightness(0) saturate(100%) invert(34%) sepia(70%)
+    saturate(1055%) hue-rotate(209deg) brightness(98%) contrast(87%);
+  --cmm-pink-filter: brightness(0) saturate(100%) invert(38%) sepia(22%)
+    saturate(7096%) hue-rotate(323deg) brightness(98%) contrast(92%);
+  --cmm-rose-filter: brightness(0) saturate(100%) invert(57%) sepia(11%)
+    saturate(5989%) hue-rotate(323deg) brightness(108%) contrast(92%);
+  --cmm-red-filter: brightness(0) saturate(100%) invert(44%) sepia(62%)
+    saturate(6484%) hue-rotate(341deg) brightness(102%) contrast(86%);
+  --cmm-burgundy-filter: brightness(0) saturate(100%) invert(8%) sepia(75%)
+    saturate(5593%) hue-rotate(326deg) brightness(85%) contrast(132%);
+  --cmm-orange-filter: brightness(0) saturate(100%) invert(57%) sepia(65%)
+    saturate(2619%) hue-rotate(350deg) brightness(101%) contrast(101%);
+  --cmm-amber-filter: brightness(0) saturate(100%) invert(70%) sepia(57%)
+    saturate(605%) hue-rotate(338deg) brightness(108%) contrast(89%);
+  --cmm-yellow-filter: brightness(0) saturate(100%) invert(80%) sepia(100%)
+    saturate(6363%) hue-rotate(320deg) brightness(105%) contrast(94%);
+  --cmm-lime-filter: brightness(0) saturate(100%) invert(97%) sepia(81%)
+    saturate(1157%) hue-rotate(6deg) brightness(94%) contrast(83%);
+  --cmm-brown-filter: brightness(0) saturate(100%) invert(14%) sepia(99%)
+    saturate(3909%) hue-rotate(39deg) brightness(96%) contrast(89%);
+  --cmm-darkbrown-filter: brightness(0) saturate(100%) invert(30%) sepia(23%)
+    saturate(311%) hue-rotate(359deg) brightness(99%) contrast(83%);
+  --cmm-darkgreen-filter: brightness(0) saturate(100%) invert(30%) sepia(63%)
+    saturate(3958%) hue-rotate(165deg) brightness(89%) contrast(108%);
+  --cmm-green-filter: brightness(0) saturate(100%) invert(55%) sepia(89%)
+    saturate(1206%) hue-rotate(128deg) brightness(86%) contrast(92%);
+  --cmm-emerald-filter: brightness(0) saturate(100%) invert(85%) sepia(8%)
+    saturate(3045%) hue-rotate(79deg) brightness(82%) contrast(88%);
+  --cmm-teal-filter: brightness(0) saturate(100%) invert(64%) sepia(42%)
+    saturate(732%) hue-rotate(111deg) brightness(92%) contrast(91%);
+  --cmm-black-filter: brightness(0) saturate(100%) invert(6%) sepia(24%)
+    saturate(2820%) hue-rotate(195deg) brightness(95%) contrast(99%);
+  --cmm-dark-filter: brightness(0) saturate(100%) invert(37%) sepia(11%)
+    saturate(778%) hue-rotate(182deg) brightness(96%) contrast(86%);
+  --cmm-darkgray-filter: brightness(0) saturate(100%) invert(49%) sepia(2%)
+    saturate(1949%) hue-rotate(182deg) brightness(90%) contrast(95%);
+  --cmm-gray-filter: brightness(0) saturate(100%) invert(75%) sepia(7%)
+    saturate(466%) hue-rotate(179deg) brightness(87%) contrast(88%);
+  --cmm-light-filter: brightness(0) saturate(100%) invert(97%) sepia(2%)
+    saturate(1101%) hue-rotate(191deg) brightness(99%) contrast(96%);
+  --cmm-white-filter: brightness(0) saturate(100%) invert(100%) sepia(77%)
+    saturate(2%) hue-rotate(63deg) brightness(114%) contrast(101%);
+}
+
+// 믹스인 정의
+@mixin button-variant(
+  $background,
+  $border,
+  $color:#fff,
+) {
+  color: $color;
+  background-color: $background ;
+  border-color:$background;
+
+  &:hover {
+    background-color: color.adjust($background, $lightness: 7%);
+    border-color:$background;
+  }
+
+  &:focus {
+    background-color: $background ;
+    border-color:$background;
+  }
+  &:active {
+    background-color: color.adjust($background, $lightness: 7%);
+    border-color:$background;
+  }
+  &:disabled {
+    background-color: $background;
+    border-color: $background;
+    opacity: $btn-disabled-opacity;
+  }
+}
+@mixin button-outline($background, $color: custom-contrast($background)) {
+  color: $background;
+  border-color: $background;
+  background-color: transparent !important;
+  transition: $btn-transition;
+
+  &:hover {
+    color: color.adjust($background, $lightness: -20%);
+    border-color: color.adjust($background, $lightness: -20%);  
+  }
+  &:focus {
+    color: $background;
+    border-color: $background;
+  
+  }
+  &:active {
+    color: color.adjust($background, $lightness: -20%);
+    border-color: color.adjust($background, $lightness: -20%);  
+  
+  }
+  &:disabled {
+    color: color.adjust($background, $lightness: 30%);
+    border-color: color.adjust($background, $lightness: 30%);
+    opacity: $btn-disabled-opacity;
+  }
+}
+
+@mixin button-size($height, $font-size, $border-radius, $padding) {
+  height: $height;
+  font-size: $font-size;
+  padding: $padding;
+}
+
+// white와 light에 대한 특수 처리
+@mixin button-special($background, $dark-color: #333) {
+  color: $dark-color; // 글자 색상을 진하게 설정
+  background-color: $background !important;
+  border-color: $background;
+
+  &:hover {
+    color: color.adjust($dark-color, $lightness: -10%);
+    border-color: color.adjust($background, $lightness: -10%);
+  }
+
+  &:focus {
+    color: $dark-color;
+    border-color: $background;
+  }
+  &:active {
+    color: color.adjust($dark-color, $lightness: -10%);
+    border-color: color.adjust($background, $lightness: -10%);
+  }  
+}
+// 필터 믹스인 정의
+@mixin apply-icon-filter($filter) {
+  filter: $filter;
+}
+
+
+
+
+// 기본 버튼 스타일
+.cmm-button {
+  display: inline-block; 
+  font-family: $btn-font-family; 
+  font-weight: $btn-font-weight; 
+  line-height: $btn-line-height; 
+  text-align: center; vertical-align: middle; cursor: pointer; user-select: none;
+  border: 1px solid transparent; 
+  transition: $btn-transition; // 트랜지션 직접 정의
+  padding: 9px; min-width: 88px;
+  border-radius: $btn-border-radius;
+  outline: 0;
+  span {  min-width: 40px; display: inline-block; }
+
+  &:hover { text-decoration: none;  outline: 0}
+  &:focus { outline: 0 ;box-shadow: none}
+  &:active {  box-shadow: none;}
+  &:disabled { pointer-events: none; opacity: $btn-disabled-opacity; }
+}
+
+// Button Sizes
+.btn-xxl { @include button-size(72px, 16px, 8px, 9px); }
+.btn-xl { @include button-size(68px, 16px, 8px, 9px); }
+.btn-lg { @include button-size(60px, 16px, 8px, 9px ); }
+.btn-md { @include button-size(48px, 14px, 8px, 9px); }
+.btn-sm { @include button-size(36px, 15px, 8px, 9px 16px ); }
+.btn-s { @include button-size(32px, 12px, 4px, 9px); }
+.btn-xs { @include button-size(32px, 12px, 4px, 9px); }
+.btn-xxs { @include button-size(32px, 12px, 4px, 9px); }
+
+
+
+
+
+// rounded 버튼 스타일
+.btn-rounded { border-radius: 30px; }
+
+
+// 색상별 버튼 생성
+@each $color, $value in $theme-colors {
+  .btn-#{$color} {
+    @if $color == "white" or $color == "light" or $color == "graylight"{
+      @include button-special($value); // white와 light는 특수 스타일 적용
+    } @else {
+      @include button-variant($value, #fff); // 기본적으로 흰색 폰트
+    }
+    // 아이콘(i 태그)이 있는 경우 필터 적용
+    i, svg {
+      @include apply-icon-filter(var(--cmm-white-filter));
+    }  
+  }
+
+  .btn-#{$color}.btn-outline {
+    @if $color == "white" or $color == "light" or $color == "graylight" {
+      @include button-special($value, color.adjust($value, $lightness: -20%)); // white와 light에 대한 아웃라인 스타일
+    } @else {
+      @include button-outline($value); // 일반 색상 아웃라인 스타일
+    }
+    i, svg {
+      @include apply-icon-filter(var(--cmm-#{$color}-filter));
+    }
+  }
+}
+
+.bx-text-dark { color: #4a5160; }
+.btn-link {
+  color: #358cdc; background-color: transparent; min-width: initial; padding: 0;
+
+  &:hover { color: #3b82f6; text-decoration: underline; }
+  &:focus { outline: 0; }
+
+  &:disabled { pointer-events: none; opacity: $btn-disabled-opacity; }
+}
+
+
+.cmm-button i { width: 24px; height: 24px; display: inline-block; background-size: 20px !important; }
+.cmm-button {
+  display: flex; align-items: center;justify-content: center;
+
+  span { padding-left: 0; min-width: initial; }
+}
+.btn-white.btn-outline, .btn-light.btn-outline {background: transparent !important;}
+
+
+.btn-white,.btn-white.btn-outline {
+  border-color: #9ca3af;
+  &:hover {
+    border-color: color.adjust(#9ca3af, $lightness: 10%);
+    background-color: transparent !important;
+  }
+
+  &:focus {
+    border-color: #9ca3af;
+  }
+
+  &:active {
+    border-color: color.adjust(#9ca3af, $lightness: -10%); 
+  }
+
+}
+.btn-white.btn-outline i, .btn-white.btn-outline svg {  filter: none;}
+.btn-white i, .btn-white svg{filter: none;}
+.btn-graylight:hover{border-color: #dfe5e8}
+.btn-full{width: 100%;}
+
+// 색상별 버튼 생성
+.btn-icon {
+	background: transparent; border: none; color: #000; font-size: 0; min-width: initial;padding: 0 !important;border-radius: initial;line-height: normal;
+
+	i { filter: initial; width: inherit; height: initial; }
+  &.icon-xxs i {}
+  &.icon-xs i {}
+  &.icon-s i {}
+  &.icon-sm i {}
+  &.icon-m i {}
+  &.icon-lg i {}
+  &.icon-xl i {}
+  &.icon-xxl i {}
+ 
+ 
+}
+.btn-none{
+  font-weight:initial; line-height: normal; padding: 0 !important; border-radius: initial;
+  i {width: inherit; height: initial;}
+}

@@ -1,12 +1,12 @@
-import { format, parseISO } from "date-fns"
-import { IMask } from "@bwg-ds/core"
+import { IMask } from '@bwg-ds/core'
+import { format, parseISO } from 'date-fns'
 
 /**
  * 일자 포멧팅
  * @param data : 일자
  * @returns
  */
-const dateFormat = (data: any, returnFormat = "yyyy-MM-dd") => {
+const dateFormat = (data: any, returnFormat = 'yyyy-MM-dd') => {
   if (!data) {
     return data
   }
@@ -28,7 +28,7 @@ const timeFormat = (data: any) => {
 
   const masked = IMask.createMask({
     // mask: "+7 (000) 000-00-00",
-    mask: "00:00:00",
+    mask: '00:00:00',
     // ...and other options
   })
   masked.resolve(data)
@@ -60,7 +60,7 @@ const timeStampToDateTimeFormat = (data: any) => {
     return data
   }
 
-  const dateTime = data.split("T")
+  const dateTime = data.split('T')
   return `${dateTime[0]} ${dateTime[1].substring(0, 8)}`
 }
 
@@ -93,11 +93,11 @@ const currencyFormat = (data: any, scale = 0) => {
     // mask: "+7 (000) 000-00-00",
     mask: Number,
     scale,
-    thousandsSeparator: ",",
+    thousandsSeparator: ',',
     // normalizeZeros: true,
     padFractionalZeros: true,
     // ...and other options
-    radix: ".",
+    radix: '.',
   })
   // console.log("data :: ", data)
   return currencyPipe(String(data))
@@ -129,10 +129,10 @@ const convertSnakeToCamel = (str: string) => {
   if (str) {
     return str
       .toLowerCase()
-      .replace(/(\_[a-z])/g, (arg) => arg.toUpperCase().replace("_", ""))
+      .replace(/(\_[a-z])/g, (arg) => arg.toUpperCase().replace('_', ''))
   }
 
-  return ""
+  return ''
 }
 
 /**
@@ -147,7 +147,7 @@ const convertCamelToSnake = (str: string) => {
       .toUpperCase()
   }
 
-  return ""
+  return ''
 }
 
 export const $formatUtils = {

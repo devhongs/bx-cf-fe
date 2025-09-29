@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
+import useModal from '@/shared/hooks/useModal'
 import useGetModal from '@/shared/model/modal/useGetModal'
-import useModal from '@/shared/model/modal/useModal'
 
 function Modal({ className = '', children }: any) {
   const $modalHooks = useModal()

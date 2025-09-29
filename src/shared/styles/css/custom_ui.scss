@@ -1,0 +1,70 @@
+#__next {
+  height: 100vh;
+}
+body{
+  margin: 0;
+}
+
+//////////////////////////////////////////////////////////////////
+/// DatePicker(임시)
+//////////////////////////////////////////////////////////////////
+.btn-icon {
+  display: inline-block; // 버튼이 보이도록 설정
+  // cursor: pointer;       // 클릭 가능한 손 모양
+  // padding: 10px;         // 여백 추가
+  
+  span[role="dateIcon"] {
+    // display: inline-block; // 아이콘이 인라인 블록으로 보이게 설정
+    // width: 20px;           // 아이콘 너비 설정 (필요에 따라 조정)
+    // height: 20px;          // 아이콘 높이 설정 (필요에 따라 조정)
+    // background-color: #ddd; // 기본 배경색 설정
+    // border: 1px solid #ccc; // 테두리 설정
+  }
+
+  &:hover span[role="dateIcon"] {
+    // background-color: #aaa; // 호버 시 배경색 변경
+  }
+}
+
+//////////////////////////////////////////////////////////////////
+/// Drawer(임시)
+//////////////////////////////////////////////////////////////////
+.cmm-drawer {
+  position: absolute;
+  top: 0px;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  &.right {
+    flex-direction: row;
+  }
+  &.left {
+    flex-direction: row-reverse;
+  }
+}
+.cmm-drawer .drawer-area {
+  flex: 0.7;
+  background-color: #657fcf;
+}
+.cmm-drawer .drawer-background {
+  flex: 0.3;
+  background-color: #000000;
+  opacity: 0.5;
+}
+
+//////////////////////////////////////////////////////////////////
+/// Chart(임시)
+//////////////////////////////////////////////////////////////////
+/************************************ Chart S  ************************************/
+.bx-chart{ height:200px; width: 100%; margin-top: 30px;}
+.box-style{
+  .bx-line-chart,.bx-bar-chart {border: 1px solid #e5e6ed; border-radius:10px; padding:40px 0px 15px; margin-top:20px;}
+ }
+.recharts-legend-item-text{font-size: 12px; vertical-align: -webkit-baseline-middle;}
+.recharts-text{font-size: 11px;}
+/************************************ Chart E  ************************************/
+
+.page-header .btn-language {
+  right: 4.8rem;
+}

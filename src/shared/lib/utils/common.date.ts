@@ -1,9 +1,8 @@
 // import { parseISO, add, isValid } from "date-fns"
 // import { format } from "date-fns-tz"
-import { AddDay } from "@/types/index"
-import { isValid, parse } from "date-fns"
-import dayjs from "dayjs"
-import { $storageUtils } from "./common.storage"
+import { isValid, parse } from 'date-fns'
+import dayjs from 'dayjs'
+import { $storageUtils } from './common.storage'
 
 /**
  * 일자를 리턴한다 (전문설정일자)
@@ -11,9 +10,9 @@ import { $storageUtils } from "./common.storage"
  */
 const today = () =>
   // 전문에서 일자를 가져온다.
-  typeof window !== "undefined"
+  typeof window !== 'undefined'
     ? // 로그인을 하지 않을경우 세션에 값이 없을 수 있어 사용자 컴퓨터 날짜 Set.
-      $storageUtils.session("txDt") || getClientDate()
+      $storageUtils.session('txDt') || getClientDate()
     : null
 
 /**
@@ -22,7 +21,7 @@ const today = () =>
  * @param delimiter : 일자포멧
  * @returns
  */
-const getYearMonth = (date?: any, delimiter = "YYYYMM") => {
+const getYearMonth = (date?: any, delimiter = 'YYYYMM') => {
   if (date) {
     return dayjs(date).format(delimiter)
   }
@@ -36,7 +35,7 @@ const getYearMonth = (date?: any, delimiter = "YYYYMM") => {
  * @param delimiter : 일자포멧
  * @returns
  */
-const getYear = (date?: any, delimiter = "YYYY") => {
+const getYear = (date?: any, delimiter = 'YYYY') => {
   if (date) {
     return dayjs(date).format(delimiter)
   }
@@ -51,15 +50,15 @@ const getYear = (date?: any, delimiter = "YYYY") => {
  * @param delimiter : 일자포멧
  * @returns
  */
-const addDay = (count: number, date?: any, delimiter = "YYYYMMDD") => {
+const addDay = (count: number, date?: any, delimiter = 'YYYYMMDD') => {
   let parseDate
   if (date) {
-    parseDate = typeof date === "object" ? date : dayjs(date)
+    parseDate = typeof date === 'object' ? date : dayjs(date)
   } else {
     parseDate = dayjs(today())
   }
 
-  parseDate = parseDate.add(count, "day")
+  parseDate = parseDate.add(count, 'day')
   // console.log("parseDate :: ", parseDate)
   return parseDate.format(delimiter)
 }
@@ -71,14 +70,14 @@ const addDay = (count: number, date?: any, delimiter = "YYYYMMDD") => {
  * @param delimiter : 일자포멧
  * @returns
  */
-const addMonth = (count: number, date?: any, delimiter = "YYYYMMDD") => {
+const addMonth = (count: number, date?: any, delimiter = 'YYYYMMDD') => {
   let parseDate
   if (date) {
-    parseDate = typeof date === "object" ? date : dayjs(date)
+    parseDate = typeof date === 'object' ? date : dayjs(date)
   } else {
     parseDate = dayjs(today())
   }
-  parseDate = parseDate.add(count, "month")
+  parseDate = parseDate.add(count, 'month')
   // console.log("parseDate :: ", parseDate)
   return parseDate.format(delimiter)
 }
@@ -90,14 +89,14 @@ const addMonth = (count: number, date?: any, delimiter = "YYYYMMDD") => {
  * @param delimiter : 일자포멧
  * @returns
  */
-const addYear = (count: number, date?: any, delimiter = "YYYYMMDD") => {
+const addYear = (count: number, date?: any, delimiter = 'YYYYMMDD') => {
   let parseDate
   if (date) {
-    parseDate = typeof date === "object" ? date : dayjs(date)
+    parseDate = typeof date === 'object' ? date : dayjs(date)
   } else {
     parseDate = dayjs(today())
   }
-  parseDate = parseDate.add(count, "year")
+  parseDate = parseDate.add(count, 'year')
   // console.log("parseDate :: ", parseDate)
   return parseDate.format(delimiter)
 }
@@ -109,21 +108,21 @@ const addYear = (count: number, date?: any, delimiter = "YYYYMMDD") => {
  * @param delimiter : 일자포멧
  * @returns
  */
-const addDate = (addValue: AddDay, date?: any, delimiter = "YYYYMMDD") => {
+const addDate = (addValue: AddDay, date?: any, delimiter = 'YYYYMMDD') => {
   let parseDate
   if (date) {
-    parseDate = typeof date === "object" ? date : dayjs(date)
+    parseDate = typeof date === 'object' ? date : dayjs(date)
   } else {
     parseDate = dayjs(today())
   }
   if (addValue.year) {
-    parseDate = parseDate.add(addValue.year, "year")
+    parseDate = parseDate.add(addValue.year, 'year')
   }
   if (addValue.month) {
-    parseDate = parseDate.add(addValue.month, "month")
+    parseDate = parseDate.add(addValue.month, 'month')
   }
   if (addValue.day) {
-    parseDate = parseDate.add(addValue.day, "day")
+    parseDate = parseDate.add(addValue.day, 'day')
   }
   // console.log("parseDate :: ", parseDate)
   return parseDate.format(delimiter)
@@ -139,12 +138,12 @@ const isValidDate = (text: string) => {
     return false
   }
 
-  const value = (text || "").replace(/[^0-9]/g, "")
+  const value = (text || '').replace(/[^0-9]/g, '')
   if (!value || value.length !== 8) {
     return false
   }
 
-  const date = parse(value, "yyyyMMdd", new Date())
+  const date = parse(value, 'yyyyMMdd', new Date())
   return isValid(date)
 }
 
@@ -203,8 +202,8 @@ const isValidYear = (text: string) => {
 const getClientDate = () => {
   const date = new Date()
   const year = date.getFullYear().toString()
-  const month = (date.getMonth() + 1).toString().padStart(2, "0")
-  const day = date.getDate().toString().padStart(2, "0")
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
+  const day = date.getDate().toString().padStart(2, '0')
   return year + month + day
 }
 

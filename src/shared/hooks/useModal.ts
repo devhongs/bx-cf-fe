@@ -3,7 +3,7 @@ import { BwgContext } from '@bwg-ds/core'
 import { useContext } from 'react'
 import { v4 } from 'uuid'
 
-import useSetModal from './useSetModal'
+import useSetModal from '../model/modal/useSetModal'
 
 import { $deviceUtils } from '@/shared/lib/utils/common.device'
 import { $i18nUtils } from '@/shared/lib/utils/common.i18n'

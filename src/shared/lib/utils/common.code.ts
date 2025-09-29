@@ -1,7 +1,7 @@
-import CONFIG from "@/config/siteConfig"
-import { CodeItem } from "@/types/index"
-import { $formatUtils } from "@/utils/common.format"
-import { $storageUtils } from "./common.storage"
+import CONFIG from '@/shared/constants/siteConfig'
+import type { CodeItem } from '@/shared/types/index'
+import { $formatUtils } from './common.format'
+import { $storageUtils } from './common.storage'
 
 interface CodeOption {
   visibleCode?: boolean
@@ -12,7 +12,7 @@ interface CodeOption {
  * 코드 가져오기
  * @param {string} code
  */
-const getCodeList = (code = ""): Promise<CodeItem[]> =>
+const getCodeList = (code = ''): Promise<CodeItem[]> =>
   new Promise((resolve, reject) => {
     const codeItems = $storageUtils.session(CONFIG.SESSION.CODE)
 
@@ -26,7 +26,7 @@ const getCodeList = (code = ""): Promise<CodeItem[]> =>
     // 세션 확인
     if (codeInfo) {
       resolve(codeInfo)
-    } else if (typeof window !== "undefined") {
+    } else if (typeof window !== 'undefined') {
       resolve([])
     }
   })
@@ -58,7 +58,7 @@ const codeValue = (code: string, key: string, option?: CodeOption) => {
     visibleName: option?.visibleName ?? true,
   }
 
-  let result = ""
+  let result = ''
 
   if (settings.visibleCode && settings.visibleName) {
     const coreData = $storageUtils.getSessionCoreData()

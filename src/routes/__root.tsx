@@ -1,4 +1,13 @@
-import '@/shared/styles/common_ui.css'
+/* eslint-disable import/order, simple-import-sort/imports */
+// prettier-ignore-file
+// @ts-nocheck
+
+// import '@/shared/styles/common_ui.css'
+
+import '@bwg-ds/core/dist/core.css'
+
+import '@/shared/styles/css/common_ui.css'
+
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 
 export const Route = createRootRoute({
@@ -20,18 +29,3 @@ export const Route = createRootRoute({
     </>
   ),
 })
-
-// function AuthRedirect() {
-//   const navigate = useNavigate()
-
-//   useEffect(() => {
-//     const userId = !sessionStorage.getItem('userid')
-//     if (userId) {
-//       navigate({ to: '/main' })
-//     } else {
-//       navigate({ to: '/login' })
-//     }
-//   }, [navigate])
-
-//   return null
-// }

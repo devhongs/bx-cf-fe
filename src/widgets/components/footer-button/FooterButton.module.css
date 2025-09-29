@@ -5,9 +5,21 @@
 }
 
 .icon {
-  @apply w-12 h-12 flex items-center justify-center -mb-1;
+  @apply w-12 h-12 flex items-center justify-center -mb-1 stroke-gray-800;
+
+  svg {
+    stroke: rgb(136, 136, 136);
+  }
+
+  &.selected svg {
+    stroke: rgb(0, 0, 0);
+  }
 }
 
 .label {
-  @apply text-lg font-bold;
+  @apply text-lg stroke-gray-800;
+
+  &.selected {
+    @apply font-bold text-black;
+  }
 }

@@ -1,3 +1,9 @@
-export default function Button({ label }: { label: string }) {
-  return <button>{label}</button>
+import type { ReactNode } from 'react'
+
+export interface ButtonProps {
+  children: ReactNode
+}
+
+export default function Button({ children }: ButtonProps) {
+  return <button>{children}</button>
 }
