@@ -24,9 +24,8 @@ export function Header(props: HeaderProps) {
       case '/menu':
         return '메뉴'
       default:
-        return ''
+        return '/main'
     }
-    location.pathname === '/main'
   }, [location])
 
   const handleLogout = () => {
