@@ -6,7 +6,7 @@
 
 import '@bwg-ds/core/dist/core.css'
 
-import '@/shared/styles/css/common_ui.css'
+import '@/shared/styles/bxui_template.css'
 
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 
