@@ -1,17 +1,30 @@
 @import 'tailwindcss';
 
+.root {
+  @apply flex flex-col h-screen;
+}
+
 .header {
-  @apply fixed top-0 left-0 w-full z-10 p-5;
-  height: 50px;
+  @apply flex top-0 left-0 w-full z-10 p-5 h-16 bg-amber-200;
+  /* height: 4rem;
+  background: yellow;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center; */
 }
 
 .main {
-  @apply flex-1 p-5;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  flex: 1; /* 남은 공간을 모두 차지 */
+  overflow-y: auto; /* 세로 스크롤을 필요할 때만 표시 */
+  padding: 1rem;
 }
 
 .footer {
-  @apply fixed bottom-0 left-0 w-full z-10;
-  height: 50px;
+  /* @apply fixed bottom-0 left-0 w-full z-10 h-16; */
+  height: 4rem; /* 고정 높이 */
+  background: yellow;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
