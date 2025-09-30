@@ -1,52 +1,37 @@
+import last from 'lodash-es/last'
 import { create } from 'zustand'
+import type { ModalConfig } from '../../types'
 
-// modal
-
-// screenId, instance, params
-export interface PopupState {
-  screenId: string
-  modalUUID: string
-  instance: any
-  params: any
-  resolve: any
-}
-
-// screenId, instance, params
-export interface ModalState {
-  modalList: Array<PopupState>
-  closeParam: any
-}
-
-interface ModalStore extends ModalState {
-  setModalList: (modalList: Array<PopupState>) => void
-  setCloseParam: (closeParam: any) => void
-  pushModalList: (popup: PopupState) => void
-  popModalList: (closeParam?: any) => void
-  resetModal: () => void
-}
-
-const initialModalState: ModalState = {
-  modalList: [],
-  closeParam: null,
+interface ModalStore {
+  modals: ModalConfig[] // modal stack
+  open: (config: ModalConfig) => void
+  close: (data?: any) => void
+  closeAll: () => void
+  activeModal: () => ModalConfig | undefined
+  getModal: (id: string) => ModalConfig | undefined
 }
 
 export const useModalStore = create<ModalStore>((set, get) => ({
-  ...initialModalState,
-
-  setModalList: (modalList: Array<PopupState>) => set({ modalList }),
-
-  setCloseParam: (closeParam: any) => set({ closeParam }),
-
-  pushModalList: (popup: PopupState) =>
+  modals: [],
+  open: (config: ModalConfig) => {
     set((state) => ({
-      modalList: [...state.modalList, popup],
-    })),
+      modals: [...state.modals, config],
+    }))
+  },
+  close: (data?: any) => {
+    const modal = get().modals?.at(-1) // 마지막 모달 (현재 떠있는 모달)
 
-  popModalList: (closeParam?: any) =>
+    modal?.onClose?.(data)
+
     set((state) => ({
-      modalList: state.modalList.slice(0, state.modalList.length - 1),
-      closeParam,
-    })),
-
-  resetModal: () => set(initialModalState),
+      modals: state.modals?.slice(0, -1), // 마지막 모달만 제외한 새로운 배열 반환
+    }))
+  },
+  activeModal: () => {
+    return last(get().modals)
+  },
+  closeAll: () => set({ modals: [] }),
+  getModal: (id: string) => {
+    return get().modals?.find((d: ModalConfig) => d.id === id) // 마지막 모달 (현재 떠있는 모달)
+  },
 }))

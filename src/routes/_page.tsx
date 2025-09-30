@@ -21,14 +21,16 @@ export const Route = createFileRoute('/_page')({
 
 function RouteComponent() {
   return (
-    <div className={styles.root}>
-      <Header className={styles.header} />
-      <main className={styles.main}>
-        <div>페이지 내용</div>
-        <Outlet />
-      </main>
-      <Footer className={styles.footer} />
-    </div>
+    <>
+      <div className={styles.root}>
+        <Header className={styles.header} />
+        <main className={styles.main}>
+          <div>페이지 내용</div>
+          <Outlet />
+        </main>
+        <Footer className={styles.footer} />
+      </div>
+    </>
   )
 }
 

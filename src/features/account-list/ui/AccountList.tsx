@@ -1,7 +1,7 @@
 export interface AccountListProps {
-  userId: number
+  userId?: number
 }
 
-export function AccountList({ userId }: AccountListProps) {
-  return <div>{userId}</div>
+export function AccountList({ userId = 1 }: AccountListProps) {
+  return <div className="p-4">{userId}</div>
 }

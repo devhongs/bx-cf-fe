@@ -4,6 +4,8 @@ import { useMemo } from 'react'
 
 import styles from './Header.module.css'
 
+import { AccountList } from '@/features/account-list'
+import { useModal } from '@/shared/hooks/useModal'
 import { cn } from '@/shared/lib/utils'
 import type { BaseProps } from '@/shared/types'
 
@@ -12,6 +14,8 @@ interface HeaderProps extends BaseProps {}
 export function Header(props: HeaderProps) {
   const location = useLocation()
   const navigate = useNavigate()
+
+  const { open: openModal } = useModal()
 
   const title = useMemo(() => {
     switch (location.pathname) {
@@ -28,8 +32,13 @@ export function Header(props: HeaderProps) {
     }
   }, [location])
 
-  const handleAlarm = () => {
+  const handleAlarm = async () => {
     // navigate({ to: '/alarm' })
+
+    const result = await openModal({
+      width: 'sm',
+      content: <AccountList />,
+    })
   }
 
   const handleLogout = () => {

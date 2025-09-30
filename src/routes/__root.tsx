@@ -1,3 +1,4 @@
+import { ModalWrapper } from '@/shared/ui/components/modal/modal-wrapper'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 
 export const Route = createRootRoute({
@@ -5,6 +6,7 @@ export const Route = createRootRoute({
   component: () => (
     <>
       <Outlet />
+      <ModalWrapper />
       {/* <TanstackDevtools
         config={{
           position: 'bottom-left',

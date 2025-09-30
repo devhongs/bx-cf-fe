@@ -1,60 +1,85 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { type FC, type ReactNode, useRef } from 'react'
+import { cn, getSlot } from '../../../lib/utils'
+import type { ModalConfig } from '../../../types'
+import styles from './modal.module.css'
 
-import useModal from '@/shared/hooks/useModal'
-import useGetModal from '@/shared/model/modal/useGetModal'
+export interface ModalProps<T = any> extends ModalConfig {
+  title?: string // openModal(ModalConfig) : ModalConfig.title 값
+  description?: string // openModal(ModalConfig) : ModalConfig.description 값
+  children?: React.ReactNode
+}
 
-function Modal({ className = '', children }: any) {
-  const $modalHooks = useModal()
+const ModalComponent: React.FC<ModalProps> = ({
+  title,
+  children,
+  className,
+  ...props
+}) => {
+  const TitleSlot = getSlot(children, ModalTitle)
+  const DescSlot = getSlot(children, ModalDescription)
+  const BodySlot = getSlot(children, ModalBody)
+  const FooterSlot = getSlot(children, ModalFooter)
 
-  const { modal } = useGetModal()
-
-  const modalList = modal.modalList
-  const modalInfo = modalList[modalList.length - 1] || {}
-
-  // useDetectBackButton(() => {
-  //   if (modalList?.length > 0) {
-  //     const currentUUID = window.location.search.split('modalUUID=')[1]
-  //     const currentModalIndex = modalList.findIndex(
-  //       (modalItem: any) => modalItem.modalUUID === currentUUID,
-  //     )
-  //     const closeModalInfo = modalList[currentModalIndex + 1]
-
-  //     if (closeModalInfo) {
-  //       $modalHooks.closePopup(closeModalInfo, null, true)
-  //     }
-  //   }
-  // })
-
-  if (modalList.length > 0) {
-    const currentUUID = window.location.search.split('modalUUID=')[1]
-    const currentModalIndex = modalList.findIndex(
-      (modalItem: any) => modalItem.modalUUID === currentUUID,
-    )
-    const closeModalInfo = modalList[currentModalIndex + 1]
-
-    $modalHooks.closePopup(closeModalInfo, null, true)
-  }
-
-  const initModalRef = useRef<any>(null)
-  const [render, setRender] = useState<boolean>(false)
-
-  useEffect(() => {
-    initModalRef.current = modalInfo
-    setRender(true)
-  }, [modalInfo])
-
-  if (!render) {
-    return null
-  }
+  const contentRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLDivElement>(null)
+  const footerRef = useRef<HTMLDivElement>(null)
 
   return (
-    <div
-      id={initModalRef.current.modalUUID}
-      className={`modal modal-wrap ${className}`}
-      style={{ display: 'block' }}
-    >
-      {children}
+    <div className={cn(styles.start, className, 'nlp--modal-content')}>
+      {/* title */}
+      <div ref={titleRef} className={styles.title}>
+        {TitleSlot}
+      </div>
+      {/* description */}
+      {DescSlot && <div className={styles.description}>{DescSlot}</div>}
+      {/* body */}
+      <div ref={contentRef} className={cn(styles.contents, 'modal-content')}>
+        {BodySlot}
+      </div>
+      {/* footer */}
+      {FooterSlot && (
+        <div ref={footerRef} className={styles.footer}>
+          {FooterSlot}
+        </div>
+      )}
     </div>
   )
 }
-export default Modal
+
+export const Modal = ModalComponent
+
+/**
+ * ModalTitle
+ * @param children
+ * @constructor
+ */
+export const ModalTitle: FC<{ children: ReactNode }> = ({ children }) => {
+  return <>{children}</>
+}
+
+/**
+ * ModalDescription
+ * @param children
+ * @constructor
+ */
+export const ModalDescription: FC<{ children: ReactNode }> = ({ children }) => {
+  return <>{children}</>
+}
+
+/**
+ * ModalBody
+ * @param children
+ * @constructor
+ */
+export const ModalBody: FC<{ children: ReactNode }> = ({ children }) => {
+  return <>{children}</>
+}
+
+/**
+ * ModalFooter
+ * @param children
+ * @constructor
+ */
+export const ModalFooter: FC<{ children: ReactNode }> = ({ children }) => {
+  return <>{children}</>
+}

@@ -1,0 +1,116 @@
+@import 'tailwindcss';
+
+.overlay {
+  @apply fixed inset-0 bg-transparent;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.title {
+  @apply sticky left-0 top-0 z-[1] flex h-[50px] w-full items-center justify-start border-b-[1px] border-solid border-[var(--gray2)] px-[24px] py-[12px] text-[16px] font-bold text-[var(--gray9)];
+  button {
+    @apply ml-[2px];
+  }
+  &:empty {
+    @apply hidden;
+  }
+}
+.description {
+  &:empty {
+    @apply hidden;
+  }
+}
+
+.contents {
+  @apply h-auto break-words p-[24px];
+  &.notitle {
+    @apply pt-[48px];
+  }
+  & > [class*='nlp--tabs'] > [role='tablist'] {
+    @apply mb-[24px];
+  }
+}
+.btn_wrap {
+  button {
+    @apply !min-w-[80px];
+  }
+}
+
+@media (min-height: 710px) {
+  .section {
+    @apply bg-[#e0e0e0];
+  }
+}
+
+.footer {
+  @apply flex items-center justify-end px-[24px] pb-[24px] pt-[16px];
+  button {
+    @apply !min-w-[80px];
+    & + button {
+      @apply ml-[8px];
+    }
+  }
+}
+.btn_wrap {
+  @apply flex items-center justify-center;
+}
+
+.btn_close {
+  @apply absolute right-[16px] top-[12px] flex items-center justify-center;
+}
+
+.modal_wrap {
+  @apply overflow-hidden rounded-[16px] !p-0;
+  border: 1px solid var(--gray4);
+}
+.modal_header {
+  @apply min-h-[49px] justify-center overflow-hidden pl-[24px] pr-[48px];
+  border-bottom: 1px solid var(--gray3);
+  background-color: #fff !important;
+}
+.modal_header h2 {
+  @apply text-[16px] font-bold text-[var(--primary2)];
+  background-color: #fff !important;
+}
+.modal_content {
+  @apply px-[24px] py-[16px];
+  div {
+    & > label {
+      margin-bottom: 8px !important;
+      font-size: 12px !important;
+      font-weight: bold;
+      & + div {
+        input {
+          @apply min-h-[32px] !overflow-hidden rounded-[4px] py-[8px] align-middle;
+          font-size: 14px !important;
+          border: 1px solid var(--gray4);
+        }
+      }
+    }
+    &.flex-col + .flex-col {
+      margin-top: 20px !important;
+    }
+  }
+  .modal_button {
+    text-align: center;
+  }
+}
+
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

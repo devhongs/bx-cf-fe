@@ -1,12 +1,8 @@
 import { useForm as useReactHookForm } from 'react-hook-form'
 
-import useModal from './useModal'
-
 import { $validUtils } from '@/shared/lib/utils'
 
 function useForm(settings: any) {
-  const $modalHooks = useModal()
-
   const formName = settings?.formName
 
   // 조회 Form
@@ -141,10 +137,10 @@ function useForm(settings: any) {
           })
           console.log('validateForm params :: ', params)
           reject(params)
-          $modalHooks.valid(params).then((result: any) => {
-            params[0].inputEl?.focus()
-            console.log('vaild alert close!!')
-          })
+          // $modalHooks.valid(params).then((result: any) => {
+          //   params[0].inputEl?.focus()
+          //   console.log('vaild alert close!!')
+          // })
         },
       )()
     })
