@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .root {
-  @apply flex text-black justify-between h-[50px] items-center p-3;
+  @apply flex text-black justify-between items-center p-3;
 }
 
 .left {

@@ -17,7 +17,7 @@
 }
 
 .label {
-  @apply text-lg stroke-gray-800;
+  @apply text-sm stroke-gray-800;
 
   &.selected {
     @apply font-bold text-black;

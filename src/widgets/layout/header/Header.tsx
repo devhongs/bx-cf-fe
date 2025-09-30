@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from '@tanstack/react-router'
-import { LogOut } from 'lucide-react'
+import { Bell, LogOut } from 'lucide-react'
 import { useMemo } from 'react'
 
 import styles from './Header.module.css'
@@ -28,6 +28,10 @@ export function Header(props: HeaderProps) {
     }
   }, [location])
 
+  const handleAlarm = () => {
+    // navigate({ to: '/alarm' })
+  }
+
   const handleLogout = () => {
     sessionStorage.removeItem('sessionId')
     navigate({ to: '/login' })
@@ -39,9 +43,11 @@ export function Header(props: HeaderProps) {
         <span className={styles.title}>{title}</span>
       </div>
       <div className={styles.right}>
+        <button className={styles.alarm} onClick={handleAlarm}>
+          <Bell />
+        </button>
         <button className={styles.alarm} onClick={handleLogout}>
           <LogOut />
-          {/* <Bell /> */}
         </button>
       </div>
     </header>

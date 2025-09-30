@@ -7,7 +7,10 @@ import ReactDOM from 'react-dom/client'
 import reportWebVitals from './reportWebVitals.ts'
 import { routeTree } from './routeTree.gen'
 
-import './styles.css'
+import '@bwg-ds/core/dist/core.css'
+
+import '@/shared/styles/bxui_template.css'
+import '@/shared/styles/styles.css'
 
 // Create a new router instance
 const router = createRouter({

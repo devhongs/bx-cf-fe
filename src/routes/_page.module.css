@@ -1,30 +1,17 @@
 @import 'tailwindcss';
 
 .root {
-  @apply flex flex-col h-screen;
+  @apply h-screen;
 }
 
 .header {
-  @apply flex top-0 left-0 w-full z-10 p-5 h-16 bg-amber-200;
-  /* height: 4rem;
-  background: yellow;
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center; */
+  @apply fixed top-0 left-0 w-full h-16 bg-[#f5f5f5] z-10;
 }
 
 .main {
-  flex: 1; /* 남은 공간을 모두 차지 */
-  overflow-y: auto; /* 세로 스크롤을 필요할 때만 표시 */
-  padding: 1rem;
+  @apply relative bg-[#fafafa] overflow-y-auto p-4 h-[calc(100vh-8rem)] mt-16 mb-16;
 }
 
 .footer {
-  /* @apply fixed bottom-0 left-0 w-full z-10 h-16; */
-  height: 4rem; /* 고정 높이 */
-  background: yellow;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @apply fixed bottom-0 left-0 w-full h-16 bg-[#f5f5f5] z-10 border-t border-gray-300;
 }

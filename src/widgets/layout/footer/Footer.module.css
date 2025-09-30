@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .root {
-  @apply border-t-gray-300 border-t;
+  @apply flex text-black justify-between items-center;
 }
 
 .buttonWrapper {

@@ -1,5 +1,5 @@
 import { useLocation, useRouter } from '@tanstack/react-router'
-import { House, Menu, PiggyBank, SquareChartGantt } from 'lucide-react'
+import { Ellipsis, House, PiggyBank, SquareChartGantt } from 'lucide-react'
 
 import styles from './Footer.module.css'
 
@@ -41,5 +41,5 @@ const footerMeta = [
   { label: '홈', path: '/main', icon: <House /> },
   { label: '자산', path: '/asset', icon: <PiggyBank /> },
   { label: '상품', path: '/product', icon: <SquareChartGantt /> },
-  { label: '메뉴', path: '/menu', icon: <Menu /> },
+  { label: '메뉴', path: '/menu', icon: <Ellipsis /> },
 ]
