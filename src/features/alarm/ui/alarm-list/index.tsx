@@ -15,7 +15,7 @@ export default function AlarmList({ dummy }: AlarmListProps) {
 
   const handleClickAlarmCard = (data: any) => {
     openModal({
-      path: '/src/routes/_modal/alarm-detail/index.tsx',
+      path: 'alarm-detail',
       props: {
         data,
       },

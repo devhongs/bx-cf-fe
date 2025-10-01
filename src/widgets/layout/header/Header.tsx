@@ -34,7 +34,7 @@ export function Header(props: HeaderProps) {
 
   const handleAlarm = async () => {
     const result = await openModal({
-      path: '/src/routes/_modal/alarm-list/index.tsx',
+      path: 'alarm-list', // 폴더명만 입력!
     })
     console.log(result)
   }
