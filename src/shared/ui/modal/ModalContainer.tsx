@@ -7,7 +7,14 @@ const modalModules = import.meta.glob<{ default: ComponentType<any> }>(
   { eager: false },
 )
 
-export const ModalContainer = (props: ModalConfig) => {
+interface ModalContainerProps extends ModalConfig {
+  index?: number
+}
+
+export const ModalContainer = ({
+  index = 0,
+  ...props
+}: ModalContainerProps) => {
   const Component = useMemo(() => {
     if (!props.path) return null
 
@@ -24,8 +31,10 @@ export const ModalContainer = (props: ModalConfig) => {
   if (!Component) return null
 
   return (
-    <Suspense fallback={null}>
-      <Component {...props} />
-    </Suspense>
+    <div className="fixed inset-0 bg-white" style={{ zIndex: 150 + index }}>
+      <Suspense fallback={null}>
+        <Component {...props} />
+      </Suspense>
+    </div>
   )
 }

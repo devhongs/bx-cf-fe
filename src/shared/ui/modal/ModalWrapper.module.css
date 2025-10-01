@@ -1,5 +1,5 @@
 @import 'tailwindcss';
 
 .root {
-  @apply fixed bottom-0 left-0 right-0 top-0 z-[150] h-full w-full bg-white;
+  /* wrapper는 z-index 없이 자식들이 개별적으로 관리 */
 }
