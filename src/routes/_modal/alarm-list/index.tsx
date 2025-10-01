@@ -1,3 +1,4 @@
+import AlarmList from '@/features/alarm/ui/alarm-list'
 import { type ModalConfig } from '@/shared/types'
 import {
   Modal,
@@ -7,18 +8,20 @@ import {
 } from '@/shared/ui/modal/Modal'
 import { Button } from '@bwg-ds/core'
 
-interface AccountDetailProps extends ModalConfig {
+interface AlarmListModalProps extends ModalConfig {
   accoutNo?: number
 }
 
-export default function AccountDetail({
+export default function AlarmListModal({
   accoutNo = 1,
   onClose,
-}: AccountDetailProps) {
+}: AlarmListModalProps) {
   return (
     <Modal>
       <ModalTitle>알람 리스트</ModalTitle>
-      <ModalBody>알람 내용....</ModalBody>
+      <ModalBody>
+        <AlarmList />
+      </ModalBody>
       <ModalFooter>
         <Button onClick={() => onClose?.({ data: 'confirm click' })}>
           확인

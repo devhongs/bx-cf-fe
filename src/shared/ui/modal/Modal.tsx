@@ -29,7 +29,7 @@ const ModalComponent: React.FC<ModalProps> = ({
   }
 
   return (
-    <div className={cn(styles.start, className, 'nlp--modal-content')}>
+    <div className={cn(styles.start, className, 'bx-modal')}>
       {/* header */}
       <div className={styles.header}>
         <div className={styles.left}>

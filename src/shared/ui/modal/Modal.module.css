@@ -23,4 +23,8 @@
   .body {
     @apply p-[10px];
   }
+
+  .footer {
+    @apply p-[10px];
+  }
 }
