@@ -15,10 +15,15 @@ export type ModalHeight = 'auto' | 'sm' | 'md' | 'lg' | 'full' | 'fix'
 
 export interface ModalConfig<T = any> {
   /**
+   * 모달 컴포넌트 경로
+   */
+  path?: string
+
+  /**
    * content 영역
    * 모달에 표시할 내용
    */
-  content: ReactNode
+  content?: ReactNode
 
   /**
    * 해더 버튼 영역 커스텀 하게 사용시 설정
@@ -36,6 +41,11 @@ export interface ModalConfig<T = any> {
    * (modal.hook 에서 open시 자동생성)
    */
   id?: string
+
+  /**
+   * 모달 제목
+   */
+  title?: string
 
   /**
    * 모달의 너비 설정

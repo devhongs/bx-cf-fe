@@ -1,5 +1,5 @@
-import { ModalWrapper } from '@/shared/ui/components/modal/modal-wrapper'
-import { Outlet, createRootRoute } from '@tanstack/react-router'
+import { ModalWrapper } from '@/shared/ui/modal/ModalWrapper'
+import { createRootRoute, Outlet } from '@tanstack/react-router'
 
 export const Route = createRootRoute({
   notFoundComponent: () => <div>404</div>,

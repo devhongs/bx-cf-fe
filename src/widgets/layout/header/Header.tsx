@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 
 import styles from './Header.module.css'
 
-import { AccountList } from '@/features/account-list'
+// import { AccountList } from '@/features/account-list'
 import { useModal } from '@/shared/hooks/useModal'
 import { cn } from '@/shared/lib/utils'
 import type { BaseProps } from '@/shared/types'
@@ -33,12 +33,10 @@ export function Header(props: HeaderProps) {
   }, [location])
 
   const handleAlarm = async () => {
-    // navigate({ to: '/alarm' })
-
     const result = await openModal({
-      width: 'sm',
-      content: <AccountList />,
+      path: '/src/routes/_modal/alarm-list/index.tsx',
     })
+    console.log(result)
   }
 
   const handleLogout = () => {

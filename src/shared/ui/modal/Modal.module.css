@@ -1,0 +1,26 @@
+@import 'tailwindcss';
+
+.start {
+  .header {
+    @apply flex w-full items-center h-16 bg-amber-200 p-[7px];
+
+    .left {
+      flex: 2 2 0%;
+      @apply flex items-center justify-start;
+    }
+
+    .center {
+      flex: 6 6 0%;
+      @apply flex items-center justify-center;
+    }
+
+    .right {
+      flex: 2 2 0%;
+      @apply flex items-center justify-end;
+    }
+  }
+
+  .body {
+    @apply p-[10px];
+  }
+}

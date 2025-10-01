@@ -1,9 +1,11 @@
-import React, { type FC, type ReactNode, useRef } from 'react'
-import { cn, getSlot } from '../../../lib/utils'
-import type { ModalConfig } from '../../../types'
-import styles from './modal.module.css'
+import { useModal } from '@/shared/hooks'
+import { ArrowLeft } from 'lucide-react'
+import React, { type FC, type ReactNode } from 'react'
+import { cn, getSlot } from '../../lib/utils'
+import type { BaseProps } from '../../types'
+import styles from './Modal.module.css'
 
-export interface ModalProps<T = any> extends ModalConfig {
+export interface ModalProps<T = any> extends BaseProps {
   title?: string // openModal(ModalConfig) : ModalConfig.title 값
   description?: string // openModal(ModalConfig) : ModalConfig.description 값
   children?: React.ReactNode
@@ -15,33 +17,35 @@ const ModalComponent: React.FC<ModalProps> = ({
   className,
   ...props
 }) => {
+  const { close: closeModal } = useModal()
+
   const TitleSlot = getSlot(children, ModalTitle)
   const DescSlot = getSlot(children, ModalDescription)
   const BodySlot = getSlot(children, ModalBody)
   const FooterSlot = getSlot(children, ModalFooter)
 
-  const contentRef = useRef<HTMLDivElement>(null)
-  const titleRef = useRef<HTMLDivElement>(null)
-  const footerRef = useRef<HTMLDivElement>(null)
+  const handleClose = () => {
+    closeModal()
+  }
 
   return (
     <div className={cn(styles.start, className, 'nlp--modal-content')}>
-      {/* title */}
-      <div ref={titleRef} className={styles.title}>
-        {TitleSlot}
+      {/* header */}
+      <div className={styles.header}>
+        <div className={styles.left}>
+          <button className={styles.btn_close} onClick={handleClose}>
+            <ArrowLeft size={28} />
+          </button>
+        </div>
+        <div className={styles.center}>{TitleSlot ?? title}</div>
+        <div className={styles.right}></div>
       </div>
       {/* description */}
       {DescSlot && <div className={styles.description}>{DescSlot}</div>}
       {/* body */}
-      <div ref={contentRef} className={cn(styles.contents, 'modal-content')}>
-        {BodySlot}
-      </div>
+      <div className={cn(styles.body, 'modal-content')}>{BodySlot}</div>
       {/* footer */}
-      {FooterSlot && (
-        <div ref={footerRef} className={styles.footer}>
-          {FooterSlot}
-        </div>
-      )}
+      {FooterSlot && <div className={styles.footer}>{FooterSlot}</div>}
     </div>
   )
 }
