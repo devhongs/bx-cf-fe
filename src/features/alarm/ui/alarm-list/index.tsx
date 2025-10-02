@@ -14,9 +14,7 @@ export default function AlarmList({ dummy }: AlarmListProps) {
 
   // const alarmData = fetchAlarmData()
 
-  const { data } = useFetchAlarms({})
-
-  console.log(data)
+  const { data: { content } = {} } = useFetchAlarms({})
 
   const handleClickAlarmCard = (data: any) => {
     openModal({
@@ -29,14 +27,13 @@ export default function AlarmList({ dummy }: AlarmListProps) {
 
   return (
     <div className={styles.start}>
-      {Array.isArray(data?.content) &&
-        data.content.map((d) => (
-          <AlarmCard
-            key={d.id}
-            data={d}
-            onClick={() => handleClickAlarmCard(d)}
-          />
-        ))}
+      {content?.map((d) => (
+        <AlarmCard
+          key={d.id}
+          data={d}
+          onClick={() => handleClickAlarmCard(d)}
+        />
+      ))}
     </div>
   )
 }

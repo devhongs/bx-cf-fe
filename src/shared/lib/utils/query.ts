@@ -97,3 +97,19 @@ export function objectToQueryString(originUrl: string, conditions: any = {}) {
 export function isNullOrUndefined<T>(obj: T | null | undefined): boolean {
   return typeof obj === 'undefined' || obj === null
 }
+
+export function toQueryParams(obj: any) {
+  const params = new URLSearchParams()
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const value = obj[key]
+      // 배열 처리
+      if (Array.isArray(value)) {
+        value.forEach((val) => params.append(key, val))
+      } else if (value !== undefined && value !== null) {
+        params.append(key, value)
+      }
+    }
+  }
+  return params.toString() // query string 반환
+}
