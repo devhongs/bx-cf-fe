@@ -1,7 +1,7 @@
 import AlarmCard from '@/entities/alarm/ui/alarm-card'
 import { type BaseProps } from '@/shared/types'
 
-import { useFetchAlarms } from '@/entities/alarm'
+import { useFetchAlarms, type Alarm } from '@/entities/alarm'
 import { useModal } from '@/shared/hooks'
 import styles from './index.module.css'
 
@@ -12,22 +12,19 @@ interface AlarmListProps extends BaseProps {
 export default function AlarmList({ dummy }: AlarmListProps) {
   const { open: openModal } = useModal()
 
-  // const alarmData = fetchAlarmData()
+  const { data } = useFetchAlarms()
+  const content = data?.content ?? []
 
-  const { data: { content } = {} } = useFetchAlarms({})
-
-  const handleClickAlarmCard = (data: any) => {
+  const handleClickAlarmCard = (d: Alarm) => {
     openModal({
       path: 'alarm-detail',
-      props: {
-        data,
-      },
+      props: d,
     })
   }
 
   return (
     <div className={styles.start}>
-      {content?.map((d) => (
+      {content.map((d: Alarm) => (
         <AlarmCard
           key={d.id}
           data={d}
@@ -37,13 +34,3 @@ export default function AlarmList({ dummy }: AlarmListProps) {
     </div>
   )
 }
-
-// TODO: API 연동 후 삭제
-const fetchAlarmData = () =>
-  Array(3)
-    .fill(0)
-    .map((_, index) => ({
-      id: index + 1,
-      title: `alarm ${index + 1}`,
-      description: `alarm ${index + 1} description`,
-    }))

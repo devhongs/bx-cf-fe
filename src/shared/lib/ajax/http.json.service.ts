@@ -4,24 +4,6 @@ import { toQueryParams } from '../utils'
 // sample url: http://localhost:3001/alarms
 export default class HttpJsonService {
   /**
-   * 단일 데이터를 조회합니다.
-   * @template T
-   * @param {string} url - 요청할 URL
-   * @param {any} [queryParam] - 쿼리 파라미터 (선택)
-   * @returns {Promise<ApiResponse<T>>} API 응답 Promise
-   */
-  static async fetch<T>(
-    url: string,
-    queryParam?: any,
-  ): Promise<ApiResponse<T>> {
-    const query = toQueryParams(queryParam)
-    const fullUrl = query ? `${url}/?${query}` : url
-    const res = await fetch(fullUrl)
-    const data = await res.json()
-    return convertApiResponse<T>(data)
-  }
-
-  /**
    * 여러 데이터를 페이지네이션 형태로 조회합니다.
    * @template T
    * @param {string} url - 요청할 URL
@@ -37,6 +19,19 @@ export default class HttpJsonService {
     const res = await fetch(fullUrl)
     const data = await res.json()
     return convertApiListResponse<T>(data)
+  }
+
+  /**
+   * 단일 데이터를 조회합니다.
+   * @template T
+   * @param {string} url - 요청할 URL
+   * @param {any} [queryParam] - 쿼리 파라미터 (선택)
+   * @returns {Promise<ApiResponse<T>>} API 응답 Promise
+   */
+  static async fetch<T>(url: string): Promise<ApiResponse<T>> {
+    const res = await fetch(url)
+    const data = await res.json()
+    return convertApiResponse<T>(data)
   }
 
   /**
@@ -92,7 +87,7 @@ export default class HttpJsonService {
  */
 export function convertApiResponse<T>(mockData: T): ApiResponse<T> {
   return {
-    content: mockData,
+    content: Array.isArray(mockData) ? mockData[0] : mockData,
     totalElements: 1,
   }
 }

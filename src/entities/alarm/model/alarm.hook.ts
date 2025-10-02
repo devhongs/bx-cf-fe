@@ -16,7 +16,7 @@ import type { Alarm, AlarmsQueryParams } from './alarm.type'
  * @param options - 추가 쿼리 옵션.
  */
 export const useFetchAlarms = <T = Alarm>(
-  params: AlarmsQueryParams,
+  params?: AlarmsQueryParams,
   options?: UseQueryOptions<ApiListResponse<T>, Error>,
 ): UseQueryResult<ApiListResponse<T>, Error> => {
   return useQuery({ ...queryOptions.fetchList<T>(params), ...options })
@@ -27,10 +27,10 @@ export const useFetchAlarms = <T = Alarm>(
  * @param accountNo - 조회할 알람 No.
  */
 export const useFetchAlarm = <T = Alarm>(
-  accountNo: number,
+  accountId: number,
   options?: UseQueryOptions<ApiResponse<T>, Error>,
 ): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetch<T>(accountNo), ...options })
+  return useQuery({ ...queryOptions.fetch<T>(accountId), ...options })
 }
 
 /**

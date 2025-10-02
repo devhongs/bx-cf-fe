@@ -3,17 +3,16 @@ import { type ModalConfig } from '@/shared/types'
 import { Modal, ModalBody, ModalTitle } from '@/shared/ui/modal/Modal'
 
 interface AlarmDetailModalProps extends ModalConfig {
-  alarmId?: number
+  dummy?: any
 }
 
-export default function AlarmDetailModal({
-  alarmId = 1,
-}: AlarmDetailModalProps) {
+export default function AlarmDetailModal({ props }: AlarmDetailModalProps) {
+  const { id: alarmId } = props
   return (
     <Modal>
       <ModalTitle>알람 상세</ModalTitle>
       <ModalBody>
-        <AlarmDetail />
+        <AlarmDetail alarmId={alarmId} />
       </ModalBody>
     </Modal>
   )

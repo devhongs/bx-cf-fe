@@ -26,7 +26,7 @@ export default class AlarmService {
    */
   static async fetch<T = Alarm>(id: number): Promise<ApiResponse<T>> {
     // return httpService.get<T>(`${API_URL}/alarm/${accountNo}`)
-    return HttpJsonService.fetch<T>(`${API_URL}/alarms/${id}`)
+    return HttpJsonService.fetch<T>(`${API_URL}/alarms/?id=${id}`)
   }
 
   /**
