@@ -2,7 +2,7 @@
  * API 관련 상수들
  */
 
-export const LMS_API_PREFIX = 'localhost:8080' as const
+export const API_URL = 'localhost:8080' as const
 
 // API 엔드포인트 상수들
 export const API_ENDPOINTS = {

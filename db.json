@@ -1,0 +1,30 @@
+{
+  "users": [],
+  "accounts": [],
+  "alarms": [
+    {
+      "id": 1,
+      "title": "alarm 1",
+      "description": "alarm 1 description",
+      "type": "alarm",
+      "createdAt": "2021-01-01",
+      "updatedAt": "2021-01-01"
+    },
+    {
+      "id": 2,
+      "title": "alarm 2",
+      "description": "alarm 2 description",
+      "type": "alarm",
+      "createdAt": "2021-01-01",
+      "updatedAt": "2021-01-01"
+    },
+    {
+      "id": 3,
+      "title": "alarm 3",
+      "description": "alarm 3 description",
+      "type": "alarm",
+      "createdAt": "2021-01-01",
+      "updatedAt": "2021-01-01"
+    }
+  ]
+}

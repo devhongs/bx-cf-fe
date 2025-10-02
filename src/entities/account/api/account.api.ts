@@ -1,5 +1,5 @@
 import type { ApiResponse } from '@/shared/api/types'
-import { LMS_API_PREFIX } from '@/shared/constants'
+import { API_URL } from '@/shared/constants'
 import { httpService } from '@/shared/lib/ajax/http.service'
 import type { Account, AccountsQueryParams } from '../model/account.type'
 
@@ -15,7 +15,7 @@ export default class AccountService {
   static async fetchAll<T = Account>(
     params?: AccountsQueryParams,
   ): Promise<ApiResponse<T>> {
-    return httpService.get<ApiResponse<T>>(`${LMS_API_PREFIX}/accounts`, params)
+    return httpService.get<ApiResponse<T>>(`${API_URL}/accounts`, params)
   }
 
   /**
@@ -24,7 +24,7 @@ export default class AccountService {
    * @returns 계좌 상세 정보 Promise.
    */
   static async fetch<T = Account>(accountNo: number): Promise<T> {
-    return httpService.get<T>(`${LMS_API_PREFIX}/account/${accountNo}`)
+    return httpService.get<T>(`${API_URL}/account/${accountNo}`)
   }
 
   /**
@@ -33,7 +33,7 @@ export default class AccountService {
    * @returns 생성된 계좌 정보 Promise.
    */
   static async create(payload: Account): Promise<Account> {
-    return httpService.post<Account>(`${LMS_API_PREFIX}/account`, payload)
+    return httpService.post<Account>(`${API_URL}/account`, payload)
   }
 
   /**
@@ -43,7 +43,7 @@ export default class AccountService {
    */
   static update(payload: Account): Promise<Account> {
     return httpService.put<Account>(
-      `${LMS_API_PREFIX}/account/${payload.accountNo}`,
+      `${API_URL}/account/${payload.accountNo}`,
       payload,
     )
   }
@@ -54,6 +54,6 @@ export default class AccountService {
    * @returns 삭제 결과 Promise. (any 대신 실제 응답 타입 명시 권장)
    */
   static delete(id: number): Promise<any> {
-    return httpService.delete<any>(`${LMS_API_PREFIX}/account/${id}`)
+    return httpService.delete<any>(`${API_URL}/account/${id}`)
   }
 }

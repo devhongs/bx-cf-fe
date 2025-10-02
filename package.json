@@ -3,7 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3000",
+    "dev": "concurrently \"vite --port 3000\" \"json-server db.json --port 3333\"",
+    "dev:client": "vite --port 3000",
+    "dev:server": "json-server db.json --port 3333",
     "start": "vite --port 3000",
     "build": "vite build && tsc",
     "serve": "vite preview",
@@ -11,6 +13,7 @@
     "lint": "eslint",
     "format": "prettier",
     "tw:init": "tailwindcss init",
+    "watch:json-server": "json-server db.json --port 3333",
     "check": "prettier --write . && eslint --fix"
   },
   "dependencies": {
@@ -21,13 +24,15 @@
     "@tanstack/react-router": "^1.130.2",
     "@tanstack/react-router-devtools": "^1.131.5",
     "@tanstack/router-plugin": "^1.121.2",
-    "react-hook-form": "7.47.0",
-    "uuid": "^9.0.1",
-    "i18next": "^24.2.3",
-    "dayjs": "^1.11.13",
+    "concurrently": "^9.2.1",
     "date-fns": "^2.30.0",
+    "dayjs": "^1.11.13",
+    "i18next": "^24.2.3",
+    "json-server": "1.0.0-beta.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hook-form": "7.47.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@tanstack/eslint-config": "^0.3.0",

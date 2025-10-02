@@ -16,10 +16,10 @@ src/shared/constants/
 ### 기본 사용
 
 ```typescript
-import { LMS_API_PREFIX, API_ENDPOINTS, ROUTES } from '@/shared/constants'
+import { API_URL, API_ENDPOINTS, ROUTES } from '@/shared/constants'
 
 // API 호출 시
-const response = await fetch(`${LMS_API_PREFIX}/api/users`)
+const response = await fetch(`${API_URL}/api/users`)
 
 // 라우팅 시
 navigate(ROUTES.LOGIN)
@@ -28,7 +28,7 @@ navigate(ROUTES.LOGIN)
 ### 개별 import
 
 ```typescript
-import { LMS_API_PREFIX } from '@/shared/constants/api'
+import { API_URL } from '@/shared/constants/api'
 import { ROUTES } from '@/shared/constants'
 ```
 
@@ -36,7 +36,7 @@ import { ROUTES } from '@/shared/constants'
 
 ### API 상수 (`api.ts`)
 
-- `LMS_API_PREFIX`: API 서버 주소 ('localhost:8080')
+- `API_URL`: API 서버 주소 ('localhost:8080')
 - `API_ENDPOINTS`: API 엔드포인트 정의
 - `API_CONFIG`: API 관련 설정
 
