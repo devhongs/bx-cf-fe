@@ -9,7 +9,7 @@ import type { Alarm, AlarmsQueryParams } from '../model/alarm.type'
 export default class AlarmService {
   /**
    * 알람 목록을 조회합니다.
-   * @param [params] - 조회 파라미터 (선택 사항).
+   * @param [params] - 조회 파라미터 (선택 사항). ㄴ
    * @returns 알람 목록 페이지네이션 응답 Promise.
    */
   static async fetchAll<T = Alarm>(
