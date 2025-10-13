@@ -1,21 +1,11 @@
 import AlarmList from '@/features/alarm/ui/alarm-list'
 import { type ModalConfig } from '@/shared/types'
-import {
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalTitle,
-} from '@/shared/ui/modal/Modal'
+import { Modal, ModalBody, ModalFooter, ModalTitle } from '@/shared/ui'
 import { Button } from '@bwg-ds/core'
 
-interface AlarmListModalProps extends ModalConfig {
-  accoutNo?: number
-}
+interface AlarmListModalProps extends ModalConfig {}
 
-export default function AlarmListModal({
-  accoutNo = 1,
-  onClose,
-}: AlarmListModalProps) {
+export default function AlarmListModal({ onClose }: AlarmListModalProps) {
   return (
     <Modal>
       <ModalTitle>알람 리스트</ModalTitle>

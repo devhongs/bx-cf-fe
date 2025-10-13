@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+
+.start {
+  @apply flex flex-col gap-5 text-gray-700;
+
+  .name {
+    @apply text-lg font-extrabold;
+  }
+}
+
+.subMenu {
+  @apply flex items-center gap-5;
+
+  .name {
+    @apply text-base;
+  }
+}

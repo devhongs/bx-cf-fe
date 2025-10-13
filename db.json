@@ -26,5 +26,339 @@
       "createdAt": "2021-01-01",
       "updatedAt": "2021-01-01"
     }
+  ],
+  "menus": [
+    {
+      "id": 1,
+      "name": "최근",
+      "icon": "MessageSquare",
+      "children": [{ "id": 2, "name": "어제", "icon": "MessageSquare" }],
+      "level": 1
+    },
+    {
+      "id": 3,
+      "name": "이체/출금",
+      "icon": "Send",
+      "children": [
+        {
+          "id": 4,
+          "name": "이체",
+          "icon": "Send",
+          "level": 2,
+          "path": "/transfer"
+        },
+        { "id": 5, "name": "다같이페이", "icon": "Users", "level": 2 },
+        { "id": 6, "name": "자동이체", "icon": "Repeat", "level": 2 },
+        {
+          "id": 7,
+          "name": "자동이체 가져오기",
+          "icon": "Download",
+          "level": 2
+        },
+        { "id": 8, "name": "이체내역 조회", "icon": "List", "level": 2 },
+        {
+          "id": 9,
+          "name": "ATM 스마트출금",
+          "icon": "CreditCard",
+          "level": 2
+        },
+        {
+          "id": 10,
+          "name": "아내/남편출금도 발급",
+          "icon": "Wallet",
+          "level": 2
+        }
+      ],
+      "level": 1
+    },
+    {
+      "id": 11,
+      "name": "소비/적금",
+      "icon": "PiggyBank",
+      "children": [
+        {
+          "id": 12,
+          "name": "2차 연말정산 소비쿠폰 신청하기",
+          "icon": "Ticket",
+          "level": 2
+        },
+        {
+          "id": 13,
+          "name": "민원행복 소비쿠폰 이용내역",
+          "icon": "ClipboardList",
+          "level": 2
+        },
+        {
+          "id": 14,
+          "name": "K-세금 신청하기",
+          "icon": "FileText",
+          "level": 2
+        },
+        {
+          "id": 15,
+          "name": "내역별 데이터 보기",
+          "icon": "BarChart3",
+          "level": 2
+        },
+        {
+          "id": 16,
+          "name": "브랜드쿠폰 구매하기",
+          "icon": "ShoppingBag",
+          "level": 2
+        },
+        { "id": 17, "name": "쿠폰 사고팔기", "icon": "Shuffle", "level": 2 },
+        { "id": 18, "name": "돈선비 아끼기", "icon": "Lightbulb", "level": 2 },
+        {
+          "id": 19,
+          "name": "휴대폰/설탑금 찾기",
+          "icon": "Smartphone",
+          "level": 2
+        }
+      ],
+      "level": 1
+    },
+    {
+      "id": 20,
+      "name": "생활/연금",
+      "icon": "Home",
+      "children": [
+        {
+          "id": 21,
+          "name": "정부지원금 찾기",
+          "icon": "BadgeDollarSign",
+          "level": 2
+        },
+        {
+          "id": 22,
+          "name": "세금/공과금 납부",
+          "icon": "ReceiptText",
+          "level": 2
+        },
+        {
+          "id": 23,
+          "name": "아파트관리비 조회/납부",
+          "icon": "Building2",
+          "level": 2
+        },
+        {
+          "id": 24,
+          "name": "보험금 간편청구",
+          "icon": "FileCheck",
+          "level": 2
+        },
+        { "id": 25, "name": "하이패스 신청/관리", "icon": "Car", "level": 2 },
+        {
+          "id": 26,
+          "name": "돈이 되는 이야기",
+          "icon": "BookOpen",
+          "level": 2
+        }
+      ],
+      "level": 1
+    },
+    {
+      "id": 27,
+      "name": "카드",
+      "icon": "CreditCard",
+      "children": [
+        {
+          "id": 28,
+          "name": "등급 신용카드 혜택 보기",
+          "icon": "Star",
+          "level": 2
+        },
+        {
+          "id": 29,
+          "name": "혜택 좋은 신용카드 찾기",
+          "icon": "Gift",
+          "level": 2
+        },
+        {
+          "id": 30,
+          "name": "카드 한눈에 모아보기",
+          "icon": "Eye",
+          "level": 2
+        },
+        {
+          "id": 31,
+          "name": "이번달 카드값 보기",
+          "icon": "CalendarDays",
+          "level": 2
+        },
+        {
+          "id": 32,
+          "name": "코핀트 게시판 프로모션",
+          "icon": "Megaphone",
+          "level": 2
+        }
+      ],
+      "level": 1
+    },
+    {
+      "id": 33,
+      "name": "투자",
+      "icon": "LineChart",
+      "children": [
+        {
+          "id": 34,
+          "name": "내가 가진 자산 조회",
+          "icon": "BarChart",
+          "level": 2
+        },
+        {
+          "id": 35,
+          "name": "공모주 청약 정보",
+          "icon": "FileSearch",
+          "level": 2
+        },
+        {
+          "id": 36,
+          "name": "MMF로 느는 돈 투자",
+          "icon": "Banknote",
+          "level": 2
+        },
+        {
+          "id": 37,
+          "name": "내게 맞는 펀드 찾기",
+          "icon": "Search",
+          "level": 2
+        },
+        {
+          "id": 38,
+          "name": "증권사 금융상품 투자",
+          "icon": "Building",
+          "level": 2
+        },
+        { "id": 39, "name": "해외주식 투자", "icon": "Globe", "level": 2 },
+        {
+          "id": 40,
+          "name": "내게 맞는 주식전략 만들기",
+          "icon": "Compass",
+          "level": 2
+        },
+        {
+          "id": 41,
+          "name": "IRP 혜택 비교하기",
+          "icon": "PieChart",
+          "level": 2
+        }
+      ],
+      "level": 1
+    },
+    {
+      "id": 42,
+      "name": "대출",
+      "icon": "Building",
+      "children": [
+        { "id": 43, "name": "신용대출 받기", "icon": "Wallet", "level": 2 },
+        { "id": 44, "name": "주택담보대출 받기", "icon": "Home", "level": 2 },
+        { "id": 45, "name": "내 DSR 조회", "icon": "TrendingUp", "level": 2 },
+        {
+          "id": 46,
+          "name": "대출 금리/한도 조회하기",
+          "icon": "BadgeDollarSign",
+          "level": 2
+        },
+        {
+          "id": 47,
+          "name": "전세/월세 계산기",
+          "icon": "Calculator",
+          "level": 2
+        },
+        { "id": 48, "name": "대출 이자 계산기", "icon": "Percent", "level": 2 }
+      ],
+      "level": 1
+    },
+    {
+      "id": 49,
+      "name": "외환",
+      "icon": "Globe2",
+      "children": [
+        { "id": 50, "name": "ATM 외화출금", "icon": "Banknote", "level": 2 },
+        { "id": 51, "name": "해외송금 보내기", "icon": "Send", "level": 2 },
+        { "id": 52, "name": "해외송금 받기", "icon": "Inbox", "level": 2 },
+        {
+          "id": 53,
+          "name": "해외송금 내역조회",
+          "icon": "ListChecks",
+          "level": 2
+        },
+        {
+          "id": 54,
+          "name": "거래외국환은행 지정",
+          "icon": "Building2",
+          "level": 2
+        }
+      ],
+      "level": 1
+    },
+    {
+      "id": 55,
+      "name": "사업자",
+      "icon": "Briefcase",
+      "children": [
+        {
+          "id": 56,
+          "name": "내 사업장 신용정보",
+          "icon": "ChartColumn",
+          "level": 2
+        },
+        {
+          "id": 57,
+          "name": "국세청 사업용 계좌/카드",
+          "icon": "CreditCard",
+          "level": 2
+        },
+        {
+          "id": 58,
+          "name": "간편 세금신고",
+          "icon": "ClipboardCheck",
+          "level": 2
+        },
+        {
+          "id": 59,
+          "name": "사업자 인증서",
+          "icon": "ShieldCheck",
+          "level": 2
+        }
+      ],
+      "level": 1
+    },
+    {
+      "id": 60,
+      "name": "mini",
+      "icon": "Baby",
+      "children": [
+        { "id": 61, "name": "정구석 딜리스트", "icon": "List", "level": 2 },
+        { "id": 62, "name": "내 mini카드", "icon": "CreditCard", "level": 2 },
+        {
+          "id": 63,
+          "name": "우리학교/캠퍼스/시간표",
+          "icon": "GraduationCap",
+          "level": 2
+        }
+      ],
+      "level": 1
+    },
+    {
+      "id": 64,
+      "name": "금융안심",
+      "icon": "Shield",
+      "children": [
+        {
+          "id": 65,
+          "name": "우리동네탐지기 서비스",
+          "icon": "MapPin",
+          "level": 2
+        },
+        {
+          "id": 66,
+          "name": "최근 금융사기 유형",
+          "icon": "AlertTriangle",
+          "level": 2
+        }
+      ],
+      "level": 1
+    }
   ]
 }

@@ -43,7 +43,7 @@ const ModalComponent: React.FC<ModalProps> = ({
       {/* description */}
       {DescSlot && <div className={styles.description}>{DescSlot}</div>}
       {/* body */}
-      <div className={cn(styles.body, 'modal-content')}>{BodySlot}</div>
+      <div className={cn(styles.body, 'modal-body')}>{BodySlot}</div>
       {/* footer */}
       {FooterSlot && <div className={styles.footer}>{FooterSlot}</div>}
     </div>
