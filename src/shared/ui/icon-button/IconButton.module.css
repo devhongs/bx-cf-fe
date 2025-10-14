@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 .start {
-  @apply text-2xl;
+  @apply text-2xl inline-flex items-center;
 
   &.circle {
     @apply bg-zinc-100 border border-gray-300 rounded-full flex items-center justify-center p-2;
@@ -9,5 +9,9 @@
 
   .icon {
     @apply text-2xl;
+  }
+
+  .label {
+    @apply text-base ml-1;
   }
 }

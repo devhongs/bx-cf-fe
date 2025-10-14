@@ -1,61 +1,37 @@
-import { useLocation, useNavigate } from '@tanstack/react-router'
-import { Bell, LogOut } from 'lucide-react'
-import { useMemo } from 'react'
-
 import styles from './Header.module.css'
 
 // import { AccountList } from '@/features/account-list'
-import { useModal } from '@/shared/hooks/useModal'
 import { cn } from '@/shared/lib/utils'
 import type { BaseProps } from '@/shared/types'
 
+import { useLocation } from '@tanstack/react-router'
+import { useMemo } from 'react'
+import { HeaderLeft } from './HeaderLeft'
+import { HeaderRight } from './HeaderRight'
+
 interface HeaderProps extends BaseProps {}
+
+const PAGE_TITLES: Record<string, string> = {
+  '/main': '홈',
+  '/asset': '자산',
+  '/product': '상품',
+  '/menu': '메뉴',
+} as const
 
 export function Header(props: HeaderProps) {
   const location = useLocation()
-  const navigate = useNavigate()
-
-  const { open: openModal } = useModal()
-
-  const title = useMemo(() => {
-    switch (location.pathname) {
-      case '/main':
-        return '홈'
-      case '/asset':
-        return '자산'
-      case '/product':
-        return '상품'
-      case '/menu':
-        return '메뉴'
-      default:
-        return '/main'
-    }
-  }, [location])
-
-  const handleAlarm = async () => {
-    const result = await openModal({
-      path: 'alarm-list', // 폴더명만 입력!
-    })
-    console.log(result)
-  }
-
-  const handleLogout = () => {
-    sessionStorage.removeItem('sessionId')
-    navigate({ to: '/login' })
-  }
+  const pageTitle = useMemo(
+    () => PAGE_TITLES[location.pathname] ?? '홈',
+    [location.pathname],
+  )
 
   return (
-    <header className={cn(styles.root, props.className)}>
+    <header className={cn(styles.start, props.className)}>
       <div className={styles.left}>
-        <span className={styles.title}>{title}</span>
+        <HeaderLeft pageTitle={pageTitle} />
       </div>
       <div className={styles.right}>
-        <button className={styles.alarm} onClick={handleAlarm}>
-          <Bell />
-        </button>
-        <button className={styles.alarm} onClick={handleLogout}>
-          <LogOut />
-        </button>
+        <HeaderRight pageTitle={pageTitle} />
       </div>
     </header>
   )

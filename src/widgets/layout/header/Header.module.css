@@ -1,25 +1,13 @@
 @import 'tailwindcss';
 
-.root {
+.start {
   @apply flex text-black justify-between items-center p-3 text-2xl;
 }
 
 .left {
   @apply flex flex-row gap-2;
-
-  .title {
-    @apply text-black font-bold;
-  }
 }
 
 .right {
   @apply flex flex-row gap-4;
-
-  .alarm {
-    @apply text-black;
-
-    svg {
-      @apply w-[20px] h-[20px];
-    }
-  }
 }
