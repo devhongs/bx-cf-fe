@@ -32,7 +32,7 @@
       "id": 1,
       "name": "최근",
       "icon": "MessageSquare",
-      "children": [{ "id": 2, "name": "어제", "icon": "MessageSquare" }],
+      "children": [{ "id": 2, "name": "이체", "icon": "Send" }],
       "level": 1
     },
     {
@@ -359,6 +359,52 @@
         }
       ],
       "level": 1
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "입출금통장",
+      "description": "14세부터 손쉬운 계좌 개설",
+      "icon": "Banknote",
+      "iconColor": "#8507d9",
+      "type": "deposit"
+    },
+    {
+      "id": 2,
+      "name": "한달적금",
+      "description": "한달동안 매일매일 저금",
+      "icon": "Banknote",
+      "iconColor": "#16c481",
+      "baseRate": 6,
+      "type": "deposit"
+    },
+    {
+      "id": 3,
+      "name": "26주적금",
+      "description": "메즈메즈 저금",
+      "icon": "Banknote",
+      "iconColor": "#de5a3c",
+      "baseRate": 6,
+      "maxRate": 1.2,
+      "rateDescription": "6개월 기준",
+      "type": "deposit"
+    },
+    {
+      "id": 4,
+      "name": "mini 내맘대로 적금",
+      "description": "내맘대로 넣고 꺼내고 싶다면",
+      "icon": "Banknote",
+      "iconColor": "#66119c",
+      "type": "deposit"
+    },
+    {
+      "id": 5,
+      "name": "K-패스 프렌즈 체크카드",
+      "icon": "CreditCard",
+      "iconColor": "#dbc500",
+      "description": "대중교통 자주 이용한다면",
+      "type": "loan"
     }
   ]
 }

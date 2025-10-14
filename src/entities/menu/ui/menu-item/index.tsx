@@ -3,7 +3,7 @@ import { type BaseProps } from '@/shared/types'
 import { type Menu } from '@/entities/menu'
 import styles from './index.module.css'
 
-import * as Icons from 'lucide-react'
+import IconButton from '@/shared/ui/icon-button/IconButton'
 
 interface MenuItemProps extends BaseProps {
   data: Menu
@@ -11,7 +11,7 @@ interface MenuItemProps extends BaseProps {
 }
 
 export default function MenuItem({ data, onMenuClick }: MenuItemProps) {
-  const { children = [], name, icon } = data
+  const { children = [], name } = data
   return (
     <div className={styles.start}>
       {/* Level 1 메뉴 */}
@@ -34,11 +34,9 @@ function SubMenuItem({ data, onClick }: SubMenuItemProps) {
   const strokeColorHex = Math.floor(Math.random() * 16777215)
     .toString(16)
     .padStart(6, '0')
-  const IconComponent = (Icons[icon as keyof typeof Icons] ||
-    Icons['Circle']) as Icons.LucideIcon
   return (
     <div className={styles.subMenu} onClick={onClick}>
-      <IconComponent className={styles.icon} stroke={`#${strokeColorHex}`} />
+      <IconButton type={icon} strokeColor={`#${strokeColorHex}`} />
       <span className={styles.name}>{name}</span>
     </div>
   )

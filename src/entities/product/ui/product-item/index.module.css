@@ -1,0 +1,45 @@
+@import 'tailwindcss';
+
+.start {
+  @apply flex flex-col gap-2;
+
+  .product {
+    @apply flex flex-row gap-5;
+
+    .icon {
+      @apply flex-shrink-0 w-[60px] flex items-center justify-center;
+    }
+
+    .content {
+      @apply flex-1 min-w-0;
+
+      .name {
+        @apply text-lg text-gray-800 font-extrabold;
+      }
+
+      .description {
+        @apply text-gray-400 text-base;
+      }
+    }
+  }
+
+  .rate {
+    @apply flex flex-row gap-5;
+
+    .icon {
+      @apply flex-shrink-0 w-[60px] font-extrabold flex items-center justify-center;
+    }
+
+    .content {
+      @apply flex-1 min-w-0;
+
+      .rateDescription {
+        @apply text-sm text-blue-500;
+      }
+
+      .rateText {
+        @apply flex flex-row gap-3 text-base text-blue-700 font-extrabold;
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 export * from './button/Button'
+export * from './icon-button/IconButton'
 export * from './modal/Modal'
 export * from './modal/ModalContainer'
 export * from './modal/ModalWrapper'
