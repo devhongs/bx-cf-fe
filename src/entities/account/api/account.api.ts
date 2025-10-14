@@ -1,7 +1,9 @@
-import type { ApiResponse } from '@/shared/api/types'
-import { API_URL } from '@/shared/constants'
-import { httpService } from '@/shared/lib/ajax/http.service'
 import type { Account, AccountsQueryParams } from '../model/account.type'
+
+import type { ApiListResponse } from '@/shared/api/types'
+import { API_URL } from '@/shared/constants'
+import HttpJsonService from '@/shared/lib/ajax/http.json.service'
+import { httpService } from '@/shared/lib/ajax/http.service'
 
 /**
  * 계좌 관련 API 요청을 처리하는 서비스 클래스.
@@ -14,8 +16,9 @@ export default class AccountService {
    */
   static async fetchAll<T = Account>(
     params?: AccountsQueryParams,
-  ): Promise<ApiResponse<T>> {
-    return httpService.get<ApiResponse<T>>(`${API_URL}/accounts`, params)
+  ): Promise<ApiListResponse<T>> {
+    // return httpService.get<ApiResponse<T>>(`${API_URL}/accounts`, params)
+    return HttpJsonService.fetchAll<T>(`${API_URL}/accounts`, params)
   }
 
   /**

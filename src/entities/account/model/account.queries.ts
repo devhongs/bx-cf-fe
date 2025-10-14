@@ -1,7 +1,10 @@
-import type { ApiResponse } from '@/shared/api/types'
 import type { UseQueryOptions } from '@tanstack/react-query'
+
 import AccountService from '../api/account.api'
+
 import type { Account, AccountsQueryParams } from './account.type'
+
+import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
 
 export const queryKeys = {
   fetchList: ['accounts'] as const,
@@ -12,9 +15,9 @@ export const queryOptions = {
   // 계좌 목록 조회
   fetchList: <T = Account>(
     params: AccountsQueryParams,
-  ): UseQueryOptions<ApiResponse<T>> => ({
+  ): UseQueryOptions<ApiListResponse<T>> => ({
     queryKey: queryKeys.fetchList,
-    queryFn: async (): Promise<ApiResponse<T>> =>
+    queryFn: async (): Promise<ApiListResponse<T>> =>
       AccountService.fetchAll(params),
   }),
   // 계좌 상세 조회

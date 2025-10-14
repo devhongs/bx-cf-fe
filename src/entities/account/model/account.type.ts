@@ -12,15 +12,15 @@ export interface Account {
   /**
    * 계좌 번호
    */
-  accountNo?: number
+  accountNo: number
   /**
    * 계좌 명
    */
-  accountName?: string
+  accountName: string
   /**
    * 계좌 잔액
    */
-  amount?: number
+  amount: number
   /**
    * 계좌 타입
    */

@@ -1,6 +1,79 @@
 {
   "users": [],
-  "accounts": [],
+  "accounts": [
+    {
+      "accountNo": 100000001,
+      "accountName": "국민은행 통장",
+      "amount": 2540000,
+      "accountType": "입출금통장",
+      "accountStatus": "정상",
+      "createdAt": "2024-01-12T10:15:00Z",
+      "updatedAt": "2025-02-10T09:30:00Z"
+    },
+    {
+      "accountNo": 100000002,
+      "accountName": "신한저축예금",
+      "amount": 7850000,
+      "accountType": "예금",
+      "accountStatus": "정상",
+      "createdAt": "2023-08-22T14:45:00Z",
+      "updatedAt": "2025-01-05T08:20:00Z"
+    },
+    {
+      "accountNo": 100000003,
+      "accountName": "카카오뱅크 비상금통장",
+      "amount": 320000,
+      "accountType": "마이너스통장",
+      "accountStatus": "휴면",
+      "createdAt": "2022-11-03T11:00:00Z",
+      "updatedAt": "2024-12-15T16:40:00Z"
+    },
+    {
+      "accountNo": 100000004,
+      "accountName": "우리은행 주거래통장",
+      "amount": 12500000,
+      "accountType": "입출금통장",
+      "accountStatus": "정상",
+      "createdAt": "2023-05-10T09:30:00Z",
+      "updatedAt": "2025-01-20T15:45:00Z"
+    },
+    {
+      "accountNo": 100000005,
+      "accountName": "하나은행 적금통장",
+      "amount": 5600000,
+      "accountType": "적금",
+      "accountStatus": "정상",
+      "createdAt": "2024-03-18T08:00:00Z",
+      "updatedAt": "2025-02-25T12:10:00Z"
+    },
+    {
+      "accountNo": 100000006,
+      "accountName": "IBK기업은행 사업자통장",
+      "amount": 34980000,
+      "accountType": "법인통장",
+      "accountStatus": "정상",
+      "createdAt": "2022-09-01T14:20:00Z",
+      "updatedAt": "2025-03-05T10:25:00Z"
+    },
+    {
+      "accountNo": 100000007,
+      "accountName": "농협 청년희망적금",
+      "amount": 1800000,
+      "accountType": "적금",
+      "accountStatus": "정상",
+      "createdAt": "2023-11-12T07:45:00Z",
+      "updatedAt": "2025-02-02T18:15:00Z"
+    },
+    {
+      "accountNo": 100000008,
+      "accountName": "토스뱅크 자유입출금통장",
+      "amount": 920000,
+      "accountType": "입출금통장",
+      "accountStatus": "정상",
+      "createdAt": "2024-06-01T11:30:00Z",
+      "updatedAt": "2025-03-10T08:00:00Z"
+    }
+  ],
   "alarms": [
     {
       "id": 1,
