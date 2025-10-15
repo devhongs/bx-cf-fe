@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import ProductList from '@/features/alarm/ui/prodict-list'
+import ProductList from '@/features/product/ui/prodict-list'
 import { Page, PageBody } from '@/shared/ui'
 
 import styles from './index.module.css'
