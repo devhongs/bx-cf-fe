@@ -1,12 +1,12 @@
 import { BwgProvider } from '@bwg-ds/core'
-import { QueryClientProvider } from '@tanstack/react-query'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 
+// Import the generated route tree
+
 import { queryClient } from '../queryClient.ts'
 
-// Import the generated route tree
 import reportWebVitals from './reportWebVitals.ts'
 import { routeTree } from './routeTree.gen'
 
@@ -14,6 +14,7 @@ import '@bwg-ds/core/dist/core.css'
 
 import '@/shared/styles/bxui_template.css'
 import '@/shared/styles/styles.css'
+import { QueryClientProvider } from '@tanstack/react-query'
 
 // Create a new router instance
 const router = createRouter({

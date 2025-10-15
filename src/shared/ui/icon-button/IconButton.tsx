@@ -2,6 +2,7 @@ import * as Icons from 'lucide-react'
 import React from 'react'
 
 import { cn } from '@/shared/lib/utils'
+
 import styles from './IconButton.module.css'
 
 export interface IconButtonProps

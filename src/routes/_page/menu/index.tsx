@@ -1,8 +1,10 @@
-import MenuList from '@/features/alarm/ui/menu-list'
-import { Page, PageBody } from '@/shared/ui'
 import { createFileRoute } from '@tanstack/react-router'
 
 import ChatbotButton from '@/entities/menu/ui/chatbot-button'
+import MenuList from '@/features/alarm/ui/menu-list'
+import { Page, PageBody } from '@/shared/ui'
+
+
 import styles from './index.module.css'
 
 export const Route = createFileRoute('/_page/menu/')({

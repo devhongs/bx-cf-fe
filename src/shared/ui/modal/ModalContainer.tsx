@@ -1,6 +1,7 @@
-import { lazy, Suspense, useMemo, type ComponentType } from 'react'
+import {  Suspense, lazy, useMemo } from 'react'
+import type {ComponentType} from 'react';
 
-import { type ModalConfig } from '@/shared/types'
+import type {ModalConfig} from '@/shared/types';
 
 const modalModules = import.meta.glob<{ default: ComponentType<any> }>(
   '/src/**/*.tsx',

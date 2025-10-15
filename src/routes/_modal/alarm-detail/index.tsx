@@ -1,5 +1,5 @@
 import AlarmDetail from '@/features/alarm/ui/alarm-detail'
-import { type ModalConfig } from '@/shared/types'
+import type {ModalConfig} from '@/shared/types';
 import { Modal, ModalBody, ModalTitle } from '@/shared/ui/modal/Modal'
 
 interface AlarmDetailModalProps extends ModalConfig {

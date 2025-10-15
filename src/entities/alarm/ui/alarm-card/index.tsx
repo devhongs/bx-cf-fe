@@ -1,6 +1,6 @@
-import styles from './index.module.css'
-
 import type { BaseProps } from '@/shared/types'
+
+import styles from './index.module.css'
 
 interface AlarmCardProps extends BaseProps {
   data: {

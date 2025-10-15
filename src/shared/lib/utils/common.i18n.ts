@@ -1,4 +1,4 @@
-import i18next from "i18next"
+import i18next from 'i18next'
 
 /**
  * 다국어 변환
@@ -11,9 +11,9 @@ const trans = (key: string, param?: any, defaultMessage?: string): any => {
   // return t(key, param)
   // console.log("key param msg :: ", key, param, msg)
 
-  let message: any = ""
+  let message: any = ''
   if (i18next.exists(key)) {
-    message = i18next.t(i18next.t(key).replace(/\{(\d)\}/gi, "{{$1}}"), param)
+    message = i18next.t(i18next.t(key).replace(/\{(\d)\}/gi, '{{$1}}'), param)
   } else {
     message = key
     // console.error(`다국어 키를 확인해 주시기 바랍니다. key:: ${key}`)
@@ -43,7 +43,7 @@ const convertor = (obj: any, detailKey: any): any => {
     const msg = obj[key]
     message[key] = msg[detailKey]
   })
-  console.log("message :: ", JSON.stringify(message))
+  console.log('message :: ', JSON.stringify(message))
 }
 
 export const $i18nUtils = {

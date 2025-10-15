@@ -3,6 +3,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { useModal } from '@/shared/hooks/useModal'
 import type { BaseProps } from '@/shared/types'
 import IconButton from '@/shared/ui/icon-button/IconButton'
+
 import styles from './HeaderRight.module.css'
 
 interface HeaderRightProps extends BaseProps {

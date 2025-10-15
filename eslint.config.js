@@ -1,5 +1,4 @@
 //  @ts-check
-
 import { tanstackConfig } from '@tanstack/eslint-config'
 
 export default [
@@ -23,6 +22,14 @@ export default [
             order: 'asc',
             caseInsensitive: true,
           },
+          pathGroups: [
+            {
+              pattern: '@/**',
+              group: 'internal',
+              position: 'before',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['builtin'],
         },
       ],
     },

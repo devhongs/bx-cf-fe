@@ -1,7 +1,7 @@
-import { type BaseProps } from '@/shared/types'
-
-import { type Product } from '@/entities/product'
+import type {Product} from '@/entities/product';
+import type {BaseProps} from '@/shared/types';
 import IconButton from '@/shared/ui/icon-button/IconButton'
+
 import styles from './index.module.css'
 
 interface ProductItemProps extends BaseProps {

@@ -1,5 +1,6 @@
-import { useFetchAlarm, type Alarm } from '@/entities/alarm'
-import { type BaseProps } from '@/shared/types'
+import {  useFetchAlarm } from '@/entities/alarm'
+import type {Alarm} from '@/entities/alarm';
+import type {BaseProps} from '@/shared/types';
 
 interface AlarmDetailProps extends BaseProps {
   alarmId: number

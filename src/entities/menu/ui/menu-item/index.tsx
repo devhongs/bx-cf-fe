@@ -1,9 +1,9 @@
-import { type BaseProps } from '@/shared/types'
+import type {Menu} from '@/entities/menu';
+import type {BaseProps} from '@/shared/types';
+import IconButton from '@/shared/ui/icon-button/IconButton'
 
-import { type Menu } from '@/entities/menu'
 import styles from './index.module.css'
 
-import IconButton from '@/shared/ui/icon-button/IconButton'
 
 interface MenuItemProps extends BaseProps {
   data: Menu

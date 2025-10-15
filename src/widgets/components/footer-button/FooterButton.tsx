@@ -1,8 +1,9 @@
 import React from 'react'
 
+import { cn } from '@/shared/lib/utils'
+
 import styles from './FooterButton.module.css'
 
-import { cn } from '@/shared/lib/utils'
 
 interface FooterButtonProps {
   label: string

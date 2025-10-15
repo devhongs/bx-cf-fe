@@ -1,5 +1,6 @@
 import CONFIG from '@/shared/constants/siteConfig'
 import type { CodeItem } from '@/shared/types/index'
+
 import { $formatUtils } from './common.format'
 import { $storageUtils } from './common.storage'
 
@@ -12,7 +13,7 @@ interface CodeOption {
  * 코드 가져오기
  * @param {string} code
  */
-const getCodeList = (code = ''): Promise<CodeItem[]> =>
+const getCodeList = (code = ''): Promise<Array<CodeItem>> =>
   new Promise((resolve, reject) => {
     const codeItems = $storageUtils.session(CONFIG.SESSION.CODE)
 

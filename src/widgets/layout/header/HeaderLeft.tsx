@@ -1,5 +1,7 @@
+import { useModal } from '@/shared/hooks'
 import type { BaseProps } from '@/shared/types'
 import IconButton from '@/shared/ui/icon-button/IconButton'
+
 import styles from './HeaderLeft.module.css'
 
 interface HeaderLeftProps extends BaseProps {
@@ -7,8 +9,12 @@ interface HeaderLeftProps extends BaseProps {
 }
 
 export function HeaderLeft({ pageTitle }: HeaderLeftProps) {
+  const { open: openModal } = useModal()
+
   const handleUserNameClick = () => {
-    alert('사용자명 클릭')
+    openModal({
+      path: 'user-info',
+    })
   }
 
   if (pageTitle === '메뉴') {

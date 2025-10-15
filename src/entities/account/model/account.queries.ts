@@ -1,10 +1,10 @@
 import type { UseQueryOptions } from '@tanstack/react-query'
 
+import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
+
 import AccountService from '../api/account.api'
 
 import type { Account, AccountsQueryParams } from './account.type'
-
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
 
 export const queryKeys = {
   fetchList: ['accounts'] as const,

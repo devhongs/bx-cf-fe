@@ -1,5 +1,6 @@
-import { type BaseProps } from '@/shared/types'
 import { MessageCircle } from 'lucide-react'
+
+import type {BaseProps} from '@/shared/types';
 
 interface ChatbotButtonProps extends BaseProps {}
 
