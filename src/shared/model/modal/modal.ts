@@ -20,12 +20,12 @@ export const useModalStore = create<ModalStore>((set, get) => ({
     }))
   },
   close: (data?: any) => {
-    const modal = get().modals?.at(-1) // 마지막 모달 (현재 떠있는 모달)
+    const modal = get().modals.at(-1) // 마지막 모달 (현재 떠있는 모달)
 
     modal?.onClose?.(data)
 
     set((state) => ({
-      modals: state.modals?.slice(0, -1), // 마지막 모달만 제외한 새로운 배열 반환
+      modals: state.modals.slice(0, -1), // 마지막 모달만 제외한 새로운 배열 반환
     }))
   },
   activeModal: () => {
@@ -33,6 +33,6 @@ export const useModalStore = create<ModalStore>((set, get) => ({
   },
   closeAll: () => set({ modals: [] }),
   getModal: (id: string) => {
-    return get().modals?.find((d: ModalConfig) => d.id === id) // 마지막 모달 (현재 떠있는 모달)
+    return get().modals.find((d: ModalConfig) => d.id === id) // 마지막 모달 (현재 떠있는 모달)
   },
 }))

@@ -1,4 +1,5 @@
 import * as Icons from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import React from 'react'
 
 import { cn } from '@/shared/lib/utils'
@@ -31,8 +32,8 @@ export default function IconButton({
   className,
   onClick,
 }: IconButtonProps) {
-  const IconComponent = (Icons[type as keyof typeof Icons] ||
-    Icons['Circle']) as Icons.LucideIcon
+  const icons = Icons as unknown as Record<string, LucideIcon>
+  const IconComponent: LucideIcon = icons[type] ?? Icons.Circle
 
   return (
     <button
@@ -46,7 +47,7 @@ export default function IconButton({
         size={size}
       />
       {/* 라벨 */}
-      {label && (
+      {label.length > 0 && (
         <span className={styles.label} style={{ color: color }}>
           {label}
         </span>

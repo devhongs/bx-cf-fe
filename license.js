@@ -1,5 +1,0 @@
-const s =
-  'eyJrZXlDb2RlIjoiOWY0MzY3OWI1NGEyMjc2ZjQxMTYxYTI2YjMxNWMzMTE4YzRhMmZhNDgyNTU4ZmJjY2Y2NTc3OGQ2YmUzNDMwOCIsImNsaWVudEVtYWlsIjoic2FuZ2h5ZW9uLnBhcmtAYmFua3dhcmVnbG9iYWwuY29tIiwiY29tcGFueUlkIjoiYndnIiwiZG9tYWlucyI6WyJsb2NhbGhvc3QiLCJkZXNpZ25zeXN0ZW0uYndnLmNvLmtyIl0sImV4cGlyZURhdGUiOiIyMDI2MDczMSIsImlzc3VlRGF0ZSI6IjIwMjUwNzMwIiwibGljZW5zZVR5cGUiOiJ0cmlhbCIsIm1lbW8iOiJ0ZW1wbGF0ZSAx64WEIiwidmVyc2lvbiI6IiJ9' // "eyJ...."
-const buf = Buffer.from(s, 'base64')
-const jsonStr = buf.toString('utf8')
-console.log(JSON.parse(jsonStr))

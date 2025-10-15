@@ -44,7 +44,7 @@ export const useCreateAlarm = (
   return useMutation({
     ...mutateOptions.create(),
     ...options,
-    onSuccess: async (data, variables, context, mutation) => {
+    onSuccess: (data, variables, context, mutation) => {
       // await showSaveComplete()
       // 추가적인 성공 처리 로직이 있다면 실행
       if (options?.onSuccess) {
@@ -65,7 +65,7 @@ export const useDeleteAlarm = (
   return useMutation({
     ...mutateOptions.delete(),
     ...options,
-    onSuccess: async (data, variables, context, mutation) => {
+    onSuccess: (data, variables, context, mutation) => {
       // await showDeleteComplete()
       // 추가적인 성공 처리 로직이 있다면 실행
       if (options?.onSuccess) {

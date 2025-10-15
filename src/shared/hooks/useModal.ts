@@ -31,7 +31,7 @@ const useModal = (): useModalReturnValue => {
           ...resolvedConfig,
           id: v4(),
           onClose: (data?: any) => {
-            resolvedConfig?.onClose?.(data)
+            resolvedConfig.onClose?.(data)
             resolve(data)
           },
         }

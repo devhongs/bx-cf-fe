@@ -1,6 +1,7 @@
+import type { BaseProps } from '@/shared/types'
+
 import styles from './index.module.css'
 
-import type { BaseProps } from '@/shared/types'
 
 interface AccountCardProps extends BaseProps {
   data: {

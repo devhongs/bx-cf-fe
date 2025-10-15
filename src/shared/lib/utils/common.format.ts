@@ -129,7 +129,7 @@ const convertSnakeToCamel = (str: string) => {
   if (str) {
     return str
       .toLowerCase()
-      .replace(/(\_[a-z])/g, (arg) => arg.toUpperCase().replace('_', ''))
+      .replace(/(_[a-z])/g, (arg) => arg.toUpperCase().replace('_', ''))
   }
 
   return ''

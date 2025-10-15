@@ -13,7 +13,7 @@ export const ModalWrapper = ({ className }: { className?: string }) => {
 
   return (
     <div className={cn(styles.root, className)}>
-      {modals?.map((config: ModalConfig, index) => (
+      {modals.map((config: ModalConfig, index) => (
         <ModalContainer
           {...config}
           key={config.id}

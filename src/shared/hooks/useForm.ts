@@ -84,25 +84,25 @@ function useForm(settings: any) {
           // setValidMaskValue("mask")
           resolve(data) // unmask된 데이터 전달
         },
-        (errors: any, e: any) => {
+        (formErrors: any, e: any) => {
           // setValidMaskValue("mask") // 원복 (다시 마스킹을 적용한다)
           // reject()
           // 에러인경우
           console.log('onError', errors, e)
-          const params = Object.keys(errors).map((key: string) => {
-            const { type, message } = errors[key]
+          const params = Object.keys(formErrors).map((key: string) => {
+            const { type, message } = formErrors[key]
 
-            let inputEl
+            let inputEl: HTMLInputElement | null
             if (document.querySelector('.modal')) {
-              inputEl = document.querySelector(
+              inputEl = document.querySelector<HTMLInputElement>(
                 `.modal [data-form='${formName}'] [data-hook-form-key='${key}']`,
               )
             } else {
               inputEl =
-                document.querySelector(
+                document.querySelector<HTMLInputElement>(
                   `.tab-panel.active [data-form='${formName}'] [data-hook-form-key='${key}']`,
                 ) ||
-                document.querySelector(
+                document.querySelector<HTMLInputElement>(
                   `[data-form='${formName}'] [data-hook-form-key='${key}']`,
                 )
             }
@@ -113,9 +113,8 @@ function useForm(settings: any) {
               )
             }
 
-            const ruleJSON = inputEl?.dataset?.rule
-              ? JSON.parse(inputEl?.dataset?.rule)
-              : {}
+            const datasetRule = inputEl?.dataset.rule
+            const ruleJSON = datasetRule ? JSON.parse(datasetRule) : {}
             const errorParam = {
               name: inputEl?.title,
               value: inputEl?.value,
@@ -123,7 +122,7 @@ function useForm(settings: any) {
             }
             // 다국어 키로 변경
             const [title, contents] = $validUtils.getMessage(
-              errors[key],
+              formErrors[key],
               errorParam,
             )
             return {
