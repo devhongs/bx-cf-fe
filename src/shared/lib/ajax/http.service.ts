@@ -1,10 +1,12 @@
-import axios, type {
+import axios from 'axios'
+import type {
   AxiosError,
-  type AxiosInstance,
-  type AxiosPromise,
-  type AxiosRequestConfig,
-  type AxiosResponse,
-  type CancelTokenSource} from 'axios';
+  AxiosInstance,
+  AxiosPromise,
+  AxiosRequestConfig,
+  AxiosResponse,
+  CancelTokenSource,
+} from 'axios'
 
 import { encodeQueryString } from '../utils'
 
@@ -131,7 +133,8 @@ export class HttpService {
       .catch((error: AxiosError | Error) => {
         if (axios.isAxiosError(error)) {
           // status 4** backend 예외 코드
-          if (error?.status && error.status >= 400 && error.status < 500) {
+          const status = error.response?.status
+          if (status && status >= 400 && status < 500) {
             throw error.response?.data
           }
           console.log('axios.error', error)

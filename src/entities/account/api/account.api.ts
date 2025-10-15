@@ -1,4 +1,4 @@
-import type { ApiResponse } from '@/shared/api/types'
+import type { ApiListResponse } from '@/shared/api/types'
 import { API_URL } from '@/shared/constants'
 import HttpJsonService from '@/shared/lib/ajax/http.json.service'
 import { httpService } from '@/shared/lib/ajax/http.service'
