@@ -4,3 +4,13 @@
   /* @apply rounded-xl border border-[#E3E3E3] bg-[#ffffff]; */
   @apply rounded-lg border border-[#000000] bg-[#ffffff] mb-8;
 }
+
+.accountName {
+  @apply text-base;
+}
+.accountNo {
+  @apply text-base;
+}
+.amount {
+  @apply text-2xl;
+}
