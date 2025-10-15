@@ -47,7 +47,6 @@ if (rootElement && !rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <BwgProvider settings={settings}>
-        {' '}
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
         </QueryClientProvider>
