@@ -1,4 +1,5 @@
 import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
+
 import { toQueryParams } from '../utils'
 
 // sample url: http://localhost:3001/alarms
@@ -98,7 +99,7 @@ export function convertApiResponse<T>(mockData: T): ApiResponse<T> {
  * @param {T[]} mockData - 변환할 데이터 배열
  * @returns {ApiListResponse <T>} ApiListResponse  형태의 데이터
  */
-export function convertApiListResponse<T>(mockData: T[]): ApiListResponse<T> {
+export function convertApiListResponse<T>(mockData: Array<T>): ApiListResponse<T> {
   return {
     content: mockData,
     totalElements: Array.isArray(mockData) ? mockData.length : 1,

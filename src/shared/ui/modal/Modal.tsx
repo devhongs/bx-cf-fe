@@ -1,20 +1,38 @@
+import { ArrowLeft, X } from 'lucide-react'
+import React from 'react'
+import type { FC, ReactNode } from 'react'
+
 import { useModal } from '@/shared/hooks'
-import { ArrowLeft } from 'lucide-react'
-import React, { type FC, type ReactNode } from 'react'
+
 import { cn, getSlot } from '../../lib/utils'
 import type { BaseProps } from '../../types'
+
 import styles from './Modal.module.css'
 
 export interface ModalProps<T = any> extends BaseProps {
-  title?: string // openModal(ModalConfig) : ModalConfig.title 값
-  description?: string // openModal(ModalConfig) : ModalConfig.description 값
+  /**
+   * openModal(ModalConfig) : ModalConfig.title 값
+   */
+  title?: string
+  /**
+   * openModal(ModalConfig) : ModalConfig.description 값
+   */
+  description?: string
+  /**
+   * Modal 내부에 표시할 React 노드들
+   */
   children?: React.ReactNode
+  /**
+   * 닫기 버튼 타입 ('close' | 'back')
+   */
+  closeButtonType?: 'close' | 'back'
 }
 
 const ModalComponent: React.FC<ModalProps> = ({
   title,
   children,
   className,
+  closeButtonType = 'back',
   ...props
 }) => {
   const { close: closeModal } = useModal()
@@ -34,7 +52,8 @@ const ModalComponent: React.FC<ModalProps> = ({
       <div className={styles.header}>
         <div className={styles.left}>
           <button className={styles.btn_close} onClick={handleClose}>
-            <ArrowLeft size={28} />
+            {closeButtonType === 'back' && <ArrowLeft size={28} />}
+            {closeButtonType === 'close' && <X size={28} />}
           </button>
         </div>
         <div className={styles.center}>{TitleSlot ?? title}</div>

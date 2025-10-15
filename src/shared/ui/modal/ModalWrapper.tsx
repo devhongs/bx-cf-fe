@@ -1,6 +1,8 @@
-import { type ModalConfig } from '@/shared/types'
+import type {ModalConfig} from '@/shared/types';
+
 import { cn } from '../../lib/utils'
 import { useModalStore } from '../../model/modal/modal'
+
 import { ModalContainer } from './ModalContainer'
 import styles from './ModalWrapper.module.css'
 

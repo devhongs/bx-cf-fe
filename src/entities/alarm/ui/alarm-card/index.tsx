@@ -1,4 +1,4 @@
-import { type BaseProps } from '@/shared/types'
+import type {BaseProps} from '@/shared/types';
 
 import styles from './index.module.css'
 

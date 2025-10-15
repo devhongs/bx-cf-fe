@@ -1,6 +1,9 @@
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
 import type { UseQueryOptions } from '@tanstack/react-query'
+
+import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
+
 import AlarmService from '../api/alarm.api'
+
 import type { Alarm, AlarmsQueryParams } from './alarm.type'
 
 export const queryKeys = {

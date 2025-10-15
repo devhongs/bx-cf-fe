@@ -7,6 +7,7 @@ import type {
 import { useMutation, useQuery } from '@tanstack/react-query'
 
 import type { ApiResponse } from '@/shared/api/types'
+
 import { mutateOptions, queryOptions } from './account.queries'
 import type { Account, AccountsQueryParams } from './account.type'
 

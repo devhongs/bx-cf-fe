@@ -1,11 +1,10 @@
-import axios, {
+import axios, type {
   AxiosError,
   type AxiosInstance,
   type AxiosPromise,
   type AxiosRequestConfig,
   type AxiosResponse,
-  type CancelTokenSource,
-} from 'axios'
+  type CancelTokenSource} from 'axios';
 
 import { encodeQueryString } from '../utils'
 
@@ -131,7 +130,7 @@ export class HttpService {
       })
       .catch((error: AxiosError | Error) => {
         if (axios.isAxiosError(error)) {
-          //status 4** backend 예외 코드
+          // status 4** backend 예외 코드
           if (error?.status && error.status >= 400 && error.status < 500) {
             throw error.response?.data
           }
@@ -208,7 +207,7 @@ export class HttpService {
         }
       })
       .catch((error: AxiosError | Error) => {
-        //TODO: 에러 케이스별 처리 및 공통 처리
+        // TODO: 에러 케이스별 처리 및 공통 처리
         throw error
       })
       .finally(() => {

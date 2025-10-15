@@ -1,6 +1,9 @@
-import React, { type FC, type ReactNode } from 'react'
+import React from 'react'
+import type {FC, ReactNode} from 'react';
+
 import { cn, getSlot } from '../../lib/utils'
 import type { BaseProps } from '../../types'
+
 import styles from './Page.module.css'
 
 export interface PageProps<T = any> extends BaseProps {

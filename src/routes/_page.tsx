@@ -1,9 +1,10 @@
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router'
 
-import styles from './_page.module.css'
 
 import { Footer } from '@/widgets/layout/footer/Footer'
 import { Header } from '@/widgets/layout/header/Header'
+
+import styles from './_page.module.css'
 
 export const Route = createFileRoute('/_page')({
   component: RouteComponent,

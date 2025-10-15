@@ -1,4 +1,4 @@
-import i18next from "i18next"
+import i18next from 'i18next'
 
 /**
  * 다국어 변환
@@ -25,7 +25,7 @@ const initializeSSR = async (lang: string, mltlnJson: object): Promise<any> =>
       // .use(initReactI18next) // i18n 객체를 react-18next에 전달
       .init(options)
 
-    i18next.addResourceBundle(lang, "translation", message) // namespace1, translation
+    i18next.addResourceBundle(lang, 'translation', message) // namespace1, translation
     i18next.changeLanguage(lang)
     resolve(message)
   })

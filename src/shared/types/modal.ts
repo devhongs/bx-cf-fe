@@ -87,7 +87,7 @@ export interface ModalClose<T = any> {
 }
 
 export interface useModalReturnValue {
-  modals: ModalConfig[]
+  modals: Array<ModalConfig>
   open: (props: ModalConfig | (() => ModalConfig)) => Promise<any>
   close: (data?: any) => void
   closeAll: () => void

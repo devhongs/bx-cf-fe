@@ -1,6 +1,9 @@
-import type { ApiResponse } from '@/shared/api/types'
 import type { UseQueryOptions } from '@tanstack/react-query'
+
+import type { ApiResponse } from '@/shared/api/types'
+
 import AccountService from '../api/account.api'
+
 import type { Account, AccountsQueryParams } from './account.type'
 
 export const queryKeys = {

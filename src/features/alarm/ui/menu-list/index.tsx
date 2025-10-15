@@ -1,7 +1,8 @@
-import { type BaseProps } from '@/shared/types'
-
-import { useFetchMenus, type Menu } from '@/entities/menu'
+import {  useFetchMenus } from '@/entities/menu'
+import type {Menu} from '@/entities/menu';
 import MenuItem from '@/entities/menu/ui/menu-item'
+import type {BaseProps} from '@/shared/types';
+
 import styles from './index.module.css'
 
 interface MenuListProps extends BaseProps {

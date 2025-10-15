@@ -1,9 +1,10 @@
 import last from 'lodash-es/last'
 import { create } from 'zustand'
+
 import type { ModalConfig } from '../../types'
 
 interface ModalStore {
-  modals: ModalConfig[] // modal stack
+  modals: Array<ModalConfig> // modal stack
   open: (config: ModalConfig) => void
   close: (data?: any) => void
   closeAll: () => void

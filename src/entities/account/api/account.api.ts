@@ -1,6 +1,7 @@
 import type { ApiResponse } from '@/shared/api/types'
 import { API_URL } from '@/shared/constants'
 import { httpService } from '@/shared/lib/ajax/http.service'
+
 import type { Account, AccountsQueryParams } from '../model/account.type'
 
 /**

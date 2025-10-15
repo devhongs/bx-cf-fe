@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
-
 import { v4 } from 'uuid'
+
 import { useModalStore } from '../model/modal/modal'
 import type { ModalConfig, useModalReturnValue } from '../types'
 

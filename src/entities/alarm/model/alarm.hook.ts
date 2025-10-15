@@ -7,6 +7,7 @@ import type {
 import { useMutation, useQuery } from '@tanstack/react-query'
 
 import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
+
 import { mutateOptions, queryOptions } from './alarm.queries'
 import type { Alarm, AlarmsQueryParams } from './alarm.type'
 

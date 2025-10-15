@@ -4,7 +4,7 @@
   @apply text-black font-bold flex items-center;
 
   .icon {
-    @apply flex items-center pl-1;
+    @apply flex items-center;
     /* 필요하다면 ml-1 등으로 좌우 여백도 추가 */
   }
 }

@@ -1,7 +1,8 @@
-import { type BaseProps } from '@/shared/types'
-
-import { useFetchProducts, type Product } from '@/entities/product'
+import {  useFetchProducts } from '@/entities/product'
+import type {Product} from '@/entities/product';
 import ProductItem from '@/entities/product/ui/product-item'
+import type {BaseProps} from '@/shared/types';
+
 import styles from './index.module.css'
 
 interface ProductListProps extends BaseProps {
