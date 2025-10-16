@@ -1,7 +1,7 @@
-import {  useFetchMenus } from '@/entities/menu'
-import type {Menu} from '@/entities/menu';
+import { useFetchMenus } from '@/entities/menu'
+import type { Menu } from '@/entities/menu'
 import MenuItem from '@/entities/menu/ui/menu-item'
-import type {BaseProps} from '@/shared/types';
+import type { BaseProps } from '@/shared/types'
 
 import styles from './index.module.css'
 
@@ -9,7 +9,7 @@ interface MenuListProps extends BaseProps {
   dummy?: any
 }
 
-export default function MenuList({ dummy }: MenuListProps) {
+export default function MenuList({ dummy, className, ...rest }: MenuListProps) {
   const { data } = useFetchMenus()
   const content = data?.content ?? []
 
@@ -18,7 +18,7 @@ export default function MenuList({ dummy }: MenuListProps) {
   }
 
   return (
-    <div className={styles.start}>
+    <div className={`${styles.start} ${className ?? ''}`} {...rest}>
       {content.map((d: Menu) => (
         <MenuItem key={d.id} data={d} onMenuClick={handleMenuClick} />
       ))}

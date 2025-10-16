@@ -1,6 +1,6 @@
-import type {Product} from '@/entities/product';
-import type {BaseProps} from '@/shared/types';
-import IconButton from '@/shared/ui/icon-button/IconButton'
+import type { Product } from '@/entities/product'
+import type { BaseProps } from '@/shared/types'
+import { IconButton } from '@/shared/ui'
 
 import styles from './index.module.css'
 
@@ -30,9 +30,9 @@ export default function ProductItem({
         <div className={styles.icon}>
           <IconButton
             type={icon}
-            size={30}
-            strokeColor={iconColor}
-            circleBackground={true}
+            size="lg"
+            iconColor={iconColor}
+            iconBackground={'circle'}
           />
         </div>
         <div className={styles.content}>

@@ -1,10 +1,9 @@
 import { useLocation, useRouter } from '@tanstack/react-router'
 import { Ellipsis, House, PiggyBank, SquareChartGantt } from 'lucide-react'
 
-
 import { cn } from '@/shared/lib/utils'
 import type { BaseProps } from '@/shared/types'
-import { FooterButton } from '@/widgets/components'
+import { FooterButton } from '@/widgets'
 
 import styles from './Footer.module.css'
 

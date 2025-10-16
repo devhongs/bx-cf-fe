@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { MessageCircle } from 'lucide-react'
 
-import ChatbotButton from '@/entities/menu/ui/chatbot-button'
 import MenuList from '@/features/menu/ui/menu-list'
-import { Page, PageBody } from '@/shared/ui'
+import { IconButton, Page, PageBody } from '@/shared/ui'
 
 import styles from './index.module.css'
 
@@ -12,12 +12,15 @@ export const Route = createFileRoute('/_page/menu/')({
 
 function RouteComponent() {
   return (
-    <Page>
+    <Page className={styles.start}>
       <PageBody>
-        <div className={styles.start}>
-          <MenuList className={styles.menu_list} />
-          <ChatbotButton className={styles.chatbot_button} />
-        </div>
+        <MenuList className={styles.menuList} />
+        <IconButton
+          size="sm"
+          icon={MessageCircle}
+          className={styles.chatbotButton}
+          label="상담챗봇"
+        />
       </PageBody>
     </Page>
   )

@@ -2,7 +2,7 @@ import { useNavigate } from '@tanstack/react-router'
 
 import { useModal } from '@/shared/hooks/useModal'
 import type { BaseProps } from '@/shared/types'
-import IconButton from '@/shared/ui/icon-button/IconButton'
+import { IconButton } from '@/shared/ui'
 
 import styles from './HeaderRight.module.css'
 
@@ -29,8 +29,18 @@ export function HeaderRight({ pageTitle }: HeaderRightProps) {
   if (pageTitle === '메뉴') {
     return (
       <>
-        <IconButton className={styles.icon} type="Settings" label="설정" />
-        <IconButton type="LogOut" onClick={handleLogout} label="로그아웃" />
+        <IconButton
+          className={styles.icon}
+          size="sm"
+          type="Settings"
+          label="설정"
+        />
+        <IconButton
+          size="sm"
+          type="LogOut"
+          onClick={handleLogout}
+          label="로그아웃"
+        />
       </>
     )
   }

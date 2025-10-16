@@ -1,9 +1,8 @@
-import type {Menu} from '@/entities/menu';
-import type {BaseProps} from '@/shared/types';
-import IconButton from '@/shared/ui/icon-button/IconButton'
+import type { Menu } from '@/entities/menu'
+import type { BaseProps } from '@/shared/types'
+import { IconButton } from '@/shared/ui'
 
 import styles from './index.module.css'
-
 
 interface MenuItemProps extends BaseProps {
   data: Menu
@@ -36,7 +35,7 @@ function SubMenuItem({ data, onClick }: SubMenuItemProps) {
     .padStart(6, '0')
   return (
     <div className={styles.subMenu} onClick={onClick}>
-      <IconButton type={icon} strokeColor={`#${strokeColorHex}`} />
+      <IconButton type={icon} iconColor={`#${strokeColorHex}`} />
       <span className={styles.name}>{name}</span>
     </div>
   )
