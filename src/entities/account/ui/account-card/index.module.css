@@ -1,8 +1,7 @@
 @import 'tailwindcss';
 
-.border {
-  /* @apply rounded-xl border border-[#E3E3E3] bg-[#ffffff]; */
-  @apply rounded-lg border border-[#000000] bg-[#ffffff] mb-8;
+.card {
+  @apply rounded-lg border border-[#E3E3E3] bg-[#ffffff] mb-8 p-5;
 }
 
 .accountName {
@@ -11,6 +10,18 @@
 .accountNo {
   @apply text-base;
 }
+
+.amountWrapper {
+  @apply mt-4;
+}
+
 .amount {
-  @apply text-2xl;
+  @apply my-12 text-2xl text-center tracking-tight;
+}
+
+.buttonWrapper {
+  @apply mt-5 grid grid-cols-2 gap-3;
+}
+.button {
+  @apply h-10 rounded-lg border border-1 border-black bg-white font-medium hover:opacity-90 transition;
 }

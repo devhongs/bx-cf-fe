@@ -23,10 +23,27 @@ export default function AccountCard({ data }: AccountCardProps) {
   const formatAmount = data.amount.toLocaleString('ko-KR')
 
   return (
-    <div className={styles.border}>
-      <div className={styles.accountName}>{data.accountName}</div>
-      <div className={styles.accountNo}>{formatAccountNum}</div>
-      <div className={styles.amount}>{formatAmount}원</div>
+    <div className={styles.card}>
+      {/** 계좌 정보*/}
+      <div className="flex flex-col">
+        <div className={styles.accountName}>{data.accountName}</div>
+        <div className={styles.accountNo}>{formatAccountNum}</div>
+      </div>
+
+      {/** 금액 */}
+      <div className={styles.amountWrapper}>
+        <div className={styles.amount}>{formatAmount}원</div>
+      </div>
+
+      {/** 거래내역, 이체 버튼 */}
+      <div className={styles.buttonWrapper}>
+        <button type="button" className={styles.button} aria-label="이체">
+          이체
+        </button>
+        <button type="button" className={styles.button} aria-label="거래내역">
+          거래내역
+        </button>
+      </div>
     </div>
   )
 }

@@ -1,11 +1,19 @@
 import { createFileRoute } from '@tanstack/react-router'
 
+import { useFetchAccount, useFetchAccounts } from '@/entities/account'
+import type { Account } from '@/entities/account'
+import AccountCard from '@/entities/account/ui/account-card'
+
 export const Route = createFileRoute('/_page/main/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <div>main page</div>
+  const { data } = useFetchAccounts({ userId: '' })
+  const content = data?.content ?? []
+
+  // 임시로 [0]번째 계좌만 보여주기
+  return <div>{content[0] && <AccountCard data={content[0]} />}</div>
 }
 
 // function DefaultContent() {
