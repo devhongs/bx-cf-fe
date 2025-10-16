@@ -1,6 +1,6 @@
 import { useModal } from '@/shared/hooks'
 import type { BaseProps } from '@/shared/types'
-import IconButton from '@/shared/ui/icon-button/IconButton'
+import { IconButton } from '@/shared/ui'
 
 import styles from './HeaderLeft.module.css'
 
@@ -24,7 +24,7 @@ export function HeaderLeft({ pageTitle }: HeaderLeftProps) {
         <IconButton
           className={styles.icon}
           type="ChevronRight"
-          strokeColor="#888888"
+          iconColor="#888888"
         />
       </span>
     )
