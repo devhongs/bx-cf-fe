@@ -7,8 +7,8 @@ import MenuService from '../api/menu.api'
 import type { Menu, MenuQueryParams } from './menu.type'
 
 export const queryKeys = {
-  fetchList: ['accounts'] as const,
-  fetch: (id: number) => ['account', id] as const,
+  fetchList: ['menus'] as const,
+  fetch: (id: number) => ['menu', id] as const,
 }
 
 export const queryOptions = {

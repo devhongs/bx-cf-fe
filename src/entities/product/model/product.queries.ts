@@ -7,8 +7,8 @@ import ProductService from '../api/product.api'
 import type { Product, ProductQueryParams } from './product.type'
 
 export const queryKeys = {
-  fetchList: ['accounts'] as const,
-  fetch: (id: number) => ['account', id] as const,
+  fetchList: ['products'] as const,
+  fetch: (id: number) => ['product', id] as const,
 }
 
 export const queryOptions = {

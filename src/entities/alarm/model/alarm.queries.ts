@@ -7,8 +7,8 @@ import AlarmService from '../api/alarm.api'
 import type { Alarm, AlarmsQueryParams } from './alarm.type'
 
 export const queryKeys = {
-  fetchList: ['accounts'] as const,
-  fetch: (id: number) => ['account', id] as const,
+  fetchList: ['alarms'] as const,
+  fetch: (id: number) => ['alarm', id] as const,
 }
 
 export const queryOptions = {
