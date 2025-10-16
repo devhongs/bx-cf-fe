@@ -16,8 +16,8 @@ export default function ProductItem({
   const {
     name,
     description,
-    icon,
     iconColor,
+    iconType,
     rateDescription,
     baseRate,
     maxRate,
@@ -29,7 +29,7 @@ export default function ProductItem({
         {/* 아이콘 */}
         <div className={styles.icon}>
           <IconButton
-            type={icon}
+            iconType={iconType}
             size="lg"
             iconColor={iconColor}
             iconBackground={'circle'}

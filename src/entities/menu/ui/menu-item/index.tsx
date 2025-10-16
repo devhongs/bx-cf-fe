@@ -29,13 +29,13 @@ interface SubMenuItemProps extends BaseProps {
 }
 
 function SubMenuItem({ data, onClick }: SubMenuItemProps) {
-  const { name, icon } = data
-  const strokeColorHex = Math.floor(Math.random() * 16777215)
+  const { name, iconType } = data
+  const iconColor = `#${Math.floor(Math.random() * 16777215)
     .toString(16)
-    .padStart(6, '0')
+    .padStart(6, '0')}`
   return (
     <div className={styles.subMenu} onClick={onClick}>
-      <IconButton type={icon} iconColor={`#${strokeColorHex}`} />
+      <IconButton iconType={iconType} iconColor={iconColor} />
       <span className={styles.name}>{name}</span>
     </div>
   )

@@ -27,6 +27,10 @@ export interface Product {
    */
   iconColor: string
   /**
+   * 상품 아이콘 유형
+   */
+  iconType: string
+  /**
    * 기본 금리
    */
   baseRate: number

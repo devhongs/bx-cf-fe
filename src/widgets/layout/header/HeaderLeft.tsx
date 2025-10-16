@@ -1,3 +1,5 @@
+import { ChevronRight } from 'lucide-react'
+
 import { useModal } from '@/shared/hooks'
 import type { BaseProps } from '@/shared/types'
 import { IconButton } from '@/shared/ui'
@@ -23,7 +25,7 @@ export function HeaderLeft({ pageTitle }: HeaderLeftProps) {
         사용자명
         <IconButton
           className={styles.icon}
-          type="ChevronRight"
+          icon={ChevronRight}
           iconColor="#888888"
         />
       </span>

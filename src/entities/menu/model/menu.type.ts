@@ -14,7 +14,7 @@ export interface Menu {
   /** 메뉴명 */
   name: string
   /** 아이콘 */
-  icon: string
+  iconType: string
   /** 하위 메뉴 목록 */
   children?: Array<Menu>
   /** 메뉴 계층 레벨 */

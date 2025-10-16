@@ -1,4 +1,5 @@
 import { useNavigate } from '@tanstack/react-router'
+import { Bell, LogOut, Settings } from 'lucide-react'
 
 import { useModal } from '@/shared/hooks/useModal'
 import type { BaseProps } from '@/shared/types'
@@ -32,12 +33,12 @@ export function HeaderRight({ pageTitle }: HeaderRightProps) {
         <IconButton
           className={styles.icon}
           size="sm"
-          type="Settings"
+          icon={Settings}
           label="설정"
         />
         <IconButton
           size="sm"
-          type="LogOut"
+          icon={LogOut}
           onClick={handleLogout}
           label="로그아웃"
         />
@@ -47,7 +48,7 @@ export function HeaderRight({ pageTitle }: HeaderRightProps) {
 
   return (
     <>
-      <IconButton type="Bell" onClick={handleAlarm} />
+      <IconButton icon={Bell} onClick={handleAlarm} />
     </>
   )
 }

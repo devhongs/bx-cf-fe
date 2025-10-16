@@ -13,7 +13,7 @@ export interface IconButtonProps
   // 아이콘
   icon?: LucideIcon
   // 아이콘 유형을 지정합니다.
-  type?: string
+  iconType?: string
   // 아이콘 & 라벨 색상을 지정합니다. (선택 사항)
   iconColor?: string
   // 아이콘 배경을 원형으로 표시할지 여부입니다. (선택 사항)
@@ -25,17 +25,17 @@ export interface IconButtonProps
 }
 
 export const IconButton: React.FC<IconButtonProps> = ({
+  size = 'md',
   icon,
-  type = 'Circle',
+  iconType = 'Circle',
   iconColor = '#000000',
   iconBackground,
   label = '',
   labelColor = '#000000',
-  size = 'md',
   className,
 }) => {
   const icons = Icons as unknown as Record<string, LucideIcon | undefined>
-  const IconComponent: LucideIcon = icon ?? icons[type] ?? Icons.Circle
+  const IconComponent: LucideIcon = icon ?? icons[iconType] ?? Icons.Circle
 
   return (
     <button
