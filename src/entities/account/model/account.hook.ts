@@ -127,11 +127,11 @@ export const useSetFavoriteAccount = (
 
       return { previous }
     },
-    onError: (_err, _vars, ctx) => {
+    onError: (_err, _vars, ctx, mutation) => {
       if (ctx?.previous) {
         queryClient.setQueryData(queryKeys.fetchList, ctx.previous)
       }
-      options?.onError?.(_err, _vars, ctx)
+      options?.onError?.(_err, _vars, ctx, mutation)
     },
     onSettled: (...args) => {
       // 서버 진실과 동기화

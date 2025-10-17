@@ -42,8 +42,7 @@ export default class AccountService {
   static async setFavorite(accountNo: string): Promise<void> {
     // 1) 전체 목록 조회
     const list = await HttpJsonService.fetchAll<Account>(`${API_URL}/accounts`)
-    // const items = list.content ?? []
-    const items = list.content ?? []
+    const items = list.content
 
     // 2) 이미 true인 것들 false로
     const toFalse = items.filter(
