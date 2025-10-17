@@ -13,7 +13,7 @@ export const Route = createFileRoute('/_page')({
 
 function RouteComponent() {
   return (
-    <div className={styles.root}>
+    <div className={styles.start}>
       <Header className={styles.header} />
       <main className={styles.main}>
         <Outlet />
