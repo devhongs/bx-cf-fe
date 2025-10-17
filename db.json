@@ -2,82 +2,98 @@
   "users": [],
   "accounts": [
     {
+      "id": "012345678901",
       "bankId": "KB",
       "accountNo": "012345678901",
       "accountName": "국민은행 통장",
       "amount": 2540000,
       "accountType": "입출금통장",
       "accountStatus": "정상",
+      "isFavorite": false,
       "createdAt": "2024-01-12T10:15:00Z",
       "updatedAt": "2025-02-10T09:30:00Z"
     },
     {
+      "id": "110234567890",
       "bankId": "SHINHAN",
       "accountNo": "110234567890",
       "accountName": "신한저축예금",
       "amount": 7850000,
       "accountType": "예금",
       "accountStatus": "정상",
+      "isFavorite": true,
       "createdAt": "2023-08-22T14:45:00Z",
       "updatedAt": "2025-01-05T08:20:00Z"
     },
     {
+      "id": "333344555555",
       "bankId": "KAKAO",
       "accountNo": "333344555555",
       "accountName": "카카오뱅크 비상금통장",
       "amount": 320000,
       "accountType": "마이너스통장",
       "accountStatus": "휴면",
+      "isFavorite": false,
       "createdAt": "2022-11-03T11:00:00Z",
       "updatedAt": "2024-12-15T16:40:00Z"
     },
     {
+      "id": "1002567890123",
       "bankId": "WOORI",
       "accountNo": "1002567890123",
       "accountName": "우리은행 주거래통장",
       "amount": 12500000,
       "accountType": "입출금통장",
       "accountStatus": "정상",
+      "isFavorite": false,
       "createdAt": "2023-05-10T09:30:00Z",
       "updatedAt": "2025-01-20T15:45:00Z"
     },
     {
+      "id": "620345678901",
       "bankId": "HANA",
       "accountNo": "620345678901",
       "accountName": "하나은행 적금통장",
       "amount": 5600000,
       "accountType": "적금",
       "accountStatus": "정상",
+      "isFavorite": false,
       "createdAt": "2024-03-18T08:00:00Z",
       "updatedAt": "2025-02-25T12:10:00Z"
     },
     {
+      "id": "1012345678910",
       "bankId": "IBK",
       "accountNo": "1012345678910",
       "accountName": "IBK기업은행 사업자통장",
       "amount": 34980000,
       "accountType": "법인통장",
       "accountStatus": "정상",
+      "isFavorite": false,
       "createdAt": "2022-09-01T14:20:00Z",
       "updatedAt": "2025-03-05T10:25:00Z"
     },
     {
+      "id": "30212345678901",
       "bankId": "NH",
       "accountNo": "30212345678901",
       "accountName": "농협 청년희망적금",
       "amount": 1800000,
       "accountType": "적금",
       "accountStatus": "정상",
+      "isFavorite": false,
       "createdAt": "2023-11-12T07:45:00Z",
       "updatedAt": "2025-02-02T18:15:00Z"
     },
     {
+      "id": "100234567890",
       "bankId": "TOSS",
       "accountNo": "100234567890",
       "accountName": "토스뱅크 자유입출금통장",
       "amount": 920000,
       "accountType": "입출금통장",
       "accountStatus": "정상",
+      "isFavorite": false,
       "createdAt": "2024-06-01T11:30:00Z",
       "updatedAt": "2025-03-10T08:00:00Z"
     }
@@ -113,7 +129,13 @@
       "id": 1,
       "name": "최근",
       "iconType": "MessageSquare",
-      "children": [{ "id": 2, "name": "이체", "iconType": "Send" }],
+      "children": [
+        {
+          "id": 2,
+          "name": "이체",
+          "iconType": "Send"
+        }
+      ],
       "level": 1
     },
     {
@@ -128,15 +150,30 @@
           "level": 2,
           "path": "/transfer"
         },
-        { "id": 5, "name": "다같이페이", "iconType": "Users", "level": 2 },
-        { "id": 6, "name": "자동이체", "iconType": "Repeat", "level": 2 },
+        {
+          "id": 5,
+          "name": "다같이페이",
+          "iconType": "Users",
+          "level": 2
+        },
+        {
+          "id": 6,
+          "name": "자동이체",
+          "iconType": "Repeat",
+          "level": 2
+        },
         {
           "id": 7,
           "name": "자동이체 가져오기",
           "iconType": "Download",
           "level": 2
         },
-        { "id": 8, "name": "이체내역 조회", "iconType": "List", "level": 2 },
+        {
+          "id": 8,
+          "name": "이체내역 조회",
+          "iconType": "List",
+          "level": 2
+        },
         {
           "id": 9,
           "name": "ATM 스마트출금",
@@ -325,7 +362,12 @@
           "iconType": "Building",
           "level": 2
         },
-        { "id": 39, "name": "해외주식 투자", "iconType": "Globe", "level": 2 },
+        {
+          "id": 39,
+          "name": "해외주식 투자",
+          "iconType": "Globe",
+          "level": 2
+        },
         {
           "id": 40,
           "name": "내게 맞는 주식전략 만들기",
@@ -346,7 +388,12 @@
       "name": "대출",
       "iconType": "Building",
       "children": [
-        { "id": 43, "name": "신용대출 받기", "iconType": "Wallet", "level": 2 },
+        {
+          "id": 43,
+          "name": "신용대출 받기",
+          "iconType": "Wallet",
+          "level": 2
+        },
         {
           "id": 44,
           "name": "주택담보대출 받기",
@@ -391,8 +438,18 @@
           "iconType": "Banknote",
           "level": 2
         },
-        { "id": 51, "name": "해외송금 보내기", "iconType": "Send", "level": 2 },
-        { "id": 52, "name": "해외송금 받기", "iconType": "Inbox", "level": 2 },
+        {
+          "id": 51,
+          "name": "해외송금 보내기",
+          "iconType": "Send",
+          "level": 2
+        },
+        {
+          "id": 52,
+          "name": "해외송금 받기",
+          "iconType": "Inbox",
+          "level": 2
+        },
         {
           "id": 53,
           "name": "해외송금 내역조회",
@@ -445,7 +502,12 @@
       "name": "mini",
       "iconType": "Baby",
       "children": [
-        { "id": 61, "name": "정구석 딜리스트", "iconType": "List", "level": 2 },
+        {
+          "id": 61,
+          "name": "정구석 딜리스트",
+          "iconType": "List",
+          "level": 2
+        },
         {
           "id": 62,
           "name": "내 mini카드",

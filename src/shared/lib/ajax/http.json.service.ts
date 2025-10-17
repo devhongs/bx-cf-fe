@@ -51,6 +51,16 @@ export default class HttpJsonService {
     return data
   }
 
+  static async put<T>(url: string, payload: any): Promise<T> {
+    const res = await fetch(url, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+    if (!res.ok) throw new Error(`PUT ${url} failed: ${res.status}`)
+    return res.json() as Promise<T>
+  }
+
   /**
    * 데이터를 수정(PATCH)합니다.
    * @template T
@@ -99,7 +109,9 @@ export function convertApiResponse<T>(mockData: T): ApiResponse<T> {
  * @param {T[]} mockData - 변환할 데이터 배열
  * @returns {ApiListResponse <T>} ApiListResponse  형태의 데이터
  */
-export function convertApiListResponse<T>(mockData: Array<T>): ApiListResponse<T> {
+export function convertApiListResponse<T>(
+  mockData: Array<T>,
+): ApiListResponse<T> {
   return {
     content: mockData,
     totalElements: Array.isArray(mockData) ? mockData.length : 1,

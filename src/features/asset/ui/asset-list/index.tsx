@@ -1,5 +1,14 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+
 import type { Account } from '@/entities/account'
-import { useFetchAccounts } from '@/entities/account'
+import {
+  mutateOptions,
+  queryKeys,
+  useFetchAccounts,
+  useSetFavoriteAccount,
+  useUpdateCourse,
+} from '@/entities/account'
 import AccountCard from '@/entities/account/ui/account-card'
 import type { BaseProps } from '@/shared/types'
 
@@ -9,12 +18,50 @@ interface AssetListProps extends BaseProps {
 
 export default function AssetList({ dummy }: AssetListProps) {
   const { data } = useFetchAccounts({ userId: '' })
-  const content = data?.content ?? []
+  const content = data?.content
+  const [accounts, setAccounts] = useState<Array<Account>>([])
+
+  const setFavorite = useSetFavoriteAccount()
+
+  useEffect(() => {
+    if (!content) {
+      setAccounts([])
+      return
+    }
+    let favIdx = content.findIndex((acc: Account) => acc.isFavorite)
+    if (favIdx < 0) favIdx = 0 // 즐겨찾기 계좌가 없으면 첫번째 계좌를 기본으로 설정
+
+    const next = content.map((acc: Account, index: number) => ({
+      ...acc,
+      isFavorite: index === favIdx,
+    }))
+
+    setAccounts((prev) => {
+      const same =
+        prev.length === next.length &&
+        prev.every(
+          (p, i) =>
+            p.accountNo === next[i].accountNo &&
+            p.isFavorite === next[i].isFavorite,
+        )
+      return same ? prev : next
+    })
+  }, [content])
+
+  // 카드에서 클릭 시
+  const handleFavoriteSelect = (acc: Account) => {
+    if (acc.isFavorite) return
+    setFavorite.mutate(acc.accountNo)
+  }
 
   return (
     <div>
-      {content.map((d: Account) => (
-        <AccountCard data={d} />
+      {accounts.map((d: Account) => (
+        <AccountCard
+          key={d.accountNo}
+          data={d}
+          onFavoriteSelect={() => handleFavoriteSelect(d)}
+        />
       ))}
     </div>
   )

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { useFetchAccount, useFetchAccounts } from '@/entities/account'
+import { useFetchAccounts } from '@/entities/account'
 import type { Account } from '@/entities/account'
 import AccountCard from '@/entities/account/ui/account-card'
 
@@ -12,8 +12,10 @@ function RouteComponent() {
   const { data } = useFetchAccounts({ userId: '' })
   const content = data?.content ?? []
 
+  const favoriteAccount = content.find((acc: Account) => acc.isFavorite)
+
   // 임시로 [0]번째 계좌만 보여주기
-  return <div>{content[0] && <AccountCard data={content[0]} />}</div>
+  return <div>{favoriteAccount && <AccountCard data={favoriteAccount} />}</div>
 }
 
 // function DefaultContent() {

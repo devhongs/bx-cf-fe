@@ -20,6 +20,8 @@ export interface AccountsQueryParams {
  * 계좌
  */
 export interface Account {
+  id: string
+
   /**
    * 은행 식별자 (국민=KB, 신한=SHINHAN 등)
    */
@@ -37,6 +39,10 @@ export interface Account {
    * 계좌 잔액
    */
   amount: number
+  /**
+   * 즐겨찾기 여부 (true = 대표 계좌)
+   */
+  isFavorite: boolean
   /**
    * 계좌 타입
    */

@@ -11,10 +11,15 @@ interface AccountCardProps extends BaseProps {
     accountNo: string
     accountName: string
     amount: number
+    isFavorite: boolean
   }
+  onFavoriteSelect?: (accountNo: string) => void
 }
 
-export default function AccountCard({ data }: AccountCardProps) {
+export default function AccountCard({
+  data,
+  onFavoriteSelect,
+}: AccountCardProps) {
   const formatAccountNum = formatAccountNumberByBank(
     data.bankId,
     data.accountNo,
@@ -25,9 +30,21 @@ export default function AccountCard({ data }: AccountCardProps) {
   return (
     <div className={styles.card}>
       {/** 계좌 정보*/}
-      <div className="flex flex-col">
-        <div className={styles.accountName}>{data.accountName}</div>
-        <div className={styles.accountNo}>{formatAccountNum}</div>
+      <div className={styles.accountWrapper}>
+        <div className={styles.accountText}>
+          <div className={styles.accountName}>{data.accountName}</div>
+          <div className={styles.accountNo}>{formatAccountNum}</div>
+        </div>
+
+        {/* ⭐ 즐겨찾기 버튼 (오른쪽 상단) */}
+        <button
+          type="button"
+          aria-label="즐겨찾기"
+          className={styles.favoriteButton}
+          onClick={() => onFavoriteSelect?.(data.accountNo)}
+        >
+          {data.isFavorite ? '⭐' : '☆'}
+        </button>
       </div>
 
       {/** 금액 */}

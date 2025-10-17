@@ -26,8 +26,8 @@ export default class AccountService {
    * @param accountNo - 조회할 계좌 No.
    * @returns 계좌 상세 정보 Promise.
    */
-  static async fetch<T = Account>(accountNo: number): Promise<T> {
-    return httpService.get<T>(`${API_URL}/account/${accountNo}`)
+  static async fetch<T = Account>(accountNo: string): Promise<T> {
+    return httpService.get<T>(`${API_URL}/accounts/${accountNo}`)
   }
 
   /**
@@ -36,7 +36,33 @@ export default class AccountService {
    * @returns 생성된 계좌 정보 Promise.
    */
   static async create(payload: Account): Promise<Account> {
-    return httpService.post<Account>(`${API_URL}/account`, payload)
+    return httpService.post<Account>(`${API_URL}/accounts`, payload)
+  }
+
+  static async setFavorite(accountNo: string): Promise<void> {
+    // 1) 전체 목록 조회
+    const list = await HttpJsonService.fetchAll<Account>(`${API_URL}/accounts`)
+    // const items = list.content ?? []
+    const items = list.content ?? []
+
+    // 2) 이미 true인 것들 false로
+    const toFalse = items.filter(
+      (a) => a.isFavorite && a.accountNo !== accountNo,
+    )
+    await Promise.all(
+      toFalse.map((acc) =>
+        HttpJsonService.patch<Account>(`${API_URL}/accounts/${acc.id}`, {
+          isFavorite: false,
+        }),
+      ),
+    )
+
+    // 3) 타깃 true로
+    const target = items.find((a) => a.accountNo === accountNo)
+    if (!target) throw new Error('Account not found')
+    await HttpJsonService.patch<Account>(`${API_URL}/accounts/${target.id}`, {
+      isFavorite: true,
+    })
   }
 
   /**
@@ -45,8 +71,12 @@ export default class AccountService {
    * @returns 수정된 계좌 정보 Promise.
    */
   static update(payload: Account): Promise<Account> {
-    return httpService.put<Account>(
-      `${API_URL}/account/${payload.accountNo}`,
+    // return httpService.put<Account>(
+    //   `${API_URL}/account/${payload.accountNo}`,
+    //   payload,
+    // )
+    return HttpJsonService.put<Account>(
+      `${API_URL}/accounts/${payload.accountNo}`,
       payload,
     )
   }
@@ -57,6 +87,6 @@ export default class AccountService {
    * @returns 삭제 결과 Promise. (any 대신 실제 응답 타입 명시 권장)
    */
   static delete(id: number): Promise<any> {
-    return httpService.delete<any>(`${API_URL}/account/${id}`)
+    return httpService.delete<any>(`${API_URL}/accounts/${id}`)
   }
 }

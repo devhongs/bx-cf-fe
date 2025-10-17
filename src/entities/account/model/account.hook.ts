@@ -4,11 +4,11 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
 
-import { mutateOptions, queryOptions } from './account.queries'
+import { mutateOptions, queryKeys, queryOptions } from './account.queries'
 import type { Account, AccountsQueryParams } from './account.type'
 
 /**
@@ -28,7 +28,7 @@ export const useFetchAccounts = <T = Account>(
  * @param accountNo - 조회할 계좌 No.
  */
 export const useFetchAccount = <T = Account>(
-  accountNo: number,
+  accountNo: string,
   options?: UseQueryOptions<ApiResponse<T>, Error>,
 ): UseQueryResult<ApiResponse<T>, Error> => {
   return useQuery({ ...queryOptions.fetch<T>(accountNo), ...options })
@@ -59,8 +59,8 @@ export const useCreateCourse = (
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */
 export const useUpdateCourse = (
-  options?: UseMutationOptions<Account, Error, Account, unknown>,
-): UseMutationResult<Account, Error, Account, unknown> => {
+  options?: UseMutationOptions<Account, Error, Account, { previous?: unknown }>,
+): UseMutationResult<Account, Error, Account, { previous?: unknown }> => {
   return useMutation({
     ...mutateOptions.update(),
     ...options,
@@ -90,6 +90,56 @@ export const useDeleteCourse = (
       if (options?.onSuccess) {
         options.onSuccess(data, variables, context, mutation)
       }
+    },
+  })
+}
+
+/**
+ * ✅ 대표계좌(즐겨찾기) 지정 뮤테이션 훅
+ * - 토글이 아니라 "선택(select)" 개념
+ * - 서버/목에서도 하나만 true가 되도록 보장
+ * - 낙관적 업데이트 → 실패 시 롤백 → invalidate
+ */
+export const useSetFavoriteAccount = (
+  options?: UseMutationOptions<void, Error, string, { previous?: unknown }>,
+): UseMutationResult<void, Error, string, { previous?: unknown }> => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    ...mutateOptions.setFavorite(),
+    // 낙관적 업데이트
+    onMutate: async (accountNo) => {
+      await queryClient.cancelQueries({ queryKey: queryKeys.fetchList })
+
+      const previous = queryClient.getQueryData(queryKeys.fetchList)
+
+      // 캐시: 선택된 계좌만 true, 나머지는 false
+      queryClient.setQueryData(queryKeys.fetchList, (old: any) => {
+        if (!old) return old
+        return {
+          ...old,
+          content: (old.content ?? []).map((acc: Account) => ({
+            ...acc,
+            isFavorite: acc.accountNo === accountNo,
+          })),
+        }
+      })
+
+      return { previous }
+    },
+    onError: (_err, _vars, ctx) => {
+      if (ctx?.previous) {
+        queryClient.setQueryData(queryKeys.fetchList, ctx.previous)
+      }
+      options?.onError?.(_err, _vars, ctx)
+    },
+    onSettled: (...args) => {
+      // 서버 진실과 동기화
+      queryClient.invalidateQueries({ queryKey: queryKeys.fetchList })
+      options?.onSettled?.(...args)
+    },
+    onSuccess: (...args) => {
+      options?.onSuccess?.(...args)
     },
   })
 }

@@ -4,11 +4,23 @@
   @apply rounded-lg border border-[#E3E3E3] bg-[#ffffff] mb-8 p-5;
 }
 
+.accountWrapper {
+  @apply flex items-start justify-between;
+}
+
+.accountText {
+  @apply flex flex-col;
+}
+
 .accountName {
   @apply text-base;
 }
 .accountNo {
   @apply text-base;
+}
+
+.favoriteButton {
+  @apply text-xl hover:opacity-80 transition;
 }
 
 .amountWrapper {

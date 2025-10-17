@@ -8,7 +8,7 @@ import type { Account, AccountsQueryParams } from './account.type'
 
 export const queryKeys = {
   fetchList: ['accounts'] as const,
-  fetch: (id: number) => ['account', id] as const,
+  fetch: (id: string) => ['account', id] as const,
 }
 
 export const queryOptions = {
@@ -21,7 +21,7 @@ export const queryOptions = {
       AccountService.fetchAll(params),
   }),
   // 계좌 상세 조회
-  fetch: <T = Account>(accountNo: number): UseQueryOptions<ApiResponse<T>> => ({
+  fetch: <T = Account>(accountNo: string): UseQueryOptions<ApiResponse<T>> => ({
     queryKey: queryKeys.fetch(accountNo),
     queryFn: () => AccountService.fetch(accountNo),
   }),
@@ -39,5 +39,9 @@ export const mutateOptions = {
   // 계좌 삭제
   delete: () => ({
     mutationFn: (id: number) => AccountService.delete(id),
+  }),
+  // 즐겨찾기 설정
+  setFavorite: () => ({
+    mutationFn: (accountNo: string) => AccountService.setFavorite(accountNo),
   }),
 }
