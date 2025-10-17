@@ -6,6 +6,7 @@ import { useModal } from '@/shared/hooks'
 
 import { cn, getSlot } from '../../lib/utils'
 import type { BaseProps } from '../../types'
+import { IconButton } from '../icon-button/IconButton'
 
 import styles from './Modal.module.css'
 
@@ -51,10 +52,11 @@ const ModalComponent: React.FC<ModalProps> = ({
       {/* header */}
       <div className={styles.header}>
         <div className={styles.left}>
-          <button className={styles.btn_close} onClick={handleClose}>
-            {closeButtonType === 'back' && <ArrowLeft size={28} />}
-            {closeButtonType === 'close' && <X size={28} />}
-          </button>
+          <IconButton
+            className={styles.btn_close}
+            icon={closeButtonType === 'back' ? ArrowLeft : X}
+            onClick={handleClose}
+          />
         </div>
         <div className={styles.center}>{TitleSlot ?? title}</div>
         <div className={styles.right}></div>

@@ -150,7 +150,7 @@ src/
 
 타입스크립트를 사용할 때, 인터페이스나 타입 별칭을 정의하는 파일입니다.
 
-- **폴더명**: **camelCase**
+- **폴더명**: **kebak-case**
   - `types` 또는 `interfaces` 라는 이름의 폴더에 모아 관리합니다.
   - _예시: `types/`_
 - **파일명**: **camelCase**
@@ -175,10 +175,87 @@ src/
 
 | 구분         | 폴더명     | 파일명              | 모듈/함수/타입명         |
 | :----------- | :--------- | :------------------ | :----------------------- |
-| **컴포넌트** | PascalCase | PascalCase (`.tsx`) | PascalCase               |
-| **훅**       | camelCase  | camelCase (`.ts`)   | camelCase (`use` 접두사) |
-| **유틸리티** | camelCase  | camelCase (`.ts`)   | camelCase                |
-| **타입**     | camelCase  | camelCase (`.ts`)   | PascalCase               |
+| **새그먼트** | kebak-case | -                   | -                        |
+| **컴포넌트** | kebak-case | PascalCase (`.tsx`) | PascalCase               |
+| **훅**       | kebak-case | camelCase (`.ts`)   | camelCase (`use` 접두사) |
+| **유틸리티** | kebak-case | camelCase (`.ts`)   | camelCase                |
+| **타입**     | kebak-case | camelCase (`.ts`)   | PascalCase               |
+
+<br>
+
+**구조 예시:**
+
+```plaintext
+src/
+├── app/
+│   ├── providers/
+│   │   └── store-provider/
+│   │       └── StoreProvider.tsx
+│   ├── router/
+│   │   └── app-router/
+│   │       └── AppRouter.tsx
+│   └── index.ts
+│
+├── processes/
+│   └── auth/
+│       ├── ui/
+│       │   └── AuthGuard/AuthGuard.tsx
+│       ├── hooks/
+│       │   └── useAuth.ts
+│       └── model/
+│           └── types.ts
+│
+├── pages/
+│   └── profile-page/
+│       ├── ui/
+│       │   └── ProfilePage/ProfilePage.tsx
+│       └── model/
+│           └── types.ts
+│
+├── features/
+│   └── update-profile/
+│       ├── ui/
+│       │   └── UpdateProfileForm/UpdateProfileForm.tsx
+│       ├── hooks/
+│       │   └── useUpdateProfile.ts
+│       ├── lib/
+│       │   └── validateProfile.ts
+│       └── model/
+│           └── types.ts
+│
+├── entities/
+│   └── user/
+│       ├── ui/
+│       │   └── UserProfile/UserProfile.tsx
+│       ├── hooks/
+│       │   └── useUser.ts
+│       ├── lib/
+│       │   └── formatName.ts
+│       └── model/
+│           └── types.ts
+│
+├── widgets/
+│   └── chatbot-button/
+│       ├── ui/
+│       │   └── ChatbotButton/ChatbotButton.tsx
+│       ├── hooks/
+│       │   └── useChatbot.ts
+│       ├── lib/
+│       │   └── openChatbot.ts
+│       └── model/
+│           └── types.ts
+│
+└── shared/
+    ├── ui/
+    │   ├── button/Button.tsx
+    │   └── input/Input.tsx
+    ├── hooks/
+    │   └── useToggle.ts
+    ├── lib/
+    │   └── classNames.ts
+    └── types/
+        └── base-props.ts
+```
 
 ---
 
