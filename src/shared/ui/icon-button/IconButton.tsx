@@ -33,12 +33,14 @@ export const IconButton: React.FC<IconButtonProps> = ({
   label = '',
   labelColor = '#000000',
   className,
+  ...props
 }) => {
   const icons = Icons as unknown as Record<string, LucideIcon | undefined>
   const IconComponent: LucideIcon = icon ?? icons[iconType] ?? Icons.Circle
 
   return (
     <button
+      {...props}
       className={cn(
         styles.start,
         className,
