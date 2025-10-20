@@ -14,11 +14,13 @@ interface AccountCardProps extends BaseProps {
     isFavorite: boolean
   }
   onFavoriteSelect?: (accountNo: string) => void
+  onTransferClick?: () => void
 }
 
 export default function AccountCard({
   data,
   onFavoriteSelect,
+  onTransferClick,
 }: AccountCardProps) {
   const formatAccountNum = formatAccountNumberByBank(
     data.bankId,
@@ -54,7 +56,12 @@ export default function AccountCard({
 
       {/** 거래내역, 이체 버튼 */}
       <div className={styles.buttonWrapper}>
-        <button type="button" className={styles.button} aria-label="이체">
+        <button
+          type="button"
+          className={styles.button}
+          aria-label="이체"
+          onClick={onTransferClick}
+        >
           이체
         </button>
         <button type="button" className={styles.button} aria-label="거래내역">

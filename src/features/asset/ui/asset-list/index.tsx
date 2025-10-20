@@ -1,15 +1,9 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
 import type { Account } from '@/entities/account'
-import {
-  mutateOptions,
-  queryKeys,
-  useFetchAccounts,
-  useSetFavoriteAccount,
-  useUpdateCourse,
-} from '@/entities/account'
+import { useFetchAccounts, useSetFavoriteAccount } from '@/entities/account'
 import AccountCard from '@/entities/account/ui/account-card'
+import { useModal } from '@/shared/hooks'
 import type { BaseProps } from '@/shared/types'
 
 interface AssetListProps extends BaseProps {
@@ -20,6 +14,8 @@ export default function AssetList({ dummy }: AssetListProps) {
   const { data } = useFetchAccounts({ userId: '' })
   const content = data?.content
   const [accounts, setAccounts] = useState<Array<Account>>([])
+
+  const { open: openModal } = useModal()
 
   const setFavorite = useSetFavoriteAccount()
 
@@ -54,6 +50,13 @@ export default function AssetList({ dummy }: AssetListProps) {
     setFavorite.mutate(acc.accountNo)
   }
 
+  const handleTransferClick = async (acc: Account) => {
+    await openModal({
+      path: 'transfer-list',
+      props: acc,
+    })
+  }
+
   return (
     <div>
       {accounts.map((d: Account) => (
@@ -61,6 +64,7 @@ export default function AssetList({ dummy }: AssetListProps) {
           key={d.accountNo}
           data={d}
           onFavoriteSelect={() => handleFavoriteSelect(d)}
+          onTransferClick={() => handleTransferClick(d)}
         />
       ))}
     </div>
