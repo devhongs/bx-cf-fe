@@ -10,7 +10,7 @@ interface AssetListProps extends BaseProps {
   dummy?: any
 }
 
-export default function AssetList({ dummy }: AssetListProps) {
+export default function AssetList(_props: AssetListProps) {
   const { data } = useFetchAccounts({ userId: '' })
   const content = data?.content
   const [accounts, setAccounts] = useState<Array<Account>>([])

@@ -10,7 +10,7 @@ import { IconButton } from '../icon-button/IconButton'
 
 import styles from './Modal.module.css'
 
-export interface ModalProps<T = any> extends BaseProps {
+export interface ModalProps extends BaseProps {
   /**
    * openModal(ModalConfig) : ModalConfig.title 값
    */
@@ -34,7 +34,6 @@ const ModalComponent: React.FC<ModalProps> = ({
   children,
   className,
   closeButtonType = 'back',
-  ...props
 }) => {
   const { close: closeModal } = useModal()
 

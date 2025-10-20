@@ -6,11 +6,9 @@ import type { BaseProps } from '@/shared/types'
 
 import styles from './index.module.css'
 
-interface AlarmListProps extends BaseProps {
-  dummy?: any
-}
+interface AlarmListProps extends BaseProps {}
 
-export default function AlarmList({ dummy }: AlarmListProps) {
+export default function AlarmList(_props: AlarmListProps) {
   const { open: openModal } = useModal()
 
   const { data } = useFetchAlarms()

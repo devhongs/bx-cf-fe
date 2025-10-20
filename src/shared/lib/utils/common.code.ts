@@ -14,7 +14,7 @@ interface CodeOption {
  * @param {string} code
  */
 const getCodeList = (code = ''): Promise<Array<CodeItem>> =>
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
     const codeItems = $storageUtils.session(CONFIG.SESSION.CODE)
 
     if (!codeItems) {
@@ -78,7 +78,7 @@ const codeValue = (code: string, key: string, option?: CodeOption) => {
 }
 
 const codeValue2 = async (code: string, key: string) =>
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
     getCodeList(code).then((codeList: any) => {
       const item = codeList.find((d: any) => d.codeField === key)
       resolve(item.labelField)

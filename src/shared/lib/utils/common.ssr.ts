@@ -6,7 +6,7 @@ import i18next from 'i18next'
  * @param {object} param
  */
 const initializeSSR = async (lang: string, mltlnJson: object): Promise<any> =>
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
     const message = mltlnJson
     // console.log("message :: ", lang, JSON.stringify(message, null, 2))
     const options = {

@@ -4,7 +4,7 @@ interface AccountDetailProps {
   accoutNo?: number
 }
 
-export default function AccountDetail({ accoutNo = 1 }: AccountDetailProps) {
+export default function AccountDetail(_props: AccountDetailProps) {
   return (
     <Modal>
       <ModalTitle>계정 상세</ModalTitle>
