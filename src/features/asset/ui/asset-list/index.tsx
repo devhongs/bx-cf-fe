@@ -1,14 +1,7 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
 import type { Account } from '@/entities/account'
-import {
-  mutateOptions,
-  queryKeys,
-  useFetchAccounts,
-  useSetFavoriteAccount,
-  useUpdateCourse,
-} from '@/entities/account'
+import { useFetchAccounts, useSetFavoriteAccount } from '@/entities/account'
 import AccountCard from '@/entities/account/ui/account-card'
 import type { BaseProps } from '@/shared/types'
 
@@ -16,7 +9,7 @@ interface AssetListProps extends BaseProps {
   dummy?: any
 }
 
-export default function AssetList({ dummy }: AssetListProps) {
+export default function AssetList(_props: AssetListProps) {
   const { data } = useFetchAccounts({ userId: '' })
   const content = data?.content
   const [accounts, setAccounts] = useState<Array<Account>>([])

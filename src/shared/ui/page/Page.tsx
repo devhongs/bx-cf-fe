@@ -1,20 +1,16 @@
 import React from 'react'
-import type {FC, ReactNode} from 'react';
+import type { FC, ReactNode } from 'react'
 
 import { cn, getSlot } from '../../lib/utils'
 import type { BaseProps } from '../../types'
 
 import styles from './Page.module.css'
 
-export interface PageProps<T = any> extends BaseProps {
+export interface PageProps extends BaseProps {
   children?: React.ReactNode
 }
 
-const PageComponent: React.FC<PageProps> = ({
-  children,
-  className,
-  ...props
-}) => {
+const PageComponent: React.FC<PageProps> = ({ children, className }) => {
   const BodySlot = getSlot(children, PageBody)
 
   return (

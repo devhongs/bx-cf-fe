@@ -3,6 +3,8 @@
 import { isValid, parse } from 'date-fns'
 import dayjs from 'dayjs'
 
+import type { AddDay } from '@/shared/types'
+
 import { $storageUtils } from './common.storage'
 
 /**
