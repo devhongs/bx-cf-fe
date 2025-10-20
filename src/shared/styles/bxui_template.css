@@ -35,11 +35,6 @@ body,
 input,
 button,
 textarea {
-  font-family:
-    'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui',
-    'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Droid Sans',
-    'Helvetica Neue', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
   word-break: keep-all;
   -webkit-font-smoothing: antialiased;
 }
@@ -1512,11 +1507,6 @@ html[data-sidebar-size='lg'] #navbar .gnb button span.icon {
 
 .cmm-button {
   display: inline-block;
-  font-family:
-    'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui',
-    'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Droid Sans',
-    'Helvetica Neue', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
   font-weight: 500;
   line-height: 20px;
   text-align: center;

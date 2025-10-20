@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+
+.start {
+  @apply relative flex flex-col items-center justify-center;
+
+  .image {
+    @apply w-full h-full object-cover;
+  }
+
+  .name {
+    @apply text-sm font-bold pt-2;
+  }
+}

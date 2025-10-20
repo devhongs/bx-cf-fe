@@ -1,5 +1,4 @@
-import { useNavigate } from '@tanstack/react-router'
-import { Bell, LogOut, Settings } from 'lucide-react'
+import { Bell, Settings } from 'lucide-react'
 
 import { useModal } from '@/shared/hooks/useModal'
 import type { BaseProps } from '@/shared/types'
@@ -12,19 +11,18 @@ interface HeaderRightProps extends BaseProps {
 }
 
 export function HeaderRight({ pageTitle }: HeaderRightProps) {
-  const navigate = useNavigate()
   const { open: openModal } = useModal()
 
-  const handleAlarm = async () => {
-    const result = await openModal({
+  const handleAlarm = () => {
+    openModal({
       path: 'alarm-list', // 폴더명만 입력!
     })
-    console.log(result)
   }
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('sessionId')
-    navigate({ to: '/login' })
+  const handleSettingClick = () => {
+    openModal({
+      path: 'setting',
+    })
   }
 
   if (pageTitle === '메뉴') {
@@ -35,12 +33,7 @@ export function HeaderRight({ pageTitle }: HeaderRightProps) {
           size="sm"
           icon={Settings}
           label="설정"
-        />
-        <IconButton
-          size="sm"
-          icon={LogOut}
-          onClick={handleLogout}
-          label="로그아웃"
+          onClick={handleSettingClick}
         />
       </>
     )

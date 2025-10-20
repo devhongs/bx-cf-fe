@@ -94,10 +94,14 @@ export const ModalDescription: FC<{ children: ReactNode }> = ({ children }) => {
 /**
  * ModalBody
  * @param children
+ * @param className
  * @constructor
  */
-export const ModalBody: FC<{ children: ReactNode }> = ({ children }) => {
-  return <>{children}</>
+export const ModalBody: FC<{ children: ReactNode; className?: string }> = ({
+  children,
+  className,
+}) => {
+  return <div className={cn(styles.body, className)}>{children}</div>
 }
 
 /**
