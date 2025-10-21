@@ -2,7 +2,7 @@ import CONFIG from '@/shared/constants/siteConfig'
 import type { CodeItem } from '@/shared/types/index'
 
 import { $formatUtils } from './common.format'
-import { $storageUtils } from './common.storage'
+import { session } from './storage-util'
 
 interface CodeOption {
   visibleCode?: boolean
@@ -15,7 +15,7 @@ interface CodeOption {
  */
 const getCodeList = (code = ''): Promise<Array<CodeItem>> =>
   new Promise((resolve) => {
-    const codeItems = $storageUtils.session(CONFIG.SESSION.CODE)
+    const codeItems = session.get(CONFIG.SESSION.CODE)
 
     if (!codeItems) {
       resolve([])
@@ -40,7 +40,7 @@ const getCodeList = (code = ''): Promise<Array<CodeItem>> =>
  * @returns : 변환된 라벨
  */
 const codeValue = (code: string, key: string, option?: CodeOption) => {
-  const codeItems = $storageUtils.session(CONFIG.SESSION.CODE)
+  const codeItems = session.get(CONFIG.SESSION.CODE)
 
   if (!codeItems) {
     return key
@@ -62,7 +62,7 @@ const codeValue = (code: string, key: string, option?: CodeOption) => {
   let result = ''
 
   if (settings.visibleCode && settings.visibleName) {
-    const coreData = $storageUtils.getSessionCoreData()
+    const coreData = session.get(CONFIG.SESSION.CORE_DATA)
     result = $formatUtils.paramsFormat(
       coreData.codeFormat,
       codeItem.codeField,
@@ -86,7 +86,7 @@ const codeValue2 = async (code: string, key: string) =>
   })
 
 const valueList = (code: string) => {
-  const codeItems = $storageUtils.session(CONFIG.SESSION.CODE)
+  const codeItems = session.get(CONFIG.SESSION.CODE)
   const codeInfo = codeItems[code]
   return codeInfo.map((item: any) => item.codeField)
 }
