@@ -6,7 +6,8 @@ html {
 }
 
 body {
-  @apply m-0;
+  margin: 0;
+  font-family: 'Pretendard', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -14,4 +15,12 @@ body {
 code {
   font-family:
     source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/pretendard/dist/web/variable/woff2/PretendardVariable.woff2')
+    format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
 }

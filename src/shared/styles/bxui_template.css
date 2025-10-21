@@ -10,7 +10,7 @@
 *_________________________________________________________________________
 * 2024-11-14             이자랑                 최초작성
 *************************************************************************/
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+/* @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css'); */
 /************************************ Base Reset Style S ************************************/
 * {
   -webkit-text-size-adjust: 100%;
@@ -152,13 +152,13 @@ p,
 blockquote,
 th,
 td,
-button {
+/* button {
   margin: 0;
   padding: 0;
   font-family: 'Pretendard', sans-serif;
   font-weight: normal;
   outline: none;
-}
+} */
 
 section,
 nav,
