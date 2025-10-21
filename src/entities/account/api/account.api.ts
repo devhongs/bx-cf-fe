@@ -1,4 +1,4 @@
-import type { ApiListResponse } from '@/shared/api/types'
+import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
 import { API_URL } from '@/shared/constants'
 import HttpJsonService from '@/shared/lib/ajax/http.json.service'
 import { httpService } from '@/shared/lib/ajax/http.service'
@@ -26,8 +26,9 @@ export default class AccountService {
    * @param accountNo - 조회할 계좌 No.
    * @returns 계좌 상세 정보 Promise.
    */
-  static async fetch<T = Account>(accountNo: string): Promise<T> {
-    return httpService.get<T>(`${API_URL}/accounts/${accountNo}`)
+  static async fetch<T = Account>(accountNo: string): Promise<ApiResponse<T>> {
+    // return httpService.get<T>(`${API_URL}/accounts/${accountNo}`)
+    return HttpJsonService.fetch<T>(`${API_URL}/accounts/${accountNo}`)
   }
 
   /**

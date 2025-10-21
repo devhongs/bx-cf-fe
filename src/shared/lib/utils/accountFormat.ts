@@ -20,15 +20,15 @@ export const BANK_FORMATS: Partial<Record<BankId, BankFormatRule>> = {
     // 국민은행 (예시)
     groups: (len) => (len === 12 ? [3, 3, 6] : [3, 2, 7]), // 제품에 따라 달라질 수 있음
   },
-  SHINHAN: {
+  SH: {
     // 신한 (예시)
     groups: [3, 3, 6],
   },
-  WOORI: {
+  WR: {
     // 우리 (예시)
     groups: (len) => (len === 12 ? [4, 2, 6] : [3, 3, 6]),
   },
-  HANA: {
+  HN: {
     // 하나 (예시)
     groups: [3, 3, 6],
   },
@@ -40,14 +40,31 @@ export const BANK_FORMATS: Partial<Record<BankId, BankFormatRule>> = {
     // 기업 (예시)
     groups: [3, 3, 6],
   },
-  KAKAO: {
+  KK: {
     // 카카오뱅크 (예시)
     groups: (len) => (len === 11 ? [4, 2, 5] : [3, 3, 5]),
   },
-  TOSS: {
+  TS: {
     // 토스뱅크 (예시)
     groups: (len) => (len === 12 ? [4, 3, 5] : [3, 3, 6]),
   },
+  KDB: {
+    // 산업은행 (일반적으로 12자리, 3-2-7 또는 3-3-6)
+    groups: (len) => (len === 12 ? [3, 2, 7] : [3, 3, len - 6]),
+  },
+  SC: {
+    // SC제일은행 (계좌번호 11~12자리, 보통 3-2-6)
+    groups: (len) => (len >= 11 ? [3, 2, len - 5] : [3, len - 3]),
+  },
+  CT: {
+    // 씨티은행 (10~11자리, 보통 3-3-5)
+    groups: (len) => (len === 10 ? [3, 3, 4] : [3, 3, len - 6]),
+  },
+  KT: {
+    // 케이뱅크 (보통 12자리, 3-3-6 형태)
+    groups: (len) => (len === 12 ? [3, 3, 6] : [3, len - 3]),
+  },
+
   ETC: {
     // 기타/모름: 범용 기본값
     groups: (len) => (len >= 12 ? [3, 3, len - 6] : [3, len - 3]), // 3-3-나머지

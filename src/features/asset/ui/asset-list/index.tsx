@@ -50,8 +50,8 @@ export default function AssetList(_props: AssetListProps) {
     setFavorite.mutate(acc.accountNo)
   }
 
-  const handleTransferClick = async (acc: Account) => {
-    await openModal({
+  const handleTransferClick = (acc: Account) => {
+    openModal({
       path: 'transfer-list',
       props: acc,
     })

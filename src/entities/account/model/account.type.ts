@@ -1,12 +1,16 @@
 export type BankId =
   | 'KB' // 국민
-  | 'SHINHAN' // 신한
-  | 'WOORI' // 우리
-  | 'HANA' // 하나
+  | 'SH' // 신한
+  | 'HN' // 하나
+  | 'WR' // 우리
   | 'NH' // 농협
   | 'IBK' // 기업
-  | 'KAKAO' // 카카오뱅크
-  | 'TOSS' // 토스뱅크
+  | 'KDB' // 산업
+  | 'SC' // SC제일
+  | 'CT' // 씨티
+  | 'KT' // 케이뱅크
+  | 'KK' // 카카오뱅크
+  | 'TS' // 토스뱅크
   | 'ETC' // 기타 (fallback)
 
 export interface AccountsQueryParams {

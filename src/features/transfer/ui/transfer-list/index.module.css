@@ -1,0 +1,25 @@
+@import 'tailwindcss';
+
+.transferListContainer {
+  @apply flex flex-col gap-4;
+}
+.transferTitle {
+  @apply text-[20px] font-bold mb-4;
+}
+.transferForm {
+  @apply flex flex-col gap-4;
+
+  .formInput {
+    @apply p-3 border border-gray-300 rounded-lg;
+  }
+
+  .formSelect {
+    @apply w-full p-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer;
+  }
+  .selectOption {
+    @apply bg-white text-gray-800 hover:bg-gray-100;
+  }
+  .submitButton {
+    @apply p-3 rounded-lg bg-gray-300 text-gray-800 font-medium hover:opacity-90 transition;
+  }
+}

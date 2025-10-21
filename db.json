@@ -15,7 +15,7 @@
     },
     {
       "id": "110234567890",
-      "bankId": "SHINHAN",
+      "bankId": "SH",
       "accountNo": "110234567890",
       "accountName": "신한저축예금",
       "amount": 7850000,
@@ -39,7 +39,7 @@
     },
     {
       "id": "1002567890123",
-      "bankId": "WOORI",
+      "bankId": "WR",
       "accountNo": "1002567890123",
       "accountName": "우리은행 주거래통장",
       "amount": 12500000,
@@ -51,7 +51,7 @@
     },
     {
       "id": "620345678901",
-      "bankId": "HANA",
+      "bankId": "HN",
       "accountNo": "620345678901",
       "accountName": "하나은행 적금통장",
       "amount": 5600000,
