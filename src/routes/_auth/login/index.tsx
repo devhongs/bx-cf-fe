@@ -2,6 +2,7 @@ import { Button, InputBox, Section, ViewBox } from '@bwg-ds/core'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
 import useForm from '@/shared/hooks/useForm'
+import { session } from '@/shared/lib/utils'
 
 export const Route = createFileRoute('/_auth/login/')({
   component: RouteComponent,
@@ -22,7 +23,7 @@ function RouteComponent() {
     console.log('submit')
 
     // TODO: login 처리 로직 추가
-    sessionStorage.setItem('sessionId', '1234567890')
+    session.set('sessionId', '1234567890')
     navigate({ to: '/main' })
   }
 

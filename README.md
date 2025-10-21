@@ -1,6 +1,9 @@
 # 📘 프로젝트 개요
 
-이 프로젝트는 **React + TypeScript** 기반의 웹 애플리케이션이며, **FSD(Folder Structure Design)** 아키텍처를 따릅니다. 기능 중심의 구조로 유지보수성과 확장성을 높이는 것을 목표로 합니다.
+이 프로젝트는 React + TypeScript 기반의 웹 애플리케이션이며, FSD(Folder Structure Design) 아키텍처를 적용하여 기능 단위로 구조화되었습니다.
+개발 생산성과 유지보수성을 높이고, 서비스 확장에 유연하게 대응할 수 있도록 설계되었습니다.
+
+번들러로는 Vite를 사용하고 있으며, 개발 환경에서는 API 서버를 대체하기 위해 json-server를 활용한 Mock Server를 사용합니다.
 
 ---
 
@@ -177,9 +180,9 @@ src/
 | :----------- | :--------- | :------------------ | :----------------------- |
 | **새그먼트** | kebak-case | -                   | -                        |
 | **컴포넌트** | kebak-case | PascalCase (`.tsx`) | PascalCase               |
-| **훅**       | kebak-case | camelCase (`.ts`)   | camelCase (`use` 접두사) |
-| **유틸리티** | kebak-case | camelCase (`.ts`)   | camelCase                |
 | **타입**     | kebak-case | camelCase (`.ts`)   | PascalCase               |
+| **훅**       | kebak-case | camelCase (`.ts`)   | camelCase (`use` 접두사) |
+| **유틸리티** | kebak-case | kebak-case (`.ts`)  | camelCase                |
 
 <br>
 

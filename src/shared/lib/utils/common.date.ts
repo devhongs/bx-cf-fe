@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 
 import type { AddDay } from '@/shared/types'
 
-import { $storageUtils } from './common.storage'
+import { session } from './storage-util'
 
 /**
  * 일자를 리턴한다 (전문설정일자)
@@ -15,7 +15,7 @@ const today = () =>
   // 전문에서 일자를 가져온다.
   typeof window !== 'undefined'
     ? // 로그인을 하지 않을경우 세션에 값이 없을 수 있어 사용자 컴퓨터 날짜 Set.
-      $storageUtils.session('txDt') || getClientDate()
+      session.get('txDt') || getClientDate()
     : null
 
 /**
