@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 
 import { useFetchRecentAccounts } from '@/entities/account'
 import type { BankId } from '@/entities/account'
+import { BANK_OPTIONS } from '@/shared/constants'
+import { useModal } from '@/shared/hooks'
 import { formatAccountNumberByBank } from '@/shared/lib/utils'
 import type { BaseProps } from '@/shared/types'
 
@@ -11,21 +13,6 @@ interface TransferListProps extends BaseProps {
   dummy?: any
 }
 
-const BANK_OPTIONS: Array<{ id: BankId; name: string }> = [
-  { id: 'KB', name: 'KB국민은행' },
-  { id: 'SH', name: '신한은행' },
-  { id: 'HN', name: '하나은행' },
-  { id: 'WR', name: '우리은행' },
-  { id: 'NH', name: 'NH농협은행' },
-  { id: 'IBK', name: 'IBK기업은행' },
-  { id: 'KDB', name: 'KDB산업은행' },
-  { id: 'SC', name: 'SC제일은행' },
-  { id: 'CT', name: '씨티은행' },
-  { id: 'KT', name: '케이뱅크' },
-  { id: 'KK', name: '카카오뱅크' },
-  { id: 'TS', name: '토스뱅크' },
-]
-
 export default function TransferList({ dummy }: TransferListProps) {
   const { data } = useFetchRecentAccounts({ userId: '' })
   const content = data?.content
@@ -33,11 +20,23 @@ export default function TransferList({ dummy }: TransferListProps) {
   const [accountNum, setAccountNum] = useState<string>('')
   const [bankId, setBankId] = useState<BankId>()
 
+  const { open: openModal } = useModal()
+
   useEffect(() => {
     if (content) {
       setRecentAccounts(content)
     }
   }, [content])
+
+  const handleNextClick = () => {
+    openModal({
+      path: 'transfer-amount',
+      props: {
+        bankId,
+        accountNo: accountNum,
+      },
+    })
+  }
 
   return (
     <div className={styles.transferListContainer}>
@@ -76,7 +75,11 @@ export default function TransferList({ dummy }: TransferListProps) {
         </select>
 
         {/* 다음 버튼 */}
-        <button type="submit" className={styles.submitButton}>
+        <button
+          type="button"
+          className={styles.submitButton}
+          onClick={() => handleNextClick()}
+        >
           다음
         </button>
       </form>
