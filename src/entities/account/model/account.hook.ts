@@ -35,6 +35,18 @@ export const useFetchAccount = <T = Account>(
 }
 
 /**
+ * 최근 보낸 계좌 정보를 가져오는 쿼리 훅.
+ * @param params - 계좌 목록 조회 쿼리 파라미터.
+ * @param options - 추가 쿼리 옵션.
+ */
+export const useFetchRecentAccounts = <T = Account>(
+  params: AccountsQueryParams,
+  options?: UseQueryOptions<ApiListResponse<T>, Error>,
+): UseQueryResult<ApiListResponse<T>, Error> => {
+  return useQuery({ ...queryOptions.fetchRecentList<T>(params), ...options })
+}
+
+/**
  * 새로운 계좌를 생성하는 뮤테이션 훅.
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */

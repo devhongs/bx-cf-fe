@@ -36,6 +36,24 @@ export default class HttpJsonService {
   }
 
   /**
+   * 여러 데이터를 페이지네이션 형태로 조회합니다.
+   * @template T
+   * @param {string} url - 요청할 URL
+   * @param {any} [queryParam] - 쿼리 파라미터 (선택)
+   * @returns {Promise<ApiListResponse <T>>} 페이지네이션 API 응답 Promise
+   */
+  static async fetchRecent<T>(
+    url: string,
+    queryParam?: any,
+  ): Promise<ApiListResponse<T>> {
+    const query = toQueryParams(queryParam)
+    const fullUrl = query ? `${url}/?${query}` : url
+    const res = await fetch(fullUrl)
+    const data = await res.json()
+    return convertApiListResponse<T>(data)
+  }
+
+  /**
    * 데이터를 생성(POST)합니다.
    * @template T
    * @param {string} url - 요청할 URL

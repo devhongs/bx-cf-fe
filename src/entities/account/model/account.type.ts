@@ -30,7 +30,10 @@ export interface Account {
    * 은행 식별자 (국민=KB, 신한=SHINHAN 등)
    */
   bankId: BankId
-
+  /**
+   * 예금주 이름
+   */
+  name: string
   /**
    * 계좌 번호
    */

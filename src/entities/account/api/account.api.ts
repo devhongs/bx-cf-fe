@@ -31,6 +31,12 @@ export default class AccountService {
     return HttpJsonService.fetch<T>(`${API_URL}/accounts/${accountNo}`)
   }
 
+  static async fetchRecent<T = Account>(
+    params?: AccountsQueryParams,
+  ): Promise<ApiListResponse<T>> {
+    return HttpJsonService.fetchRecent<T>(`${API_URL}/recentAccounts`, params)
+  }
+
   /**
    * 새로운 계좌을 생성합니다.
    * @param payload - 생성할 계좌 정보.

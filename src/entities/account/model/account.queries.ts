@@ -9,6 +9,7 @@ import type { Account, AccountsQueryParams } from './account.type'
 export const queryKeys = {
   fetchList: ['accounts'] as const,
   fetch: (id: string) => ['account', id] as const,
+  fetchRecentList: ['recent'] as const,
 }
 
 export const queryOptions = {
@@ -24,6 +25,13 @@ export const queryOptions = {
   fetch: <T = Account>(accountNo: string): UseQueryOptions<ApiResponse<T>> => ({
     queryKey: queryKeys.fetch(accountNo),
     queryFn: () => AccountService.fetch(accountNo),
+  }),
+  fetchRecentList: <T = Account>(
+    params: AccountsQueryParams,
+  ): UseQueryOptions<ApiListResponse<T>> => ({
+    queryKey: queryKeys.fetchRecentList,
+    queryFn: async (): Promise<ApiListResponse<T>> =>
+      AccountService.fetchRecent(params),
   }),
 }
 

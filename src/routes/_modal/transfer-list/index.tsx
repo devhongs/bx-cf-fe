@@ -18,7 +18,6 @@ export default function TransferListModal({ props }: TransferListModalProps) {
     <Modal>
       <ModalTitle>이체</ModalTitle>
       <ModalBody>
-        {accountNo}
         <TransferList />
       </ModalBody>
     </Modal>

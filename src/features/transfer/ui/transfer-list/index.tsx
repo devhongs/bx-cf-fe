@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
+import { useFetchRecentAccounts } from '@/entities/account'
 import type { BankId } from '@/entities/account'
 import type { BaseProps } from '@/shared/types'
 
@@ -25,8 +26,17 @@ const BANK_OPTIONS: Array<{ id: BankId; name: string }> = [
 ]
 
 export default function TransferList({ dummy }: TransferListProps) {
+  const { data } = useFetchRecentAccounts({ userId: '' })
+  const content = data?.content
+  const [recentAccounts, setRecentAccounts] = useState<Array<any>>([])
   const [accountNum, setAccountNum] = useState<string>('')
   const [bankId, setBankId] = useState<BankId>()
+
+  useEffect(() => {
+    if (content) {
+      setRecentAccounts(content)
+    }
+  }, [content])
 
   return (
     <div className={styles.transferListContainer}>
@@ -47,10 +57,10 @@ export default function TransferList({ dummy }: TransferListProps) {
         {/* 은행 선택 */}
         <select
           className={styles.formSelect}
-          value={bankId}
+          value={bankId ?? ''}
           onChange={(e) => setBankId(e.target.value as BankId)}
         >
-          <option value="" selected disabled>
+          <option value="" disabled>
             은행 선택
           </option>
           {BANK_OPTIONS.map((bank) => (
@@ -69,6 +79,30 @@ export default function TransferList({ dummy }: TransferListProps) {
           다음
         </button>
       </form>
+      {/* 최근 보낸 계좌 */}
+      <section className={styles.recentSection}>
+        <div className={styles.recentTitle}>최근 보낸 계좌</div>
+
+        <div className={styles.recentList} role="list">
+          {recentAccounts.map((acc) => {
+            const bank = BANK_OPTIONS.find((b) => b.id === acc.bankId)
+            const bankName = bank ? bank.name : acc.bankId
+
+            return (
+              <div
+                className={styles.recentItem}
+                key={acc.accountNo}
+                role="listitem"
+              >
+                <div className={styles.recentName}>{acc.name}</div>
+                <div className={styles.recentNumber}>
+                  {bankName} {acc.accountNo}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </section>
     </div>
   )
 }
