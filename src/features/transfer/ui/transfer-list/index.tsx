@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { useFetchRecentAccounts } from '@/entities/account'
 import type { BankId } from '@/entities/account'
+import { formatAccountNumberByBank } from '@/shared/lib/utils'
 import type { BaseProps } from '@/shared/types'
 
 import styles from './index.module.css'
@@ -88,6 +89,11 @@ export default function TransferList({ dummy }: TransferListProps) {
             const bank = BANK_OPTIONS.find((b) => b.id === acc.bankId)
             const bankName = bank ? bank.name : acc.bankId
 
+            const formattedAccountNum = formatAccountNumberByBank(
+              acc.bankId,
+              acc.accountNo,
+            )
+
             return (
               <div
                 className={styles.recentItem}
@@ -96,7 +102,7 @@ export default function TransferList({ dummy }: TransferListProps) {
               >
                 <div className={styles.recentName}>{acc.name}</div>
                 <div className={styles.recentNumber}>
-                  {bankName} {acc.accountNo}
+                  {bankName} {formattedAccountNum}
                 </div>
               </div>
             )
