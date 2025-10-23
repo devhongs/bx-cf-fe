@@ -1,5 +1,6 @@
 import { redirect } from '@tanstack/react-router'
 
+import { STORAGE_KEYS } from '../constants'
 import { session } from '../lib/utils'
 
 export const requireAuth = ({ location, context }: any) => {
@@ -14,6 +15,6 @@ export const requireAuth = ({ location, context }: any) => {
 }
 
 const checkLogin = (): boolean => {
-  const sessionId = session.get('sessionId')
+  const sessionId = session.get(STORAGE_KEYS.SESSION_ID)
   return !!sessionId
 }

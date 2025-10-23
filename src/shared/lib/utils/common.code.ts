@@ -4,6 +4,8 @@ import type { CodeItem } from '@/shared/types/index'
 import { $formatUtils } from './common.format'
 import { session } from './storage-util'
 
+type CodeMap = Record<string, Array<CodeItem>>
+
 interface CodeOption {
   visibleCode?: boolean
   visibleName?: boolean
@@ -15,21 +17,19 @@ interface CodeOption {
  */
 const getCodeList = (code = ''): Promise<Array<CodeItem>> =>
   new Promise((resolve) => {
-    const codeItems = session.get(CONFIG.SESSION.CODE)
+    const codeItems = session.get<Record<string, Array<CodeItem>>>(
+      CONFIG.SESSION.CODE,
+    )
 
     if (!codeItems) {
       resolve([])
+      return
     }
 
-    const codeInfo = codeItems[code]
+    const codeInfo = codeItems[code] ?? []
     // console.log("getCodeList codeInfo :: ", codeInfo)
 
-    // 세션 확인
-    if (codeInfo) {
-      resolve(codeInfo)
-    } else if (typeof window !== 'undefined') {
-      resolve([])
-    }
+    resolve(codeInfo)
   })
 
 /**
@@ -40,17 +40,17 @@ const getCodeList = (code = ''): Promise<Array<CodeItem>> =>
  * @returns : 변환된 라벨
  */
 const codeValue = (code: string, key: string, option?: CodeOption) => {
-  const codeItems = session.get(CONFIG.SESSION.CODE)
+  const codeItems = session.get<CodeMap>(CONFIG.SESSION.CODE)
 
   if (!codeItems) {
     return key
   }
 
-  const codeInfo = codeItems[code] || []
-  const codeItem = codeInfo.find((item: any) => item.codeField === key) || {}
+  const codeInfo = codeItems[code] ?? []
+  const codeItem = codeInfo.find((item) => item.codeField === key)
 
   // 코드 없을 경우 받은 값 return
-  if (Object.keys(codeItem).length === 0) {
+  if (!codeItem) {
     return key
   }
 
@@ -62,9 +62,9 @@ const codeValue = (code: string, key: string, option?: CodeOption) => {
   let result = ''
 
   if (settings.visibleCode && settings.visibleName) {
-    const coreData = session.get(CONFIG.SESSION.CORE_DATA)
+    const coreData = session.get<any>(CONFIG.SESSION.CORE_DATA)
     result = $formatUtils.paramsFormat(
-      coreData.codeFormat,
+      coreData?.codeFormat,
       codeItem.codeField,
       codeItem.labelField,
     )
@@ -86,9 +86,11 @@ const codeValue2 = async (code: string, key: string) =>
   })
 
 const valueList = (code: string) => {
-  const codeItems = session.get(CONFIG.SESSION.CODE)
-  const codeInfo = codeItems[code]
-  return codeInfo.map((item: any) => item.codeField)
+  const codeItems = session.get<CodeMap>(CONFIG.SESSION.CODE)
+  if (!codeItems) return []
+
+  const codeInfo = codeItems[code] ?? []
+  return codeInfo.map((item) => item.codeField)
 }
 
 export const $codeUtils = {

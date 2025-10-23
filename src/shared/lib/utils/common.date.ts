@@ -3,6 +3,7 @@
 import { isValid, parse } from 'date-fns'
 import dayjs from 'dayjs'
 
+import { STORAGE_KEYS } from '@/shared/constants'
 import type { AddDay } from '@/shared/types'
 
 import { session } from './storage-util'
@@ -15,7 +16,7 @@ const today = () =>
   // 전문에서 일자를 가져온다.
   typeof window !== 'undefined'
     ? // 로그인을 하지 않을경우 세션에 값이 없을 수 있어 사용자 컴퓨터 날짜 Set.
-      session.get('txDt') || getClientDate()
+      session.get<string>(STORAGE_KEYS.TX_DT) || getClientDate()
     : null
 
 /**
