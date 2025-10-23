@@ -95,21 +95,28 @@ const joinByGroups = (
 
 /**
  * 은행별 계좌번호 포맷팅
- * @param bankId 은행 식별자
+ * @param bankId 은행 식별자 (없으면 fallback 규칙 사용)
  * @param accountNo 원본 계좌번호 (number|string)
  * @param fallback 은행 규칙을 못 찾았을 때 사용할 기본 구분자 (기본 '-')
  */
 export const formatAccountNumberByBank = (
-  bankId: BankId,
+  bankId: BankId | undefined,
   accountNo: number | string,
   fallback: BankFormatRule = {
     groups: (len) => (len >= 12 ? [3, 3, len - 6] : [3, len - 3]),
   },
 ): string => {
   const raw = String(accountNo)
-  const baseRule = BANK_FORMATS[bankId] ?? fallback
+  if (!raw) return '' // 계좌번호가 비어있으면 그대로 반환
+
+  // 규칙 선택: bankId가 없거나 매핑이 없으면 fallback
+  const baseRule: BankFormatRule =
+    (bankId ? BANK_FORMATS[bankId] : undefined) ?? fallback
+
   const sep = baseRule.separator ?? '-'
   const normalized = (baseRule.normalize ?? onlyDigits)(raw)
+
+  if (!normalized) return '' // 모두 비숫자였던 경우 등
 
   const groups =
     typeof baseRule.groups === 'function'

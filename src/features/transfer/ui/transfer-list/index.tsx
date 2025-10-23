@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { useFetchRecentAccounts } from '@/entities/account'
-import type { BankId } from '@/entities/account'
+import type { Account, BankId } from '@/entities/account'
 import { BANK_OPTIONS } from '@/shared/constants'
 import { useModal } from '@/shared/hooks'
 import { formatAccountNumberByBank } from '@/shared/lib/utils'
@@ -28,12 +28,17 @@ export default function TransferList({ dummy }: TransferListProps) {
     }
   }, [content])
 
-  const handleNextClick = () => {
+  const handleNextClick = (acc?: Account) => {
+    const targetBankId = acc?.bankId ?? bankId
+    const targetAccountNum = acc?.accountNo ?? accountNum
+    if (!targetBankId || !targetAccountNum) return
+
     openModal({
       path: 'transfer-amount',
       props: {
-        bankId,
-        accountNo: accountNum,
+        bankId: targetBankId,
+        accountNo: targetAccountNum,
+        name: acc?.name,
       },
     })
   }
@@ -102,6 +107,7 @@ export default function TransferList({ dummy }: TransferListProps) {
                 className={styles.recentItem}
                 key={acc.accountNo}
                 role="listitem"
+                onClick={() => handleNextClick(acc)}
               >
                 <div className={styles.recentName}>{acc.name}</div>
                 <div className={styles.recentNumber}>

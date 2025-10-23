@@ -24,6 +24,7 @@ export const ROUTES = {
   MAIN2: '/main/main2',
 } as const
 
+// 은행 옵션 목록
 export const BANK_OPTIONS: Array<{ id: BankId; name: string }> = [
   { id: 'KB', name: 'KB국민은행' },
   { id: 'SH', name: '신한은행' },
