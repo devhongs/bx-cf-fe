@@ -32,20 +32,22 @@ function RouteComponent() {
     <Section>
       <ViewBox>
         <div className="signup-form">
-          <h1 className="signup-form__brand">BXUI</h1>
-
           <div className="signup-form__header">
             <h2 className="signup-form__title">Hello 👋 Sign up here</h2>
-            <p className="signup-form__subtitle">
-              Your data is protected (at all cost)
-            </p>
           </div>
 
-          <Button color=" signup-form__social-button">
-            Sign up with facebook
-          </Button>
-
-          <div className="signup-form__divider">OR</div>
+          {/* <input
+            name="email"
+            type="email"
+            placeholder="Email Address*"
+            className="signup-form__input"
+          />
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            className="signup-form__input"
+          /> */}
 
           <InputBox
             control={control}
