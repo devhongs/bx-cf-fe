@@ -1,4 +1,3 @@
-import { BwgProvider } from '@bwg-ds/core'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { StrictMode } from 'react'
@@ -11,7 +10,6 @@ import { queryClient } from '../queryClient.ts'
 import reportWebVitals from './reportWebVitals.ts'
 import { routeTree } from './routeTree.gen'
 
-import '@bwg-ds/core/dist/core.css'
 import '@/shared/styles/bxui_template.css'
 import '@/shared/styles/styles.css'
 
@@ -34,22 +32,12 @@ declare module '@tanstack/react-router' {
 
 const rootElement = document.getElementById('app')
 if (rootElement && !rootElement.innerHTML) {
-  const settings = {
-    license: import.meta.env.VITE_BXUI_LICENSE,
-    codeFormat: '[{0}] {1}',
-    viewBoxSettings: {
-      showToggle: false,
-    },
-  }
-
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <BwgProvider settings={settings}>
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-        </QueryClientProvider>
-      </BwgProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </StrictMode>,
   )
 }

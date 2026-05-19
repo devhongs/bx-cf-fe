@@ -57,8 +57,6 @@ const CONFIG = {
   MESSAGE: {
     I18N_ERROR:
       '다국어 수신 중 오류가 발생하였습니다. 관리자에게 문의하시기 바랍니다.',
-    CORE_VERSION_ERROR:
-      '프로젝트의 @bwg-ds/core 버전과 로컬 @bwg-ds/core 버전이 일치하지 않습니다. 종료 후 `npm install`을 진행해주세요.',
   },
   DEVICE: {
     ANDROID: 'Android',

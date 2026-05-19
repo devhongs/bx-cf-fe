@@ -1,4 +1,4 @@
-import { useForm as useReactHookForm } from '@bwg-ds/core/react-hook-form'
+import { useForm as useReactHookForm } from 'react-hook-form'
 
 import { $validUtils } from '@/shared/lib/utils'
 

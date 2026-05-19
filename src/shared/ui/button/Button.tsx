@@ -1,9 +1,21 @@
-import type { ReactNode } from 'react'
+import type { ButtonHTMLAttributes, ReactNode } from 'react'
 
-export interface ButtonProps {
-  children: ReactNode
+import { cn } from '@/shared/lib/utils'
+
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children?: ReactNode
 }
 
-export default function Button({ children }: ButtonProps) {
-  return <button>{children}</button>
+export default function Button({ className, children, ...props }: ButtonProps) {
+  return (
+    <button
+      {...props}
+      className={cn(
+        'py-2 px-4 rounded-md text-white bg-primary cursor-pointer disabled:bg-gray-400',
+        className,
+      )}
+    >
+      {children}
+    </button>
+  )
 }

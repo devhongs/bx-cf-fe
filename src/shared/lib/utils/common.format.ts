@@ -1,4 +1,3 @@
-import { IMask } from '@bwg-ds/core'
 import { format, parseISO } from 'date-fns'
 
 /**
@@ -26,13 +25,14 @@ const timeFormat = (data: any) => {
     return data
   }
 
-  const masked = IMask.createMask({
-    // mask: "+7 (000) 000-00-00",
-    mask: '00:00:00',
-    // ...and other options
-  })
-  masked.resolve(data)
-  return masked.value
+  const clean = String(data).replace(/\D/g, '')
+  if (clean.length === 6) {
+    return `${clean.substring(0, 2)}:${clean.substring(2, 4)}:${clean.substring(4, 6)}`
+  }
+  if (clean.length === 4) {
+    return `${clean.substring(0, 2)}:${clean.substring(2, 4)}`
+  }
+  return data
 }
 
 /**
@@ -88,19 +88,15 @@ const timeMillisecondFormat = (data: any) => {
  * @returns
  */
 const currencyFormat = (data: any, scale = 0) => {
-  // if (!data) return data
-  const currencyPipe = IMask.createPipe({
-    // mask: "+7 (000) 000-00-00",
-    mask: Number,
-    scale,
-    thousandsSeparator: ',',
-    // normalizeZeros: true,
-    padFractionalZeros: true,
-    // ...and other options
-    radix: '.',
+  if (data === null || data === undefined || data === '') {
+    return ''
+  }
+  const num = Number(data)
+  if (isNaN(num)) return data
+  return num.toLocaleString('en-US', {
+    minimumFractionDigits: scale,
+    maximumFractionDigits: scale,
   })
-  // console.log("data :: ", data)
-  return currencyPipe(String(data))
 }
 
 /**

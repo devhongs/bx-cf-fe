@@ -17,6 +17,7 @@ function RouteComponent() {
         <MenuList className={styles.menuList} />
         <IconButton
           size="sm"
+          variant="secondary"
           icon={MessageCircle}
           className={styles.chatbotButton}
           label="상담챗봇"

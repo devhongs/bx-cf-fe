@@ -14,11 +14,11 @@ export const Route = createFileRoute('/_page')({
 function RouteComponent() {
   return (
     <div className={styles.start}>
-      <Header className={styles.header} />
+      <Header />
       <main className={styles.main}>
         <Outlet />
       </main>
-      <Footer className={styles.footer} />
+      <Footer />
     </div>
   )
 }
