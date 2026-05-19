@@ -28,7 +28,7 @@ export function Header(props: HeaderProps) {
   )
 
   return (
-    <header className={cn(styles.start, props.className)}>
+    <header className={cn(styles.layout, props.className)}>
       <div className={styles.left}>
         <HeaderLeft pageTitle={pageTitle} />
       </div>

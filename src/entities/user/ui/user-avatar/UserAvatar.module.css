@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-.start {
+.layout {
   @apply relative flex flex-col items-center justify-center;
 
   .image {

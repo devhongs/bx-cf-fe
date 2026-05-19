@@ -1,6 +1,6 @@
 import AlarmList from '@/features/alarm/ui/alarm-list'
-import type {ModalConfig} from '@/shared/types';
-import { Modal, ModalBody, ModalFooter, ModalTitle, Button } from '@/shared/ui'
+import type { ModalConfig } from '@/shared/types'
+import { Button, Modal, ModalBody, ModalFooter, ModalTitle } from '@/shared/ui'
 
 interface AlarmListModalProps extends ModalConfig {}
 

@@ -12,7 +12,7 @@ interface MenuItemProps extends BaseProps {
 export default function MenuItem({ data, onMenuClick }: MenuItemProps) {
   const { children = [], name } = data
   return (
-    <div className={styles.start}>
+    <div className={styles.layout}>
       {/* Level 1 메뉴 */}
       <div className={styles.name}>{name}</div>
       {/* Level 2 메뉴 */}

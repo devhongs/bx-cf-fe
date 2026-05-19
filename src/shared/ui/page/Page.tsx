@@ -14,7 +14,7 @@ const PageComponent: React.FC<PageProps> = ({ children, className }) => {
   const BodySlot = getSlot(children, PageBody)
 
   return (
-    <div className={cn(styles.start, className, 'bx-page')}>
+    <div className={cn(styles.layout, className, 'bx-page')}>
       {/* body */}
       <div className={cn(styles.body, 'page-body')}>{BodySlot}</div>
     </div>

@@ -12,7 +12,7 @@ export const Route = createFileRoute('/_page/menu/')({
 
 function RouteComponent() {
   return (
-    <Page className={styles.start}>
+    <Page className={styles.layout}>
       <PageBody>
         <MenuList className={styles.menuList} />
         <IconButton

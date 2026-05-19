@@ -18,7 +18,7 @@ export default function ProductList(_props: ProductListProps) {
   }
 
   return (
-    <div className={styles.start}>
+    <div className={styles.layout}>
       {content.map((d: Product) => (
         <ProductItem key={d.id} data={d} onItemClick={handleItemClick} />
       ))}

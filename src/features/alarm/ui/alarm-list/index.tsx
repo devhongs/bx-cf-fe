@@ -22,7 +22,7 @@ export default function AlarmList(_props: AlarmListProps) {
   }
 
   return (
-    <div className={styles.start}>
+    <div className={styles.layout}>
       {content.map((d: Alarm) => (
         <AlarmCard
           key={d.id}

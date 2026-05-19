@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
 import { STORAGE_KEYS } from '@/shared/constants'
-import Button from '@/shared/ui/button/Button'
+import { Button } from '@/shared/ui'
 
 export const Route = createFileRoute('/_auth/login/')({
   component: RouteComponent,

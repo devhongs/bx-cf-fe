@@ -16,7 +16,7 @@ export default function UserAvatar({
   showName,
 }: UserAvatarProps) {
   return (
-    <div className={styles.start}>
+    <div className={styles.layout}>
       <img
         src={imageUrl}
         alt={`${name}의 아바타`}

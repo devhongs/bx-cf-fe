@@ -18,7 +18,7 @@ export default function MenuList({ dummy, className, ...rest }: MenuListProps) {
   }
 
   return (
-    <div className={`${styles.start} ${className ?? ''}`} {...rest}>
+    <div className={`${styles.layout} ${className ?? ''}`} {...rest}>
       {content.map((d: Menu) => (
         <MenuItem key={d.id} data={d} onMenuClick={handleMenuClick} />
       ))}

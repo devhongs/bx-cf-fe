@@ -13,7 +13,7 @@ interface AlarmCardProps extends BaseProps {
 
 export default function AlarmCard({ data, onClick }: AlarmCardProps) {
   return (
-    <div className={styles.start} onClick={onClick}>
+    <div className={styles.layout} onClick={onClick}>
       <div>{data.title}</div>
       <div>{data.description}</div>
     </div>

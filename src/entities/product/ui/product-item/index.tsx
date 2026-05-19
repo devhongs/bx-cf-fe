@@ -23,7 +23,7 @@ export default function ProductItem({
     maxRate,
   } = data
   return (
-    <div className={styles.start}>
+    <div className={styles.layout}>
       {/* 아이콘 + 상품명 */}
       <div className={styles.product} onClick={() => onItemClick(data)}>
         {/* 아이콘 */}

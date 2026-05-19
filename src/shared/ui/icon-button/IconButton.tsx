@@ -42,7 +42,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
     <button
       {...props}
       className={cn(
-        styles.start,
+        styles.layout,
         className,
         iconBackground === 'circle' && styles.circle,
         iconBackground === 'square' && styles.square,

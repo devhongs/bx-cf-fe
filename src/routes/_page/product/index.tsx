@@ -13,7 +13,7 @@ function RouteComponent() {
   return (
     <Page>
       <PageBody>
-        <div className={styles.start}>
+        <div className={styles.layout}>
           <ProductList className={styles.product_list} />
         </div>
       </PageBody>
