@@ -1,15 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router'
-
 import ProductList from '@/features/product/ui/prodict-list'
 import { Page, PageBody } from '@/shared/ui'
 
 import styles from './index.module.css'
 
-export const Route = createFileRoute('/_page/product/')({
-  component: RouteComponent,
-})
-
-function RouteComponent() {
+export default function ProductPage() {
   return (
     <Page>
       <PageBody>

@@ -13,6 +13,8 @@ interface HeaderRightProps extends BaseProps {
 export function HeaderRight({ pageTitle }: HeaderRightProps) {
   const { open: openModal } = useModal()
 
+  const isShowSetting = pageTitle === '메뉴'
+
   const handleAlarm = () => {
     openModal({
       path: 'alarm-list', // 폴더명만 입력!
@@ -25,9 +27,9 @@ export function HeaderRight({ pageTitle }: HeaderRightProps) {
     })
   }
 
-  if (pageTitle === '메뉴') {
-    return (
-      <>
+  return (
+    <>
+      {isShowSetting ? (
         <IconButton
           className={styles.icon}
           size="sm"
@@ -35,13 +37,9 @@ export function HeaderRight({ pageTitle }: HeaderRightProps) {
           label="설정"
           onClick={handleSettingClick}
         />
-      </>
-    )
-  }
-
-  return (
-    <>
-      <IconButton icon={Bell} onClick={handleAlarm} />
+      ) : (
+        <IconButton icon={Bell} onClick={handleAlarm} />
+      )}
     </>
   )
 }

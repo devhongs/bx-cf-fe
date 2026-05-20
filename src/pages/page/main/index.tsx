@@ -1,14 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router'
-
 import { useFetchAccounts } from '@/entities/account'
 import type { Account } from '@/entities/account'
 import AccountCard from '@/entities/account/ui/account-card'
 
-export const Route = createFileRoute('/_page/main/')({
-  component: RouteComponent,
-})
-
-function RouteComponent() {
+export default function MainPage() {
   const { data } = useFetchAccounts({ userId: '' })
   const content = data?.content ?? []
 

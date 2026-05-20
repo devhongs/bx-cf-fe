@@ -1,4 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router'
 import { MessageCircle } from 'lucide-react'
 
 import MenuList from '@/features/menu/ui/menu-list'
@@ -6,11 +5,7 @@ import { IconButton, Page, PageBody } from '@/shared/ui'
 
 import styles from './index.module.css'
 
-export const Route = createFileRoute('/_page/menu/')({
-  component: RouteComponent,
-})
-
-function RouteComponent() {
+export default function MenuPage() {
   return (
     <Page className={styles.layout}>
       <PageBody>

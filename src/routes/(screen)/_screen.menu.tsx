@@ -1,9 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/(screen)/_screen/menu')({
-  component: ScreenMenuComponent,
-})
+import ScreenMenu from '@/pages/page/menu'
 
-function ScreenMenuComponent() {
-  return <div>ScreenMenu</div>
-}
+export const Route = createFileRoute('/(screen)/_screen/menu')({
+  component: ScreenMenu,
+})
