@@ -4,9 +4,9 @@ import { requireAuth } from '@/shared/guards'
 import { Footer } from '@/widgets/layout/footer/Footer'
 import { Header } from '@/widgets/layout/header/Header'
 
-import styles from './_page.module.css'
+import styles from './_screen.module.css'
 
-export const Route = createFileRoute('/_page')({
+export const Route = createFileRoute('/_screen')({
   component: RouteComponent,
   beforeLoad: requireAuth,
 })
