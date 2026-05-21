@@ -27,6 +27,20 @@ const useModal = (): useModalReturnValue => {
         // 함수형 config인 경우 호출하여 실제 config 값을 가져옴
         const resolvedConfig = typeof config === 'function' ? config() : config
 
+        // 중복 오픈 방지 (최상단 모달과 동일한 경로인 경우 차단하여 더블 클릭 등 방지)
+        const activeModal = useModalStore.getState().modals.at(-1)
+        if (activeModal && activeModal.path === resolvedConfig.path) {
+          console.warn(
+            `[useModal] Duplicate modal open prevented for path: ${resolvedConfig.path}`,
+          )
+          reject(
+            new Error(
+              `Duplicate modal open prevented for path: ${resolvedConfig.path}`,
+            ),
+          )
+          return
+        }
+
         const newConfig: ModalConfig = {
           ...resolvedConfig,
           id: v4(),
