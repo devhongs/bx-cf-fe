@@ -9,8 +9,6 @@ import styles from './ModalWrapper.module.css';
 export const ModalWrapper = ({ className }: { className?: string }) => {
   const { modals, close } = useModalStore();
 
-  console.log('[DEBUG] ModalWrapper render, modals stack:', modals);
-
   if (modals.length === 0) return null;
 
   return (
