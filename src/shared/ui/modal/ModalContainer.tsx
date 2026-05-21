@@ -1,4 +1,4 @@
-import { Suspense, lazy, useMemo } from 'react';
+import { Suspense, lazy } from 'react';
 import type { ComponentType } from 'react';
 
 import type { ModalConfig } from '@/shared/types';
@@ -20,6 +20,16 @@ const modalPathMap = Object.keys(modalModules).reduce(
   {} as Record<string, string>,
 );
 
+// lazy 컴포넌트들을 미리 생성하여 캐싱해두는 객체
+const lazyModalComponents = Object.keys(modalModules).reduce(
+  (acc, path) => {
+    const importFn = modalModules[path];
+    acc[path] = lazy(() => importFn().then((mod) => ({ default: mod.default })));
+    return acc;
+  },
+  {} as Record<string, ReturnType<typeof lazy> | undefined>,
+);
+
 interface ModalContainerProps extends ModalConfig {
   index?: number;
 }
@@ -28,23 +38,19 @@ export const ModalContainer = ({
   index = 0,
   ...props
 }: ModalContainerProps) => {
-  const Component = useMemo(() => {
-    if (!props.path) return null;
+  if (!props.path) return null;
 
-    // path가 전체 경로인지 단축 키인지 확인
-    const fullPath = props.path.startsWith('/')
-      ? props.path
-      : modalPathMap[props.path];
+  // path가 전체 경로인지 단축 키인지 확인
+  const fullPath = props.path.startsWith('/')
+    ? props.path
+    : modalPathMap[props.path];
 
-    if (!fullPath) {
-      console.error(`Modal not found: ${props.path}`);
-      return null;
-    }
+  if (!fullPath) {
+    console.error(`Modal not found: ${props.path}`);
+    return null;
+  }
 
-    const importFn = modalModules[fullPath];
-
-    return lazy(() => importFn().then((mod) => ({ default: mod.default })));
-  }, [props.path]);
+  const Component = lazyModalComponents[fullPath];
 
   if (!Component) return null;
 

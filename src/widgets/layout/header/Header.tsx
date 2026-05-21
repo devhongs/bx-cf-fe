@@ -1,6 +1,5 @@
 // import { AccountList } from '@/features/account-list'
 import { useLocation } from '@tanstack/react-router';
-import { useMemo } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 import type { BaseProps } from '@/shared/types';
@@ -20,10 +19,7 @@ const PAGE_TITLES: Record<string, string> = {
 
 export function Header(props: HeaderProps) {
   const location = useLocation();
-  const pageTitle = useMemo(
-    () => PAGE_TITLES[location.pathname] ?? '홈',
-    [location.pathname],
-  );
+  const pageTitle = PAGE_TITLES[location.pathname] ?? '홈';
 
   return (
     <header className={cn(styles.layout, props.className)}>
