@@ -1,9 +1,9 @@
-import { MessageCircle } from 'lucide-react'
+import { MessageCircle } from 'lucide-react';
 
-import MenuList from '@/features/menu/ui/menu-list'
-import { IconButton, Page, PageBody } from '@/shared/ui'
+import MenuList from '@/features/menu/ui/menu-list';
+import { IconButton, Page, PageBody } from '@/shared/ui';
 
-import styles from './index.module.css'
+import styles from './index.module.css';
 
 export default function MenuPage() {
   return (
@@ -18,5 +18,5 @@ export default function MenuPage() {
         />
       </PageBody>
     </Page>
-  )
+  );
 }

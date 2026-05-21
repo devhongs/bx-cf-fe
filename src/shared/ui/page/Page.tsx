@@ -1,27 +1,27 @@
-import React from 'react'
-import type { FC, ReactNode } from 'react'
+import React from 'react';
+import type { FC, ReactNode } from 'react';
 
-import { cn, getSlot } from '../../lib/utils'
-import type { BaseProps } from '../../types'
+import { cn, getSlot } from '../../lib/utils';
+import type { BaseProps } from '../../types';
 
-import styles from './Page.module.css'
+import styles from './Page.module.css';
 
 export interface PageProps extends BaseProps {
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }
 
 const PageComponent: React.FC<PageProps> = ({ children, className }) => {
-  const BodySlot = getSlot(children, PageBody)
+  const BodySlot = getSlot(children, PageBody);
 
   return (
     <div className={cn(styles.layout, className, 'bx-page')}>
       {/* body */}
       <div className={cn(styles.body, 'page-body')}>{BodySlot}</div>
     </div>
-  )
-}
+  );
+};
 
-export const Page = PageComponent
+export const Page = PageComponent;
 
 /**
  * ModalDescription
@@ -29,8 +29,8 @@ export const Page = PageComponent
  * @constructor
  */
 export const PageDescription: FC<{ children: ReactNode }> = ({ children }) => {
-  return <>{children}</>
-}
+  return <>{children}</>;
+};
 
 /**
  * ModalBody
@@ -38,5 +38,5 @@ export const PageDescription: FC<{ children: ReactNode }> = ({ children }) => {
  * @constructor
  */
 export const PageBody: FC<{ children: ReactNode }> = ({ children }) => {
-  return <>{children}</>
-}
+  return <>{children}</>;
+};

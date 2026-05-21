@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
-import type { BankId } from '@/entities/account'
-import { BANK_OPTIONS } from '@/shared/constants'
-import { formatAccountNumberByBank } from '@/shared/lib/utils'
-import type { BaseProps } from '@/shared/types'
+import type { BankId } from '@/entities/account';
+import { BANK_OPTIONS } from '@/shared/constants';
+import { formatAccountNumberByBank } from '@/shared/lib/utils';
+import type { BaseProps } from '@/shared/types';
 
-import styles from './index.module.css'
+import styles from './index.module.css';
 
 interface TransferAmountProps extends BaseProps {
-  bankId?: BankId
-  accountNo?: string
-  name?: string
+  bankId?: BankId;
+  accountNo?: string;
+  name?: string;
 }
 
 export default function TransferAmount({
@@ -20,22 +20,22 @@ export default function TransferAmount({
 }: TransferAmountProps) {
   const [selectedBankId, setSelectedBankId] = useState<BankId | undefined>(
     bankId,
-  )
-  const [targetAccountNo, setTargetAccountNo] = useState(accountNo ?? '')
-  const [receiverName, setReceiverName] = useState(name ?? '')
-  const [amount, setAmount] = useState<string>('')
+  );
+  const [targetAccountNo, setTargetAccountNo] = useState(accountNo ?? '');
+  const [receiverName, setReceiverName] = useState(name ?? '');
+  const [amount, setAmount] = useState<string>('');
 
-  const bankName = BANK_OPTIONS.find((bank) => bank.id === bankId)?.name || ''
+  const bankName = BANK_OPTIONS.find((bank) => bank.id === bankId)?.name || '';
   const formattedAccountNo = formatAccountNumberByBank(
     selectedBankId,
     targetAccountNo,
-  )
+  );
 
   useEffect(() => {
-    setSelectedBankId(bankId)
-    setTargetAccountNo(accountNo ?? '')
-    setReceiverName(name ?? '')
-  }, [bankId, accountNo, name])
+    setSelectedBankId(bankId);
+    setTargetAccountNo(accountNo ?? '');
+    setReceiverName(name ?? '');
+  }, [bankId, accountNo, name]);
 
   return (
     <div className={styles.transferAmountContainer}>
@@ -78,5 +78,5 @@ export default function TransferAmount({
         다음
       </button>
     </div>
-  )
+  );
 }

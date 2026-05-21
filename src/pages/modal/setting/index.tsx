@@ -1,26 +1,26 @@
-import { useNavigate } from '@tanstack/react-router'
-import { LogOut } from 'lucide-react'
+import { useNavigate } from '@tanstack/react-router';
+import { LogOut } from 'lucide-react';
 
-import { STORAGE_KEYS } from '@/shared/constants'
-import { useModal } from '@/shared/hooks/useModal'
-import { session } from '@/shared/lib/utils'
-import type { ModalConfig } from '@/shared/types'
-import { IconButton } from '@/shared/ui/icon-button/IconButton'
-import { Modal, ModalBody, ModalTitle } from '@/shared/ui/modal/Modal'
+import { STORAGE_KEYS } from '@/shared/constants';
+import { useModal } from '@/shared/hooks/useModal';
+import { session } from '@/shared/lib/utils';
+import type { ModalConfig } from '@/shared/types';
+import { IconButton } from '@/shared/ui/icon-button/IconButton';
+import { Modal, ModalBody, ModalTitle } from '@/shared/ui/modal/Modal';
 
 interface SettingModalProps extends ModalConfig {
-  dummy?: any
+  dummy?: any;
 }
 
 export default function SettingModal(_props: SettingModalProps) {
-  const navigate = useNavigate()
-  const { closeAll: closeAllModal } = useModal()
+  const navigate = useNavigate();
+  const { closeAll: closeAllModal } = useModal();
 
   const handleLogoutClick = () => {
-    session.remove(STORAGE_KEYS.SESSION_ID)
-    navigate({ to: '/login' })
-    closeAllModal()
-  }
+    session.remove(STORAGE_KEYS.SESSION_ID);
+    navigate({ to: '/login' });
+    closeAllModal();
+  };
 
   return (
     <Modal closeButtonType="close">
@@ -36,5 +36,5 @@ export default function SettingModal(_props: SettingModalProps) {
         </div>
       </ModalBody>
     </Modal>
-  )
+  );
 }

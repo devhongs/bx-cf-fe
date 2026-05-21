@@ -1,8 +1,8 @@
-import { useCallback } from 'react'
-import { v4 } from 'uuid'
+import { useCallback } from 'react';
+import { v4 } from 'uuid';
 
-import { useModalStore } from '../model/modal/modal'
-import type { ModalConfig, useModalReturnValue } from '../types'
+import { useModalStore } from '../model/modal/modal';
+import type { ModalConfig, useModalReturnValue } from '../types';
 
 const useModal = (): useModalReturnValue => {
   const {
@@ -10,7 +10,7 @@ const useModal = (): useModalReturnValue => {
     open: openModal,
     close: closeModal,
     closeAll: closeAllModal,
-  } = useModalStore()
+  } = useModalStore();
 
   /**
    * 일반 모달을 엽니다.
@@ -25,47 +25,47 @@ const useModal = (): useModalReturnValue => {
     (config: ModalConfig | (() => ModalConfig)): Promise<any> => {
       return new Promise((resolve, reject) => {
         // 함수형 config인 경우 호출하여 실제 config 값을 가져옴
-        const resolvedConfig = typeof config === 'function' ? config() : config
+        const resolvedConfig = typeof config === 'function' ? config() : config;
 
         // 중복 오픈 방지 (최상단 모달과 동일한 경로인 경우 차단하여 더블 클릭 등 방지)
-        const activeModal = useModalStore.getState().modals.at(-1)
+        const activeModal = useModalStore.getState().modals.at(-1);
         if (activeModal && activeModal.path === resolvedConfig.path) {
           console.warn(
             `[useModal] Duplicate modal open prevented for path: ${resolvedConfig.path}`,
-          )
+          );
           reject(
             new Error(
               `Duplicate modal open prevented for path: ${resolvedConfig.path}`,
             ),
-          )
-          return
+          );
+          return;
         }
 
         const newConfig: ModalConfig = {
           ...resolvedConfig,
           id: v4(),
           onClose: (data?: any) => {
-            resolvedConfig.onClose?.(data)
-            resolve(data)
+            resolvedConfig.onClose?.(data);
+            resolve(data);
           },
-        }
-        openModal(newConfig)
-      })
+        };
+        openModal(newConfig);
+      });
     },
     [openModal],
-  )
+  );
 
   /**
    * 현재 활성화된 모달을 닫습니다.
    *
    * @param data - 모달 종료 시 전달할 데이터 (optional)
    */
-  const close = useCallback((data?: any) => closeModal(data), [closeModal])
+  const close = useCallback((data?: any) => closeModal(data), [closeModal]);
 
   /**
    * 현재 열린 모든 모달을 닫습니다.
    */
-  const closeAll = useCallback(() => closeAllModal(), [closeAllModal])
+  const closeAll = useCallback(() => closeAllModal(), [closeAllModal]);
 
   /**
    * 알림(Alert) 모달을 띄웁니다.
@@ -214,7 +214,7 @@ const useModal = (): useModalReturnValue => {
     // showSaveComplete,
     // showUpdateComplete,
     // showDeleteComplete,
-  }
-}
+  };
+};
 
-export { useModal }
+export { useModal };

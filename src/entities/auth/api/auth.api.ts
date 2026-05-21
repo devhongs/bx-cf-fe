@@ -1,8 +1,8 @@
-import type { ApiResponse } from '@/shared/api/types'
-import { API_URL } from '@/shared/constants'
-import HttpJsonService from '@/shared/lib/ajax/http.json.service'
+import type { ApiResponse } from '@/shared/api/types';
+import { API_URL } from '@/shared/constants';
+import HttpJsonService from '@/shared/lib/ajax/http.json.service';
 
-import type { Auth } from '../model/auth.type'
+import type { Auth } from '../model/auth.type';
 
 /**
  * 메뉴 관련 API 요청을 처리하는 서비스 클래스.
@@ -15,7 +15,7 @@ export default class AuthService {
    */
   static async login<T = Auth>(id: string): Promise<ApiResponse<T>> {
     // return httpService.get<T>(`${API_URL}//login/${accountNo}`)
-    return HttpJsonService.fetch<T>(`${API_URL}/login/?id=${id}`)
+    return HttpJsonService.fetch<T>(`${API_URL}/login/?id=${id}`);
   }
 
   /**
@@ -25,7 +25,7 @@ export default class AuthService {
    */
   static async logout<T = Auth>(id: string): Promise<ApiResponse<T>> {
     // return httpService.get<T>(`${API_URL}//login/${accountNo}`)
-    return HttpJsonService.fetch<T>(`${API_URL}/logout/?id=${id}`)
+    return HttpJsonService.fetch<T>(`${API_URL}/logout/?id=${id}`);
   }
 
   /**
@@ -35,7 +35,7 @@ export default class AuthService {
    */
   static async checkAccessToken<T = Auth>(id: string): Promise<ApiResponse<T>> {
     // return httpService.get<T>(`${API_URL}//login/${accountNo}`)
-    return HttpJsonService.fetch<T>(`${API_URL}/check-access-token/?id=${id}`)
+    return HttpJsonService.fetch<T>(`${API_URL}/check-access-token/?id=${id}`);
   }
 
   /**
@@ -47,6 +47,6 @@ export default class AuthService {
     id: string,
   ): Promise<ApiResponse<T>> {
     // return httpService.get<T>(`${API_URL}//login/${accountNo}`)
-    return HttpJsonService.fetch<T>(`${API_URL}/check-refresh-token/?id=${id}`)
+    return HttpJsonService.fetch<T>(`${API_URL}/check-refresh-token/?id=${id}`);
   }
 }

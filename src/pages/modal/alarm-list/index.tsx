@@ -1,6 +1,6 @@
-import AlarmList from '@/features/alarm/ui/alarm-list'
-import type { ModalConfig } from '@/shared/types'
-import { Button, Modal, ModalBody, ModalFooter, ModalTitle } from '@/shared/ui'
+import AlarmList from '@/features/alarm/ui/alarm-list';
+import type { ModalConfig } from '@/shared/types';
+import { Button, Modal, ModalBody, ModalFooter, ModalTitle } from '@/shared/ui';
 
 interface AlarmListModalProps extends ModalConfig {}
 
@@ -17,5 +17,5 @@ export default function AlarmListModal({ onClose }: AlarmListModalProps) {
         </Button>
       </ModalFooter>
     </Modal>
-  )
+  );
 }

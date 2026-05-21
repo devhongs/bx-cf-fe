@@ -1,17 +1,17 @@
-import type { BankId } from '@/entities/account'
-import TransferAmount from '@/features/transfer/ui/transfer-amount'
-import type { ModalConfig } from '@/shared/types'
-import { Modal, ModalBody, ModalTitle } from '@/shared/ui/modal/Modal'
+import type { BankId } from '@/entities/account';
+import TransferAmount from '@/features/transfer/ui/transfer-amount';
+import type { ModalConfig } from '@/shared/types';
+import { Modal, ModalBody, ModalTitle } from '@/shared/ui/modal/Modal';
 
 type TransferAmountProps = {
-  bankId: BankId
-  accountNo: string
-  name: string
-}
+  bankId: BankId;
+  accountNo: string;
+  name: string;
+};
 
 interface TransferAmountModalProps extends ModalConfig {
-  props?: TransferAmountProps
-  dummy?: any
+  props?: TransferAmountProps;
+  dummy?: any;
 }
 
 export default function TransferAmountModal({
@@ -21,7 +21,7 @@ export default function TransferAmountModal({
     bankId: undefined,
     accountNo: '',
     name: '',
-  }
+  };
   return (
     <Modal>
       <ModalTitle>이체</ModalTitle>
@@ -29,5 +29,5 @@ export default function TransferAmountModal({
         <TransferAmount bankId={bankId} accountNo={accountNo} name={name} />
       </ModalBody>
     </Modal>
-  )
+  );
 }

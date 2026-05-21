@@ -1,17 +1,17 @@
-import type { UseQueryOptions } from '@tanstack/react-query'
+import type { UseQueryOptions } from '@tanstack/react-query';
 
-import type { ApiResponse } from '@/shared/api/types'
+import type { ApiResponse } from '@/shared/api/types';
 
-import AuthService from '../api/auth.api'
+import AuthService from '../api/auth.api';
 
-import type { Auth, AuthQueryParams } from './auth.type'
+import type { Auth, AuthQueryParams } from './auth.type';
 
 export const queryKeys = {
   login: ['login'] as const,
   logout: ['logout'] as const,
   checkAccessToken: ['checkAccessToken'] as const,
   checkRefreshToken: ['checkRefreshToken'] as const,
-}
+};
 
 export const queryOptions = {
   // 사용자 로그인
@@ -28,4 +28,4 @@ export const queryOptions = {
     queryKey: queryKeys.logout,
     queryFn: async (): Promise<ApiResponse<T>> => AuthService.logout(params.id),
   }),
-}
+};

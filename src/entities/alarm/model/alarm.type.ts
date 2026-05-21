@@ -2,7 +2,7 @@ export interface AlarmsQueryParams {
   /**
    * 알람 번호
    */
-  id?: string
+  id?: string;
 }
 
 /**
@@ -12,25 +12,25 @@ export interface Alarm {
   /**
    * 알람 번호
    */
-  id: number
+  id: number;
   /**
    * 알람 명
    */
-  title: string
+  title: string;
   /**
    * 알람 잔액
    */
-  description: string
+  description: string;
   /**
    * 알람 타입
    */
-  type: string
+  type: string;
   /**
    * 알람 생성일
    */
-  createdAt: string
+  createdAt: string;
   /**
    * 알람 수정일
    */
-  updatedAt: string
+  updatedAt: string;
 }

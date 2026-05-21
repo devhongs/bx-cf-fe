@@ -1,6 +1,6 @@
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
+import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
 
-import { toQueryParams } from '../utils'
+import { toQueryParams } from '../utils';
 
 // sample url: http://localhost:3001/alarms
 export default class HttpJsonService {
@@ -15,11 +15,11 @@ export default class HttpJsonService {
     url: string,
     queryParam?: any,
   ): Promise<ApiListResponse<T>> {
-    const query = toQueryParams(queryParam)
-    const fullUrl = query ? `${url}/?${query}` : url
-    const res = await fetch(fullUrl)
-    const data = await res.json()
-    return convertApiListResponse<T>(data)
+    const query = toQueryParams(queryParam);
+    const fullUrl = query ? `${url}/?${query}` : url;
+    const res = await fetch(fullUrl);
+    const data = await res.json();
+    return convertApiListResponse<T>(data);
   }
 
   /**
@@ -30,9 +30,9 @@ export default class HttpJsonService {
    * @returns {Promise<ApiResponse<T>>} API 응답 Promise
    */
   static async fetch<T>(url: string): Promise<ApiResponse<T>> {
-    const res = await fetch(url)
-    const data = await res.json()
-    return convertApiResponse<T>(data)
+    const res = await fetch(url);
+    const data = await res.json();
+    return convertApiResponse<T>(data);
   }
 
   /**
@@ -46,11 +46,11 @@ export default class HttpJsonService {
     url: string,
     queryParam?: any,
   ): Promise<ApiListResponse<T>> {
-    const query = toQueryParams(queryParam)
-    const fullUrl = query ? `${url}/?${query}` : url
-    const res = await fetch(fullUrl)
-    const data = await res.json()
-    return convertApiListResponse<T>(data)
+    const query = toQueryParams(queryParam);
+    const fullUrl = query ? `${url}/?${query}` : url;
+    const res = await fetch(fullUrl);
+    const data = await res.json();
+    return convertApiListResponse<T>(data);
   }
 
   /**
@@ -64,9 +64,9 @@ export default class HttpJsonService {
     const res = await fetch(url, {
       method: 'POST',
       body: JSON.stringify(payload),
-    })
-    const data = await res.json()
-    return data
+    });
+    const data = await res.json();
+    return data;
   }
 
   static async put<T>(url: string, payload: any): Promise<T> {
@@ -74,9 +74,9 @@ export default class HttpJsonService {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
-    })
-    if (!res.ok) throw new Error(`PUT ${url} failed: ${res.status}`)
-    return res.json() as Promise<T>
+    });
+    if (!res.ok) throw new Error(`PUT ${url} failed: ${res.status}`);
+    return res.json() as Promise<T>;
   }
 
   /**
@@ -90,9 +90,9 @@ export default class HttpJsonService {
     const res = await fetch(url, {
       method: 'PATCH',
       body: JSON.stringify(payload),
-    })
-    const data = await res.json()
-    return data
+    });
+    const data = await res.json();
+    return data;
   }
 
   /**
@@ -102,9 +102,9 @@ export default class HttpJsonService {
    * @returns {Promise<T>} 삭제 결과 Promise
    */
   static async delete<T>(url: string): Promise<T> {
-    const res = await fetch(url, { method: 'DELETE' })
-    const data = await res.json()
-    return data
+    const res = await fetch(url, { method: 'DELETE' });
+    const data = await res.json();
+    return data;
   }
 }
 
@@ -118,7 +118,7 @@ export function convertApiResponse<T>(mockData: T): ApiResponse<T> {
   return {
     content: Array.isArray(mockData) ? mockData[0] : mockData,
     totalElements: 1,
-  }
+  };
 }
 
 /**
@@ -133,5 +133,5 @@ export function convertApiListResponse<T>(
   return {
     content: mockData,
     totalElements: Array.isArray(mockData) ? mockData.length : 1,
-  }
+  };
 }

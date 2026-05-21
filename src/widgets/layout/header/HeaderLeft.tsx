@@ -1,23 +1,23 @@
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight } from 'lucide-react';
 
-import { useModal } from '@/shared/hooks'
-import type { BaseProps } from '@/shared/types'
-import { IconButton } from '@/shared/ui'
+import { useModal } from '@/shared/hooks';
+import type { BaseProps } from '@/shared/types';
+import { IconButton } from '@/shared/ui';
 
-import styles from './HeaderLeft.module.css'
+import styles from './HeaderLeft.module.css';
 
 interface HeaderLeftProps extends BaseProps {
-  pageTitle: string
+  pageTitle: string;
 }
 
 export function HeaderLeft({ pageTitle }: HeaderLeftProps) {
-  const { open: openModal } = useModal()
+  const { open: openModal } = useModal();
 
   const handleUserNameClick = () => {
     openModal({
       path: 'user-info',
-    })
-  }
+    });
+  };
 
   if (pageTitle === '메뉴') {
     return (
@@ -29,8 +29,8 @@ export function HeaderLeft({ pageTitle }: HeaderLeftProps) {
           iconColor="#888888"
         />
       </span>
-    )
+    );
   }
 
-  return <span className={styles.title}>{pageTitle}</span>
+  return <span className={styles.title}>{pageTitle}</span>;
 }

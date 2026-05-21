@@ -1,15 +1,15 @@
-import type { UseQueryOptions } from '@tanstack/react-query'
+import type { UseQueryOptions } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
+import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
 
-import AlarmService from '../api/alarm.api'
+import AlarmService from '../api/alarm.api';
 
-import type { Alarm, AlarmsQueryParams } from './alarm.type'
+import type { Alarm, AlarmsQueryParams } from './alarm.type';
 
 export const queryKeys = {
   fetchList: ['alarms'] as const,
   fetch: (id: number) => ['alarm', id] as const,
-}
+};
 
 export const queryOptions = {
   // 알람 목록 조회
@@ -25,7 +25,7 @@ export const queryOptions = {
     queryKey: queryKeys.fetch(alarmId),
     queryFn: () => AlarmService.fetch(alarmId),
   }),
-}
+};
 
 export const mutateOptions = {
   // 알람 생성
@@ -36,4 +36,4 @@ export const mutateOptions = {
   delete: () => ({
     mutationFn: (id: number) => AlarmService.delete(id),
   }),
-}
+};

@@ -273,12 +273,12 @@ src/
 ✅ 기본 구조
 
 ```ts
-export * from './button/Button'
-export * from './icon-button/IconButton'
-export * from './modal/Modal'
-export * from './modal/ModalContainer'
-export * from './modal/ModalWrapper'
-export * from './page/Page'
+export * from './button/Button';
+export * from './icon-button/IconButton';
+export * from './modal/Modal';
+export * from './modal/ModalContainer';
+export * from './modal/ModalWrapper';
+export * from './page/Page';
 ```
 
 ✅ 폴더 단위로 관리

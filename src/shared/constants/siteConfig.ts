@@ -1,17 +1,17 @@
 // TODO: 경로 수정하기
 const getInfo = () => {
   const { hostname } =
-    typeof window !== 'undefined' ? location : { hostname: '' }
-  const isDev = hostname.includes('designsystem.bwg.co.kr') // YourDevelopUrl
-  const isStg = hostname.includes('YourStageUrl') // YourStageUrl
-  const isPrd = hostname.includes('YourProductionUrl') // YourProductionUrl
-  const MODE = isPrd ? 'P' : isDev ? 'D' : isStg ? 'S' : 'L'
+    typeof window !== 'undefined' ? location : { hostname: '' };
+  const isDev = hostname.includes('designsystem.bwg.co.kr'); // YourDevelopUrl
+  const isStg = hostname.includes('YourStageUrl'); // YourStageUrl
+  const isPrd = hostname.includes('YourProductionUrl'); // YourProductionUrl
+  const MODE = isPrd ? 'P' : isDev ? 'D' : isStg ? 'S' : 'L';
   const LOCAL_MODE =
-    hostname.includes('localhost') || hostname.includes('127.0.0.1')
-  return { MODE, LOCAL_MODE }
-}
+    hostname.includes('localhost') || hostname.includes('127.0.0.1');
+  return { MODE, LOCAL_MODE };
+};
 
-const info = getInfo()
+const info = getInfo();
 
 const CONFIG = {
   SET_NAME: 'SET_NAME', // 이름을 변경하는 타입 정의
@@ -74,6 +74,6 @@ const CONFIG = {
     OUR_BANK_DAILY_TRANSFER_LIMIT: 250000,
     OTHER_BANK_DAILY_TRANSFER_LIMIT: 50000,
   },
-}
+};
 
-export default CONFIG
+export default CONFIG;

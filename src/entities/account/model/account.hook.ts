@@ -3,13 +3,13 @@ import type {
   UseMutationResult,
   UseQueryOptions,
   UseQueryResult,
-} from '@tanstack/react-query'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+} from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
+import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
 
-import { mutateOptions, queryKeys, queryOptions } from './account.queries'
-import type { Account, AccountsQueryParams } from './account.type'
+import { mutateOptions, queryKeys, queryOptions } from './account.queries';
+import type { Account, AccountsQueryParams } from './account.type';
 
 /**
  * 모든 계좌 목록을 가져오는 쿼리 훅.
@@ -20,8 +20,8 @@ export const useFetchAccounts = <T = Account>(
   params: AccountsQueryParams,
   options?: UseQueryOptions<ApiListResponse<T>, Error>,
 ): UseQueryResult<ApiListResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetchList<T>(params), ...options })
-}
+  return useQuery({ ...queryOptions.fetchList<T>(params), ...options });
+};
 
 /**
  * 특정 계좌 No의 계좌 정보를 가져오는 쿼리 훅.
@@ -31,8 +31,8 @@ export const useFetchAccount = <T = Account>(
   accountNo: string,
   options?: UseQueryOptions<ApiResponse<T>, Error>,
 ): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetch<T>(accountNo), ...options })
-}
+  return useQuery({ ...queryOptions.fetch<T>(accountNo), ...options });
+};
 
 /**
  * 최근 보낸 계좌 정보를 가져오는 쿼리 훅.
@@ -43,8 +43,8 @@ export const useFetchRecentAccounts = <T = Account>(
   params: AccountsQueryParams,
   options?: UseQueryOptions<ApiListResponse<T>, Error>,
 ): UseQueryResult<ApiListResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetchRecentList<T>(params), ...options })
-}
+  return useQuery({ ...queryOptions.fetchRecentList<T>(params), ...options });
+};
 
 /**
  * 새로운 계좌를 생성하는 뮤테이션 훅.
@@ -60,11 +60,11 @@ export const useCreateCourse = (
       // await showSaveComplete()
       // 추가적인 성공 처리 로직이 있다면 실행
       if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation)
+        options.onSuccess(data, variables, context, mutation);
       }
     },
-  })
-}
+  });
+};
 
 /**
  * 기존 계좌 정보를 업데이트하는 뮤테이션 훅.
@@ -79,11 +79,11 @@ export const useUpdateCourse = (
     onSuccess: (data, variables, context, mutation) => {
       // 추가적인 성공 처리 로직이 있다면 실행
       if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation)
+        options.onSuccess(data, variables, context, mutation);
       }
     },
-  })
-}
+  });
+};
 
 /**
  * 기존 계좌를 삭제하는 뮤테이션 훅.
@@ -100,11 +100,11 @@ export const useDeleteCourse = (
       // await showDeleteComplete()
       // 추가적인 성공 처리 로직이 있다면 실행
       if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation)
+        options.onSuccess(data, variables, context, mutation);
       }
     },
-  })
-}
+  });
+};
 
 /**
  * ✅ 대표계좌(즐겨찾기) 지정 뮤테이션 훅
@@ -115,43 +115,43 @@ export const useDeleteCourse = (
 export const useSetFavoriteAccount = (
   options?: UseMutationOptions<void, Error, string, { previous?: unknown }>,
 ): UseMutationResult<void, Error, string, { previous?: unknown }> => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   return useMutation({
     ...mutateOptions.setFavorite(),
     // 낙관적 업데이트
     onMutate: async (accountNo) => {
-      await queryClient.cancelQueries({ queryKey: queryKeys.fetchList })
+      await queryClient.cancelQueries({ queryKey: queryKeys.fetchList });
 
-      const previous = queryClient.getQueryData(queryKeys.fetchList)
+      const previous = queryClient.getQueryData(queryKeys.fetchList);
 
       // 캐시: 선택된 계좌만 true, 나머지는 false
       queryClient.setQueryData(queryKeys.fetchList, (old: any) => {
-        if (!old) return old
+        if (!old) return old;
         return {
           ...old,
           content: (old.content ?? []).map((acc: Account) => ({
             ...acc,
             isFavorite: acc.accountNo === accountNo,
           })),
-        }
-      })
+        };
+      });
 
-      return { previous }
+      return { previous };
     },
     onError: (_err, _vars, ctx, mutation) => {
       if (ctx?.previous) {
-        queryClient.setQueryData(queryKeys.fetchList, ctx.previous)
+        queryClient.setQueryData(queryKeys.fetchList, ctx.previous);
       }
-      options?.onError?.(_err, _vars, ctx, mutation)
+      options?.onError?.(_err, _vars, ctx, mutation);
     },
     onSettled: (...args) => {
       // 서버 진실과 동기화
-      queryClient.invalidateQueries({ queryKey: queryKeys.fetchList })
-      options?.onSettled?.(...args)
+      queryClient.invalidateQueries({ queryKey: queryKeys.fetchList });
+      options?.onSettled?.(...args);
     },
     onSuccess: (...args) => {
-      options?.onSuccess?.(...args)
+      options?.onSuccess?.(...args);
     },
-  })
-}
+  });
+};

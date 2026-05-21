@@ -1,14 +1,14 @@
-import {  useFetchAlarm } from '@/entities/alarm'
-import type {Alarm} from '@/entities/alarm';
-import type {BaseProps} from '@/shared/types';
+import { useFetchAlarm } from '@/entities/alarm';
+import type { Alarm } from '@/entities/alarm';
+import type { BaseProps } from '@/shared/types';
 
 interface AlarmDetailProps extends BaseProps {
-  alarmId: number
+  alarmId: number;
 }
 
 export default function AlarmDetail({ alarmId }: AlarmDetailProps) {
-  const { data } = useFetchAlarm(alarmId)
-  const content = data?.content ?? ({} as Alarm)
+  const { data } = useFetchAlarm(alarmId);
+  const content = data?.content ?? ({} as Alarm);
 
   return (
     <ul>
@@ -17,5 +17,5 @@ export default function AlarmDetail({ alarmId }: AlarmDetailProps) {
       <li>설명: {content.description}</li>
       <li>타입: {content.type}</li>
     </ul>
-  )
+  );
 }

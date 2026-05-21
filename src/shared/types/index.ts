@@ -1,3 +1,3 @@
-export * from './bxui-core'
-export * from './modal'
-export * from './props'
+export * from './bxui-core';
+export * from './modal';
+export * from './props';

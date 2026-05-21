@@ -1,15 +1,15 @@
-import type { UseQueryOptions } from '@tanstack/react-query'
+import type { UseQueryOptions } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
+import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
 
-import ProductService from '../api/product.api'
+import ProductService from '../api/product.api';
 
-import type { Product, ProductQueryParams } from './product.type'
+import type { Product, ProductQueryParams } from './product.type';
 
 export const queryKeys = {
   fetchList: ['products'] as const,
   fetch: (id: number) => ['product', id] as const,
-}
+};
 
 export const queryOptions = {
   // 알람 목록 조회
@@ -25,7 +25,7 @@ export const queryOptions = {
     queryKey: queryKeys.fetch(menuId),
     queryFn: () => ProductService.fetch(menuId),
   }),
-}
+};
 
 export const mutateOptions = {
   // 알람 생성
@@ -36,4 +36,4 @@ export const mutateOptions = {
   delete: () => ({
     mutationFn: (id: number) => ProductService.delete(id),
   }),
-}
+};

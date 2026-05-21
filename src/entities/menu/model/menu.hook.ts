@@ -3,13 +3,13 @@ import type {
   UseMutationResult,
   UseQueryOptions,
   UseQueryResult,
-} from '@tanstack/react-query'
-import { useMutation, useQuery } from '@tanstack/react-query'
+} from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
+import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
 
-import { mutateOptions, queryOptions } from './menu.queries'
-import type { Menu, MenuQueryParams } from './menu.type'
+import { mutateOptions, queryOptions } from './menu.queries';
+import type { Menu, MenuQueryParams } from './menu.type';
 
 /**
  * 모든 메뉴 목록을 가져오는 쿼리 훅.
@@ -20,8 +20,8 @@ export const useFetchMenus = <T = Menu>(
   params?: MenuQueryParams,
   options?: UseQueryOptions<ApiListResponse<T>, Error>,
 ): UseQueryResult<ApiListResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetchList<T>(params), ...options })
-}
+  return useQuery({ ...queryOptions.fetchList<T>(params), ...options });
+};
 
 /**
  * 특정 메뉴 No의 메뉴 정보를 가져오는 쿼리 훅.
@@ -31,8 +31,8 @@ export const useFetchMenu = <T = Menu>(
   accountId: number,
   options?: UseQueryOptions<ApiResponse<T>, Error>,
 ): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetch<T>(accountId), ...options })
-}
+  return useQuery({ ...queryOptions.fetch<T>(accountId), ...options });
+};
 
 /**
  * 새로운 메뉴를 생성하는 뮤테이션 훅.
@@ -48,11 +48,11 @@ export const useCreateMenu = (
       // await showSaveComplete()
       // 추가적인 성공 처리 로직이 있다면 실행
       if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation)
+        options.onSuccess(data, variables, context, mutation);
       }
     },
-  })
-}
+  });
+};
 
 /**
  * 기존 메뉴를 삭제하는 뮤테이션 훅.
@@ -69,8 +69,8 @@ export const useDeleteMenu = (
       // await showDeleteComplete()
       // 추가적인 성공 처리 로직이 있다면 실행
       if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation)
+        options.onSuccess(data, variables, context, mutation);
       }
     },
-  })
-}
+  });
+};

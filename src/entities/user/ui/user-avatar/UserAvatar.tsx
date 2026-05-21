@@ -1,12 +1,12 @@
-import type { BaseProps } from '@/shared/types'
+import type { BaseProps } from '@/shared/types';
 
-import styles from './UserAvatar.module.css'
+import styles from './UserAvatar.module.css';
 
 interface UserAvatarProps extends BaseProps {
-  name: string
-  imageUrl?: string
-  size?: number
-  showName?: boolean
+  name: string;
+  imageUrl?: string;
+  size?: number;
+  showName?: boolean;
 }
 
 export default function UserAvatar({
@@ -25,5 +25,5 @@ export default function UserAvatar({
       />
       {showName && name && <span className={styles.name}>{name}</span>}
     </div>
-  )
+  );
 }

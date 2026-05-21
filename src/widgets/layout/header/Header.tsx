@@ -1,15 +1,13 @@
-
 // import { AccountList } from '@/features/account-list'
-import { useLocation } from '@tanstack/react-router'
-import { useMemo } from 'react'
+import { useLocation } from '@tanstack/react-router';
+import { useMemo } from 'react';
 
-import { cn } from '@/shared/lib/utils'
-import type { BaseProps } from '@/shared/types'
+import { cn } from '@/shared/lib/utils';
+import type { BaseProps } from '@/shared/types';
 
-
-import styles from './Header.module.css'
-import { HeaderLeft } from './HeaderLeft'
-import { HeaderRight } from './HeaderRight'
+import styles from './Header.module.css';
+import { HeaderLeft } from './HeaderLeft';
+import { HeaderRight } from './HeaderRight';
 
 interface HeaderProps extends BaseProps {}
 
@@ -18,14 +16,14 @@ const PAGE_TITLES: Record<string, string> = {
   '/asset': '자산',
   '/product': '상품',
   '/menu': '메뉴',
-} as const
+} as const;
 
 export function Header(props: HeaderProps) {
-  const location = useLocation()
+  const location = useLocation();
   const pageTitle = useMemo(
     () => PAGE_TITLES[location.pathname] ?? '홈',
     [location.pathname],
-  )
+  );
 
   return (
     <header className={cn(styles.layout, props.className)}>
@@ -36,5 +34,5 @@ export function Header(props: HeaderProps) {
         <HeaderRight pageTitle={pageTitle} />
       </div>
     </header>
-  )
+  );
 }

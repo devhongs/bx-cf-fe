@@ -1,15 +1,15 @@
-import { useNavigate } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router';
 
-import { STORAGE_KEYS } from '@/shared/constants'
-import { Button } from '@/shared/ui'
+import { STORAGE_KEYS } from '@/shared/constants';
+import { Button } from '@/shared/ui';
 
 export function LoginPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
-    sessionStorage.setItem(STORAGE_KEYS.SESSION_ID, '1234567890')
-    navigate({ to: '/main' })
-  }
+    sessionStorage.setItem(STORAGE_KEYS.SESSION_ID, '1234567890');
+    navigate({ to: '/main' });
+  };
 
   return (
     <section>
@@ -31,5 +31,5 @@ export function LoginPage() {
         </div>
       </div>
     </section>
-  )
+  );
 }

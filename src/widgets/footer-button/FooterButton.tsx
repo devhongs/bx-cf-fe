@@ -1,15 +1,14 @@
-import React from 'react'
+import React from 'react';
 
-import { cn } from '@/shared/lib/utils'
+import { cn } from '@/shared/lib/utils';
 
-import styles from './FooterButton.module.css'
-
+import styles from './FooterButton.module.css';
 
 interface FooterButtonProps {
-  label: string
-  icon: React.ReactNode
-  isSelected: boolean
-  onClick?: () => void
+  label: string;
+  icon: React.ReactNode;
+  isSelected: boolean;
+  onClick?: () => void;
 }
 
 export function FooterButton({
@@ -27,5 +26,5 @@ export function FooterButton({
         {label}
       </span>
     </button>
-  )
+  );
 }

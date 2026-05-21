@@ -1,8 +1,8 @@
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
-import { API_URL } from '@/shared/constants'
-import HttpJsonService from '@/shared/lib/ajax/http.json.service'
+import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
+import { API_URL } from '@/shared/constants';
+import HttpJsonService from '@/shared/lib/ajax/http.json.service';
 
-import type { Alarm, AlarmsQueryParams } from '../model/alarm.type'
+import type { Alarm, AlarmsQueryParams } from '../model/alarm.type';
 
 /**
  * 알람 관련 API 요청을 처리하는 서비스 클래스.
@@ -17,7 +17,7 @@ export default class AlarmService {
     params?: AlarmsQueryParams,
   ): Promise<ApiListResponse<T>> {
     // return httpService.get<ApiResponse<T>>(`${API_URL}/alarms`, params)
-    return HttpJsonService.fetchAll<T>(`${API_URL}/alarms`, params)
+    return HttpJsonService.fetchAll<T>(`${API_URL}/alarms`, params);
   }
 
   /**
@@ -27,7 +27,7 @@ export default class AlarmService {
    */
   static async fetch<T = Alarm>(id: number): Promise<ApiResponse<T>> {
     // return httpService.get<T>(`${API_URL}/alarm/${accountNo}`)
-    return HttpJsonService.fetch<T>(`${API_URL}/alarms/?id=${id}`)
+    return HttpJsonService.fetch<T>(`${API_URL}/alarms/?id=${id}`);
   }
 
   /**
@@ -37,7 +37,10 @@ export default class AlarmService {
    */
   static async create(payload: Alarm): Promise<Alarm> {
     // return httpService.post<Alarm>(`${API_URL}/alarm`, payload)
-    return HttpJsonService.post<any>(`${API_URL}/alarms/${payload.id}`, payload)
+    return HttpJsonService.post<any>(
+      `${API_URL}/alarms/${payload.id}`,
+      payload,
+    );
   }
 
   /**
@@ -47,6 +50,6 @@ export default class AlarmService {
    */
   static delete(id: number): Promise<any> {
     // return HttpJsonService.delete<T>(`${API_URL}/alarms/${id}`)
-    return HttpJsonService.delete<any>(`${API_URL}/alarms/${id}?_dependent=id`)
+    return HttpJsonService.delete<any>(`${API_URL}/alarms/${id}?_dependent=id`);
   }
 }

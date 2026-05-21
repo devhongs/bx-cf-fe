@@ -1,1 +1,1 @@
-export * from './ui/asset-list'
+export * from './ui/asset-list';

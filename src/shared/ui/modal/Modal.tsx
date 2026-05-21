@@ -1,32 +1,32 @@
-import { ArrowLeft, X } from 'lucide-react'
-import React from 'react'
-import type { FC, ReactNode } from 'react'
+import { ArrowLeft, X } from 'lucide-react';
+import React from 'react';
+import type { FC, ReactNode } from 'react';
 
-import { useModal } from '@/shared/hooks'
+import { useModal } from '@/shared/hooks';
 
-import { cn, getSlot } from '../../lib/utils'
-import type { BaseProps } from '../../types'
-import { IconButton } from '../icon-button/IconButton'
+import { cn, getSlot } from '../../lib/utils';
+import type { BaseProps } from '../../types';
+import { IconButton } from '../icon-button/IconButton';
 
-import styles from './Modal.module.css'
+import styles from './Modal.module.css';
 
 export interface ModalProps extends BaseProps {
   /**
    * openModal(ModalConfig) : ModalConfig.title 값
    */
-  title?: string
+  title?: string;
   /**
    * openModal(ModalConfig) : ModalConfig.description 값
    */
-  description?: string
+  description?: string;
   /**
    * Modal 내부에 표시할 React 노드들
    */
-  children?: React.ReactNode
+  children?: React.ReactNode;
   /**
    * 닫기 버튼 타입 ('close' | 'back')
    */
-  closeButtonType?: 'close' | 'back'
+  closeButtonType?: 'close' | 'back';
 }
 
 const ModalComponent: React.FC<ModalProps> = ({
@@ -35,16 +35,16 @@ const ModalComponent: React.FC<ModalProps> = ({
   className,
   closeButtonType = 'back',
 }) => {
-  const { close: closeModal } = useModal()
+  const { close: closeModal } = useModal();
 
-  const TitleSlot = getSlot(children, ModalTitle)
-  const DescSlot = getSlot(children, ModalDescription)
-  const BodySlot = getSlot(children, ModalBody)
-  const FooterSlot = getSlot(children, ModalFooter)
+  const TitleSlot = getSlot(children, ModalTitle);
+  const DescSlot = getSlot(children, ModalDescription);
+  const BodySlot = getSlot(children, ModalBody);
+  const FooterSlot = getSlot(children, ModalFooter);
 
   const handleClose = () => {
-    closeModal()
-  }
+    closeModal();
+  };
 
   return (
     <div className={cn(styles.layout, className, 'bx-modal')}>
@@ -67,10 +67,10 @@ const ModalComponent: React.FC<ModalProps> = ({
       {/* footer */}
       {FooterSlot && <div className={styles.footer}>{FooterSlot}</div>}
     </div>
-  )
-}
+  );
+};
 
-export const Modal = ModalComponent
+export const Modal = ModalComponent;
 
 /**
  * ModalTitle
@@ -78,8 +78,8 @@ export const Modal = ModalComponent
  * @constructor
  */
 export const ModalTitle: FC<{ children: ReactNode }> = ({ children }) => {
-  return <>{children}</>
-}
+  return <>{children}</>;
+};
 
 /**
  * ModalDescription
@@ -87,8 +87,8 @@ export const ModalTitle: FC<{ children: ReactNode }> = ({ children }) => {
  * @constructor
  */
 export const ModalDescription: FC<{ children: ReactNode }> = ({ children }) => {
-  return <>{children}</>
-}
+  return <>{children}</>;
+};
 
 /**
  * ModalBody
@@ -100,8 +100,8 @@ export const ModalBody: FC<{ children: ReactNode; className?: string }> = ({
   children,
   className,
 }) => {
-  return <div className={cn(styles.body, className)}>{children}</div>
-}
+  return <div className={cn(styles.body, className)}>{children}</div>;
+};
 
 /**
  * ModalFooter
@@ -109,5 +109,5 @@ export const ModalBody: FC<{ children: ReactNode; className?: string }> = ({
  * @constructor
  */
 export const ModalFooter: FC<{ children: ReactNode }> = ({ children }) => {
-  return <>{children}</>
-}
+  return <>{children}</>;
+};

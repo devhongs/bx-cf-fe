@@ -26,7 +26,7 @@ export const STORAGE_KEYS = {
 
   // 일자
   TX_DT: 'txDt',
-} as const
+} as const;
 
 // 스토리지 키 타입
-export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS]
+export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];

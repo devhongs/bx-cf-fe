@@ -1,11 +1,11 @@
-import UserAvatar from '@/entities/user/ui/user-avatar/UserAvatar'
-import type { ModalConfig } from '@/shared/types'
-import { Modal, ModalBody, ModalTitle } from '@/shared/ui/modal/Modal'
+import UserAvatar from '@/entities/user/ui/user-avatar/UserAvatar';
+import type { ModalConfig } from '@/shared/types';
+import { Modal, ModalBody, ModalTitle } from '@/shared/ui/modal/Modal';
 
-import styles from './index.module.css'
+import styles from './index.module.css';
 
 interface UserInfoModalProps extends ModalConfig {
-  dummy?: any
+  dummy?: any;
 }
 
 export default function UserInfoModal({ props }: UserInfoModalProps) {
@@ -45,5 +45,5 @@ export default function UserInfoModal({ props }: UserInfoModalProps) {
         <button className={styles.editButton}>수정하기</button>
       </ModalBody>
     </Modal>
-  )
+  );
 }

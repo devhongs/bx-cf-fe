@@ -1,21 +1,21 @@
-import { useFetchProducts } from '@/entities/product'
-import type { Product } from '@/entities/product'
-import ProductItem from '@/entities/product/ui/product-item'
-import type { BaseProps } from '@/shared/types'
+import { useFetchProducts } from '@/entities/product';
+import type { Product } from '@/entities/product';
+import ProductItem from '@/entities/product/ui/product-item';
+import type { BaseProps } from '@/shared/types';
 
-import styles from './index.module.css'
+import styles from './index.module.css';
 
 interface ProductListProps extends BaseProps {
-  dummy?: any
+  dummy?: any;
 }
 
 export default function ProductList(_props: ProductListProps) {
-  const { data } = useFetchProducts()
-  const content = data?.content ?? []
+  const { data } = useFetchProducts();
+  const content = data?.content ?? [];
 
   const handleItemClick = (product: Product) => {
-    console.log(product)
-  }
+    console.log(product);
+  };
 
   return (
     <div className={styles.layout}>
@@ -23,5 +23,5 @@ export default function ProductList(_props: ProductListProps) {
         <ProductItem key={d.id} data={d} onItemClick={handleItemClick} />
       ))}
     </div>
-  )
+  );
 }

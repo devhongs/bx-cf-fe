@@ -1,1 +1,1 @@
-export * from './ui/user-avatar/UserAvatar'
+export * from './ui/user-avatar/UserAvatar';

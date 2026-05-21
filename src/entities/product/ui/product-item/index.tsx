@@ -1,12 +1,12 @@
-import type { Product } from '@/entities/product'
-import type { BaseProps } from '@/shared/types'
-import { IconButton } from '@/shared/ui'
+import type { Product } from '@/entities/product';
+import type { BaseProps } from '@/shared/types';
+import { IconButton } from '@/shared/ui';
 
-import styles from './index.module.css'
+import styles from './index.module.css';
 
 interface ProductItemProps extends BaseProps {
-  data: Product
-  onItemClick?: (menu: Product) => void
+  data: Product;
+  onItemClick?: (menu: Product) => void;
 }
 
 export default function ProductItem({
@@ -21,7 +21,7 @@ export default function ProductItem({
     rateDescription,
     baseRate,
     maxRate,
-  } = data
+  } = data;
   return (
     <div className={styles.layout}>
       {/* 아이콘 + 상품명 */}
@@ -58,5 +58,5 @@ export default function ProductItem({
         </div>
       </div>
     </div>
-  )
+  );
 }

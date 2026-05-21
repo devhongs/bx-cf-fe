@@ -1,20 +1,20 @@
-import { formatAccountNumberByBank } from '@/shared/lib/utils'
-import type { BaseProps } from '@/shared/types'
+import { formatAccountNumberByBank } from '@/shared/lib/utils';
+import type { BaseProps } from '@/shared/types';
 
-import type { BankId } from '../../model/account.type'
+import type { BankId } from '../../model/account.type';
 
-import styles from './index.module.css'
+import styles from './index.module.css';
 
 interface AccountCardProps extends BaseProps {
   data: {
-    bankId: BankId
-    accountNo: string
-    accountName: string
-    amount: number
-    isFavorite: boolean
-  }
-  onFavoriteSelect?: (accountNo: string) => void
-  onTransferClick?: () => void
+    bankId: BankId;
+    accountNo: string;
+    accountName: string;
+    amount: number;
+    isFavorite: boolean;
+  };
+  onFavoriteSelect?: (accountNo: string) => void;
+  onTransferClick?: () => void;
 }
 
 export default function AccountCard({
@@ -25,9 +25,9 @@ export default function AccountCard({
   const formatAccountNum = formatAccountNumberByBank(
     data.bankId,
     data.accountNo,
-  )
+  );
 
-  const formatAmount = data.amount.toLocaleString('ko-KR')
+  const formatAmount = data.amount.toLocaleString('ko-KR');
 
   return (
     <div className={styles.card}>
@@ -69,5 +69,5 @@ export default function AccountCard({
         </button>
       </div>
     </div>
-  )
+  );
 }

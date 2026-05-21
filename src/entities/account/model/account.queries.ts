@@ -1,16 +1,16 @@
-import type { UseQueryOptions } from '@tanstack/react-query'
+import type { UseQueryOptions } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
+import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
 
-import AccountService from '../api/account.api'
+import AccountService from '../api/account.api';
 
-import type { Account, AccountsQueryParams } from './account.type'
+import type { Account, AccountsQueryParams } from './account.type';
 
 export const queryKeys = {
   fetchList: ['accounts'] as const,
   fetch: (id: string) => ['account', id] as const,
   fetchRecentList: ['recent'] as const,
-}
+};
 
 export const queryOptions = {
   // 계좌 목록 조회
@@ -33,7 +33,7 @@ export const queryOptions = {
     queryFn: async (): Promise<ApiListResponse<T>> =>
       AccountService.fetchRecent(params),
   }),
-}
+};
 
 export const mutateOptions = {
   // 계좌 생성
@@ -52,4 +52,4 @@ export const mutateOptions = {
   setFavorite: () => ({
     mutationFn: (accountNo: string) => AccountService.setFavorite(accountNo),
   }),
-}
+};

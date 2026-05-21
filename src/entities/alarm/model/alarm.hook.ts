@@ -3,13 +3,13 @@ import type {
   UseMutationResult,
   UseQueryOptions,
   UseQueryResult,
-} from '@tanstack/react-query'
-import { useMutation, useQuery } from '@tanstack/react-query'
+} from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
+import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
 
-import { mutateOptions, queryOptions } from './alarm.queries'
-import type { Alarm, AlarmsQueryParams } from './alarm.type'
+import { mutateOptions, queryOptions } from './alarm.queries';
+import type { Alarm, AlarmsQueryParams } from './alarm.type';
 
 /**
  * 모든 알람 목록을 가져오는 쿼리 훅.
@@ -20,8 +20,8 @@ export const useFetchAlarms = <T = Alarm>(
   params?: AlarmsQueryParams,
   options?: UseQueryOptions<ApiListResponse<T>, Error>,
 ): UseQueryResult<ApiListResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetchList<T>(params), ...options })
-}
+  return useQuery({ ...queryOptions.fetchList<T>(params), ...options });
+};
 
 /**
  * 특정 알람 No의 알람 정보를 가져오는 쿼리 훅.
@@ -31,8 +31,8 @@ export const useFetchAlarm = <T = Alarm>(
   accountId: number,
   options?: UseQueryOptions<ApiResponse<T>, Error>,
 ): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetch<T>(accountId), ...options })
-}
+  return useQuery({ ...queryOptions.fetch<T>(accountId), ...options });
+};
 
 /**
  * 새로운 알람를 생성하는 뮤테이션 훅.
@@ -48,11 +48,11 @@ export const useCreateAlarm = (
       // await showSaveComplete()
       // 추가적인 성공 처리 로직이 있다면 실행
       if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation)
+        options.onSuccess(data, variables, context, mutation);
       }
     },
-  })
-}
+  });
+};
 
 /**
  * 기존 알람를 삭제하는 뮤테이션 훅.
@@ -69,8 +69,8 @@ export const useDeleteAlarm = (
       // await showDeleteComplete()
       // 추가적인 성공 처리 로직이 있다면 실행
       if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation)
+        options.onSuccess(data, variables, context, mutation);
       }
     },
-  })
-}
+  });
+};

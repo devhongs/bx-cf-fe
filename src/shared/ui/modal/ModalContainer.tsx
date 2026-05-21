@@ -1,27 +1,27 @@
-import { Suspense, lazy, useMemo } from 'react'
-import type { ComponentType } from 'react'
+import { Suspense, lazy, useMemo } from 'react';
+import type { ComponentType } from 'react';
 
-import type { ModalConfig } from '@/shared/types'
+import type { ModalConfig } from '@/shared/types';
 
 const modalModules = import.meta.glob<{ default: ComponentType<any> }>(
   '/src/pages/modal/*/*.tsx',
   { eager: false },
-)
+);
 
 // 자동으로 모달 경로 매핑 (폴더명 -> 전체 경로)
 const modalPathMap = Object.keys(modalModules).reduce(
   (acc, path) => {
-    const match = path.match(/\/modal\/(.+)\/index\.tsx$/)
+    const match = path.match(/\/modal\/(.+)\/index\.tsx$/);
     if (match) {
-      acc[match[1]] = path // 'alarm-list' -> '/src/pages/modal/alarm-list/index.tsx'
+      acc[match[1]] = path; // 'alarm-list' -> '/src/pages/modal/alarm-list/index.tsx'
     }
-    return acc
+    return acc;
   },
   {} as Record<string, string>,
-)
+);
 
 interface ModalContainerProps extends ModalConfig {
-  index?: number
+  index?: number;
 }
 
 export const ModalContainer = ({
@@ -29,24 +29,24 @@ export const ModalContainer = ({
   ...props
 }: ModalContainerProps) => {
   const Component = useMemo(() => {
-    if (!props.path) return null
+    if (!props.path) return null;
 
     // path가 전체 경로인지 단축 키인지 확인
     const fullPath = props.path.startsWith('/')
       ? props.path
-      : modalPathMap[props.path]
+      : modalPathMap[props.path];
 
     if (!fullPath) {
-      console.error(`Modal not found: ${props.path}`)
-      return null
+      console.error(`Modal not found: ${props.path}`);
+      return null;
     }
 
-    const importFn = modalModules[fullPath]
+    const importFn = modalModules[fullPath];
 
-    return lazy(() => importFn().then((mod) => ({ default: mod.default })))
-  }, [props.path])
+    return lazy(() => importFn().then((mod) => ({ default: mod.default })));
+  }, [props.path]);
 
-  if (!Component) return null
+  if (!Component) return null;
 
   return (
     <div className="fixed inset-0 bg-white" style={{ zIndex: 150 + index }}>
@@ -54,5 +54,5 @@ export const ModalContainer = ({
         <Component {...props} />
       </Suspense>
     </div>
-  )
-}
+  );
+};

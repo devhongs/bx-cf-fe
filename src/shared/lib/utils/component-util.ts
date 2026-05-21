@@ -1,5 +1,5 @@
-import type { ReactElement, ReactNode } from 'react'
-import { Children, isValidElement } from 'react'
+import type { ReactElement, ReactNode } from 'react';
+import { Children, isValidElement } from 'react';
 
 /**
  * 특정 React 컴포넌트를 children에서 찾아 반환하는 유틸 함수.
@@ -19,5 +19,5 @@ export const getSlot = <T>(
   return Children.toArray(children).find(
     (child): child is ReactElement =>
       isValidElement(child) && child.type === component,
-  )
-}
+  );
+};

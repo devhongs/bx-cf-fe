@@ -1,27 +1,29 @@
-import * as Icons from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
-import React from 'react'
+import * as Icons from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import React from 'react';
 
-import { cn } from '@/shared/lib/utils'
+import { cn } from '@/shared/lib/utils';
 
-import styles from './IconButton.module.css'
+import styles from './IconButton.module.css';
 
-export interface IconButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+export interface IconButtonProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  'type'
+> {
   // 버튼(아이콘 + 라벨) 크기를 지정합니다. (선택 사항)
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   // 아이콘
-  icon?: LucideIcon
+  icon?: LucideIcon;
   // 아이콘 유형을 지정합니다.
-  iconType?: string
+  iconType?: string;
   // 아이콘 & 라벨 색상을 지정합니다. (선택 사항)
-  iconColor?: string
+  iconColor?: string;
   // 아이콘 배경을 원형으로 표시할지 여부입니다. (선택 사항)
-  iconBackground?: 'circle' | 'square'
+  iconBackground?: 'circle' | 'square';
   // 아이콘 옆에 표시할 라벨입니다. (선택 사항)
-  label?: string
+  label?: string;
   // 라벨 색상을 지정합니다. (선택 사항)
-  labelColor?: string
+  labelColor?: string;
 }
 
 export const IconButton: React.FC<IconButtonProps> = ({
@@ -35,8 +37,8 @@ export const IconButton: React.FC<IconButtonProps> = ({
   className,
   ...props
 }) => {
-  const icons = Icons as unknown as Record<string, LucideIcon | undefined>
-  const IconComponent: LucideIcon = icon ?? icons[iconType] ?? Icons.Circle
+  const icons = Icons as unknown as Record<string, LucideIcon | undefined>;
+  const IconComponent: LucideIcon = icon ?? icons[iconType] ?? Icons.Circle;
 
   return (
     <button
@@ -64,8 +66,8 @@ export const IconButton: React.FC<IconButtonProps> = ({
         </span>
       )}
     </button>
-  )
-}
+  );
+};
 
 const IconSizeMap = {
   xs: 16,
@@ -73,7 +75,7 @@ const IconSizeMap = {
   md: 24,
   lg: 28,
   xl: 32,
-}
+};
 
 const LabelSizeMap = {
   xs: 'text-xs',
@@ -81,4 +83,4 @@ const LabelSizeMap = {
   md: 'text-base',
   lg: 'text-lg',
   xl: 'text-xl',
-}
+};

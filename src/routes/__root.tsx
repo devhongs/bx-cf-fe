@@ -1,7 +1,7 @@
-import { Outlet, createRootRoute } from '@tanstack/react-router'
+import { Outlet, createRootRoute } from '@tanstack/react-router';
 
-import NotFound from '@/features/error/ui/not-found'
-import { ModalWrapper } from '@/shared/ui/modal/ModalWrapper'
+import NotFound from '@/features/error/ui/not-found';
+import { ModalWrapper } from '@/shared/ui/modal/ModalWrapper';
 
 export const Route = createRootRoute({
   notFoundComponent: () => <NotFound />,
@@ -22,4 +22,4 @@ export const Route = createRootRoute({
       /> */}
     </>
   ),
-})
+});

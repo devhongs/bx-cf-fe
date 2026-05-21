@@ -2,19 +2,19 @@
  * 프로젝트 전반에서 사용되는 상수들을 관리합니다.
  */
 
-import type { BankId } from '@/entities/account'
+import type { BankId } from '@/entities/account';
 
 // API 관련 상수
-export * from './api'
-export * from './siteConfig'
-export * from './storage-keys'
+export * from './api';
+export * from './siteConfig';
+export * from './storage-keys';
 
 // 앱 전반 상수
 export const APP_CONFIG = {
   NAME: 'BX-CF Frontend',
   VERSION: '1.0.0',
   ENVIRONMENT: process.env.NODE_ENV || 'development',
-} as const
+} as const;
 
 // 라우팅 관련 상수
 export const ROUTES = {
@@ -22,7 +22,7 @@ export const ROUTES = {
   LOGIN: '/login',
   MAIN: '/main',
   MAIN2: '/main/main2',
-} as const
+} as const;
 
 // 은행 옵션 목록
 export const BANK_OPTIONS: Array<{ id: BankId; name: string }> = [
@@ -38,4 +38,4 @@ export const BANK_OPTIONS: Array<{ id: BankId; name: string }> = [
   { id: 'KT', name: '케이뱅크' },
   { id: 'KK', name: '카카오뱅크' },
   { id: 'TS', name: '토스뱅크' },
-]
+];

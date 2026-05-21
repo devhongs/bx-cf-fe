@@ -1,37 +1,37 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
-import { useFetchRecentAccounts } from '@/entities/account'
-import type { Account, BankId } from '@/entities/account'
-import { BANK_OPTIONS } from '@/shared/constants'
-import { useModal } from '@/shared/hooks'
-import { formatAccountNumberByBank } from '@/shared/lib/utils'
-import type { BaseProps } from '@/shared/types'
+import { useFetchRecentAccounts } from '@/entities/account';
+import type { Account, BankId } from '@/entities/account';
+import { BANK_OPTIONS } from '@/shared/constants';
+import { useModal } from '@/shared/hooks';
+import { formatAccountNumberByBank } from '@/shared/lib/utils';
+import type { BaseProps } from '@/shared/types';
 
-import styles from './index.module.css'
+import styles from './index.module.css';
 
 interface TransferListProps extends BaseProps {
-  dummy?: any
+  dummy?: any;
 }
 
 export default function TransferList({ dummy }: TransferListProps) {
-  const { data } = useFetchRecentAccounts({ userId: '' })
-  const content = data?.content
-  const [recentAccounts, setRecentAccounts] = useState<Array<any>>([])
-  const [accountNum, setAccountNum] = useState<string>('')
-  const [bankId, setBankId] = useState<BankId>()
+  const { data } = useFetchRecentAccounts({ userId: '' });
+  const content = data?.content;
+  const [recentAccounts, setRecentAccounts] = useState<Array<any>>([]);
+  const [accountNum, setAccountNum] = useState<string>('');
+  const [bankId, setBankId] = useState<BankId>();
 
-  const { open: openModal } = useModal()
+  const { open: openModal } = useModal();
 
   useEffect(() => {
     if (content) {
-      setRecentAccounts(content)
+      setRecentAccounts(content);
     }
-  }, [content])
+  }, [content]);
 
   const handleNextClick = (acc?: Account) => {
-    const targetBankId = acc?.bankId ?? bankId
-    const targetAccountNum = acc?.accountNo ?? accountNum
-    if (!targetBankId || !targetAccountNum) return
+    const targetBankId = acc?.bankId ?? bankId;
+    const targetAccountNum = acc?.accountNo ?? accountNum;
+    if (!targetBankId || !targetAccountNum) return;
 
     openModal({
       path: 'transfer-amount',
@@ -40,8 +40,8 @@ export default function TransferList({ dummy }: TransferListProps) {
         accountNo: targetAccountNum,
         name: acc?.name,
       },
-    })
-  }
+    });
+  };
 
   return (
     <div className={styles.transferListContainer}>
@@ -94,13 +94,13 @@ export default function TransferList({ dummy }: TransferListProps) {
 
         <div className={styles.recentList} role="list">
           {recentAccounts.map((acc) => {
-            const bank = BANK_OPTIONS.find((b) => b.id === acc.bankId)
-            const bankName = bank ? bank.name : acc.bankId
+            const bank = BANK_OPTIONS.find((b) => b.id === acc.bankId);
+            const bankName = bank ? bank.name : acc.bankId;
 
             const formattedAccountNum = formatAccountNumberByBank(
               acc.bankId,
               acc.accountNo,
-            )
+            );
 
             return (
               <div
@@ -114,10 +114,10 @@ export default function TransferList({ dummy }: TransferListProps) {
                   {bankName} {formattedAccountNum}
                 </div>
               </div>
-            )
+            );
           })}
         </div>
       </section>
     </div>
-  )
+  );
 }

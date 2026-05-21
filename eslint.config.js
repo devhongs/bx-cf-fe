@@ -1,5 +1,5 @@
 //  @ts-check
-import { tanstackConfig } from '@tanstack/eslint-config'
+import { tanstackConfig } from '@tanstack/eslint-config';
 
 export default [
   // 설정 파일들을 완전히 제외
@@ -38,4 +38,4 @@ export default [
       ],
     },
   },
-]
+];
