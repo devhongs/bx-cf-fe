@@ -1,9 +1,14 @@
-import type { UseQueryOptions } from '@tanstack/react-query';
+import { queryOptions } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
-
-import { AccountService } from '../api/account.api';
-
+import {
+  createAccount,
+  deleteAccount,
+  fetchAccount,
+  fetchAccounts,
+  fetchRecentAccounts,
+  updateAccount,
+  updateAccountFavorite,
+} from '../api/account.api';
 import type { Account, AccountsQueryParams } from './account.type';
 
 export const queryKeys = {
@@ -12,44 +17,42 @@ export const queryKeys = {
   fetchRecentList: (params?: AccountsQueryParams) => ['recent', params] as const,
 };
 
-export const queryOptions = {
-  // 계좌 목록 조회
-  fetchList: <T = Account>(
-    params: AccountsQueryParams,
-  ): UseQueryOptions<ApiListResponse<T>> => ({
+// 개별 Named Export와 v5 queryOptions 헬퍼 적용
+export const fetchAccountsQuery = <T = Account>(params: AccountsQueryParams) =>
+  queryOptions({
     queryKey: queryKeys.fetchList(params),
-    queryFn: async (): Promise<ApiListResponse<T>> =>
-      AccountService.fetchAll(params),
-  }),
-  // 계좌 상세 조회
-  fetch: <T = Account>(accountNo: string): UseQueryOptions<ApiResponse<T>> => ({
-    queryKey: queryKeys.fetch(accountNo),
-    queryFn: () => AccountService.fetch(accountNo),
-  }),
-  fetchRecentList: <T = Account>(
-    params: AccountsQueryParams,
-  ): UseQueryOptions<ApiListResponse<T>> => ({
-    queryKey: queryKeys.fetchRecentList(params),
-    queryFn: async (): Promise<ApiListResponse<T>> =>
-      AccountService.fetchRecent(params),
-  }),
-};
+    queryFn: () => fetchAccounts<T>(params),
+  });
 
-export const mutateOptions = {
-  // 계좌 생성
-  create: () => ({
-    mutationFn: (payload: Account) => AccountService.create(payload),
-  }),
-  // 계좌 수정
-  update: () => ({
-    mutationFn: (payload: Account) => AccountService.update(payload),
-  }),
-  // 계좌 삭제
-  delete: () => ({
-    mutationFn: (id: number) => AccountService.delete(id),
-  }),
-  // 즐겨찾기 설정
-  setFavorite: () => ({
-    mutationFn: (accountNo: string) => AccountService.setFavorite(accountNo),
-  }),
-};
+export const fetchAccountQuery = <T = Account>(accountNo: string) =>
+  queryOptions({
+    queryKey: queryKeys.fetch(accountNo),
+    queryFn: () => fetchAccount<T>(accountNo),
+  });
+
+export const fetchRecentAccountsQuery = <T = Account>(params: AccountsQueryParams) =>
+  queryOptions({
+    queryKey: queryKeys.fetchRecentList(params),
+    queryFn: () => fetchRecentAccounts<T>(params),
+  });
+
+// 계좌 생성 뮤테이션 옵션
+export const createAccountMutation = () => ({
+  mutationFn: (payload: Account) => createAccount(payload),
+});
+
+// 계좌 수정 뮤테이션 옵션
+export const updateAccountMutation = () => ({
+  mutationFn: (payload: Account) => updateAccount(payload),
+});
+
+// 계좌 삭제 뮤테이션 옵션
+export const deleteAccountMutation = () => ({
+  mutationFn: (id: string) => deleteAccount(id),
+});
+
+// 즐겨찾기 설정 뮤테이션 옵션 (단일 타깃 ID에 대해 즐겨찾기 설정/해제 트리거)
+export const setFavoriteAccountMutation = () => ({
+  mutationFn: ({ id, isFavorite }: { id: string; isFavorite: boolean }) =>
+    updateAccountFavorite(id, isFavorite),
+});

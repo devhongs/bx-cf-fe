@@ -1,9 +1,11 @@
-import type { UseQueryOptions } from '@tanstack/react-query';
+import { queryOptions } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
-
-import { ProductService } from '../api/product.api';
-
+import {
+  createProduct,
+  deleteProduct,
+  fetchProduct,
+  fetchProducts,
+} from '../api/product.api';
 import type { Product, ProductQueryParams } from './product.type';
 
 export const queryKeys = {
@@ -11,29 +13,25 @@ export const queryKeys = {
   fetch: (id: number) => ['product', id] as const,
 };
 
-export const queryOptions = {
-  // 상품 목록 조회
-  fetchList: <T = Product>(
-    params?: ProductQueryParams,
-  ): UseQueryOptions<ApiListResponse<T>> => ({
+// 개별 Named Export와 v5 queryOptions 헬퍼 적용
+export const fetchProductsQuery = <T = Product>(params?: ProductQueryParams) =>
+  queryOptions({
     queryKey: queryKeys.fetchList(params),
-    queryFn: async (): Promise<ApiListResponse<T>> =>
-      ProductService.fetchAll(params),
-  }),
-  // 상품 상세 조회
-  fetch: <T = Product>(productId: number): UseQueryOptions<ApiResponse<T>> => ({
-    queryKey: queryKeys.fetch(productId),
-    queryFn: () => ProductService.fetch(productId),
-  }),
-};
+    queryFn: () => fetchProducts<T>(params),
+  });
 
-export const mutateOptions = {
-  // 상품 생성
-  create: () => ({
-    mutationFn: (payload: Product) => ProductService.create(payload),
-  }),
-  // 상품 삭제
-  delete: () => ({
-    mutationFn: (id: number) => ProductService.delete(id),
-  }),
-};
+export const fetchProductQuery = <T = Product>(productId: number) =>
+  queryOptions({
+    queryKey: queryKeys.fetch(productId),
+    queryFn: () => fetchProduct<T>(productId),
+  });
+
+// 상품 생성 뮤테이션 옵션
+export const createProductMutation = () => ({
+  mutationFn: (payload: Product) => createProduct(payload),
+});
+
+// 상품 삭제 뮤테이션 옵션
+export const deleteProductMutation = () => ({
+  mutationFn: (id: number) => deleteProduct(id),
+});

@@ -1,14 +1,18 @@
 import type {
   UseMutationOptions,
   UseMutationResult,
-  UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
 
-import { mutateOptions, queryOptions } from './alarm.queries';
+import {
+  createAlarmMutation,
+  deleteAlarmMutation,
+  fetchAlarmQuery,
+  fetchAlarmsQuery,
+} from './alarm.queries';
 import type { Alarm, AlarmsQueryParams } from './alarm.type';
 
 /**
@@ -18,20 +22,20 @@ import type { Alarm, AlarmsQueryParams } from './alarm.type';
  */
 export const useFetchAlarms = <T = Alarm>(
   params?: AlarmsQueryParams,
-  options?: UseQueryOptions<ApiListResponse<T>, Error>,
+  options?: any,
 ): UseQueryResult<ApiListResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetchList<T>(params), ...options });
+  return useQuery<ApiListResponse<T>, Error>({ ...fetchAlarmsQuery<T>(params), ...options });
 };
 
 /**
- * 특정 알람 No의 알람 정보를 가져오는 쿼리 훅.
- * @param accountNo - 조회할 알람 No.
+ * 특정 알람의 알람 정보를 가져오는 쿼리 훅.
+ * @param alarmId - 조회할 알람 ID.
  */
 export const useFetchAlarm = <T = Alarm>(
   alarmId: number,
-  options?: UseQueryOptions<ApiResponse<T>, Error>,
+  options?: any,
 ): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetch<T>(alarmId), ...options });
+  return useQuery<ApiResponse<T>, Error>({ ...fetchAlarmQuery<T>(alarmId), ...options });
 };
 
 /**
@@ -42,7 +46,7 @@ export const useCreateAlarm = (
   options?: UseMutationOptions<Alarm, Error, Alarm, unknown>,
 ): UseMutationResult<Alarm, Error, Alarm, unknown> => {
   return useMutation({
-    ...mutateOptions.create(),
+    ...createAlarmMutation(),
     ...options,
     onSuccess: (data, variables, context, mutation) => {
       // await showSaveComplete()
@@ -63,7 +67,7 @@ export const useDeleteAlarm = (
 ): UseMutationResult<any, Error, number, unknown> => {
   // 반환 타입 any는 실제 API 응답 타입으로 명시 권장
   return useMutation({
-    ...mutateOptions.delete(),
+    ...deleteAlarmMutation(),
     ...options,
     onSuccess: (data, variables, context, mutation) => {
       // await showDeleteComplete()

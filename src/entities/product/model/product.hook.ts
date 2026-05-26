@@ -1,14 +1,18 @@
 import type {
   UseMutationOptions,
   UseMutationResult,
-  UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
 
-import { mutateOptions, queryOptions } from './product.queries';
+import {
+  createProductMutation,
+  deleteProductMutation,
+  fetchProductQuery,
+  fetchProductsQuery,
+} from './product.queries';
 import type { Product, ProductQueryParams } from './product.type';
 
 /**
@@ -18,9 +22,9 @@ import type { Product, ProductQueryParams } from './product.type';
  */
 export const useFetchProducts = <T = Product>(
   params?: ProductQueryParams,
-  options?: UseQueryOptions<ApiListResponse<T>, Error>,
+  options?: any,
 ): UseQueryResult<ApiListResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetchList<T>(params), ...options });
+  return useQuery<ApiListResponse<T>, Error>({ ...fetchProductsQuery<T>(params), ...options });
 };
 
 /**
@@ -29,9 +33,9 @@ export const useFetchProducts = <T = Product>(
  */
 export const useFetchProduct = <T = Product>(
   productId: number,
-  options?: UseQueryOptions<ApiResponse<T>, Error>,
+  options?: any,
 ): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetch<T>(productId), ...options });
+  return useQuery<ApiResponse<T>, Error>({ ...fetchProductQuery<T>(productId), ...options });
 };
 
 /**
@@ -42,7 +46,7 @@ export const useCreateProduct = (
   options?: UseMutationOptions<Product, Error, Product, unknown>,
 ): UseMutationResult<Product, Error, Product, unknown> => {
   return useMutation({
-    ...mutateOptions.create(),
+    ...createProductMutation(),
     ...options,
     onSuccess: (data, variables, context, mutation) => {
       // await showSaveComplete()
@@ -63,7 +67,7 @@ export const useDeleteProduct = (
 ): UseMutationResult<any, Error, number, unknown> => {
   // 반환 타입 any는 실제 API 응답 타입으로 명시 권장
   return useMutation({
-    ...mutateOptions.delete(),
+    ...deleteProductMutation(),
     ...options,
     onSuccess: (data, variables, context, mutation) => {
       // await showDeleteComplete()

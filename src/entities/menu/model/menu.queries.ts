@@ -1,9 +1,11 @@
-import type { UseQueryOptions } from '@tanstack/react-query';
+import { queryOptions } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
-
-import { MenuService } from '../api/menu.api';
-
+import {
+  createMenu,
+  deleteMenu,
+  fetchMenu,
+  fetchMenus,
+} from '../api/menu.api';
 import type { Menu, MenuQueryParams } from './menu.type';
 
 export const queryKeys = {
@@ -11,29 +13,24 @@ export const queryKeys = {
   fetch: (id: number) => ['menu', id] as const,
 };
 
-export const queryOptions = {
-  // 메뉴 목록 조회
-  fetchList: <T = Menu>(
-    params?: MenuQueryParams,
-  ): UseQueryOptions<ApiListResponse<T>> => ({
+// 개별 Named Export와 v5 queryOptions 헬퍼 적용
+export const fetchMenusQuery = <T = Menu>(params?: MenuQueryParams) =>
+  queryOptions({
     queryKey: queryKeys.fetchList(params),
-    queryFn: async (): Promise<ApiListResponse<T>> =>
-      MenuService.fetchAll(params),
-  }),
-  // 메뉴 상세 조회
-  fetch: <T = Menu>(menuId: number): UseQueryOptions<ApiResponse<T>> => ({
-    queryKey: queryKeys.fetch(menuId),
-    queryFn: () => MenuService.fetch(menuId),
-  }),
-};
+    queryFn: () => fetchMenus<T>(params),
+  });
 
-export const mutateOptions = {
-  // 알람 생성
-  create: () => ({
-    mutationFn: (payload: Menu) => MenuService.create(payload),
-  }),
-  // 알람 삭제
-  delete: () => ({
-    mutationFn: (id: number) => MenuService.delete(id),
-  }),
-};
+export const fetchMenuQuery = <T = Menu>(menuId: number) =>
+  queryOptions({
+    queryKey: queryKeys.fetch(menuId),
+    queryFn: () => fetchMenu<T>(menuId),
+  });
+
+// 개별 Named Export 뮤테이션 옵션
+export const createMenuMutation = () => ({
+  mutationFn: (payload: Menu) => createMenu(payload),
+});
+
+export const deleteMenuMutation = () => ({
+  mutationFn: (id: number) => deleteMenu(id),
+});

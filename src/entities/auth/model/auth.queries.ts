@@ -1,9 +1,6 @@
-import type { UseQueryOptions } from '@tanstack/react-query';
+import { queryOptions } from '@tanstack/react-query';
 
-import type { ApiResponse } from '@/shared/api/types';
-
-import { AuthService } from '../api/auth.api';
-
+import { login, logout } from '../api/auth.api';
 import type { Auth, AuthQueryParams } from './auth.type';
 
 export const queryKeys = {
@@ -13,19 +10,15 @@ export const queryKeys = {
   checkRefreshToken: ['checkRefreshToken'] as const,
 };
 
-export const queryOptions = {
-  // 사용자 로그인
-  login: <T = Auth>(
-    params: AuthQueryParams,
-  ): UseQueryOptions<ApiResponse<T>> => ({
+// 개별 Named Export와 v5 queryOptions 헬퍼 적용
+export const loginQuery = <T = Auth>(params: AuthQueryParams) =>
+  queryOptions({
     queryKey: queryKeys.login(params),
-    queryFn: async (): Promise<ApiResponse<T>> => AuthService.login(params.id),
-  }),
-  // 사용자 로그아웃
-  logout: <T = Auth>(
-    params: AuthQueryParams,
-  ): UseQueryOptions<ApiResponse<T>> => ({
+    queryFn: () => login<T>(params.id),
+  });
+
+export const logoutQuery = <T = Auth>(params: AuthQueryParams) =>
+  queryOptions({
     queryKey: queryKeys.logout(params),
-    queryFn: async (): Promise<ApiResponse<T>> => AuthService.logout(params.id),
-  }),
-};
+    queryFn: () => logout<T>(params.id),
+  });

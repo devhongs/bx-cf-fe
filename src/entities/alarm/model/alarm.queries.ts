@@ -1,9 +1,11 @@
-import type { UseQueryOptions } from '@tanstack/react-query';
+import { queryOptions } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
-
-import { AlarmService } from '../api/alarm.api';
-
+import {
+  createAlarm,
+  deleteAlarm,
+  fetchAlarm,
+  fetchAlarms,
+} from '../api/alarm.api';
 import type { Alarm, AlarmsQueryParams } from './alarm.type';
 
 export const queryKeys = {
@@ -11,29 +13,24 @@ export const queryKeys = {
   fetch: (id: number) => ['alarm', id] as const,
 };
 
-export const queryOptions = {
-  // 알람 목록 조회
-  fetchList: <T = Alarm>(
-    params?: AlarmsQueryParams,
-  ): UseQueryOptions<ApiListResponse<T>> => ({
+// 개별 Named Export와 v5 queryOptions 헬퍼 적용
+export const fetchAlarmsQuery = <T = Alarm>(params?: AlarmsQueryParams) =>
+  queryOptions({
     queryKey: queryKeys.fetchList(params),
-    queryFn: async (): Promise<ApiListResponse<T>> =>
-      AlarmService.fetchAll(params),
-  }),
-  // 알람 상세 조회
-  fetch: <T = Alarm>(alarmId: number): UseQueryOptions<ApiResponse<T>> => ({
-    queryKey: queryKeys.fetch(alarmId),
-    queryFn: () => AlarmService.fetch(alarmId),
-  }),
-};
+    queryFn: () => fetchAlarms<T>(params),
+  });
 
-export const mutateOptions = {
-  // 알람 생성
-  create: () => ({
-    mutationFn: (payload: Alarm) => AlarmService.create(payload),
-  }),
-  // 알람 삭제
-  delete: () => ({
-    mutationFn: (id: number) => AlarmService.delete(id),
-  }),
-};
+export const fetchAlarmQuery = <T = Alarm>(alarmId: number) =>
+  queryOptions({
+    queryKey: queryKeys.fetch(alarmId),
+    queryFn: () => fetchAlarm<T>(alarmId),
+  });
+
+// 개별 Named Export 뮤테이션 옵션
+export const createAlarmMutation = () => ({
+  mutationFn: (payload: Alarm) => createAlarm(payload),
+});
+
+export const deleteAlarmMutation = () => ({
+  mutationFn: (id: number) => deleteAlarm(id),
+});

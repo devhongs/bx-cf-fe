@@ -1,14 +1,18 @@
 import type {
   UseMutationOptions,
   UseMutationResult,
-  UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
 
-import { mutateOptions, queryOptions } from './menu.queries';
+import {
+  createMenuMutation,
+  deleteMenuMutation,
+  fetchMenuQuery,
+  fetchMenusQuery,
+} from './menu.queries';
 import type { Menu, MenuQueryParams } from './menu.type';
 
 /**
@@ -18,20 +22,20 @@ import type { Menu, MenuQueryParams } from './menu.type';
  */
 export const useFetchMenus = <T = Menu>(
   params?: MenuQueryParams,
-  options?: UseQueryOptions<ApiListResponse<T>, Error>,
+  options?: any,
 ): UseQueryResult<ApiListResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetchList<T>(params), ...options });
+  return useQuery<ApiListResponse<T>, Error>({ ...fetchMenusQuery<T>(params), ...options });
 };
 
 /**
  * 특정 메뉴 No의 메뉴 정보를 가져오는 쿼리 훅.
- * @param accountNo - 조회할 메뉴 No.
+ * @param menuId - 조회할 메뉴 ID.
  */
 export const useFetchMenu = <T = Menu>(
   menuId: number,
-  options?: UseQueryOptions<ApiResponse<T>, Error>,
+  options?: any,
 ): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetch<T>(menuId), ...options });
+  return useQuery<ApiResponse<T>, Error>({ ...fetchMenuQuery<T>(menuId), ...options });
 };
 
 /**
@@ -42,7 +46,7 @@ export const useCreateMenu = (
   options?: UseMutationOptions<Menu, Error, Menu, unknown>,
 ): UseMutationResult<Menu, Error, Menu, unknown> => {
   return useMutation({
-    ...mutateOptions.create(),
+    ...createMenuMutation(),
     ...options,
     onSuccess: (data, variables, context, mutation) => {
       // await showSaveComplete()
@@ -63,7 +67,7 @@ export const useDeleteMenu = (
 ): UseMutationResult<any, Error, number, unknown> => {
   // 반환 타입 any는 실제 API 응답 타입으로 명시 권장
   return useMutation({
-    ...mutateOptions.delete(),
+    ...deleteMenuMutation(),
     ...options,
     onSuccess: (data, variables, context, mutation) => {
       // await showDeleteComplete()
