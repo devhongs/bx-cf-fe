@@ -1,5 +1,5 @@
-import AssetList from '@/features/asset/ui/asset-list';
+import { AssetList } from '@/features/asset/ui/asset-list';
 
-export default function AssetPage() {
+export function AssetPage() {
   return <AssetList />;
 }

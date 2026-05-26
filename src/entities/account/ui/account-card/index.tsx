@@ -17,7 +17,7 @@ interface AccountCardProps extends BaseProps {
   onTransferClick?: () => void;
 }
 
-export default function AccountCard({
+export function AccountCard({
   data,
   onFavoriteSelect,
   onTransferClick,

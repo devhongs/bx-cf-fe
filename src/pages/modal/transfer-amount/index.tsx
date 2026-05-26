@@ -1,5 +1,5 @@
 import type { BankId } from '@/entities/account';
-import TransferAmount from '@/features/transfer/ui/transfer-amount';
+import { TransferAmount } from '@/features/transfer/ui/transfer-amount';
 import type { ModalConfig } from '@/shared/types';
 import { Modal, ModalBody, ModalTitle } from '@/shared/ui/modal/Modal';
 
@@ -14,7 +14,7 @@ interface TransferAmountModalProps extends ModalConfig {
   dummy?: any;
 }
 
-export default function TransferAmountModal({
+export function TransferAmountModal({
   props,
 }: TransferAmountModalProps) {
   const { bankId, accountNo, name } = props || {

@@ -12,7 +12,7 @@ interface SettingModalProps extends ModalConfig {
   dummy?: any;
 }
 
-export default function SettingModal(_props: SettingModalProps) {
+export function SettingModal(_props: SettingModalProps) {
   const navigate = useNavigate();
   const { closeAll: closeAllModal } = useModal();
 

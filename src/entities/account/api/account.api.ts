@@ -1,6 +1,6 @@
 import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
 import { API_URL } from '@/shared/constants';
-import HttpJsonService from '@/shared/lib/ajax/http.json.service';
+import { HttpJsonService } from '@/shared/lib/ajax/http.json.service';
 import { httpService } from '@/shared/lib/ajax/http.service';
 
 import type { Account, AccountsQueryParams } from '../model/account.type';
@@ -8,7 +8,7 @@ import type { Account, AccountsQueryParams } from '../model/account.type';
 /**
  * 계좌 관련 API 요청을 처리하는 서비스 클래스.
  */
-export default class AccountService {
+export class AccountService {
   /**
    * 계좌 목록을 조회합니다.
    * @param [params] - 조회 파라미터 (선택 사항).

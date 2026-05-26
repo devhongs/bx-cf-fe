@@ -11,7 +11,7 @@ interface AlarmCardProps extends BaseProps {
   onClick?: () => void;
 }
 
-export default function AlarmCard({ data, onClick }: AlarmCardProps) {
+export function AlarmCard({ data, onClick }: AlarmCardProps) {
   return (
     <div className={styles.layout} onClick={onClick}>
       <div>{data.title}</div>

@@ -1,13 +1,13 @@
 import type { ApiResponse } from '@/shared/api/types';
 import { API_URL } from '@/shared/constants';
-import HttpJsonService from '@/shared/lib/ajax/http.json.service';
+import { HttpJsonService } from '@/shared/lib/ajax/http.json.service';
 
 import type { Auth } from '../model/auth.type';
 
 /**
  * 메뉴 관련 API 요청을 처리하는 서비스 클래스.
  */
-export default class AuthService {
+export class AuthService {
   /**
    * 사용자 로그인
    * @param id - 조회할 사용자 아이디.

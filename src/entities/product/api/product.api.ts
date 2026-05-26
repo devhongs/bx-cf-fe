@@ -1,13 +1,13 @@
 import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
 import { API_URL } from '@/shared/constants';
-import HttpJsonService from '@/shared/lib/ajax/http.json.service';
+import { HttpJsonService } from '@/shared/lib/ajax/http.json.service';
 
 import type { Product, ProductQueryParams } from '../model/product.type';
 
 /**
  * 메뉴 관련 API 요청을 처리하는 서비스 클래스.
  */
-export default class ProductService {
+export class ProductService {
   /**
    * 메뉴 목록을 조회합니다.
    * @param [params] - 조회 파라미터 (선택 사항). ㄴ

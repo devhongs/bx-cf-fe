@@ -13,7 +13,7 @@ interface TransferAmountProps extends BaseProps {
   name?: string;
 }
 
-export default function TransferAmount({
+export function TransferAmount({
   bankId,
   accountNo,
   name,

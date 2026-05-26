@@ -1,4 +1,4 @@
-import CONFIG from '@/shared/constants/siteConfig';
+import { CONFIG } from '@/shared/constants/siteConfig';
 import type { CodeItem } from '@/shared/types/index';
 
 import { $formatUtils } from './common.format';

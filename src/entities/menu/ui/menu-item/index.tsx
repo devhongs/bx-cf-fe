@@ -9,7 +9,7 @@ interface MenuItemProps extends BaseProps {
   onMenuClick?: (menu: Menu) => void;
 }
 
-export default function MenuItem({ data, onMenuClick }: MenuItemProps) {
+export function MenuItem({ data, onMenuClick }: MenuItemProps) {
   const { children = [], name } = data;
   return (
     <div className={styles.layout}>

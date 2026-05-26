@@ -2,7 +2,7 @@ import type { UseQueryOptions } from '@tanstack/react-query';
 
 import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
 
-import AccountService from '../api/account.api';
+import { AccountService } from '../api/account.api';
 
 import type { Account, AccountsQueryParams } from './account.type';
 

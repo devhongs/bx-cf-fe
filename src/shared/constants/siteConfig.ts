@@ -76,4 +76,5 @@ const CONFIG = {
   },
 };
 
-export default CONFIG;
+export { CONFIG };
+

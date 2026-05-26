@@ -1,4 +1,4 @@
-import CONFIG from '@/shared/constants/siteConfig';
+import { CONFIG } from '@/shared/constants/siteConfig';
 
 // _app.tsx에서 setting되는 beforeinstallprompt Event 변수
 // 앱 다운로드를 위해 사용됨

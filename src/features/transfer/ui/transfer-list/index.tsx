@@ -13,7 +13,7 @@ interface TransferListProps extends BaseProps {
   dummy?: any;
 }
 
-export default function TransferList({ dummy }: TransferListProps) {
+export function TransferList({ dummy }: TransferListProps) {
   const { data } = useFetchRecentAccounts({ userId: '' });
   const content = data?.content;
   const [recentAccounts, setRecentAccounts] = useState<Array<any>>([]);

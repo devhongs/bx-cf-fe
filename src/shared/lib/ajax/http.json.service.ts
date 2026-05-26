@@ -3,7 +3,7 @@ import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
 import { toQueryParams } from '../utils';
 
 // sample url: http://localhost:3001/alarms
-export default class HttpJsonService {
+export class HttpJsonService {
   /**
    * 여러 데이터를 페이지네이션 형태로 조회합니다.
    * @template T

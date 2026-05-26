@@ -3,7 +3,7 @@ import type { ComponentType } from 'react';
 
 import type { ModalConfig } from '@/shared/types';
 
-const modalModules = import.meta.glob<{ default: ComponentType<any> }>(
+const modalModules = import.meta.glob<Record<string, ComponentType<any>>>(
   '/src/pages/modal/*/*.tsx',
   { eager: false },
 );
@@ -24,7 +24,12 @@ const modalPathMap = Object.keys(modalModules).reduce(
 const lazyModalComponents = Object.keys(modalModules).reduce(
   (acc, path) => {
     const importFn = modalModules[path];
-    acc[path] = lazy(() => importFn().then((mod) => ({ default: mod.default })));
+    acc[path] = lazy(() =>
+      importFn().then((mod) => {
+        const key = Object.keys(mod).find((k) => typeof mod[k] === 'function');
+        return { default: key ? mod[key] : mod.default };
+      }),
+    );
     return acc;
   },
   {} as Record<string, ReturnType<typeof lazy> | undefined>,

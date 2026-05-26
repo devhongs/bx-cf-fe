@@ -9,7 +9,7 @@ interface UserAvatarProps extends BaseProps {
   showName?: boolean;
 }
 
-export default function UserAvatar({
+export function UserAvatar({
   name,
   imageUrl = '/assets/images/avatar/avatar-men.svg',
   size = 50,

@@ -9,7 +9,7 @@ interface ProductItemProps extends BaseProps {
   onItemClick?: (menu: Product) => void;
 }
 
-export default function ProductItem({
+export function ProductItem({
   data,
   onItemClick = () => null,
 }: ProductItemProps) {

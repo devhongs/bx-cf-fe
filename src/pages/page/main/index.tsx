@@ -1,12 +1,14 @@
 import { useFetchAccounts } from '@/entities/account';
 import type { Account } from '@/entities/account';
-import AccountCard from '@/entities/account/ui/account-card';
+import { AccountCard } from '@/entities/account/ui/account-card';
 
-export default function MainPage() {
+export function MainPage() {
   const { data } = useFetchAccounts({ userId: '' });
   const content = data?.content ?? [];
 
   const favoriteAccount = content.find((acc: Account) => acc.isFavorite);
+
+  console.table(content);
 
   // 임시로 [0]번째 계좌만 보여주기
   return <div>{favoriteAccount && <AccountCard data={favoriteAccount} />}</div>;

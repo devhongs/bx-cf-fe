@@ -1,9 +1,9 @@
-import ProductList from '@/features/product/ui/prodict-list';
+import { ProductList } from '@/features/product/ui/prodict-list';
 import { Page, PageBody } from '@/shared/ui';
 
 import styles from './index.module.css';
 
-export default function ProductPage() {
+export function ProductPage() {
   return (
     <Page>
       <PageBody>

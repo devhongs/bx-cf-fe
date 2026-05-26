@@ -6,7 +6,7 @@ interface AlarmDetailProps extends BaseProps {
   alarmId: number;
 }
 
-export default function AlarmDetail({ alarmId }: AlarmDetailProps) {
+export function AlarmDetail({ alarmId }: AlarmDetailProps) {
   const { data } = useFetchAlarm(alarmId);
   const content = data?.content ?? ({} as Alarm);
 

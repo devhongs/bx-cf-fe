@@ -1,3 +1,3 @@
-export default function SettingPage() {
+export function SettingPage() {
   return <div>Hello "(page)/_page/setting/"!</div>;
 }

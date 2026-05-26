@@ -2,7 +2,7 @@ import type { UseQueryOptions } from '@tanstack/react-query';
 
 import type { ApiResponse } from '@/shared/api/types';
 
-import AuthService from '../api/auth.api';
+import { AuthService } from '../api/auth.api';
 
 import type { Auth, AuthQueryParams } from './auth.type';
 

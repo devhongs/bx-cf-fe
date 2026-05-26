@@ -1,4 +1,4 @@
-import UserAvatar from '@/entities/user/ui/user-avatar/UserAvatar';
+import { UserAvatar } from '@/entities/user/ui/user-avatar/UserAvatar';
 import type { ModalConfig } from '@/shared/types';
 import { Modal, ModalBody, ModalTitle } from '@/shared/ui/modal/Modal';
 
@@ -8,7 +8,7 @@ interface UserInfoModalProps extends ModalConfig {
   dummy?: any;
 }
 
-export default function UserInfoModal({ props }: UserInfoModalProps) {
+export function UserInfoModal({ props }: UserInfoModalProps) {
   return (
     <Modal closeButtonType="close">
       <ModalTitle>내 정보</ModalTitle>

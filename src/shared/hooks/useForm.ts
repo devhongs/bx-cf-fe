@@ -157,4 +157,5 @@ function useForm(settings: any) {
   };
 }
 
-export default useForm;
+export { useForm };
+

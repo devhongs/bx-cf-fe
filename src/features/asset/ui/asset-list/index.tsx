@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import type { Account } from '@/entities/account';
 import { useFetchAccounts, useSetFavoriteAccount } from '@/entities/account';
-import AccountCard from '@/entities/account/ui/account-card';
+import { AccountCard } from '@/entities/account/ui/account-card';
 import { useModal } from '@/shared/hooks';
 import type { BaseProps } from '@/shared/types';
 
@@ -10,7 +10,7 @@ interface AssetListProps extends BaseProps {
   dummy?: any;
 }
 
-export default function AssetList(_props: AssetListProps) {
+export function AssetList(_props: AssetListProps) {
   const { data } = useFetchAccounts({ userId: '' });
   const content = data?.content;
   const [accounts, setAccounts] = useState<Array<Account>>([]);
