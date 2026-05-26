@@ -8,7 +8,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
 
-import { mutateOptions, queryKeys, queryOptions } from './account.queries';
+import { mutateOptions, queryOptions } from './account.queries';
 import type { Account, AccountsQueryParams } from './account.type';
 
 /**
@@ -113,41 +113,49 @@ export const useDeleteCourse = (
  * - 낙관적 업데이트 → 실패 시 롤백 → invalidate
  */
 export const useSetFavoriteAccount = (
-  options?: UseMutationOptions<void, Error, string, { previous?: unknown }>,
-): UseMutationResult<void, Error, string, { previous?: unknown }> => {
+  options?: UseMutationOptions<void, Error, string, { previousQueries?: any }>,
+): UseMutationResult<void, Error, string, { previousQueries?: any }> => {
   const queryClient = useQueryClient();
 
   return useMutation({
     ...mutateOptions.setFavorite(),
     // 낙관적 업데이트
     onMutate: async (accountNo) => {
-      await queryClient.cancelQueries({ queryKey: queryKeys.fetchList });
+      // ['accounts']로 시작하는 모든 쿼리를 취소
+      await queryClient.cancelQueries({ queryKey: ['accounts'] });
 
-      const previous = queryClient.getQueryData(queryKeys.fetchList);
+      // 이전 쿼리 상태 스냅샷 저장
+      const previousQueries = queryClient.getQueriesData({ queryKey: ['accounts'] });
 
-      // 캐시: 선택된 계좌만 true, 나머지는 false
-      queryClient.setQueryData(queryKeys.fetchList, (old: any) => {
-        if (!old) return old;
-        return {
-          ...old,
-          content: (old.content ?? []).map((acc: Account) => ({
-            ...acc,
-            isFavorite: acc.accountNo === accountNo,
-          })),
-        };
+      // 캐시 업데이트: 선택된 계좌만 true, 나머지는 false
+      previousQueries.forEach(([queryKey, oldData]: any) => {
+        if (!oldData) return;
+        queryClient.setQueryData(queryKey, (old: any) => {
+          if (!old) return old;
+          return {
+            ...old,
+            content: (old.content ?? []).map((acc: Account) => ({
+              ...acc,
+              isFavorite: acc.accountNo === accountNo,
+            })),
+          };
+        });
       });
 
-      return { previous };
+      return { previousQueries };
     },
     onError: (_err, _vars, ctx, mutation) => {
-      if (ctx?.previous) {
-        queryClient.setQueryData(queryKeys.fetchList, ctx.previous);
+      // 에러 발생 시 롤백
+      if (ctx?.previousQueries) {
+        ctx.previousQueries.forEach(([queryKey, previousData]: any) => {
+          queryClient.setQueryData(queryKey, previousData);
+        });
       }
       options?.onError?.(_err, _vars, ctx, mutation);
     },
     onSettled: (...args) => {
-      // 서버 진실과 동기화
-      queryClient.invalidateQueries({ queryKey: queryKeys.fetchList });
+      // 서버 데이터와 동기화
+      queryClient.invalidateQueries({ queryKey: ['accounts'] });
       options?.onSettled?.(...args);
     },
     onSuccess: (...args) => {

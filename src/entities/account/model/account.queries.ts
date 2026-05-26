@@ -7,9 +7,9 @@ import { AccountService } from '../api/account.api';
 import type { Account, AccountsQueryParams } from './account.type';
 
 export const queryKeys = {
-  fetchList: ['accounts'] as const,
+  fetchList: (params?: AccountsQueryParams) => ['accounts', params] as const,
   fetch: (id: string) => ['account', id] as const,
-  fetchRecentList: ['recent'] as const,
+  fetchRecentList: (params?: AccountsQueryParams) => ['recent', params] as const,
 };
 
 export const queryOptions = {
@@ -17,7 +17,7 @@ export const queryOptions = {
   fetchList: <T = Account>(
     params: AccountsQueryParams,
   ): UseQueryOptions<ApiListResponse<T>> => ({
-    queryKey: queryKeys.fetchList,
+    queryKey: queryKeys.fetchList(params),
     queryFn: async (): Promise<ApiListResponse<T>> =>
       AccountService.fetchAll(params),
   }),
@@ -29,7 +29,7 @@ export const queryOptions = {
   fetchRecentList: <T = Account>(
     params: AccountsQueryParams,
   ): UseQueryOptions<ApiListResponse<T>> => ({
-    queryKey: queryKeys.fetchRecentList,
+    queryKey: queryKeys.fetchRecentList(params),
     queryFn: async (): Promise<ApiListResponse<T>> =>
       AccountService.fetchRecent(params),
   }),

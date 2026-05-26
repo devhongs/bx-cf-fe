@@ -7,20 +7,20 @@ import { MenuService } from '../api/menu.api';
 import type { Menu, MenuQueryParams } from './menu.type';
 
 export const queryKeys = {
-  fetchList: ['menus'] as const,
+  fetchList: (params?: MenuQueryParams) => ['menus', params] as const,
   fetch: (id: number) => ['menu', id] as const,
 };
 
 export const queryOptions = {
-  // 알람 목록 조회
+  // 메뉴 목록 조회
   fetchList: <T = Menu>(
     params?: MenuQueryParams,
   ): UseQueryOptions<ApiListResponse<T>> => ({
-    queryKey: queryKeys.fetchList,
+    queryKey: queryKeys.fetchList(params),
     queryFn: async (): Promise<ApiListResponse<T>> =>
       MenuService.fetchAll(params),
   }),
-  // 알람 상세 조회
+  // 메뉴 상세 조회
   fetch: <T = Menu>(menuId: number): UseQueryOptions<ApiResponse<T>> => ({
     queryKey: queryKeys.fetch(menuId),
     queryFn: () => MenuService.fetch(menuId),

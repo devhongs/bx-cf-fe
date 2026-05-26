@@ -12,8 +12,8 @@ import { mutateOptions, queryOptions } from './product.queries';
 import type { Product, ProductQueryParams } from './product.type';
 
 /**
- * 모든 메뉴 목록을 가져오는 쿼리 훅.
- * @param params - 메뉴 목록 조회 쿼리 파라미터.
+ * 모든 상품 목록을 가져오는 쿼리 훅.
+ * @param params - 상품 목록 조회 쿼리 파라미터.
  * @param options - 추가 쿼리 옵션.
  */
 export const useFetchProducts = <T = Product>(
@@ -24,18 +24,18 @@ export const useFetchProducts = <T = Product>(
 };
 
 /**
- * 특정 메뉴 No의 메뉴 정보를 가져오는 쿼리 훅.
- * @param accountNo - 조회할 메뉴 No.
+ * 특정 상품 No의 상품 정보를 가져오는 쿼리 훅.
+ * @param productId - 조회할 상품 ID.
  */
 export const useFetchProduct = <T = Product>(
-  accountId: number,
+  productId: number,
   options?: UseQueryOptions<ApiResponse<T>, Error>,
 ): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetch<T>(accountId), ...options });
+  return useQuery({ ...queryOptions.fetch<T>(productId), ...options });
 };
 
 /**
- * 새로운 메뉴를 생성하는 뮤테이션 훅.
+ * 새로운 상품을 생성하는 뮤테이션 훅.
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */
 export const useCreateProduct = (
@@ -55,7 +55,7 @@ export const useCreateProduct = (
 };
 
 /**
- * 기존 메뉴를 삭제하는 뮤테이션 훅.
+ * 기존 상품을 삭제하는 뮤테이션 훅.
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */
 export const useDeleteProduct = (

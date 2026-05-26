@@ -7,8 +7,8 @@ import { AuthService } from '../api/auth.api';
 import type { Auth, AuthQueryParams } from './auth.type';
 
 export const queryKeys = {
-  login: ['login'] as const,
-  logout: ['logout'] as const,
+  login: (params?: AuthQueryParams) => ['login', params] as const,
+  logout: (params?: AuthQueryParams) => ['logout', params] as const,
   checkAccessToken: ['checkAccessToken'] as const,
   checkRefreshToken: ['checkRefreshToken'] as const,
 };
@@ -18,14 +18,14 @@ export const queryOptions = {
   login: <T = Auth>(
     params: AuthQueryParams,
   ): UseQueryOptions<ApiResponse<T>> => ({
-    queryKey: queryKeys.login,
+    queryKey: queryKeys.login(params),
     queryFn: async (): Promise<ApiResponse<T>> => AuthService.login(params.id),
   }),
   // 사용자 로그아웃
   logout: <T = Auth>(
     params: AuthQueryParams,
   ): UseQueryOptions<ApiResponse<T>> => ({
-    queryKey: queryKeys.logout,
+    queryKey: queryKeys.logout(params),
     queryFn: async (): Promise<ApiResponse<T>> => AuthService.logout(params.id),
   }),
 };

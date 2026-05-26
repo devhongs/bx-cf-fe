@@ -28,10 +28,10 @@ export const useFetchMenus = <T = Menu>(
  * @param accountNo - 조회할 메뉴 No.
  */
 export const useFetchMenu = <T = Menu>(
-  accountId: number,
+  menuId: number,
   options?: UseQueryOptions<ApiResponse<T>, Error>,
 ): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetch<T>(accountId), ...options });
+  return useQuery({ ...queryOptions.fetch<T>(menuId), ...options });
 };
 
 /**

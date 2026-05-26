@@ -28,10 +28,10 @@ export const useFetchAlarms = <T = Alarm>(
  * @param accountNo - 조회할 알람 No.
  */
 export const useFetchAlarm = <T = Alarm>(
-  accountId: number,
+  alarmId: number,
   options?: UseQueryOptions<ApiResponse<T>, Error>,
 ): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetch<T>(accountId), ...options });
+  return useQuery({ ...queryOptions.fetch<T>(alarmId), ...options });
 };
 
 /**

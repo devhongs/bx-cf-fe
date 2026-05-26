@@ -7,7 +7,7 @@ import { AlarmService } from '../api/alarm.api';
 import type { Alarm, AlarmsQueryParams } from './alarm.type';
 
 export const queryKeys = {
-  fetchList: ['alarms'] as const,
+  fetchList: (params?: AlarmsQueryParams) => ['alarms', params] as const,
   fetch: (id: number) => ['alarm', id] as const,
 };
 
@@ -16,7 +16,7 @@ export const queryOptions = {
   fetchList: <T = Alarm>(
     params?: AlarmsQueryParams,
   ): UseQueryOptions<ApiListResponse<T>> => ({
-    queryKey: queryKeys.fetchList,
+    queryKey: queryKeys.fetchList(params),
     queryFn: async (): Promise<ApiListResponse<T>> =>
       AlarmService.fetchAll(params),
   }),
