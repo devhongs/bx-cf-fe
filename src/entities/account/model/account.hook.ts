@@ -50,7 +50,7 @@ export const useFetchRecentAccounts = <T = Account>(
  * 새로운 계좌를 생성하는 뮤테이션 훅.
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */
-export const useCreateCourse = (
+export const useCreateAccount = (
   options?: UseMutationOptions<Account, Error, Account, unknown>,
 ): UseMutationResult<Account, Error, Account, unknown> => {
   return useMutation({
@@ -70,7 +70,7 @@ export const useCreateCourse = (
  * 기존 계좌 정보를 업데이트하는 뮤테이션 훅.
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */
-export const useUpdateCourse = (
+export const useUpdateAccount = (
   options?: UseMutationOptions<Account, Error, Account, { previous?: unknown }>,
 ): UseMutationResult<Account, Error, Account, { previous?: unknown }> => {
   return useMutation({
@@ -89,7 +89,7 @@ export const useUpdateCourse = (
  * 기존 계좌를 삭제하는 뮤테이션 훅.
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */
-export const useDeleteCourse = (
+export const useDeleteAccount = (
   options?: UseMutationOptions<any, Error, number, unknown>,
 ): UseMutationResult<any, Error, number, unknown> => {
   // 반환 타입 any는 실제 API 응답 타입으로 명시 권장
