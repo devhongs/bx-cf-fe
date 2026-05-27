@@ -12,9 +12,7 @@ export function AlarmListModal({ onClose }: AlarmListModalProps) {
         <AlarmList />
       </ModalBody>
       <ModalFooter>
-        <Button onClick={() => onClose?.({ data: 'confirm click' })}>
-          확인
-        </Button>
+        <Button onClick={() => onClose?.({ data: 'confirm click' })}>확인</Button>
       </ModalFooter>
     </Modal>
   );

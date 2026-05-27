@@ -27,11 +27,7 @@ export const configureStorage = (options: StorageConfig): void => {
 };
 
 // 로깅 헬퍼
-const log = (
-  level: 'error' | 'warn',
-  message: string,
-  error?: unknown,
-): void => {
+const log = (level: 'error' | 'warn', message: string, error?: unknown): void => {
   if (!config.enableLogging) return;
   if (level === 'error') {
     console.error(message, error);
@@ -144,10 +140,7 @@ const createWebStorage = (storage: globalThis.Storage): Storage => ({
     } catch (error) {
       log('error', '[Storage] Set error:', error);
       // QuotaExceededError 처리
-      if (
-        error instanceof DOMException &&
-        error.name === 'QuotaExceededError'
-      ) {
+      if (error instanceof DOMException && error.name === 'QuotaExceededError') {
         log('warn', '[Storage] Storage quota exceeded');
       }
     }
@@ -192,10 +185,7 @@ const createWebStorage = (storage: globalThis.Storage): Storage => ({
 const createIndexedDBStorage = (): AsyncStorage => ({
   async get<T = unknown>(key: string): Promise<T | null> {
     try {
-      const result = await executeTransaction<T | undefined>(
-        'readonly',
-        (store) => store.get(key),
-      );
+      const result = await executeTransaction<T | undefined>('readonly', (store) => store.get(key));
 
       if (result === undefined) {
         return null;
@@ -214,13 +204,9 @@ const createIndexedDBStorage = (): AsyncStorage => ({
     try {
       // 객체는 그대로, 기본 타입은 JSON 문자열로 저장
       const storageValue =
-        typeof value === 'object' && value !== null
-          ? value
-          : safeJsonStringify(value);
+        typeof value === 'object' && value !== null ? value : safeJsonStringify(value);
 
-      await executeTransaction('readwrite', (store) =>
-        store.put(storageValue, key),
-      );
+      await executeTransaction('readwrite', (store) => store.put(storageValue, key));
     } catch (error) {
       log('error', '[IndexedDB] Set error:', error);
       throw error;
@@ -247,9 +233,7 @@ const createIndexedDBStorage = (): AsyncStorage => ({
 
   async has(key: string): Promise<boolean> {
     try {
-      const count = await executeTransaction<number>('readonly', (store) =>
-        store.count(key),
-      );
+      const count = await executeTransaction<number>('readonly', (store) => store.count(key));
       return count > 0;
     } catch (error) {
       log('error', '[IndexedDB] Has error:', error);
@@ -259,9 +243,8 @@ const createIndexedDBStorage = (): AsyncStorage => ({
 
   async keys(): Promise<Array<string>> {
     try {
-      const result = await executeTransaction<Array<IDBValidKey>>(
-        'readonly',
-        (store) => store.getAllKeys(),
+      const result = await executeTransaction<Array<IDBValidKey>>('readonly', (store) =>
+        store.getAllKeys(),
       );
       return result as Array<string>;
     } catch (error) {

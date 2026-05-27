@@ -24,11 +24,7 @@ export function AlarmList(_props: AlarmListProps) {
   return (
     <div className={styles.layout}>
       {content.map((d: Alarm) => (
-        <AlarmCard
-          key={d.id}
-          data={d}
-          onClick={() => handleClickAlarmCard(d)}
-        />
+        <AlarmCard key={d.id} data={d} onClick={() => handleClickAlarmCard(d)} />
       ))}
     </div>
   );

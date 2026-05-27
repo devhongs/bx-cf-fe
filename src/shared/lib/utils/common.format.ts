@@ -123,9 +123,7 @@ const paramsFormat = (value: string, ...args: any) => {
  */
 const convertSnakeToCamel = (str: string) => {
   if (str) {
-    return str
-      .toLowerCase()
-      .replace(/(_[a-z])/g, (arg) => arg.toUpperCase().replace('_', ''));
+    return str.toLowerCase().replace(/(_[a-z])/g, (arg) => arg.toUpperCase().replace('_', ''));
   }
 
   return '';
@@ -138,9 +136,7 @@ const convertSnakeToCamel = (str: string) => {
  */
 const convertCamelToSnake = (str: string) => {
   if (str) {
-    return str
-      .replace(/([A-Z])/g, (arg) => `_${arg.toLowerCase()}`)
-      .toUpperCase();
+    return str.replace(/([A-Z])/g, (arg) => `_${arg.toLowerCase()}`).toUpperCase();
   }
 
   return '';

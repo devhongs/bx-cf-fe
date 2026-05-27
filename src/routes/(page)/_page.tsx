@@ -11,4 +11,3 @@ export const Route = createFileRoute('/(page)/_page')({
 function RouteComponent() {
   return <PageLayout />;
 }
-

@@ -30,10 +30,7 @@ export const fetchAlarm = async <T = Alarm>(id: number): Promise<ApiResponse<T>>
  * @returns 생성된 알람 정보 Promise.
  */
 export const createAlarm = async (payload: Alarm): Promise<Alarm> => {
-  return HttpJsonService.post<any>(
-    `${API_URL}/alarms/${payload.id}`,
-    payload,
-  );
+  return HttpJsonService.post<any>(`${API_URL}/alarms/${payload.id}`, payload);
 };
 
 /**

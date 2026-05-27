@@ -1,11 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import {
-  createMenu,
-  deleteMenu,
-  fetchMenu,
-  fetchMenus,
-} from '../api/menu.api';
+import { createMenu, deleteMenu, fetchMenu, fetchMenus } from '../api/menu.api';
 import type { Menu, MenuQueryParams } from './menu.type';
 
 export const queryKeys = {

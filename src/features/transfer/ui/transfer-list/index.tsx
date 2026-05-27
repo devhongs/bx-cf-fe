@@ -69,22 +69,14 @@ export function TransferList({ dummy }: TransferListProps) {
             은행 선택
           </option>
           {BANK_OPTIONS.map((bank) => (
-            <option
-              key={bank.id}
-              value={bank.id}
-              className={styles.selectOption}
-            >
+            <option key={bank.id} value={bank.id} className={styles.selectOption}>
               {bank.name}
             </option>
           ))}
         </select>
 
         {/* 다음 버튼 */}
-        <button
-          type="button"
-          className={styles.submitButton}
-          onClick={() => handleNextClick()}
-        >
+        <button type="button" className={styles.submitButton} onClick={() => handleNextClick()}>
           다음
         </button>
       </form>
@@ -97,10 +89,7 @@ export function TransferList({ dummy }: TransferListProps) {
             const bank = BANK_OPTIONS.find((b) => b.id === acc.bankId);
             const bankName = bank ? bank.name : acc.bankId;
 
-            const formattedAccountNum = formatAccountNumberByBank(
-              acc.bankId,
-              acc.accountNo,
-            );
+            const formattedAccountNum = formatAccountNumberByBank(acc.bankId, acc.accountNo);
 
             return (
               <div

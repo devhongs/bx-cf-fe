@@ -17,9 +17,7 @@ interface CodeOption {
  */
 const getCodeList = (code = ''): Promise<Array<CodeItem>> =>
   new Promise((resolve) => {
-    const codeItems = session.get<Record<string, Array<CodeItem>>>(
-      CONFIG.SESSION.CODE,
-    );
+    const codeItems = session.get<Record<string, Array<CodeItem>>>(CONFIG.SESSION.CODE);
 
     if (!codeItems) {
       resolve([]);

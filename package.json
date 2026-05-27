@@ -10,10 +10,11 @@
     "build": "tsc -p tsconfig.build.json && vite build",
     "serve": "vite preview",
     "test": "vitest run",
-    "lint": "eslint",
-    "format": "prettier",
+    "lint": "biome lint .",
+    "lint:oxc": "oxc lint .",
+    "format": "biome format --write .",
     "watch:json-server": "json-server db.json --port 3333",
-    "check": "prettier --write . && eslint --fix",
+    "check": "biome check --write .",
     "check:circular": "madge --circular --extensions ts,tsx src"
   },
   "dependencies": {
@@ -36,10 +37,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
+    "@biomejs/biome": "^1.9.4",
     "@rolldown/plugin-babel": "^0.2.3",
     "@tailwindcss/vite": "^4.0.6",
-    "@tanstack/eslint-config": "^0.4.0",
-    "@tanstack/eslint-plugin-query": "^5.100.11",
     "@tanstack/react-devtools": "^0.10.5",
     "@tanstack/react-router-devtools": "^1.131.5",
     "@tanstack/router-plugin": "^1.121.2",
@@ -52,23 +52,16 @@
     "@vitejs/plugin-react": "^6.0.2",
     "babel-plugin-react-compiler": "^1.0.0",
     "concurrently": "^9.2.1",
-    "eslint": "^10.4.0",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-react-compiler": "19.1.0-rc.2",
     "jsdom": "^29.1.1",
     "json-server": "1.0.0-beta.15",
     "madge": "^8.0.0",
-    "prettier": "^3.5.3",
+    "oxc": "^1.0.0",
     "typescript": "^6.0.3",
     "vite": "^8.0.13",
     "vitest": "^4.1.6",
     "web-vitals": "^5.2.0"
   },
   "pnpm": {
-    "allowedBuildScripts": [
-      "core-js-pure",
-      "esbuild",
-      "unrs-resolver"
-    ]
+    "allowedBuildScripts": ["core-js-pure", "esbuild", "unrs-resolver", "@biomejs/biome"]
   }
 }

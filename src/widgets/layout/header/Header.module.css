@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 .layout {
   @apply flex text-black justify-between items-center p-3 text-2xl;

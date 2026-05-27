@@ -1,8 +1,4 @@
-import type {
-  UseMutationOptions,
-  UseMutationResult,
-  UseQueryResult,
-} from '@tanstack/react-query';
+import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 import type { ApiListResponse, ApiResponse } from '@/shared/api/types';

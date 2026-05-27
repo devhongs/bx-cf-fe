@@ -72,15 +72,10 @@ export const BANK_FORMATS: Partial<Record<BankId, BankFormatRule>> = {
 };
 
 /** 숫자만 추출 */
-const onlyDigits = (input: string | number): string =>
-  String(input).replace(/\D/g, '');
+const onlyDigits = (input: string | number): string => String(input).replace(/\D/g, '');
 
 /** 그룹 배열대로 분할 후 구분자 결합 */
-const joinByGroups = (
-  digits: string,
-  groups: Array<number>,
-  sep: string,
-): string => {
+const joinByGroups = (digits: string, groups: Array<number>, sep: string): string => {
   const parts: Array<string> = [];
   let i = 0;
   for (const g of groups) {
@@ -110,8 +105,7 @@ export const formatAccountNumberByBank = (
   if (!raw) return ''; // 계좌번호가 비어있으면 그대로 반환
 
   // 규칙 선택: bankId가 없거나 매핑이 없으면 fallback
-  const baseRule: BankFormatRule =
-    (bankId ? BANK_FORMATS[bankId] : undefined) ?? fallback;
+  const baseRule: BankFormatRule = (bankId ? BANK_FORMATS[bankId] : undefined) ?? fallback;
 
   const sep = baseRule.separator ?? '-';
   const normalized = (baseRule.normalize ?? onlyDigits)(raw);
@@ -119,9 +113,7 @@ export const formatAccountNumberByBank = (
   if (!normalized) return ''; // 모두 비숫자였던 경우 등
 
   const groups =
-    typeof baseRule.groups === 'function'
-      ? baseRule.groups(normalized.length)
-      : baseRule.groups;
+    typeof baseRule.groups === 'function' ? baseRule.groups(normalized.length) : baseRule.groups;
 
   return joinByGroups(normalized, groups, sep);
 };

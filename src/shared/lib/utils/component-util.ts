@@ -12,12 +12,8 @@ import { Children, isValidElement } from 'react';
  * @example
  * const TitleSlot = getSlot(children, ModalTitle);
  */
-export const getSlot = <T>(
-  children: ReactNode,
-  component: T,
-): ReactElement | undefined => {
+export const getSlot = <T>(children: ReactNode, component: T): ReactElement | undefined => {
   return Children.toArray(children).find(
-    (child): child is ReactElement =>
-      isValidElement(child) && child.type === component,
+    (child): child is ReactElement => isValidElement(child) && child.type === component,
   );
 };

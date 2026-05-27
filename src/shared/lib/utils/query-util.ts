@@ -8,9 +8,7 @@ import endsWith from 'lodash-es/endsWith';
 import isEmpty from 'lodash-es/isEmpty';
 import startsWith from 'lodash-es/startsWith';
 
-export function decodeQueryString(
-  qs: string = window.location.search.substr(1),
-) {
+export function decodeQueryString(qs: string = window.location.search.substr(1)) {
   // expects qs to not have a ?
   // return if empty qs
   if (qs === '') return {};

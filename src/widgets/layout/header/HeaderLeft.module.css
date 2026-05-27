@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 .title {
   @apply text-black font-bold flex items-center;

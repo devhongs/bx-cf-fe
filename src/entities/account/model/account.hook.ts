@@ -1,8 +1,4 @@
-import type {
-  UseMutationOptions,
-  UseMutationResult,
-  UseQueryResult,
-} from '@tanstack/react-query';
+import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
@@ -152,15 +148,11 @@ export const useSetFavoriteAccount = (
       }
 
       // 3) 이미 true인 다른 계좌들 false로 변경하기 위해 순차/동시 PATCH 요청
-      const otherFavorites = items.filter(
-        (a) => a.isFavorite && a.accountNo !== accountNo,
-      );
+      const otherFavorites = items.filter((a) => a.isFavorite && a.accountNo !== accountNo);
 
       // 다중 PATCH를 순차/병렬 처리하여 즐겨찾기 해제
       await Promise.all(
-        otherFavorites.map((acc) =>
-          mutationHelper.mutationFn({ id: acc.id, isFavorite: false }),
-        ),
+        otherFavorites.map((acc) => mutationHelper.mutationFn({ id: acc.id, isFavorite: false })),
       );
 
       // 4) 타깃 계좌의 즐겨찾기 true로 설정
@@ -169,7 +161,9 @@ export const useSetFavoriteAccount = (
     // 낙관적 업데이트
     onMutate: async (accountNo) => {
       // ['accounts']로 시작하는 모든 쿼리를 취소
-      await queryClient.cancelQueries({ queryKey: ['accounts'] });
+      await queryClient.cancelQueries({
+        queryKey: ['accounts'],
+      });
 
       // 이전 쿼리 상태 스냅샷 저장
       const previousQueries = queryClient.getQueriesData({
@@ -177,8 +171,8 @@ export const useSetFavoriteAccount = (
       });
 
       // 캐시 업데이트: 선택된 계좌만 true, 나머지는 false
-      previousQueries.forEach(([queryKey, oldData]: any) => {
-        if (!oldData) return;
+      for (const [queryKey, oldData] of previousQueries as any) {
+        if (!oldData) continue;
         queryClient.setQueryData(queryKey, (old: any) => {
           if (!old) return old;
           return {
@@ -189,16 +183,16 @@ export const useSetFavoriteAccount = (
             })),
           };
         });
-      });
+      }
 
       return { previousQueries };
     },
     onError: (_err, _vars, ctx, mutation) => {
       // 에러 발생 시 롤백
       if (ctx?.previousQueries) {
-        ctx.previousQueries.forEach(([queryKey, previousData]: any) => {
+        for (const [queryKey, previousData] of ctx.previousQueries as any) {
           queryClient.setQueryData(queryKey, previousData);
-        });
+        }
       }
       options?.onError?.(_err, _vars, ctx, mutation);
     },

@@ -20,11 +20,7 @@ export function LoginPage() {
           </div>
 
           <input name="email" type="email" className="signup-form__input" />
-          <input
-            name="password"
-            type="password"
-            className="signup-form__input"
-          />
+          <input name="password" type="password" className="signup-form__input" />
           <Button className="signup-form__submit" onClick={handleSubmit}>
             Login
           </Button>

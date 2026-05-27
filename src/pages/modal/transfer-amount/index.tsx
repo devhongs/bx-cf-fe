@@ -14,9 +14,7 @@ interface TransferAmountModalProps extends ModalConfig {
   dummy?: any;
 }
 
-export function TransferAmountModal({
-  props,
-}: TransferAmountModalProps) {
+export function TransferAmountModal({ props }: TransferAmountModalProps) {
   const { bankId, accountNo, name } = props || {
     bankId: undefined,
     accountNo: '',

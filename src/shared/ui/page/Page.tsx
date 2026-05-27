@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import type { FC, ReactNode } from 'react';
 
 import { cn, getSlot } from '../../lib/utils';

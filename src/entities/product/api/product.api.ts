@@ -30,10 +30,7 @@ export const fetchProduct = async <T = Product>(id: number): Promise<ApiResponse
  * @returns 생성된 상품 정보 Promise.
  */
 export const createProduct = async (payload: Product): Promise<Product> => {
-  return HttpJsonService.post<any>(
-    `${API_URL}/products/${payload.id}`,
-    payload,
-  );
+  return HttpJsonService.post<any>(`${API_URL}/products/${payload.id}`, payload);
 };
 
 /**

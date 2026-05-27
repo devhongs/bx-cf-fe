@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 .root {
   /* wrapper는 z-index 없이 자식들이 개별적으로 관리 */

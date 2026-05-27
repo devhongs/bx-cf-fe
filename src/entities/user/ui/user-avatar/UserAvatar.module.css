@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 .layout {
   @apply relative flex flex-col items-center justify-center;

@@ -36,8 +36,6 @@ export const checkAccessToken = async <T = Auth>(id: string): Promise<ApiRespons
  * @param id - 조회할 사용자 아이디.
  * @returns 리프레시 토큰 체크 정보 Promise.
  */
-export const checkRefreshToken = async <T = Auth>(
-  id: string,
-): Promise<ApiResponse<T>> => {
+export const checkRefreshToken = async <T = Auth>(id: string): Promise<ApiResponse<T>> => {
   return HttpJsonService.fetch<T>(`${API_URL}/check-refresh-token/?id=${id}`);
 };

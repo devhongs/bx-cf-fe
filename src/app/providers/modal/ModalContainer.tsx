@@ -39,16 +39,11 @@ interface ModalContainerProps extends ModalConfig {
   index?: number;
 }
 
-export const ModalContainer = ({
-  index = 0,
-  ...props
-}: ModalContainerProps) => {
+export const ModalContainer = ({ index = 0, ...props }: ModalContainerProps) => {
   if (!props.path) return null;
 
   // path가 전체 경로인지 단축 키인지 확인
-  const fullPath = props.path.startsWith('/')
-    ? props.path
-    : modalPathMap[props.path];
+  const fullPath = props.path.startsWith('/') ? props.path : modalPathMap[props.path];
 
   if (!fullPath) {
     console.error(`Modal not found: ${props.path}`);

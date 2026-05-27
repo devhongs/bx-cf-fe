@@ -24,8 +24,10 @@ export interface AccountsQueryParams {
  * 계좌
  */
 export interface Account {
-  id: string;
-
+  /**
+   * 유저 아이디
+   */
+  userId: string;
   /**
    * 은행 식별자 (국민=KB, 신한=SHINHAN 등)
    */

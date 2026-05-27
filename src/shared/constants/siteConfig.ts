@@ -1,13 +1,11 @@
 // TODO: 경로 수정하기
 const getInfo = () => {
-  const { hostname } =
-    typeof window !== 'undefined' ? location : { hostname: '' };
+  const { hostname } = typeof window !== 'undefined' ? location : { hostname: '' };
   const isDev = hostname.includes('designsystem.bwg.co.kr'); // YourDevelopUrl
   const isStg = hostname.includes('YourStageUrl'); // YourStageUrl
   const isPrd = hostname.includes('YourProductionUrl'); // YourProductionUrl
   const MODE = isPrd ? 'P' : isDev ? 'D' : isStg ? 'S' : 'L';
-  const LOCAL_MODE =
-    hostname.includes('localhost') || hostname.includes('127.0.0.1');
+  const LOCAL_MODE = hostname.includes('localhost') || hostname.includes('127.0.0.1');
   return { MODE, LOCAL_MODE };
 };
 
@@ -19,10 +17,7 @@ const CONFIG = {
     MODE: info.MODE,
     LOCAL_MODE: info.LOCAL_MODE,
     PHASE: process.env.APP_PHASE,
-    BASE_PATH:
-      process.env.NODE_ENV === 'development'
-        ? ''
-        : process.env.NEXT_PUBLIC_APP_BASE_PATH,
+    BASE_PATH: process.env.NODE_ENV === 'development' ? '' : process.env.NEXT_PUBLIC_APP_BASE_PATH,
   },
   PROXY: {
     TNSN_URL: process.env.APP_TNSN_URL, // '/online/gatewayEndpoint/json'
@@ -55,8 +50,7 @@ const CONFIG = {
     N: 'N',
   },
   MESSAGE: {
-    I18N_ERROR:
-      '다국어 수신 중 오류가 발생하였습니다. 관리자에게 문의하시기 바랍니다.',
+    I18N_ERROR: '다국어 수신 중 오류가 발생하였습니다. 관리자에게 문의하시기 바랍니다.',
   },
   DEVICE: {
     ANDROID: 'Android',
@@ -77,4 +71,3 @@ const CONFIG = {
 };
 
 export { CONFIG };
-

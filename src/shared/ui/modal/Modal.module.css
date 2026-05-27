@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 .layout {
   @apply h-full w-full bg-white;

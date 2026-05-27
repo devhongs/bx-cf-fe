@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 .card {
   @apply rounded-lg border border-[#E3E3E3] bg-[#ffffff] mb-8 p-5;

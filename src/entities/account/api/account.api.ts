@@ -21,9 +21,7 @@ export const fetchAccounts = async <T = Account>(
  * @param accountNo - 조회할 계좌 No.
  * @returns 계좌 상세 정보 Promise.
  */
-export const fetchAccount = async <T = Account>(
-  accountNo: string,
-): Promise<ApiResponse<T>> => {
+export const fetchAccount = async <T = Account>(accountNo: string): Promise<ApiResponse<T>> => {
   return HttpJsonService.fetch<T>(`${API_URL}/accounts/${accountNo}`);
 };
 
@@ -53,10 +51,7 @@ export const createAccount = async (payload: Account): Promise<Account> => {
  * @returns 수정된 계좌 정보 Promise.
  */
 export const updateAccount = async (payload: Account): Promise<Account> => {
-  return HttpJsonService.put<Account>(
-    `${API_URL}/accounts/${payload.accountNo}`,
-    payload,
-  );
+  return HttpJsonService.put<Account>(`${API_URL}/accounts/${payload.accountNo}`, payload);
 };
 
 /**
@@ -65,10 +60,7 @@ export const updateAccount = async (payload: Account): Promise<Account> => {
  * @param isFavorite - 즐겨찾기 지정 여부
  * @returns 업데이트된 계좌 정보 Promise.
  */
-export const updateAccountFavorite = async (
-  id: string,
-  isFavorite: boolean,
-): Promise<Account> => {
+export const updateAccountFavorite = async (id: string, isFavorite: boolean): Promise<Account> => {
   return HttpJsonService.patch<Account>(`${API_URL}/accounts/${id}`, {
     isFavorite,
   });

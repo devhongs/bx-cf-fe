@@ -2,9 +2,9 @@ export interface AuthQueryParams {
   /**
    * 아이디
    */
-  id: string; /**
+  id: string /**
    * 사용자 패스워드
-   */
+   */;
   password: string;
 }
 

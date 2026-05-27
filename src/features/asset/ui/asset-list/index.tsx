@@ -36,9 +36,7 @@ export function AssetList(_props: AssetListProps) {
       const same =
         prev.length === next.length &&
         prev.every(
-          (p, i) =>
-            p.accountNo === next[i].accountNo &&
-            p.isFavorite === next[i].isFavorite,
+          (p, i) => p.accountNo === next[i].accountNo && p.isFavorite === next[i].isFavorite,
         );
       return same ? prev : next;
     });

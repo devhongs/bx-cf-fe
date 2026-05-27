@@ -23,11 +23,7 @@ export function HeaderLeft({ pageTitle }: HeaderLeftProps) {
     return (
       <span className={styles.title} onClick={handleUserNameClick}>
         사용자명
-        <IconButton
-          className={styles.icon}
-          icon={ChevronRight}
-          iconColor="#888888"
-        />
+        <IconButton className={styles.icon} icon={ChevronRight} iconColor="#888888" />
       </span>
     );
   }

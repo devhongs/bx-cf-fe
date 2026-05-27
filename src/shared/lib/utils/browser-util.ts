@@ -3,10 +3,7 @@
  * @return boolean
  */
 export const isChrome = () => {
-  return (
-    /chrome/i.test(navigator.userAgent) &&
-    !/edge|opr|brave/i.test(navigator.userAgent)
-  );
+  return /chrome/i.test(navigator.userAgent) && !/edge|opr|brave/i.test(navigator.userAgent);
 };
 
 /**

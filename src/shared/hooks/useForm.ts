@@ -48,13 +48,9 @@ function useForm(settings: any) {
    * 유효성검증 전후로 마스킹 값 설정
    * 왜냐하면 유효성검증은 unmask 값으로 체크해야 하기 때문
    */
-  const setValidMaskValue = function (maskFlag: string) {
-    const inputEls = document.querySelectorAll(
-      `.tab-panel.active [data-form='${formName}'] input`,
-    );
-    const fallbackEls = document.querySelectorAll(
-      `[data-form='${formName}'] input`,
-    );
+  const setValidMaskValue = (maskFlag: string) => {
+    const inputEls = document.querySelectorAll(`.tab-panel.active [data-form='${formName}'] input`);
+    const fallbackEls = document.querySelectorAll(`[data-form='${formName}'] input`);
     const elements = inputEls.length > 0 ? inputEls : fallbackEls;
     // console.log("elements :: ", elements)
     elements.forEach((inputEl) => {
@@ -72,8 +68,8 @@ function useForm(settings: any) {
     });
   };
 
-  const validate = function () {
-    return new Promise((resolve, reject) => {
+  const validate = () =>
+    new Promise((resolve, reject) => {
       // 마스킹 데이터를 unmask 를 value 에 넣고 유효성 검증을 실시한다.
       // setValidMaskValue("unmask") // 검증 통과 후 다시 원복해야 한다.
       handleSubmit(
@@ -108,9 +104,7 @@ function useForm(settings: any) {
             }
 
             if (!inputEl) {
-              console.error(
-                `유효성 검증 오류 : data-form(${formName})을 확인해 주시기 바랍니다.`,
-              );
+              console.error(`유효성 검증 오류 : data-form(${formName})을 확인해 주시기 바랍니다.`);
             }
 
             const datasetRule = inputEl?.dataset.rule;
@@ -121,10 +115,7 @@ function useForm(settings: any) {
               ...ruleJSON,
             };
             // 다국어 키로 변경
-            const [title, contents] = $validUtils.getMessage(
-              formErrors[key],
-              errorParam,
-            );
+            const [title, contents] = $validUtils.getMessage(formErrors[key], errorParam);
             return {
               type,
               message,
@@ -143,7 +134,6 @@ function useForm(settings: any) {
         },
       )();
     });
-  };
 
   return {
     handleSubmit,
@@ -158,4 +148,3 @@ function useForm(settings: any) {
 }
 
 export { useForm };
-

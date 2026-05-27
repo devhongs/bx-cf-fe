@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 .layout {
   /* @apply text-2xl inline-flex items-center; */

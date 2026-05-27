@@ -12,7 +12,7 @@ export function TransferListModal({ props }: TransferListModalProps) {
   //   const { data } = useFetchAccount(accountNo)
   //   const content = data?.content ?? ({} as Account)
 
-  const { accountNo: accountNo } = props;
+  const { accountNo } = props;
 
   return (
     <Modal>

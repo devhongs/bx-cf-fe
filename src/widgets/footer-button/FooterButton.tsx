@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 import { cn } from '@/shared/lib/utils';
 
@@ -11,20 +11,11 @@ interface FooterButtonProps {
   onClick?: () => void;
 }
 
-export function FooterButton({
-  label,
-  icon,
-  isSelected,
-  onClick = () => null,
-}: FooterButtonProps) {
+export function FooterButton({ label, icon, isSelected, onClick = () => null }: FooterButtonProps) {
   return (
     <button className={cn(styles.root)} onClick={onClick}>
-      <span className={cn(styles.icon, isSelected && styles.selected)}>
-        {icon}
-      </span>
-      <span className={cn(styles.label, isSelected && styles.selected)}>
-        {label}
-      </span>
+      <span className={cn(styles.icon, isSelected && styles.selected)}>{icon}</span>
+      <span className={cn(styles.label, isSelected && styles.selected)}>{label}</span>
     </button>
   );
 }

@@ -27,12 +27,7 @@ export function SettingModal(_props: SettingModalProps) {
       <ModalTitle>설정</ModalTitle>
       <ModalBody>
         <div>
-          <IconButton
-            size="lg"
-            icon={LogOut}
-            label="로그아웃"
-            onClick={handleLogoutClick}
-          />
+          <IconButton size="lg" icon={LogOut} label="로그아웃" onClick={handleLogoutClick} />
         </div>
       </ModalBody>
     </Modal>

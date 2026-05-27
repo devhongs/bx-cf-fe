@@ -13,23 +13,14 @@ interface TransferAmountProps extends BaseProps {
   name?: string;
 }
 
-export function TransferAmount({
-  bankId,
-  accountNo,
-  name,
-}: TransferAmountProps) {
-  const [selectedBankId, setSelectedBankId] = useState<BankId | undefined>(
-    bankId,
-  );
+export function TransferAmount({ bankId, accountNo, name }: TransferAmountProps) {
+  const [selectedBankId, setSelectedBankId] = useState<BankId | undefined>(bankId);
   const [targetAccountNo, setTargetAccountNo] = useState(accountNo ?? '');
   const [receiverName, setReceiverName] = useState(name ?? '');
   const [amount, setAmount] = useState<string>('');
 
   const bankName = BANK_OPTIONS.find((bank) => bank.id === bankId)?.name || '';
-  const formattedAccountNo = formatAccountNumberByBank(
-    selectedBankId,
-    targetAccountNo,
-  );
+  const formattedAccountNo = formatAccountNumberByBank(selectedBankId, targetAccountNo);
 
   useEffect(() => {
     setSelectedBankId(bankId);

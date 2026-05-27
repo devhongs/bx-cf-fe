@@ -9,19 +9,8 @@ interface ProductItemProps extends BaseProps {
   onItemClick?: (menu: Product) => void;
 }
 
-export function ProductItem({
-  data,
-  onItemClick = () => null,
-}: ProductItemProps) {
-  const {
-    name,
-    description,
-    iconColor,
-    iconType,
-    rateDescription,
-    baseRate,
-    maxRate,
-  } = data;
+export function ProductItem({ data, onItemClick = () => null }: ProductItemProps) {
+  const { name, description, iconColor, iconType, rateDescription, baseRate, maxRate } = data;
   return (
     <div className={styles.layout}>
       {/* 아이콘 + 상품명 */}
@@ -44,16 +33,10 @@ export function ProductItem({
       <div className={styles.rate}>
         <div className={styles.icon}></div>
         <div className={styles.content}>
-          {rateDescription && (
-            <p className={styles.rateDescription}>{rateDescription}</p>
-          )}
+          {rateDescription && <p className={styles.rateDescription}>{rateDescription}</p>}
           <div className={styles.rateText}>
-            {maxRate && (
-              <span className={styles.maxRate}>최고 연 {maxRate}%</span>
-            )}
-            {baseRate && (
-              <span className={styles.baseRate}>기본 연 {baseRate}%</span>
-            )}
+            {maxRate && <span className={styles.maxRate}>최고 연 {maxRate}%</span>}
+            {baseRate && <span className={styles.baseRate}>기본 연 {baseRate}%</span>}
           </div>
         </div>
       </div>

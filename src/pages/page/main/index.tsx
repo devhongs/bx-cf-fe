@@ -3,7 +3,7 @@ import type { Account } from '@/entities/account';
 import { AccountCard } from '@/entities/account/ui/account-card';
 
 export function MainPage() {
-  const { data } = useFetchAccounts({ userId: '' });
+  const { data } = useFetchAccounts({ userId: 'user1' });
   const content = data?.content ?? [];
 
   const favoriteAccount = content.find((acc: Account) => acc.isFavorite);

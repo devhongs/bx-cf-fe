@@ -1,5 +1,5 @@
 import { ArrowLeft, X } from 'lucide-react';
-import React from 'react';
+import type React from 'react';
 import type { FC, ReactNode } from 'react';
 
 import { useModal } from '@/shared/hooks';

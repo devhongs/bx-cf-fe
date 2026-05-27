@@ -1,11 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import {
-  createProduct,
-  deleteProduct,
-  fetchProduct,
-  fetchProducts,
-} from '../api/product.api';
+import { createProduct, deleteProduct, fetchProduct, fetchProducts } from '../api/product.api';
 import type { Product, ProductQueryParams } from './product.type';
 
 export const queryKeys = {

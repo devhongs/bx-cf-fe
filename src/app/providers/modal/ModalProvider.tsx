@@ -13,12 +13,7 @@ export const ModalProvider = ({ className }: { className?: string }) => {
   return (
     <div className={cn(styles.root, className)}>
       {modals.map((config: ModalConfig, index) => (
-        <ModalContainer
-          {...config}
-          key={config.id}
-          index={index}
-          onClose={close}
-        />
+        <ModalContainer {...config} key={config.id} index={index} onClose={close} />
       ))}
     </div>
   );

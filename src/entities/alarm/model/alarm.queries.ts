@@ -1,11 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import {
-  createAlarm,
-  deleteAlarm,
-  fetchAlarm,
-  fetchAlarms,
-} from '../api/alarm.api';
+import { createAlarm, deleteAlarm, fetchAlarm, fetchAlarms } from '../api/alarm.api';
 import type { Alarm, AlarmsQueryParams } from './alarm.type';
 
 export const queryKeys = {

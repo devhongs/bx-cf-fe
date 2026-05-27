@@ -4,12 +4,7 @@ import { useModalStore } from '../model/modal/modal';
 import type { ModalConfig, useModalReturnValue } from '../types';
 
 const useModal = (): useModalReturnValue => {
-  const {
-    modals,
-    open: openModal,
-    close: closeModal,
-    closeAll: closeAllModal,
-  } = useModalStore();
+  const { modals, open: openModal, close: closeModal, closeAll: closeAllModal } = useModalStore();
 
   /**
    * 일반 모달을 엽니다.
@@ -28,14 +23,8 @@ const useModal = (): useModalReturnValue => {
       // 중복 오픈 방지 (최상단 모달과 동일한 경로인 경우 차단하여 더블 클릭 등 방지)
       const activeModal = useModalStore.getState().modals.at(-1);
       if (activeModal && activeModal.path === resolvedConfig.path) {
-        console.warn(
-          `[useModal] Duplicate modal open prevented for path: ${resolvedConfig.path}`,
-        );
-        reject(
-          new Error(
-            `Duplicate modal open prevented for path: ${resolvedConfig.path}`,
-          ),
-        );
+        console.warn(`[useModal] Duplicate modal open prevented for path: ${resolvedConfig.path}`);
+        reject(new Error(`Duplicate modal open prevented for path: ${resolvedConfig.path}`));
         return;
       }
 

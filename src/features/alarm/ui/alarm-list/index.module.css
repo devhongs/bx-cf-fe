@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 .layout {
   @apply flex flex-col gap-2;

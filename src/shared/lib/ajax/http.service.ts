@@ -53,11 +53,7 @@ export class HttpService {
     this.interceptors = config?.interceptors;
   }
 
-  async get<T>(
-    url: string,
-    queryParam?: any,
-    options?: AxiosRequestConfig,
-  ): Promise<T> {
+  async get<T>(url: string, queryParam?: any, options?: AxiosRequestConfig): Promise<T> {
     this.setOptions(options);
     return this.executeRequest<T>({
       method: HttpMethod.GET,
@@ -66,11 +62,7 @@ export class HttpService {
     });
   }
 
-  async post<T>(
-    url: string,
-    payload: any,
-    options?: AxiosRequestConfig,
-  ): Promise<T> {
+  async post<T>(url: string, payload: any, options?: AxiosRequestConfig): Promise<T> {
     this.setOptions(options);
     return this.executeRequest<T>({
       method: HttpMethod.POST,
@@ -79,11 +71,7 @@ export class HttpService {
     });
   }
 
-  async put<T>(
-    url: string,
-    payload: any,
-    options?: AxiosRequestConfig,
-  ): Promise<T> {
+  async put<T>(url: string, payload: any, options?: AxiosRequestConfig): Promise<T> {
     this.setOptions(options);
     return this.executeRequest<T>({
       method: HttpMethod.PUT,
@@ -92,11 +80,7 @@ export class HttpService {
     });
   }
 
-  async patch<T>(
-    url: string,
-    payload: any,
-    options?: AxiosRequestConfig,
-  ): Promise<T> {
+  async patch<T>(url: string, payload: any, options?: AxiosRequestConfig): Promise<T> {
     this.setOptions(options);
     return this.executeRequest<T>({
       method: HttpMethod.PATCH,
@@ -105,11 +89,7 @@ export class HttpService {
     });
   }
 
-  async delete<T>(
-    url: string,
-    payload?: any,
-    options?: AxiosRequestConfig,
-  ): Promise<T> {
+  async delete<T>(url: string, payload?: any, options?: AxiosRequestConfig): Promise<T> {
     this.setOptions(options);
     return this.executeRequest<T>({
       method: HttpMethod.DELETE,
@@ -118,10 +98,7 @@ export class HttpService {
     });
   }
 
-  async execute<T>(
-    args: RequestArgs,
-    options?: AxiosRequestConfig,
-  ): Promise<AxiosResponse> {
+  async execute<T>(args: RequestArgs, options?: AxiosRequestConfig): Promise<AxiosResponse> {
     this.setOptions(options);
     const { url } = args;
 
@@ -149,9 +126,7 @@ export class HttpService {
       });
   }
 
-  private setOptions(
-    options: AxiosRequestConfig = { timeout: API_REQUEST_TIMEOUT },
-  ): void {
+  private setOptions(options: AxiosRequestConfig = { timeout: API_REQUEST_TIMEOUT }): void {
     if (this.options) {
       this.options = { ...this.options, ...options };
     } else {
@@ -163,9 +138,7 @@ export class HttpService {
       ...options,
       cancelToken: this.cancelTokenSource.token,
     });
-    this.httpClient.interceptors.request.use(
-      this.interceptors?.request.onFulfilled,
-    );
+    this.httpClient.interceptors.request.use(this.interceptors?.request.onFulfilled);
     this.httpClient.interceptors.response.use(
       this.interceptors?.response.onFulfilled,
       this.interceptors?.response.onRejected,

@@ -28,8 +28,7 @@ const trans = (key: string, param?: any, defaultMessage?: string): any => {
  * 전체 다국어 data 가져오기
  * @returns
  */
-const getDataByLanguage = (): any =>
-  i18next.getDataByLanguage(i18next.language)?.translation;
+const getDataByLanguage = (): any => i18next.getDataByLanguage(i18next.language)?.translation;
 
 /**
  * 다국어 코드 가져오기
