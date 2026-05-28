@@ -1,6 +1,8 @@
 import { UserAvatar } from '@/entities/user/ui/user-avatar/UserAvatar';
 import type { ModalConfig } from '@/shared/types';
 import { Modal } from '@/shared/ui/modal/Modal';
+import { STORAGE_KEYS } from '@/shared/constants';
+import { session } from '@/shared/lib/utils';
 
 import styles from './index.module.css';
 
@@ -9,13 +11,15 @@ interface UserInfoModalProps extends ModalConfig {
 }
 
 export function UserInfoModal({ props }: UserInfoModalProps) {
+  const userName = session.get(STORAGE_KEYS.SESSION_ID) || '사용자 이름';
+
   return (
     <Modal closeButtonType="close">
       <Modal.Title>내 정보</Modal.Title>
       <Modal.Body>
         <UserAvatar
           className={styles.userAvatar}
-          name="사용자 이름"
+          name={userName}
           imageUrl="/assets/images/avatar/avatar-men.svg"
           size={75}
           showName={true}
