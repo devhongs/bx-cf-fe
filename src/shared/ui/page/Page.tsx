@@ -7,11 +7,19 @@ import type { BaseProps } from '../../types';
 import styles from './Page.module.css';
 
 export interface PageProps extends BaseProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
+const Description: FC<{ children: ReactNode }> = ({ children }) => {
+  return <>{children}</>;
+};
+
+const Body: FC<{ children: ReactNode }> = ({ children }) => {
+  return <>{children}</>;
+};
+
 const PageComponent: React.FC<PageProps> = ({ children, className }) => {
-  const BodySlot = getSlot(children, PageBody);
+  const BodySlot = getSlot(children, Body);
 
   return (
     <div className={cn(styles.layout, className, 'bx-page')}>
@@ -21,22 +29,8 @@ const PageComponent: React.FC<PageProps> = ({ children, className }) => {
   );
 };
 
-export const Page = PageComponent;
+export const Page = Object.assign(PageComponent, {
+  Body,
+  Description,
+});
 
-/**
- * ModalDescription
- * @param children
- * @constructor
- */
-export const PageDescription: FC<{ children: ReactNode }> = ({ children }) => {
-  return <>{children}</>;
-};
-
-/**
- * ModalBody
- * @param children
- * @constructor
- */
-export const PageBody: FC<{ children: ReactNode }> = ({ children }) => {
-  return <>{children}</>;
-};

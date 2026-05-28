@@ -29,6 +29,25 @@ export interface ModalProps extends BaseProps {
   closeButtonType?: 'close' | 'back';
 }
 
+const Title: FC<{ children: ReactNode }> = ({ children }) => {
+  return <>{children}</>;
+};
+
+const Description: FC<{ children: ReactNode }> = ({ children }) => {
+  return <>{children}</>;
+};
+
+const Body: FC<{ children: ReactNode; className?: string }> = ({
+  children,
+  className,
+}) => {
+  return <div className={cn(styles.body, className)}>{children}</div>;
+};
+
+const Footer: FC<{ children: ReactNode }> = ({ children }) => {
+  return <>{children}</>;
+};
+
 const ModalComponent: React.FC<ModalProps> = ({
   title,
   children,
@@ -37,10 +56,10 @@ const ModalComponent: React.FC<ModalProps> = ({
 }) => {
   const { close: closeModal } = useModal();
 
-  const TitleSlot = getSlot(children, ModalTitle);
-  const DescSlot = getSlot(children, ModalDescription);
-  const BodySlot = getSlot(children, ModalBody);
-  const FooterSlot = getSlot(children, ModalFooter);
+  const TitleSlot = getSlot(children, Title);
+  const DescSlot = getSlot(children, Description);
+  const BodySlot = getSlot(children, Body);
+  const FooterSlot = getSlot(children, Footer);
 
   const handleClose = () => {
     closeModal();
@@ -70,44 +89,10 @@ const ModalComponent: React.FC<ModalProps> = ({
   );
 };
 
-export const Modal = ModalComponent;
+export const Modal = Object.assign(ModalComponent, {
+  Title,
+  Description,
+  Body,
+  Footer,
+});
 
-/**
- * ModalTitle
- * @param children
- * @constructor
- */
-export const ModalTitle: FC<{ children: ReactNode }> = ({ children }) => {
-  return <>{children}</>;
-};
-
-/**
- * ModalDescription
- * @param children
- * @constructor
- */
-export const ModalDescription: FC<{ children: ReactNode }> = ({ children }) => {
-  return <>{children}</>;
-};
-
-/**
- * ModalBody
- * @param children
- * @param className
- * @constructor
- */
-export const ModalBody: FC<{ children: ReactNode; className?: string }> = ({
-  children,
-  className,
-}) => {
-  return <div className={cn(styles.body, className)}>{children}</div>;
-};
-
-/**
- * ModalFooter
- * @param children
- * @constructor
- */
-export const ModalFooter: FC<{ children: ReactNode }> = ({ children }) => {
-  return <>{children}</>;
-};

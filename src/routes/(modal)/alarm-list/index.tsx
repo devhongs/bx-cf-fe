@@ -1,19 +1,20 @@
 import { AlarmList } from '@/features/alarm/ui/alarm-list';
 import type { ModalConfig } from '@/shared/types';
-import { Button, Modal, ModalBody, ModalFooter, ModalTitle } from '@/shared/ui';
+import { Button, Modal } from '@/shared/ui';
 
 interface AlarmListModalProps extends ModalConfig {}
 
 export function AlarmListModal({ onClose }: AlarmListModalProps) {
   return (
     <Modal>
-      <ModalTitle>알람 리스트</ModalTitle>
-      <ModalBody>
+      <Modal.Title>알람 리스트</Modal.Title>
+      <Modal.Body>
         <AlarmList />
-      </ModalBody>
-      <ModalFooter>
+      </Modal.Body>
+      <Modal.Footer>
         <Button onClick={() => onClose?.({ data: 'confirm click' })}>확인</Button>
-      </ModalFooter>
+      </Modal.Footer>
     </Modal>
   );
 }
+

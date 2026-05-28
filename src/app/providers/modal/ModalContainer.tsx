@@ -4,16 +4,16 @@ import type { ComponentType } from 'react';
 import type { ModalConfig } from '@/shared/types';
 
 const modalModules = import.meta.glob<Record<string, ComponentType<any>>>(
-  '/src/pages/modal/*/*.tsx',
+  '/src/routes/\\(modal\\)/*/*.tsx',
   { eager: false },
 );
 
 // 자동으로 모달 경로 매핑 (폴더명 -> 전체 경로)
 const modalPathMap = Object.keys(modalModules).reduce(
   (acc, path) => {
-    const match = path.match(/\/modal\/(.+)\/index\.tsx$/);
+    const match = path.match(/\/\(?modal\)?\/(.+)\/index\.tsx$/);
     if (match) {
-      acc[match[1]] = path; // 'alarm-list' -> '/src/pages/modal/alarm-list/index.tsx'
+      acc[match[1]] = path; // 'alarm-list' -> '/src/routes/(modal)/alarm-list/index.tsx'
     }
     return acc;
   },

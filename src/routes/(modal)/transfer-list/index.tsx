@@ -2,7 +2,7 @@ import { useFetchAccount } from '@/entities/account';
 import type { Account } from '@/entities/account';
 import { TransferList } from '@/features/transfer/ui/transfer-list';
 import type { ModalConfig } from '@/shared/types';
-import { Modal, ModalBody, ModalTitle } from '@/shared/ui/modal/Modal';
+import { Modal } from '@/shared/ui/modal/Modal';
 
 interface TransferListModalProps extends ModalConfig {
   dummy?: any;
@@ -16,10 +16,11 @@ export function TransferListModal({ props }: TransferListModalProps) {
 
   return (
     <Modal>
-      <ModalTitle>이체</ModalTitle>
-      <ModalBody>
+      <Modal.Title>이체</Modal.Title>
+      <Modal.Body>
         <TransferList />
-      </ModalBody>
+      </Modal.Body>
     </Modal>
   );
 }
+

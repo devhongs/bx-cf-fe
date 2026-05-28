@@ -1,6 +1,6 @@
 import { UserAvatar } from '@/entities/user/ui/user-avatar/UserAvatar';
 import type { ModalConfig } from '@/shared/types';
-import { Modal, ModalBody, ModalTitle } from '@/shared/ui/modal/Modal';
+import { Modal } from '@/shared/ui/modal/Modal';
 
 import styles from './index.module.css';
 
@@ -11,8 +11,8 @@ interface UserInfoModalProps extends ModalConfig {
 export function UserInfoModal({ props }: UserInfoModalProps) {
   return (
     <Modal closeButtonType="close">
-      <ModalTitle>내 정보</ModalTitle>
-      <ModalBody>
+      <Modal.Title>내 정보</Modal.Title>
+      <Modal.Body>
         <UserAvatar
           className={styles.userAvatar}
           name="사용자 이름"
@@ -43,7 +43,8 @@ export function UserInfoModal({ props }: UserInfoModalProps) {
         </div>
         <div className={styles.dividerContainer}></div>
         <button className={styles.editButton}>수정하기</button>
-      </ModalBody>
+      </Modal.Body>
     </Modal>
   );
 }
+

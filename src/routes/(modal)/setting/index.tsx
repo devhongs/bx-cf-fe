@@ -6,7 +6,7 @@ import { useModal } from '@/shared/hooks/useModal';
 import { session } from '@/shared/lib/utils';
 import type { ModalConfig } from '@/shared/types';
 import { IconButton } from '@/shared/ui/icon-button/IconButton';
-import { Modal, ModalBody, ModalTitle } from '@/shared/ui/modal/Modal';
+import { Modal } from '@/shared/ui/modal/Modal';
 
 interface SettingModalProps extends ModalConfig {
   dummy?: any;
@@ -24,12 +24,13 @@ export function SettingModal(_props: SettingModalProps) {
 
   return (
     <Modal closeButtonType="close">
-      <ModalTitle>설정</ModalTitle>
-      <ModalBody>
+      <Modal.Title>설정</Modal.Title>
+      <Modal.Body>
         <div>
           <IconButton size="lg" icon={LogOut} label="로그아웃" onClick={handleLogoutClick} />
         </div>
-      </ModalBody>
+      </Modal.Body>
     </Modal>
   );
 }
+

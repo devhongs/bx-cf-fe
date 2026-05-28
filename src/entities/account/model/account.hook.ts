@@ -136,7 +136,7 @@ export const useSetFavoriteAccount = (
       let items: Account[] = [];
       for (const [_, data] of cachedQueries) {
         if (data?.content) {
-          items = data.content;
+          items = data.content as Account[];
           break;
         }
       }
@@ -152,11 +152,13 @@ export const useSetFavoriteAccount = (
 
       // 다중 PATCH를 순차/병렬 처리하여 즐겨찾기 해제
       await Promise.all(
-        otherFavorites.map((acc) => mutationHelper.mutationFn({ id: acc.id, isFavorite: false })),
+        otherFavorites.map((acc) =>
+          mutationHelper.mutationFn({ id: (acc as any).id, isFavorite: false }),
+        ),
       );
 
       // 4) 타깃 계좌의 즐겨찾기 true로 설정
-      await mutationHelper.mutationFn({ id: target.id, isFavorite: true });
+      await mutationHelper.mutationFn({ id: (target as any).id, isFavorite: true });
     },
     // 낙관적 업데이트
     onMutate: async (accountNo) => {

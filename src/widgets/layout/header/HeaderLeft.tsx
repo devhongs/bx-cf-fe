@@ -2,7 +2,6 @@ import { ChevronRight } from 'lucide-react';
 
 import { useModal } from '@/shared/hooks';
 import type { BaseProps } from '@/shared/types';
-import { IconButton } from '@/shared/ui';
 
 import styles from './HeaderLeft.module.css';
 
@@ -21,10 +20,10 @@ export function HeaderLeft({ pageTitle }: HeaderLeftProps) {
 
   if (pageTitle === '메뉴') {
     return (
-      <span className={styles.title} onClick={handleUserNameClick}>
+      <button type="button" className={styles.title} onClick={handleUserNameClick}>
         사용자명
-        <IconButton className={styles.icon} icon={ChevronRight} iconColor="#888888" />
-      </span>
+        <ChevronRight className={styles.icon} color="#888888" size={20} />
+      </button>
     );
   }
 
