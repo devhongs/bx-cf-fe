@@ -7,6 +7,8 @@ export const STORAGE_KEYS = {
   // 인증 관련
   SESSION_ID: 'sessionId',
   USER_ID: 'userId',
+  USER_NAME: 'userName',
+  USER: 'user',
   ACCESS_TOKEN: 'accessToken',
   REFRESH_TOKEN: 'refreshToken',
 

@@ -10,7 +10,7 @@ import type { Auth } from '../model/auth.type';
  * @returns 로그인 상세 정보 Promise.
  */
 export const login = async <T = Auth>(id: string): Promise<ApiResponse<T>> => {
-  return HttpJsonService.fetch<T>(`${API_URL}/login/?id=${id}`);
+  return HttpJsonService.fetch<T>(`${API_URL}/users/?id=${id}`);
 };
 
 /**

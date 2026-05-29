@@ -1,4 +1,4 @@
-import { useUserStore, UserAvatar } from '@/entities/user';
+import { useUserName, UserAvatar } from '@/entities/user';
 import type { ModalConfig } from '@/shared/types';
 import { Modal } from '@/shared/ui/modal/Modal';
 
@@ -9,7 +9,7 @@ interface UserInfoModalProps extends ModalConfig {
 }
 
 export function UserInfoModal({ props }: UserInfoModalProps) {
-  const userName = useUserStore((state) => state.userName) || '사용자 이름';
+  const userName = useUserName();
 
   return (
     <Modal closeButtonType="close">

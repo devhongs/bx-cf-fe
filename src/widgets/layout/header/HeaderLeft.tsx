@@ -1,6 +1,6 @@
 import { ChevronRight } from 'lucide-react';
 
-import { useUserStore } from '@/entities/user';
+import { useUserName } from '@/entities/user';
 import { useModal } from '@/shared/hooks';
 import type { BaseProps } from '@/shared/types';
 
@@ -12,7 +12,7 @@ interface HeaderLeftProps extends BaseProps {
 
 export function HeaderLeft({ pageTitle }: HeaderLeftProps) {
   const { open: openModal } = useModal();
-  const userName = useUserStore((state) => state.userName) || '사용자명';
+  const userName = useUserName();
 
   const handleUserNameClick = () => {
     openModal({

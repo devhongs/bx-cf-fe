@@ -15,6 +15,6 @@ export const requireAuth = ({ location, context }: any) => {
 };
 
 const checkLogin = (): boolean => {
-  const sessionId = local.get(STORAGE_KEYS.USER_ID);
-  return !!sessionId;
+  const user = local.get(STORAGE_KEYS.USER);
+  return !!user;
 };
