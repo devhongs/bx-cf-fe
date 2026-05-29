@@ -23,9 +23,9 @@ export function LoginForm() {
     }
     try {
       const response = await loginApi(id);
-      if (response?.content?.id) {
-        local.set(STORAGE_KEYS.RECENT_USER_ID, response.content.id.toString());
-        loginStore(response.content);
+      if (response?.id) {
+        local.set(STORAGE_KEYS.RECENT_USER_ID, response.id.toString());
+        loginStore(response);
         navigate({ to: '/main' });
       } else {
         alert('존재하지 않는 사용자이거나 로그인 정보가 올바르지 않습니다.');

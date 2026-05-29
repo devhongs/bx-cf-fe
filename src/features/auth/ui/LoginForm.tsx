@@ -19,8 +19,8 @@ export function LoginForm() {
     }
     try {
       const response = await loginApi(id);
-      if (response.content?.id) {
-        loginStore(response.content);
+      if (response?.id) {
+        loginStore(response);
         navigate({ to: '/main' });
       } else {
         alert('존재하지 않는 사용자이거나 로그인 정보가 올바르지 않습니다.');
@@ -34,8 +34,8 @@ export function LoginForm() {
   const handleQuickLogin = async (userId: string) => {
     try {
       const response = await loginApi(userId);
-      if (response.content?.id) {
-        loginStore(response.content);
+      if (response?.id) {
+        loginStore(response);
         navigate({ to: '/main' });
       } else {
         alert('존재하지 않는 사용자입니다.');

@@ -9,13 +9,13 @@ export const queryKeys = {
 };
 
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용
-export const fetchMenusQuery = <T = Menu>(params?: MenuQueryParams) =>
+export const fetchMenusQuery = <T extends Menu = Menu>(params?: MenuQueryParams) =>
   queryOptions({
     queryKey: queryKeys.fetchList(params),
     queryFn: () => fetchMenus<T>(params),
   });
 
-export const fetchMenuQuery = <T = Menu>(menuId: number) =>
+export const fetchMenuQuery = <T extends Menu = Menu>(menuId: number) =>
   queryOptions({
     queryKey: queryKeys.fetch(menuId),
     queryFn: () => fetchMenu<T>(menuId),

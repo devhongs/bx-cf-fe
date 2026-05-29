@@ -11,7 +11,7 @@ interface MenuListProps extends BaseProps {
 
 export function MenuList({ dummy, className, ...rest }: MenuListProps) {
   const { data } = useFetchMenus();
-  const content = data?.content ?? [];
+  const content = data ?? [];
 
   const handleMenuClick = (menu: Menu) => {
     console.log(menu);

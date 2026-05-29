@@ -1,6 +1,4 @@
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
 import { API_URL } from '@/shared/constants';
-import { HttpJsonService } from '@/shared/lib/ajax/http.json.service';
 import { httpService } from '@/shared/lib/ajax/http.service';
 
 import type { Account, AccountsQueryParams } from '../model/account.type';
@@ -8,51 +6,46 @@ import type { Account, AccountsQueryParams } from '../model/account.type';
 /**
  * 계좌 목록을 조회합니다.
  * @param [params] - 조회 파라미터 (선택 사항).
- * @returns 계좌 목록 페이지네이션 응답 Promise.
+ * @returns 계좌 목록 응답 Promise.
  */
-export const fetchAccounts = async <T = Account>(
+export const fetchAccounts = <T extends Account = Account>(
   params?: AccountsQueryParams,
-): Promise<ApiListResponse<T>> => {
-  return HttpJsonService.fetchAll<T>(`${API_URL}/accounts`, params);
-};
+): Promise<Array<T>> =>
+  httpService.get<Array<T>>(`${API_URL}/accounts`, params);
 
 /**
  * 특정 No의 계좌를 조회합니다.
  * @param accountNo - 조회할 계좌 No.
  * @returns 계좌 상세 정보 Promise.
  */
-export const fetchAccount = async <T = Account>(accountNo: string): Promise<ApiResponse<T>> => {
-  return HttpJsonService.fetch<T>(`${API_URL}/accounts/${accountNo}`);
-};
+export const fetchAccount = <T extends Account = Account>(accountNo: string): Promise<T> =>
+  httpService.get<T>(`${API_URL}/accounts/${accountNo}`);
 
 /**
  * 최근 사용한 계좌 목록을 조회합니다.
  * @param [params] - 조회 파라미터 (선택 사항).
- * @returns 계좌 목록 페이지네이션 응답 Promise.
+ * @returns 계좌 목록 응답 Promise.
  */
-export const fetchRecentAccounts = async <T = Account>(
+export const fetchRecentAccounts = <T extends Account = Account>(
   params?: AccountsQueryParams,
-): Promise<ApiListResponse<T>> => {
-  return HttpJsonService.fetchRecent<T>(`${API_URL}/recentAccounts`, params);
-};
+): Promise<Array<T>> =>
+  httpService.get<Array<T>>(`${API_URL}/recentAccounts`, params);
 
 /**
  * 새로운 계좌를 생성합니다.
  * @param payload - 생성할 계좌 정보.
  * @returns 생성된 계좌 정보 Promise.
  */
-export const createAccount = async (payload: Account): Promise<Account> => {
-  return httpService.post<Account>(`${API_URL}/accounts`, payload);
-};
+export const createAccount = (payload: Account): Promise<Account> =>
+  httpService.post<Account>(`${API_URL}/accounts`, payload);
 
 /**
  * 기존 계좌 정보를 수정합니다.
  * @param payload - 수정할 계좌 정보 (ID 포함 필수).
  * @returns 수정된 계좌 정보 Promise.
  */
-export const updateAccount = async (payload: Account): Promise<Account> => {
-  return HttpJsonService.put<Account>(`${API_URL}/accounts/${payload.accountNo}`, payload);
-};
+export const updateAccount = (payload: Account): Promise<Account> =>
+  httpService.put<Account>(`${API_URL}/accounts/${payload.accountNo}`, payload);
 
 /**
  * 특정 계좌의 즐겨찾기 상태를 업데이트합니다. (순수 단일 API)
@@ -60,17 +53,15 @@ export const updateAccount = async (payload: Account): Promise<Account> => {
  * @param isFavorite - 즐겨찾기 지정 여부
  * @returns 업데이트된 계좌 정보 Promise.
  */
-export const updateAccountFavorite = async (id: string, isFavorite: boolean): Promise<Account> => {
-  return HttpJsonService.patch<Account>(`${API_URL}/accounts/${id}`, {
+export const updateAccountFavorite = (id: string, isFavorite: boolean): Promise<Account> =>
+  httpService.patch<Account>(`${API_URL}/accounts/${id}`, {
     isFavorite,
   });
-};
 
 /**
  * 계좌를 삭제합니다.
  * @param id - 삭제할 계좌 ID.
  * @returns 삭제 완료 Promise.
  */
-export const deleteAccount = async (id: string): Promise<void> => {
-  return httpService.delete<void>(`${API_URL}/accounts/${id}`);
-};
+export const deleteAccount = (id: string): Promise<void> =>
+  httpService.delete<void>(`${API_URL}/accounts/${id}`);

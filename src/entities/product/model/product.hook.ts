@@ -1,8 +1,6 @@
 import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
-
 import {
   createProductMutation,
   deleteProductMutation,
@@ -16,22 +14,22 @@ import type { Product, ProductQueryParams } from './product.type';
  * @param params - 상품 목록 조회 쿼리 파라미터.
  * @param options - 추가 쿼리 옵션.
  */
-export const useFetchProducts = <T = Product>(
+export const useFetchProducts = <T extends Product = Product>(
   params?: ProductQueryParams,
   options?: any,
-): UseQueryResult<ApiListResponse<T>, Error> => {
-  return useQuery<ApiListResponse<T>, Error>({ ...fetchProductsQuery<T>(params), ...options });
+): UseQueryResult<Array<T>, Error> => {
+  return useQuery<Array<T>, Error>({ ...fetchProductsQuery<T>(params), ...options });
 };
 
 /**
  * 특정 상품 No의 상품 정보를 가져오는 쿼리 훅.
  * @param productId - 조회할 상품 ID.
  */
-export const useFetchProduct = <T = Product>(
+export const useFetchProduct = <T extends Product = Product>(
   productId: number,
   options?: any,
-): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery<ApiResponse<T>, Error>({ ...fetchProductQuery<T>(productId), ...options });
+): UseQueryResult<T, Error> => {
+  return useQuery<T, Error>({ ...fetchProductQuery<T>(productId), ...options });
 };
 
 /**

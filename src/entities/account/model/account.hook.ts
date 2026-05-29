@@ -1,7 +1,7 @@
 import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
+
 
 import {
   createAccountMutation,
@@ -19,11 +19,11 @@ import type { Account, AccountsQueryParams } from './account.type';
  * @param params - 계좌 목록 조회 쿼리 파라미터.
  * @param options - 추가 쿼리 옵션.
  */
-export const useFetchAccounts = <T = Account>(
+export const useFetchAccounts = <T extends Account = Account>(
   params: AccountsQueryParams,
   options?: any,
-): UseQueryResult<ApiListResponse<T>, Error> => {
-  return useQuery<ApiListResponse<T>, Error>({
+): UseQueryResult<Array<T>, Error> => {
+  return useQuery<Array<T>, Error>({
     ...fetchAccountsQuery<T>(params),
     ...options,
   });
@@ -33,11 +33,11 @@ export const useFetchAccounts = <T = Account>(
  * 특정 계좌 No의 계좌 정보를 가져오는 쿼리 훅.
  * @param accountNo - 조회할 계좌 No.
  */
-export const useFetchAccount = <T = Account>(
+export const useFetchAccount = <T extends Account = Account>(
   accountNo: string,
   options?: any,
-): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery<ApiResponse<T>, Error>({
+): UseQueryResult<T, Error> => {
+  return useQuery<T, Error>({
     ...fetchAccountQuery<T>(accountNo),
     ...options,
   });
@@ -48,11 +48,11 @@ export const useFetchAccount = <T = Account>(
  * @param params - 계좌 목록 조회 쿼리 파라미터.
  * @param options - 추가 쿼리 옵션.
  */
-export const useFetchRecentAccounts = <T = Account>(
+export const useFetchRecentAccounts = <T extends Account = Account>(
   params: AccountsQueryParams,
   options?: any,
-): UseQueryResult<ApiListResponse<T>, Error> => {
-  return useQuery<ApiListResponse<T>, Error>({
+): UseQueryResult<Array<T>, Error> => {
+  return useQuery<Array<T>, Error>({
     ...fetchRecentAccountsQuery<T>(params),
     ...options,
   });
@@ -129,14 +129,14 @@ export const useSetFavoriteAccount = (
     mutationFn: async (accountNo: string) => {
       // 1) 캐시 또는 API를 통해 현재 계좌 전체 목록 조회
       // 낙관적 업데이트에 캐시가 있을 것이므로 캐시 상태를 가져오거나 없으면 새로 패치합니다.
-      const cachedQueries = queryClient.getQueriesData<ApiListResponse<Account>>({
+      const cachedQueries = queryClient.getQueriesData<Array<Account>>({
         queryKey: ['accounts'],
       });
 
       let items: Account[] = [];
       for (const [_, data] of cachedQueries) {
-        if (data?.content) {
-          items = data.content as Account[];
+        if (data) {
+          items = data as Account[];
           break;
         }
       }
@@ -177,13 +177,10 @@ export const useSetFavoriteAccount = (
         if (!oldData) continue;
         queryClient.setQueryData(queryKey, (old: any) => {
           if (!old) return old;
-          return {
-            ...old,
-            content: (old.content ?? []).map((acc: Account) => ({
-              ...acc,
-              isFavorite: acc.accountNo === accountNo,
-            })),
-          };
+          return old.map((acc: Account) => ({
+            ...acc,
+            isFavorite: acc.accountNo === accountNo,
+          }));
         });
       }
 

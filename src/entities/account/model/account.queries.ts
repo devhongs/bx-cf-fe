@@ -18,19 +18,19 @@ export const queryKeys = {
 };
 
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용
-export const fetchAccountsQuery = <T = Account>(params: AccountsQueryParams) =>
+export const fetchAccountsQuery = <T extends Account = Account>(params: AccountsQueryParams) =>
   queryOptions({
     queryKey: queryKeys.fetchList(params),
     queryFn: () => fetchAccounts<T>(params),
   });
 
-export const fetchAccountQuery = <T = Account>(accountNo: string) =>
+export const fetchAccountQuery = <T extends Account = Account>(accountNo: string) =>
   queryOptions({
     queryKey: queryKeys.fetch(accountNo),
     queryFn: () => fetchAccount<T>(accountNo),
   });
 
-export const fetchRecentAccountsQuery = <T = Account>(params: AccountsQueryParams) =>
+export const fetchRecentAccountsQuery = <T extends Account = Account>(params: AccountsQueryParams) =>
   queryOptions({
     queryKey: queryKeys.fetchRecentList(params),
     queryFn: () => fetchRecentAccounts<T>(params),

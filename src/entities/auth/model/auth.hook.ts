@@ -1,8 +1,6 @@
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 
-import type { ApiResponse } from '@/shared/api/types';
-
 import { loginQuery, logoutQuery } from './auth.queries';
 import type { Auth, AuthQueryParams } from './auth.type';
 
@@ -11,11 +9,11 @@ import type { Auth, AuthQueryParams } from './auth.type';
  * @param params - 사용자 로그인 쿼리 파라미터.
  * @param options - 추가 쿼리 옵션.
  */
-export const useFetchLogin = <T = Auth>(
+export const useFetchLogin = <T extends Auth = Auth>(
   params: AuthQueryParams,
   options?: any,
-): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery<ApiResponse<T>, Error>({ ...loginQuery<T>(params), ...options });
+): UseQueryResult<T, Error> => {
+  return useQuery<T, Error>({ ...loginQuery<T>(params), ...options });
 };
 
 /**
@@ -23,9 +21,9 @@ export const useFetchLogin = <T = Auth>(
  * @param params - 사용자 로그아웃 쿼리 파라미터.
  * @param options - 추가 쿼리 옵션.
  */
-export const useFetchLogout = <T = Auth>(
+export const useFetchLogout = <T extends Auth = Auth>(
   params: AuthQueryParams,
   options?: any,
-): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery<ApiResponse<T>, Error>({ ...logoutQuery<T>(params), ...options });
+): UseQueryResult<T, Error> => {
+  return useQuery<T, Error>({ ...logoutQuery<T>(params), ...options });
 };

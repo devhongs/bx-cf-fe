@@ -11,13 +11,13 @@ export const queryKeys = {
 };
 
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용
-export const loginQuery = <T = Auth>(params: AuthQueryParams) =>
+export const loginQuery = <T extends Auth = Auth>(params: AuthQueryParams) =>
   queryOptions({
     queryKey: queryKeys.login(params),
     queryFn: () => login<T>(params.id),
   });
 
-export const logoutQuery = <T = Auth>(params: AuthQueryParams) =>
+export const logoutQuery = <T extends Auth = Auth>(params: AuthQueryParams) =>
   queryOptions({
     queryKey: queryKeys.logout(params),
     queryFn: () => logout<T>(params.id),

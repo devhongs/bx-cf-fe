@@ -1,23 +1,20 @@
 import axios from 'axios';
 import type {
-  AxiosError,
   AxiosInstance,
   AxiosPromise,
   AxiosRequestConfig,
-  AxiosResponse,
-  CancelTokenSource,
+  InternalAxiosRequestConfig,
 } from 'axios';
 
 import { encodeQueryString } from '../utils';
 
 const API_REQUEST_TIMEOUT = 9000;
 
-// sample url: https://jsonplaceholder.typicode.com/users
 interface RequestArgs {
   method: HttpMethod;
   url: string;
-  queryParam?: any;
-  payload?: any;
+  queryParam?: Record<string, any>;
+  payload?: unknown;
 }
 
 export enum HttpMethod {
@@ -28,166 +25,127 @@ export enum HttpMethod {
   DELETE = 'DELETE',
 }
 
-// frontend ajax call interceptor
-// (function () {
-//   const origOpen = XMLHttpRequest.prototype.open;
-//   XMLHttpRequest.prototype.open = function () {
-//     console.log('request started:', arguments);
-//     this.addEventListener('load', function () {
-//       console.log('request completed!');
-//       console.log(this.readyState); //will always be 4 (ajax is completed successfully)
-//       console.log(this.responseText); //whatever the response was
-//     });
-//     origOpen.apply(this, arguments);
-//   };
-// })();
-
 export class HttpService {
-  private httpClient!: AxiosInstance;
-  private cancelTokenSource!: CancelTokenSource;
-  private options!: AxiosRequestConfig | undefined | null;
-  private interceptors: any;
+  private httpClient: AxiosInstance;
+  private options: AxiosRequestConfig;
 
-  init(config?: { interceptors: any }): void {
-    this.interceptors = config?.interceptors;
+  constructor() {
+    this.options = {
+      timeout: API_REQUEST_TIMEOUT,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    this.httpClient = axios.create(this.options);
   }
 
-  async get<T>(url: string, queryParam?: any, options?: AxiosRequestConfig): Promise<T> {
-    this.setOptions(options);
-    return this.executeRequest<T>({
-      method: HttpMethod.GET,
-      url: encodeQueryString(url),
-      queryParam,
-    });
-  }
-
-  async post<T>(url: string, payload: any, options?: AxiosRequestConfig): Promise<T> {
-    this.setOptions(options);
-    return this.executeRequest<T>({
-      method: HttpMethod.POST,
-      url,
-      payload,
-    });
-  }
-
-  async put<T>(url: string, payload: any, options?: AxiosRequestConfig): Promise<T> {
-    this.setOptions(options);
-    return this.executeRequest<T>({
-      method: HttpMethod.PUT,
-      url,
-      payload,
-    });
-  }
-
-  async patch<T>(url: string, payload: any, options?: AxiosRequestConfig): Promise<T> {
-    this.setOptions(options);
-    return this.executeRequest<T>({
-      method: HttpMethod.PATCH,
-      url,
-      payload,
-    });
-  }
-
-  async delete<T>(url: string, payload?: any, options?: AxiosRequestConfig): Promise<T> {
-    this.setOptions(options);
-    return this.executeRequest<T>({
-      method: HttpMethod.DELETE,
-      url,
-      payload,
-    });
-  }
-
-  async execute<T>(args: RequestArgs, options?: AxiosRequestConfig): Promise<AxiosResponse> {
-    this.setOptions(options);
-    const { url } = args;
-
-    return this.httpRequest<T>(args)
-      .then((response: AxiosResponse) => {
-        console.log('axios.response', response);
-        return response;
-      })
-      .catch((error: AxiosError | Error) => {
-        if (axios.isAxiosError(error)) {
-          // status 4** backend 예외 코드
-          const status = error.response?.status;
-          if (status && status >= 400 && status < 500) {
-            throw error.response?.data;
-          }
-          console.log('axios.error', error);
-        } else {
-          // this.showNotification('Unknown Error', error.message);
-          console.log('> unknown error-2:', url, error);
-        }
-        throw error;
-      })
-      .finally(() => {
-        console.log('axios.httpRequest finally');
-      });
-  }
-
-  private setOptions(options: AxiosRequestConfig = { timeout: API_REQUEST_TIMEOUT }): void {
-    if (this.options) {
-      this.options = { ...this.options, ...options };
-    } else {
-      this.options = options;
+  init(config?: {
+    interceptors?: {
+      request?: {
+        onFulfilled?: (value: InternalAxiosRequestConfig) => InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>;
+        onRejected?: (error: any) => any;
+      };
+      response?: {
+        onFulfilled?: (value: any) => any;
+        onRejected?: (error: any) => any;
+      };
+    };
+  }): void {
+    const interceptors = config?.interceptors;
+    if (interceptors?.request) {
+      this.httpClient.interceptors.request.use(interceptors.request.onFulfilled, interceptors.request.onRejected);
     }
+    if (interceptors?.response) {
+      this.httpClient.interceptors.response.use(
+        interceptors.response.onFulfilled,
+        interceptors.response.onRejected,
+      );
+    }
+  }
 
-    this.cancelTokenSource = axios.CancelToken.source();
-    this.httpClient = axios.create({
-      ...options,
-      cancelToken: this.cancelTokenSource.token,
-    });
-    this.httpClient.interceptors.request.use(this.interceptors?.request.onFulfilled);
-    this.httpClient.interceptors.response.use(
-      this.interceptors?.response.onFulfilled,
-      this.interceptors?.response.onRejected,
+  async get<T>(url: string, queryParam?: Record<string, any>, options?: AxiosRequestConfig): Promise<T> {
+    return this.execute<T>(
+      {
+        method: HttpMethod.GET,
+        url: encodeQueryString(url),
+        queryParam,
+      },
+      options,
     );
-    this.completed = false;
   }
 
-  private httpRequest<T>(args: RequestArgs): AxiosPromise<T> {
+  async post<T>(url: string, payload?: unknown, options?: AxiosRequestConfig): Promise<T> {
+    return this.execute<T>(
+      {
+        method: HttpMethod.POST,
+        url,
+        payload,
+      },
+      options,
+    );
+  }
+
+  async put<T>(url: string, payload?: unknown, options?: AxiosRequestConfig): Promise<T> {
+    return this.execute<T>(
+      {
+        method: HttpMethod.PUT,
+        url,
+        payload,
+      },
+      options,
+    );
+  }
+
+  async patch<T>(url: string, payload?: unknown, options?: AxiosRequestConfig): Promise<T> {
+    return this.execute<T>(
+      {
+        method: HttpMethod.PATCH,
+        url,
+        payload,
+      },
+      options,
+    );
+  }
+
+  async delete<T>(url: string, payload?: unknown, options?: AxiosRequestConfig): Promise<T> {
+    return this.execute<T>(
+      {
+        method: HttpMethod.DELETE,
+        url,
+        payload,
+      },
+      options,
+    );
+  }
+
+  private httpRequest<T>(args: RequestArgs, config?: AxiosRequestConfig): AxiosPromise<T> {
     const { method, url, queryParam, payload } = args;
-    switch (method) {
-      case HttpMethod.GET:
-        if (payload) {
-          return this.httpClient.get<T>(url, {
-            params: queryParam,
-            data: payload,
-          });
-        } else {
-          return this.httpClient.get<T>(url, { params: queryParam });
-        }
-      case HttpMethod.POST:
-        return this.httpClient.post<T>(url, payload);
-      case HttpMethod.PUT:
-        return this.httpClient.put<T>(url, payload);
-      case HttpMethod.PATCH:
-        return this.httpClient.patch<T>(url, payload);
-      case HttpMethod.DELETE:
-        if (payload) {
-          return this.httpClient.delete<T>(url, { data: payload });
-        } else {
-          return this.httpClient.delete<T>(url);
-        }
-    }
+
+    return this.httpClient.request<T>({
+      method,
+      url,
+      params: queryParam,
+      data: payload,
+      ...this.options,
+      ...config,
+    });
   }
 
-  private executeRequest<T>(args: RequestArgs): Promise<T> {
-    return this.httpRequest<T>(args)
-      .then((response: AxiosResponse) => {
-        if (response.status >= 200 && response.status < 300) {
-          return response.data.data;
-        } else {
-          throw response.data;
+  private async execute<T>(args: RequestArgs, options?: AxiosRequestConfig): Promise<T> {
+    try {
+      const { data, status } = await this.httpRequest<any>(args, options);
+      if (status >= 200 && status < 300) {
+        return data.data !== undefined ? data.data : data;
+      }
+      throw data;
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.data) {
+          throw error.response.data;
         }
-      })
-      .catch((error: AxiosError | Error) => {
-        // TODO: 에러 케이스별 처리 및 공통 처리
-        throw error;
-      })
-      .finally(() => {
-        this.completed = true;
-      });
+      }
+      throw error;
+    }
   }
 }
 

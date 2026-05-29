@@ -9,13 +9,13 @@ export const queryKeys = {
 };
 
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용
-export const fetchProductsQuery = <T = Product>(params?: ProductQueryParams) =>
+export const fetchProductsQuery = <T extends Product = Product>(params?: ProductQueryParams) =>
   queryOptions({
     queryKey: queryKeys.fetchList(params),
     queryFn: () => fetchProducts<T>(params),
   });
 
-export const fetchProductQuery = <T = Product>(productId: number) =>
+export const fetchProductQuery = <T extends Product = Product>(productId: number) =>
   queryOptions({
     queryKey: queryKeys.fetch(productId),
     queryFn: () => fetchProduct<T>(productId),

@@ -9,13 +9,13 @@ export const queryKeys = {
 };
 
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용
-export const fetchAlarmsQuery = <T = Alarm>(params?: AlarmsQueryParams) =>
+export const fetchAlarmsQuery = <T extends Alarm = Alarm>(params?: AlarmsQueryParams) =>
   queryOptions({
     queryKey: queryKeys.fetchList(params),
     queryFn: () => fetchAlarms<T>(params),
   });
 
-export const fetchAlarmQuery = <T = Alarm>(alarmId: number) =>
+export const fetchAlarmQuery = <T extends Alarm = Alarm>(alarmId: number) =>
   queryOptions({
     queryKey: queryKeys.fetch(alarmId),
     queryFn: () => fetchAlarm<T>(alarmId),

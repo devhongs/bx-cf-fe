@@ -11,7 +11,9 @@ interface ProductListProps extends BaseProps {
 
 export function ProductList(_props: ProductListProps) {
   const { data } = useFetchProducts();
-  const content = data?.content ?? [];
+  const content = data ?? [];
+
+  console.log(data);
 
   const handleItemClick = (product: Product) => {
     console.log(product);

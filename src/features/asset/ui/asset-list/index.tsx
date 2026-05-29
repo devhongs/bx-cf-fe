@@ -12,7 +12,7 @@ interface AssetListProps extends BaseProps {
 
 export function AssetList(_props: AssetListProps) {
   const { data } = useFetchAccounts({ userId: '' });
-  const content = data?.content;
+  const content = data;
   const [accounts, setAccounts] = useState<Array<Account>>([]);
 
   const { open: openModal } = useModal();

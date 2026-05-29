@@ -1,8 +1,6 @@
 import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
-
 import {
   createMenuMutation,
   deleteMenuMutation,
@@ -16,22 +14,22 @@ import type { Menu, MenuQueryParams } from './menu.type';
  * @param params - 메뉴 목록 조회 쿼리 파라미터.
  * @param options - 추가 쿼리 옵션.
  */
-export const useFetchMenus = <T = Menu>(
+export const useFetchMenus = <T extends Menu = Menu>(
   params?: MenuQueryParams,
   options?: any,
-): UseQueryResult<ApiListResponse<T>, Error> => {
-  return useQuery<ApiListResponse<T>, Error>({ ...fetchMenusQuery<T>(params), ...options });
+): UseQueryResult<Array<T>, Error> => {
+  return useQuery<Array<T>, Error>({ ...fetchMenusQuery<T>(params), ...options });
 };
 
 /**
  * 특정 메뉴 No의 메뉴 정보를 가져오는 쿼리 훅.
  * @param menuId - 조회할 메뉴 ID.
  */
-export const useFetchMenu = <T = Menu>(
+export const useFetchMenu = <T extends Menu = Menu>(
   menuId: number,
   options?: any,
-): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery<ApiResponse<T>, Error>({ ...fetchMenuQuery<T>(menuId), ...options });
+): UseQueryResult<T, Error> => {
+  return useQuery<T, Error>({ ...fetchMenuQuery<T>(menuId), ...options });
 };
 
 /**

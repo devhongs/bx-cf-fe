@@ -8,7 +8,7 @@ interface AlarmDetailProps extends BaseProps {
 
 export function AlarmDetail({ alarmId }: AlarmDetailProps) {
   const { data } = useFetchAlarm(alarmId);
-  const content = data?.content ?? ({} as Alarm);
+  const content = data ?? ({} as Alarm);
 
   return (
     <ul>

@@ -1,8 +1,6 @@
 import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types';
-
 import {
   createAlarmMutation,
   deleteAlarmMutation,
@@ -16,22 +14,22 @@ import type { Alarm, AlarmsQueryParams } from './alarm.type';
  * @param params - 알람 목록 조회 쿼리 파라미터.
  * @param options - 추가 쿼리 옵션.
  */
-export const useFetchAlarms = <T = Alarm>(
+export const useFetchAlarms = <T extends Alarm = Alarm>(
   params?: AlarmsQueryParams,
   options?: any,
-): UseQueryResult<ApiListResponse<T>, Error> => {
-  return useQuery<ApiListResponse<T>, Error>({ ...fetchAlarmsQuery<T>(params), ...options });
+): UseQueryResult<Array<T>, Error> => {
+  return useQuery<Array<T>, Error>({ ...fetchAlarmsQuery<T>(params), ...options });
 };
 
 /**
  * 특정 알람의 알람 정보를 가져오는 쿼리 훅.
  * @param alarmId - 조회할 알람 ID.
  */
-export const useFetchAlarm = <T = Alarm>(
+export const useFetchAlarm = <T extends Alarm = Alarm>(
   alarmId: number,
   options?: any,
-): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery<ApiResponse<T>, Error>({ ...fetchAlarmQuery<T>(alarmId), ...options });
+): UseQueryResult<T, Error> => {
+  return useQuery<T, Error>({ ...fetchAlarmQuery<T>(alarmId), ...options });
 };
 
 /**

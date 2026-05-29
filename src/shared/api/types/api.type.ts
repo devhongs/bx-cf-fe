@@ -6,12 +6,6 @@ export interface ApiResponse<T> {
   content: T; // 응답 데이터
   totalElements: number; // 전체 요소 수
   sort?: ApiSort; // 정렬 정보
-}
-
-export interface ApiListResponse<T> extends Omit<ApiResponse<T>, 'content'> {
-  content: Array<T>; // 응답 데이터
-  totalElements: number; // 전체 요소 수
-  sort?: ApiSort; // 정렬 정보
   pagination?: ApiPagination; // 페이징 정보
 }
 

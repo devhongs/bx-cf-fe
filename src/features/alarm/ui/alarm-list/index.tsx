@@ -12,7 +12,7 @@ export function AlarmList(_props: AlarmListProps) {
   const { open: openModal } = useModal();
 
   const { data } = useFetchAlarms();
-  const content = data?.content ?? [];
+  const content = data ?? [];
 
   const handleClickAlarmCard = (d: Alarm) => {
     openModal({
