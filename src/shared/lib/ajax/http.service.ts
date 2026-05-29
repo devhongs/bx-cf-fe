@@ -47,7 +47,6 @@ export class HttpService {
   private cancelTokenSource!: CancelTokenSource;
   private options!: AxiosRequestConfig | undefined | null;
   private interceptors: any;
-  private completed!: boolean;
 
   init(config?: { interceptors: any }): void {
     this.interceptors = config?.interceptors;

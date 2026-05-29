@@ -21,7 +21,7 @@ export const fetchProducts = async <T = Product>(
  * @returns 상품 상세 정보 Promise.
  */
 export const fetchProduct = async <T = Product>(id: number): Promise<ApiResponse<T>> => {
-  return HttpJsonService.fetch<T>(`${API_URL}/products/?id=${id}`);
+  return HttpJsonService.fetch<T>(`${API_URL}/products/${id}`);
 };
 
 /**
@@ -30,7 +30,7 @@ export const fetchProduct = async <T = Product>(id: number): Promise<ApiResponse
  * @returns 생성된 상품 정보 Promise.
  */
 export const createProduct = async (payload: Product): Promise<Product> => {
-  return HttpJsonService.post<any>(`${API_URL}/products/${payload.id}`, payload);
+  return HttpJsonService.post<any>(`${API_URL}/products`, payload);
 };
 
 /**
@@ -39,5 +39,6 @@ export const createProduct = async (payload: Product): Promise<Product> => {
  * @returns 삭제 완료 Promise.
  */
 export const deleteProduct = async (id: number): Promise<any> => {
-  return HttpJsonService.delete<any>(`${API_URL}/products/${id}?_dependent=id`);
+  return HttpJsonService.delete<any>(`${API_URL}/products/${id}`);
 };
+

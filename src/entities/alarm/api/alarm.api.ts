@@ -21,7 +21,7 @@ export const fetchAlarms = async <T = Alarm>(
  * @returns 알람 상세 정보 Promise.
  */
 export const fetchAlarm = async <T = Alarm>(id: number): Promise<ApiResponse<T>> => {
-  return HttpJsonService.fetch<T>(`${API_URL}/alarms/?id=${id}`);
+  return HttpJsonService.fetch<T>(`${API_URL}/alarms/${id}`);
 };
 
 /**
@@ -30,7 +30,7 @@ export const fetchAlarm = async <T = Alarm>(id: number): Promise<ApiResponse<T>>
  * @returns 생성된 알람 정보 Promise.
  */
 export const createAlarm = async (payload: Alarm): Promise<Alarm> => {
-  return HttpJsonService.post<any>(`${API_URL}/alarms/${payload.id}`, payload);
+  return HttpJsonService.post<any>(`${API_URL}/alarms`, payload);
 };
 
 /**
@@ -39,5 +39,6 @@ export const createAlarm = async (payload: Alarm): Promise<Alarm> => {
  * @returns 삭제 완료 Promise.
  */
 export const deleteAlarm = async (id: number): Promise<any> => {
-  return HttpJsonService.delete<any>(`${API_URL}/alarms/${id}?_dependent=id`);
+  return HttpJsonService.delete<any>(`${API_URL}/alarms/${id}`);
 };
+

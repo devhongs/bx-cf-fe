@@ -21,7 +21,7 @@ export const fetchMenus = async <T = Menu>(
  * @returns 메뉴 상세 정보 Promise.
  */
 export const fetchMenu = async <T = Menu>(id: number): Promise<ApiResponse<T>> => {
-  return HttpJsonService.fetch<T>(`${API_URL}/menus/?id=${id}`);
+  return HttpJsonService.fetch<T>(`${API_URL}/menus/${id}`);
 };
 
 /**
@@ -30,7 +30,7 @@ export const fetchMenu = async <T = Menu>(id: number): Promise<ApiResponse<T>> =
  * @returns 생성된 메뉴 정보 Promise.
  */
 export const createMenu = async (payload: Menu): Promise<Menu> => {
-  return HttpJsonService.post<any>(`${API_URL}/menus/${payload.id}`, payload);
+  return HttpJsonService.post<any>(`${API_URL}/menus`, payload);
 };
 
 /**
@@ -39,5 +39,6 @@ export const createMenu = async (payload: Menu): Promise<Menu> => {
  * @returns 삭제 완료 Promise.
  */
 export const deleteMenu = async (id: number): Promise<any> => {
-  return HttpJsonService.delete<any>(`${API_URL}/menus/${id}?_dependent=id`);
+  return HttpJsonService.delete<any>(`${API_URL}/menus/${id}`);
 };
+

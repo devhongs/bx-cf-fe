@@ -10,7 +10,7 @@ import type { Auth } from '../model/auth.type';
  * @returns 로그인 상세 정보 Promise.
  */
 export const login = async <T = Auth>(id: string): Promise<ApiResponse<T>> => {
-  return HttpJsonService.fetch<T>(`${API_URL}/users/?id=${id}`);
+  return HttpJsonService.fetch<T>(`${API_URL}/users/${id}`);
 };
 
 /**
@@ -19,7 +19,7 @@ export const login = async <T = Auth>(id: string): Promise<ApiResponse<T>> => {
  * @returns 로그아웃 상세 정보 Promise.
  */
 export const logout = async <T = Auth>(id: string): Promise<ApiResponse<T>> => {
-  return HttpJsonService.fetch<T>(`${API_URL}/logout/?id=${id}`);
+  return HttpJsonService.fetch<T>(`${API_URL}/logout/${id}`);
 };
 
 /**
@@ -28,7 +28,7 @@ export const logout = async <T = Auth>(id: string): Promise<ApiResponse<T>> => {
  * @returns 액세스 토큰 체크 정보 Promise.
  */
 export const checkAccessToken = async <T = Auth>(id: string): Promise<ApiResponse<T>> => {
-  return HttpJsonService.fetch<T>(`${API_URL}/check-access-token/?id=${id}`);
+  return HttpJsonService.fetch<T>(`${API_URL}/check-access-token/${id}`);
 };
 
 /**
@@ -37,5 +37,6 @@ export const checkAccessToken = async <T = Auth>(id: string): Promise<ApiRespons
  * @returns 리프레시 토큰 체크 정보 Promise.
  */
 export const checkRefreshToken = async <T = Auth>(id: string): Promise<ApiResponse<T>> => {
-  return HttpJsonService.fetch<T>(`${API_URL}/check-refresh-token/?id=${id}`);
+  return HttpJsonService.fetch<T>(`${API_URL}/check-refresh-token/${id}`);
 };
+
