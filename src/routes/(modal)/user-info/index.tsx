@@ -1,8 +1,6 @@
-import { UserAvatar } from '@/entities/user/ui/user-avatar/UserAvatar';
+import { useUserStore, UserAvatar } from '@/entities/user';
 import type { ModalConfig } from '@/shared/types';
 import { Modal } from '@/shared/ui/modal/Modal';
-import { STORAGE_KEYS } from '@/shared/constants';
-import { session } from '@/shared/lib/utils';
 
 import styles from './index.module.css';
 
@@ -11,7 +9,7 @@ interface UserInfoModalProps extends ModalConfig {
 }
 
 export function UserInfoModal({ props }: UserInfoModalProps) {
-  const userName = session.get(STORAGE_KEYS.SESSION_ID) || '사용자 이름';
+  const userName = useUserStore((state) => state.userName) || '사용자 이름';
 
   return (
     <Modal closeButtonType="close">

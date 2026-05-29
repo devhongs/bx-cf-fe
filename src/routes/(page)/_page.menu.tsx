@@ -4,7 +4,7 @@ import { MessageCircle } from 'lucide-react';
 import { MenuList } from '@/features/menu/ui/menu-list';
 import { IconButton, Page } from '@/shared/ui';
 
-export function MenuPage() {
+function MenuPage() {
   return (
     <Page>
       <Page.Body>

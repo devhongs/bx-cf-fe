@@ -1,5 +1,5 @@
 import { cn } from '@/shared/lib/utils';
-import { useModalStore } from '@/shared/model/modal/modal';
+import { useModalStore } from '@/shared/model/modal/modal.store';
 import type { ModalConfig } from '@/shared/types';
 
 import { ModalContainer } from './ModalContainer';

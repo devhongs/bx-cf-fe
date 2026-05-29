@@ -1,9 +1,8 @@
 import { ChevronRight } from 'lucide-react';
 
+import { useUserStore } from '@/entities/user';
 import { useModal } from '@/shared/hooks';
 import type { BaseProps } from '@/shared/types';
-import { STORAGE_KEYS } from '@/shared/constants';
-import { session } from '@/shared/lib/utils';
 
 import styles from './HeaderLeft.module.css';
 
@@ -13,7 +12,7 @@ interface HeaderLeftProps extends BaseProps {
 
 export function HeaderLeft({ pageTitle }: HeaderLeftProps) {
   const { open: openModal } = useModal();
-  const userName = session.get(STORAGE_KEYS.SESSION_ID) || '사용자명';
+  const userName = useUserStore((state) => state.userName) || '사용자명';
 
   const handleUserNameClick = () => {
     openModal({

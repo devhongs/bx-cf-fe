@@ -2,7 +2,7 @@ import { ProductList } from '@/features/product/ui/prodict-list';
 import { Page } from '@/shared/ui';
 import { createFileRoute } from '@tanstack/react-router';
 
-export function ProductPage() {
+function ProductPage() {
   return (
     <Page>
       <Page.Body>

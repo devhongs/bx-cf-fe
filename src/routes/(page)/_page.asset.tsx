@@ -1,7 +1,7 @@
 import { AssetList } from '@/features/asset/ui/asset-list';
 import { createFileRoute } from '@tanstack/react-router';
 
-export function AssetPage() {
+function AssetPage() {
   return <AssetList />;
 }
 

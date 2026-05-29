@@ -3,7 +3,7 @@ import { Footer } from '@/widgets/layout/footer/Footer';
 import { Header } from '@/widgets/layout/header/Header';
 import { Outlet, createFileRoute } from '@tanstack/react-router';
 
-export function PageLayout() {
+function PageLayout() {
   return (
     <div className="min-h-dvh bg-[#fafafa]">
       <Header className="fixed inset-x-0 top-0 h-16 bg-[#f5f5f5] z-10" />

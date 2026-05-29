@@ -1,26 +1,26 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 
-import { STORAGE_KEYS } from '@/shared/constants';
-import { session } from '@/shared/lib/utils';
+import { useUserStore } from '@/entities/user';
 import { Button } from '@/shared/ui';
 
-export function LoginPage() {
+function LoginPage() {
   const navigate = useNavigate();
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+  const login = useUserStore((state) => state.login);
 
   const handleSubmit = () => {
     if (!id.trim()) {
       alert('아이디를 입력해주세요.');
       return;
     }
-    session.set(STORAGE_KEYS.USER_ID, id);
+    login(id);
     navigate({ to: '/main' });
   };
 
   const handleQuickLogin = (userId: string) => {
-    session.set(STORAGE_KEYS.USER_ID, userId);
+    login(userId);
     navigate({ to: '/main' });
   };
 

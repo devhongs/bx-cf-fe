@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 
-import { useModalStore } from '../model/modal/modal';
+import { useModalStore } from '../model/modal/modal.store';
 import type { ModalConfig, useModalReturnValue } from '../types';
 
 const useModal = (): useModalReturnValue => {

@@ -3,7 +3,7 @@ import type { Account } from '@/entities/account';
 import { AccountCard } from '@/entities/account/ui/account-card';
 import { createFileRoute } from '@tanstack/react-router';
 
-export function MainPage() {
+function MainPage() {
   const { data } = useFetchAccounts({ userId: '1234567890' });
   const content = data?.content ?? [];
 

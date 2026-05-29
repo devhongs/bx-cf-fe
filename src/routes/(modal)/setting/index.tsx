@@ -1,9 +1,8 @@
 import { useNavigate } from '@tanstack/react-router';
 import { LogOut } from 'lucide-react';
 
-import { STORAGE_KEYS } from '@/shared/constants';
+import { useUserStore } from '@/entities/user';
 import { useModal } from '@/shared/hooks/useModal';
-import { session } from '@/shared/lib/utils';
 import type { ModalConfig } from '@/shared/types';
 import { IconButton } from '@/shared/ui/icon-button/IconButton';
 import { Modal } from '@/shared/ui/modal/Modal';
@@ -15,9 +14,10 @@ interface SettingModalProps extends ModalConfig {
 export function SettingModal(_props: SettingModalProps) {
   const navigate = useNavigate();
   const { closeAll: closeAllModal } = useModal();
+  const logout = useUserStore((state) => state.logout);
 
   const handleLogoutClick = () => {
-    session.remove(STORAGE_KEYS.SESSION_ID);
+    logout();
     navigate({ to: '/login' });
     closeAllModal();
   };
