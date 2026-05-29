@@ -34,7 +34,6 @@ export function HeaderRight({ pageTitle }: HeaderRightProps) {
           className={styles.icon}
           size="sm"
           icon={Settings}
-          label="설정"
           onClick={handleSettingClick}
         />
       ) : (

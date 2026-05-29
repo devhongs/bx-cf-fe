@@ -4,7 +4,7 @@ import type { BankId } from '@/entities/account';
 import { BANK_OPTIONS } from '@/shared/constants';
 import { formatAccountNumberByBank } from '@/shared/lib/utils';
 import type { BaseProps } from '@/shared/types';
-import { Input } from '@/shared/ui';
+import { Input, Button } from '@/shared/ui';
 
 import styles from './index.module.css';
 
@@ -62,13 +62,13 @@ export function TransferAmount({ bankId, accountNo, name }: TransferAmountProps)
       </div>
 
       {/* 다음 버튼 */}
-      <button
+      <Button
         type="button"
         disabled={!amount}
         className={`${styles.submitButton} ${!amount ? styles.disabled : styles.enabled}`}
       >
         다음
-      </button>
+      </Button>
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { BANK_OPTIONS } from '@/shared/constants';
 import { useModal } from '@/shared/hooks';
 import { formatAccountNumberByBank } from '@/shared/lib/utils';
 import type { BaseProps } from '@/shared/types';
-import { Input } from '@/shared/ui';
+import { Input, Button, Select } from '@/shared/ui';
 
 import styles from './index.module.css';
 
@@ -62,25 +62,18 @@ export function TransferList({ dummy }: TransferListProps) {
         />
 
         {/* 은행 선택 */}
-        <select
+        <Select
           className={styles.formSelect}
           value={bankId ?? ''}
           onChange={(e) => setBankId(e.target.value as BankId)}
-        >
-          <option value="" disabled>
-            은행 선택
-          </option>
-          {BANK_OPTIONS.map((bank) => (
-            <option key={bank.id} value={bank.id} className={styles.selectOption}>
-              {bank.name}
-            </option>
-          ))}
-        </select>
+          options={BANK_OPTIONS.map((bank) => ({ value: bank.id, label: bank.name }))}
+          placeholder="은행 선택"
+        />
 
         {/* 다음 버튼 */}
-        <button type="button" className={styles.submitButton} onClick={() => handleNextClick()}>
+        <Button type="button" className={styles.submitButton} onClick={() => handleNextClick()}>
           다음
-        </button>
+        </Button>
       </form>
       {/* 최근 보낸 계좌 */}
       <section className={styles.recentSection}>
