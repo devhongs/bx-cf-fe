@@ -4,6 +4,7 @@ import type { BankId } from '@/entities/account';
 import { BANK_OPTIONS } from '@/shared/constants';
 import { formatAccountNumberByBank } from '@/shared/lib/utils';
 import type { BaseProps } from '@/shared/types';
+import { Input } from '@/shared/ui';
 
 import styles from './index.module.css';
 
@@ -41,7 +42,7 @@ export function TransferAmount({ bankId, accountNo, name }: TransferAmountProps)
       <div className={styles.amountInputSection}>
         <div className={styles.amountInputTitle}>얼마를 보낼까요?</div>
         <div className={styles.amountInputContainer}>
-          <input
+          <Input
             type="text"
             inputMode="numeric"
             placeholder=""

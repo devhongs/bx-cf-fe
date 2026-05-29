@@ -6,6 +6,7 @@ import { BANK_OPTIONS } from '@/shared/constants';
 import { useModal } from '@/shared/hooks';
 import { formatAccountNumberByBank } from '@/shared/lib/utils';
 import type { BaseProps } from '@/shared/types';
+import { Input } from '@/shared/ui';
 
 import styles from './index.module.css';
 
@@ -50,13 +51,14 @@ export function TransferList({ dummy }: TransferListProps) {
       {/* 입력 폼 */}
       <form className={styles.transferForm}>
         {/* 계좌번호 입력 */}
-        <input
+        <Input
           type="text"
           inputMode="numeric"
           placeholder="계좌번호를 입력해주세요"
           className={styles.formInput}
           value={accountNum}
           onChange={(e) => setAccountNum(e.target.value)}
+          onEnter={() => handleNextClick()}
         />
 
         {/* 은행 선택 */}

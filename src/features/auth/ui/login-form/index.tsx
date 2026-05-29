@@ -6,6 +6,7 @@ import { login as loginApi } from '@/entities/auth';
 import { useUserStore } from '@/entities/user';
 import { STORAGE_KEYS } from '@/shared/constants';
 import { local } from '@/shared/lib/utils';
+import { Input } from '@/shared/ui';
 
 import styles from './index.module.css';
 
@@ -45,31 +46,23 @@ export function LoginForm() {
 
         {/* Inputs & Form */}
         <div className={styles.formWrapper}>
-          <input
+          <Input
             name="id"
             type="text"
             className={styles.inputField}
             placeholder="Username, email or mobile number"
             value={id}
             onChange={(e) => setId(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handleSubmit();
-              }
-            }}
+            onEnter={handleSubmit}
           />
-          <input
+          <Input
             name="password"
             type="password"
             className={styles.inputField}
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handleSubmit();
-              }
-            }}
+            onEnter={handleSubmit}
           />
           <button type="button" className={styles.submitBtn} onClick={handleSubmit}>
             <LogIn size={18} />
