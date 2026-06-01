@@ -1,23 +1,24 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import { createAlarm, deleteAlarm, fetchAlarm, fetchAlarms } from '../api/alarm.api';
+import { createAlarm, deleteAlarm, fetchAlarm, fetchAlarmList } from '../api/alarm.api';
 import type { Alarm, AlarmsQueryParams } from './alarm.type';
 
 export const queryKeys = {
-  fetchList: (params?: AlarmsQueryParams) => ['alarms', params] as const,
-  fetch: (id: number) => ['alarm', id] as const,
+  all: ['alarm'] as const,
+  list: (params?: AlarmsQueryParams) => ['alarm', 'list', params] as const,
+  detail: (id: number) => ['alarm', 'detail', id] as const,
 };
 
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용
-export const fetchAlarmsQuery = <T extends Alarm = Alarm>(params?: AlarmsQueryParams) =>
+export const fetchAlarmListQuery = <T extends Alarm = Alarm>(params?: AlarmsQueryParams) =>
   queryOptions({
-    queryKey: queryKeys.fetchList(params),
-    queryFn: () => fetchAlarms<T>(params),
+    queryKey: queryKeys.list(params),
+    queryFn: () => fetchAlarmList<T>(params),
   });
 
 export const fetchAlarmQuery = <T extends Alarm = Alarm>(alarmId: number) =>
   queryOptions({
-    queryKey: queryKeys.fetch(alarmId),
+    queryKey: queryKeys.detail(alarmId),
     queryFn: () => fetchAlarm<T>(alarmId),
   });
 

@@ -8,7 +8,7 @@ import type { Menu, MenuQueryParams } from '../model/menu.type';
  * @param [params] - 조회 파라미터 (선택 사항).
  * @returns 메뉴 목록 응답 Promise.
  */
-export const fetchMenus = <T extends Menu = Menu>(
+export const fetchMenuList = <T extends Menu = Menu>(
   params?: MenuQueryParams,
 ): Promise<Array<T>> =>
   httpService.get<Array<T>>(`${API_URL}/menus`, params);

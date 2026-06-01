@@ -1,4 +1,4 @@
-import { useFetchProducts } from '@/entities/product';
+import { useFetchProductList } from '@/entities/product';
 import type { Product } from '@/entities/product';
 import { ProductItem } from '@/entities/product/ui/product-item';
 import type { BaseProps } from '@/shared/types';
@@ -10,7 +10,7 @@ interface ProductListProps extends BaseProps {
 }
 
 export function ProductList(_props: ProductListProps) {
-  const { data } = useFetchProducts();
+  const { data } = useFetchProductList();
   const content = data ?? [];
 
   console.log(data);

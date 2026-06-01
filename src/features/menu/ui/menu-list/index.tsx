@@ -1,4 +1,4 @@
-import { useFetchMenus } from '@/entities/menu';
+import { useFetchMenuList } from '@/entities/menu';
 import type { Menu } from '@/entities/menu';
 import { MenuItem } from '@/entities/menu/ui/menu-item';
 import type { BaseProps } from '@/shared/types';
@@ -10,7 +10,7 @@ interface MenuListProps extends BaseProps {
 }
 
 export function MenuList({ dummy, className, ...rest }: MenuListProps) {
-  const { data } = useFetchMenus();
+  const { data } = useFetchMenuList();
   const content = data ?? [];
 
   const handleMenuClick = (menu: Menu) => {

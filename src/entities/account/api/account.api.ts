@@ -8,7 +8,7 @@ import type { Account, AccountsQueryParams } from '../model/account.type';
  * @param [params] - 조회 파라미터 (선택 사항).
  * @returns 계좌 목록 응답 Promise.
  */
-export const fetchAccounts = <T extends Account = Account>(
+export const fetchAccountList = <T extends Account = Account>(
   params?: AccountsQueryParams,
 ): Promise<Array<T>> =>
   httpService.get<Array<T>>(`${API_URL}/accounts`, params);
@@ -26,7 +26,7 @@ export const fetchAccount = <T extends Account = Account>(accountNo: string): Pr
  * @param [params] - 조회 파라미터 (선택 사항).
  * @returns 계좌 목록 응답 Promise.
  */
-export const fetchRecentAccounts = <T extends Account = Account>(
+export const fetchRecentAccountList = <T extends Account = Account>(
   params?: AccountsQueryParams,
 ): Promise<Array<T>> =>
   httpService.get<Array<T>>(`${API_URL}/recentAccounts`, params);

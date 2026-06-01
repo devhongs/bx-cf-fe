@@ -4,10 +4,11 @@ import { login, logout } from '../api/auth.api';
 import type { Auth, AuthQueryParams } from './auth.type';
 
 export const queryKeys = {
-  login: (params?: AuthQueryParams) => ['login', params] as const,
-  logout: (params?: AuthQueryParams) => ['logout', params] as const,
-  checkAccessToken: ['checkAccessToken'] as const,
-  checkRefreshToken: ['checkRefreshToken'] as const,
+  all: ['auth'] as const,
+  login: (params?: AuthQueryParams) => ['auth', 'login', params] as const,
+  logout: (params?: AuthQueryParams) => ['auth', 'logout', params] as const,
+  checkAccessToken: ['auth', 'checkAccessToken'] as const,
+  checkRefreshToken: ['auth', 'checkRefreshToken'] as const,
 };
 
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용

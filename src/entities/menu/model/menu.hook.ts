@@ -1,13 +1,13 @@
 import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import type { QueryHookOptions } from '@/shared/lib/utils';
+import type { QueryHookOptions } from '@/shared/types';
 
 import {
   createMenuMutation,
   deleteMenuMutation,
   fetchMenuQuery,
-  fetchMenusQuery,
+  fetchMenuListQuery,
 } from './menu.queries';
 import type { Menu, MenuQueryParams } from './menu.type';
 
@@ -16,11 +16,11 @@ import type { Menu, MenuQueryParams } from './menu.type';
  * @param params - 메뉴 목록 조회 쿼리 파라미터.
  * @param options - 추가 쿼리 옵션.
  */
-export const useFetchMenus = <T extends Menu = Menu>(
+export const useFetchMenuList = <T extends Menu = Menu>(
   params?: MenuQueryParams,
   options?: QueryHookOptions<Array<T>>,
 ): UseQueryResult<Array<T>, Error> => {
-  return useQuery({ ...options, ...fetchMenusQuery<T>(params) });
+  return useQuery({ ...options, ...fetchMenuListQuery<T>(params) });
 };
 
 /**
@@ -41,12 +41,12 @@ export const useFetchMenu = <T extends Menu = Menu>(
 export const useCreateMenu = (
   options?: UseMutationOptions<Menu, Error, Menu, unknown>,
 ): UseMutationResult<Menu, Error, Menu, unknown> => {
+  const queryClient = useQueryClient();
   return useMutation({
     ...createMenuMutation(),
     ...options,
-    onSuccess: (data, variables, context, mutation) => {
-      // await showSaveComplete()
-      // 추가적인 성공 처리 로직이 있다면 실행
+    onSuccess: async (data, variables, context, mutation) => {
+      await queryClient.invalidateQueries({ queryKey: ['menu'] });
       if (options?.onSuccess) {
         options.onSuccess(data, variables, context, mutation);
       }
@@ -59,15 +59,14 @@ export const useCreateMenu = (
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */
 export const useDeleteMenu = (
-  options?: UseMutationOptions<any, Error, number, unknown>,
-): UseMutationResult<any, Error, number, unknown> => {
-  // 반환 타입 any는 실제 API 응답 타입으로 명시 권장
+  options?: UseMutationOptions<void, Error, number, unknown>,
+): UseMutationResult<void, Error, number, unknown> => {
+  const queryClient = useQueryClient();
   return useMutation({
     ...deleteMenuMutation(),
     ...options,
-    onSuccess: (data, variables, context, mutation) => {
-      // await showDeleteComplete()
-      // 추가적인 성공 처리 로직이 있다면 실행
+    onSuccess: async (data, variables, context, mutation) => {
+      await queryClient.invalidateQueries({ queryKey: ['menu'] });
       if (options?.onSuccess) {
         options.onSuccess(data, variables, context, mutation);
       }

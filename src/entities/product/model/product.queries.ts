@@ -1,23 +1,24 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import { createProduct, deleteProduct, fetchProduct, fetchProducts } from '../api/product.api';
+import { createProduct, deleteProduct, fetchProduct, fetchProductList } from '../api/product.api';
 import type { Product, ProductQueryParams } from './product.type';
 
 export const queryKeys = {
-  fetchList: (params?: ProductQueryParams) => ['products', params] as const,
-  fetch: (id: number) => ['product', id] as const,
+  all: ['product'] as const,
+  list: (params?: ProductQueryParams) => ['product', 'list', params] as const,
+  detail: (id: number) => ['product', 'detail', id] as const,
 };
 
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용
-export const fetchProductsQuery = <T extends Product = Product>(params?: ProductQueryParams) =>
+export const fetchProductListQuery = <T extends Product = Product>(params?: ProductQueryParams) =>
   queryOptions({
-    queryKey: queryKeys.fetchList(params),
-    queryFn: () => fetchProducts<T>(params),
+    queryKey: queryKeys.list(params),
+    queryFn: () => fetchProductList<T>(params),
   });
 
 export const fetchProductQuery = <T extends Product = Product>(productId: number) =>
   queryOptions({
-    queryKey: queryKeys.fetch(productId),
+    queryKey: queryKeys.detail(productId),
     queryFn: () => fetchProduct<T>(productId),
   });
 

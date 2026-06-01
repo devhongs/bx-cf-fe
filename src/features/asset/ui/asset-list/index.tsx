@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import type { Account } from '@/entities/account';
-import { useFetchAccounts, useSetFavoriteAccount } from '@/entities/account';
+import { useFetchAccountList, useSetFavoriteAccount } from '@/entities/account';
 import { AccountCard } from '@/entities/account/ui/account-card';
 import { useModal } from '@/shared/hooks';
 import type { BaseProps } from '@/shared/types';
@@ -11,7 +11,7 @@ interface AssetListProps extends BaseProps {
 }
 
 export function AssetList(_props: AssetListProps) {
-  const { data } = useFetchAccounts({ userId: '' });
+  const { data } = useFetchAccountList({ userId: '' });
   const content = data;
   const [accounts, setAccounts] = useState<Array<Account>>([]);
 

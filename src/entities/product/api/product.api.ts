@@ -8,7 +8,7 @@ import type { Product, ProductQueryParams } from '../model/product.type';
  * @param [params] - 조회 파라미터 (선택 사항).
  * @returns 상품 목록 응답 Promise.
  */
-export const fetchProducts = <T extends Product = Product>(
+export const fetchProductList = <T extends Product = Product>(
   params?: ProductQueryParams,
 ): Promise<Array<T>> =>
   httpService.get<Array<T>>(`${API_URL}/products`, params);

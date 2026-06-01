@@ -1,5 +1,5 @@
 import type { Alarm } from '@/entities/alarm';
-import { useFetchAlarms } from '@/entities/alarm';
+import { useFetchAlarmList } from '@/entities/alarm';
 import { AlarmCard } from '@/entities/alarm/ui/alarm-card';
 import { useModal } from '@/shared/hooks';
 import type { BaseProps } from '@/shared/types';
@@ -11,7 +11,7 @@ interface AlarmListProps extends BaseProps {}
 export function AlarmList(_props: AlarmListProps) {
   const { open: openModal } = useModal();
 
-  const { data } = useFetchAlarms();
+  const { data } = useFetchAlarmList();
   const content = data ?? [];
 
   const handleClickAlarmCard = (d: Alarm) => {

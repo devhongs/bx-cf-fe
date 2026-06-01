@@ -1,23 +1,24 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import { createMenu, deleteMenu, fetchMenu, fetchMenus } from '../api/menu.api';
+import { createMenu, deleteMenu, fetchMenu, fetchMenuList } from '../api/menu.api';
 import type { Menu, MenuQueryParams } from './menu.type';
 
 export const queryKeys = {
-  fetchList: (params?: MenuQueryParams) => ['menus', params] as const,
-  fetch: (id: number) => ['menu', id] as const,
+  all: ['menu'] as const,
+  list: (params?: MenuQueryParams) => ['menu', 'list', params] as const,
+  detail: (id: number) => ['menu', 'detail', id] as const,
 };
 
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용
-export const fetchMenusQuery = <T extends Menu = Menu>(params?: MenuQueryParams) =>
+export const fetchMenuListQuery = <T extends Menu = Menu>(params?: MenuQueryParams) =>
   queryOptions({
-    queryKey: queryKeys.fetchList(params),
-    queryFn: () => fetchMenus<T>(params),
+    queryKey: queryKeys.list(params),
+    queryFn: () => fetchMenuList<T>(params),
   });
 
 export const fetchMenuQuery = <T extends Menu = Menu>(menuId: number) =>
   queryOptions({
-    queryKey: queryKeys.fetch(menuId),
+    queryKey: queryKeys.detail(menuId),
     queryFn: () => fetchMenu<T>(menuId),
   });
 

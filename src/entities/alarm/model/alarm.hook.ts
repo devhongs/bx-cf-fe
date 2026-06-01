@@ -1,13 +1,13 @@
 import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import type { QueryHookOptions } from '@/shared/lib/utils';
+import type { QueryHookOptions } from '@/shared/types';
 
 import {
   createAlarmMutation,
   deleteAlarmMutation,
   fetchAlarmQuery,
-  fetchAlarmsQuery,
+  fetchAlarmListQuery,
 } from './alarm.queries';
 import type { Alarm, AlarmsQueryParams } from './alarm.type';
 
@@ -16,11 +16,11 @@ import type { Alarm, AlarmsQueryParams } from './alarm.type';
  * @param params - 알람 목록 조회 쿼리 파라미터.
  * @param options - 추가 쿼리 옵션.
  */
-export const useFetchAlarms = <T extends Alarm = Alarm>(
+export const useFetchAlarmList = <T extends Alarm = Alarm>(
   params?: AlarmsQueryParams,
   options?: QueryHookOptions<Array<T>>,
 ): UseQueryResult<Array<T>, Error> => {
-  return useQuery({ ...options, ...fetchAlarmsQuery<T>(params) });
+  return useQuery({ ...options, ...fetchAlarmListQuery<T>(params) });
 };
 
 /**
@@ -41,12 +41,12 @@ export const useFetchAlarm = <T extends Alarm = Alarm>(
 export const useCreateAlarm = (
   options?: UseMutationOptions<Alarm, Error, Alarm, unknown>,
 ): UseMutationResult<Alarm, Error, Alarm, unknown> => {
+  const queryClient = useQueryClient();
   return useMutation({
     ...createAlarmMutation(),
     ...options,
-    onSuccess: (data, variables, context, mutation) => {
-      // await showSaveComplete()
-      // 추가적인 성공 처리 로직이 있다면 실행
+    onSuccess: async (data, variables, context, mutation) => {
+      await queryClient.invalidateQueries({ queryKey: ['alarm'] });
       if (options?.onSuccess) {
         options.onSuccess(data, variables, context, mutation);
       }
@@ -59,15 +59,14 @@ export const useCreateAlarm = (
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */
 export const useDeleteAlarm = (
-  options?: UseMutationOptions<any, Error, number, unknown>,
-): UseMutationResult<any, Error, number, unknown> => {
-  // 반환 타입 any는 실제 API 응답 타입으로 명시 권장
+  options?: UseMutationOptions<void, Error, number, unknown>,
+): UseMutationResult<void, Error, number, unknown> => {
+  const queryClient = useQueryClient();
   return useMutation({
     ...deleteAlarmMutation(),
     ...options,
-    onSuccess: (data, variables, context, mutation) => {
-      // await showDeleteComplete()
-      // 추가적인 성공 처리 로직이 있다면 실행
+    onSuccess: async (data, variables, context, mutation) => {
+      await queryClient.invalidateQueries({ queryKey: ['alarm'] });
       if (options?.onSuccess) {
         options.onSuccess(data, variables, context, mutation);
       }

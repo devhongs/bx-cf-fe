@@ -8,11 +8,6 @@ import endsWith from 'lodash-es/endsWith';
 import isEmpty from 'lodash-es/isEmpty';
 import startsWith from 'lodash-es/startsWith';
 
-export type QueryHookOptions<TQueryFnData, TData = TQueryFnData, TError = Error> = Omit<
-  UseQueryOptions<TQueryFnData, TError, TData, any>,
-  'queryKey' | 'queryFn'
->;
-
 export function decodeQueryString(qs: string = window.location.search.substr(1)) {
   // expects qs to not have a ?
   // return if empty qs
@@ -104,11 +99,13 @@ export function isNullOrUndefined<T>(obj: T | null | undefined): boolean {
 export function toQueryParams(obj: any) {
   const params = new URLSearchParams();
   for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
       const value = obj[key];
       // 배열 처리
       if (Array.isArray(value)) {
-        value.forEach((val) => params.append(key, val));
+        for (const val of value) {
+          params.append(key, val);
+        }
       } else if (value !== undefined && value !== null) {
         params.append(key, value);
       }

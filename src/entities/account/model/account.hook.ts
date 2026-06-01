@@ -1,16 +1,17 @@
 import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import type { QueryHookOptions } from '@/shared/lib/utils';
+import type { QueryHookOptions } from '@/shared/types';
 
 import {
   createAccountMutation,
   deleteAccountMutation,
   fetchAccountQuery,
-  fetchAccountsQuery,
-  fetchRecentAccountsQuery,
+  fetchAccountListQuery,
+  fetchRecentAccountListQuery,
   setFavoriteAccountMutation,
   updateAccountMutation,
+  queryKeys,
 } from './account.queries';
 import type { Account, AccountsQueryParams } from './account.type';
 
@@ -19,13 +20,13 @@ import type { Account, AccountsQueryParams } from './account.type';
  * @param params - 계좌 목록 조회 쿼리 파라미터.
  * @param options - 추가 쿼리 옵션.
  */
-export const useFetchAccounts = <T extends Account = Account>(
+export const useFetchAccountList = <T extends Account = Account>(
   params: AccountsQueryParams,
   options?: QueryHookOptions<Array<T>>,
 ): UseQueryResult<Array<T>, Error> => {
   return useQuery({
     ...options,
-    ...fetchAccountsQuery<T>(params),
+    ...fetchAccountListQuery<T>(params),
   });
 };
 
@@ -48,13 +49,13 @@ export const useFetchAccount = <T extends Account = Account>(
  * @param params - 계좌 목록 조회 쿼리 파라미터.
  * @param options - 추가 쿼리 옵션.
  */
-export const useFetchRecentAccounts = <T extends Account = Account>(
+export const useFetchRecentAccountList = <T extends Account = Account>(
   params: AccountsQueryParams,
   options?: QueryHookOptions<Array<T>>,
 ): UseQueryResult<Array<T>, Error> => {
   return useQuery({
     ...options,
-    ...fetchRecentAccountsQuery<T>(params),
+    ...fetchRecentAccountListQuery<T>(params),
   });
 };
 
@@ -65,10 +66,12 @@ export const useFetchRecentAccounts = <T extends Account = Account>(
 export const useCreateAccount = (
   options?: UseMutationOptions<Account, Error, Account, unknown>,
 ): UseMutationResult<Account, Error, Account, unknown> => {
+  const queryClient = useQueryClient();
   return useMutation({
     ...createAccountMutation(),
     ...options,
-    onSuccess: (data, variables, context, mutation) => {
+    onSuccess: async (data, variables, context, mutation) => {
+      await queryClient.invalidateQueries({ queryKey: queryKeys.all });
       if (options?.onSuccess) {
         options.onSuccess(data, variables, context, mutation);
       }
@@ -83,10 +86,12 @@ export const useCreateAccount = (
 export const useUpdateAccount = (
   options?: UseMutationOptions<Account, Error, Account, { previous?: unknown }>,
 ): UseMutationResult<Account, Error, Account, { previous?: unknown }> => {
+  const queryClient = useQueryClient();
   return useMutation({
     ...updateAccountMutation(),
     ...options,
-    onSuccess: (data, variables, context, mutation) => {
+    onSuccess: async (data, variables, context, mutation) => {
+      await queryClient.invalidateQueries({ queryKey: queryKeys.all });
       if (options?.onSuccess) {
         options.onSuccess(data, variables, context, mutation);
       }
@@ -99,12 +104,14 @@ export const useUpdateAccount = (
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */
 export const useDeleteAccount = (
-  options?: UseMutationOptions<any, Error, string, unknown>,
-): UseMutationResult<any, Error, string, unknown> => {
+  options?: UseMutationOptions<void, Error, string, unknown>,
+): UseMutationResult<void, Error, string, unknown> => {
+  const queryClient = useQueryClient();
   return useMutation({
     ...deleteAccountMutation(),
     ...options,
-    onSuccess: (data, variables, context, mutation) => {
+    onSuccess: async (data, variables, context, mutation) => {
+      await queryClient.invalidateQueries({ queryKey: queryKeys.all });
       if (options?.onSuccess) {
         options.onSuccess(data, variables, context, mutation);
       }
@@ -120,17 +127,18 @@ export const useDeleteAccount = (
  * - 낙관적 업데이트 → 실패 시 롤백 → invalidate
  */
 export const useSetFavoriteAccount = (
-  options?: UseMutationOptions<void, Error, string, { previousQueries?: any }>,
-): UseMutationResult<void, Error, string, { previousQueries?: any }> => {
+  options?: UseMutationOptions<void, Error, string, any>,
+): UseMutationResult<void, Error, string, any> => {
   const queryClient = useQueryClient();
   const mutationHelper = setFavoriteAccountMutation();
 
   return useMutation({
+    mutationKey: ['setFavoriteAccount'],
     mutationFn: async (accountNo: string) => {
       // 1) 캐시 또는 API를 통해 현재 계좌 전체 목록 조회
       // 낙관적 업데이트에 캐시가 있을 것이므로 캐시 상태를 가져오거나 없으면 새로 패치합니다.
       const cachedQueries = queryClient.getQueriesData<Array<Account>>({
-        queryKey: ['accounts'],
+        queryKey: ['account', 'list'],
       });
 
       let items: Account[] = [];
@@ -161,15 +169,15 @@ export const useSetFavoriteAccount = (
       await mutationHelper.mutationFn({ id: (target as any).id, isFavorite: true });
     },
     // 낙관적 업데이트
-    onMutate: async (accountNo) => {
-      // ['accounts']로 시작하는 모든 쿼리를 취소
+    onMutate: async (accountNo: string) => {
+      // ['account']로 시작하는 모든 쿼리를 취소
       await queryClient.cancelQueries({
-        queryKey: ['accounts'],
+        queryKey: queryKeys.all,
       });
 
       // 이전 쿼리 상태 스냅샷 저장
       const previousQueries = queryClient.getQueriesData({
-        queryKey: ['accounts'],
+        queryKey: queryKeys.all,
       });
 
       // 캐시 업데이트: 선택된 계좌만 true, 나머지는 false
@@ -186,22 +194,22 @@ export const useSetFavoriteAccount = (
 
       return { previousQueries };
     },
-    onError: (_err, _vars, ctx, mutation) => {
+    onError: (err: any, vars: any, ctx: any, mutation: any) => {
       // 에러 발생 시 롤백
       if (ctx?.previousQueries) {
         for (const [queryKey, previousData] of ctx.previousQueries as any) {
           queryClient.setQueryData(queryKey, previousData);
         }
       }
-      options?.onError?.(_err, _vars, ctx, mutation);
+      options?.onError?.(err, vars, ctx, mutation);
     },
-    onSettled: (...args) => {
+    onSettled: (data: any, error: any, variables: any, context: any, mutation: any) => {
       // 서버 데이터와 동기화
-      queryClient.invalidateQueries({ queryKey: ['accounts'] });
-      options?.onSettled?.(...args);
+      queryClient.invalidateQueries({ queryKey: queryKeys.all });
+      options?.onSettled?.(data, error, variables, context, mutation);
     },
-    onSuccess: (...args) => {
-      options?.onSuccess?.(...args);
+    onSuccess: (data: any, variables: any, context: any, mutation: any) => {
+      options?.onSuccess?.(data, variables, context, mutation);
     },
-  });
+  } as any);
 };

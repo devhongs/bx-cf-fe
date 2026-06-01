@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useFetchRecentAccounts } from '@/entities/account';
+import { useFetchRecentAccountList } from '@/entities/account';
 import type { Account, BankId } from '@/entities/account';
 import { BANK_OPTIONS } from '@/shared/constants';
 import { useModal } from '@/shared/hooks';
@@ -15,7 +15,7 @@ interface TransferListProps extends BaseProps {
 }
 
 export function TransferList({ dummy }: TransferListProps) {
-  const { data } = useFetchRecentAccounts({ userId: '' });
+  const { data } = useFetchRecentAccountList({ userId: '' });
   const content = data;
   const [recentAccounts, setRecentAccounts] = useState<Array<any>>([]);
   const [accountNum, setAccountNum] = useState<string>('');

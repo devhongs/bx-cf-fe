@@ -8,7 +8,7 @@ import type { Alarm, AlarmsQueryParams } from '../model/alarm.type';
  * @param [params] - 조회 파라미터 (선택 사항).
  * @returns 알람 목록 응답 Promise.
  */
-export const fetchAlarms = <T extends Alarm = Alarm>(
+export const fetchAlarmList = <T extends Alarm = Alarm>(
   params?: AlarmsQueryParams,
 ): Promise<Array<T>> =>
   httpService.get<Array<T>>(`${API_URL}/alarms`, params);

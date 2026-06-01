@@ -4,36 +4,37 @@ import {
   createAccount,
   deleteAccount,
   fetchAccount,
-  fetchAccounts,
-  fetchRecentAccounts,
+  fetchAccountList,
+  fetchRecentAccountList,
   updateAccount,
   updateAccountFavorite,
 } from '../api/account.api';
 import type { Account, AccountsQueryParams } from './account.type';
 
 export const queryKeys = {
-  fetchList: (params?: AccountsQueryParams) => ['accounts', params] as const,
-  fetch: (id: string) => ['account', id] as const,
-  fetchRecentList: (params?: AccountsQueryParams) => ['recent', params] as const,
+  all: ['account'] as const,
+  list: (params?: AccountsQueryParams) => ['account', 'list', params] as const,
+  recentList: (params?: AccountsQueryParams) => ['account', 'recent', params] as const,
+  detail: (id: string) => ['account', 'detail', id] as const,
 };
 
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용
-export const fetchAccountsQuery = <T extends Account = Account>(params: AccountsQueryParams) =>
+export const fetchAccountListQuery = <T extends Account = Account>(params: AccountsQueryParams) =>
   queryOptions({
-    queryKey: queryKeys.fetchList(params),
-    queryFn: () => fetchAccounts<T>(params),
+    queryKey: queryKeys.list(params),
+    queryFn: () => fetchAccountList<T>(params),
   });
 
 export const fetchAccountQuery = <T extends Account = Account>(accountNo: string) =>
   queryOptions({
-    queryKey: queryKeys.fetch(accountNo),
+    queryKey: queryKeys.detail(accountNo),
     queryFn: () => fetchAccount<T>(accountNo),
   });
 
-export const fetchRecentAccountsQuery = <T extends Account = Account>(params: AccountsQueryParams) =>
+export const fetchRecentAccountListQuery = <T extends Account = Account>(params: AccountsQueryParams) =>
   queryOptions({
-    queryKey: queryKeys.fetchRecentList(params),
-    queryFn: () => fetchRecentAccounts<T>(params),
+    queryKey: queryKeys.recentList(params),
+    queryFn: () => fetchRecentAccountList<T>(params),
   });
 
 // 계좌 생성 뮤테이션 옵션
