@@ -1,6 +1,8 @@
 import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
+import type { QueryHookOptions } from '@/shared/lib/utils';
+
 import {
   createAlarmMutation,
   deleteAlarmMutation,
@@ -16,9 +18,9 @@ import type { Alarm, AlarmsQueryParams } from './alarm.type';
  */
 export const useFetchAlarms = <T extends Alarm = Alarm>(
   params?: AlarmsQueryParams,
-  options?: any,
+  options?: QueryHookOptions<Array<T>>,
 ): UseQueryResult<Array<T>, Error> => {
-  return useQuery<Array<T>, Error>({ ...fetchAlarmsQuery<T>(params), ...options });
+  return useQuery({ ...options, ...fetchAlarmsQuery<T>(params) });
 };
 
 /**
@@ -27,9 +29,9 @@ export const useFetchAlarms = <T extends Alarm = Alarm>(
  */
 export const useFetchAlarm = <T extends Alarm = Alarm>(
   alarmId: number,
-  options?: any,
+  options?: QueryHookOptions<T>,
 ): UseQueryResult<T, Error> => {
-  return useQuery<T, Error>({ ...fetchAlarmQuery<T>(alarmId), ...options });
+  return useQuery({ ...options, ...fetchAlarmQuery<T>(alarmId) });
 };
 
 /**

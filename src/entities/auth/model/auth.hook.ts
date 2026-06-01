@@ -1,6 +1,8 @@
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 
+import type { QueryHookOptions } from '@/shared/lib/utils';
+
 import { loginQuery, logoutQuery } from './auth.queries';
 import type { Auth, AuthQueryParams } from './auth.type';
 
@@ -11,9 +13,9 @@ import type { Auth, AuthQueryParams } from './auth.type';
  */
 export const useFetchLogin = <T extends Auth = Auth>(
   params: AuthQueryParams,
-  options?: any,
+  options?: QueryHookOptions<T>,
 ): UseQueryResult<T, Error> => {
-  return useQuery<T, Error>({ ...loginQuery<T>(params), ...options });
+  return useQuery({ ...options, ...loginQuery<T>(params) });
 };
 
 /**
@@ -23,7 +25,7 @@ export const useFetchLogin = <T extends Auth = Auth>(
  */
 export const useFetchLogout = <T extends Auth = Auth>(
   params: AuthQueryParams,
-  options?: any,
+  options?: QueryHookOptions<T>,
 ): UseQueryResult<T, Error> => {
-  return useQuery<T, Error>({ ...logoutQuery<T>(params), ...options });
+  return useQuery({ ...options, ...logoutQuery<T>(params) });
 };

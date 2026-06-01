@@ -1,6 +1,8 @@
 import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
+import type { QueryHookOptions } from '@/shared/lib/utils';
+
 import {
   createMenuMutation,
   deleteMenuMutation,
@@ -16,9 +18,9 @@ import type { Menu, MenuQueryParams } from './menu.type';
  */
 export const useFetchMenus = <T extends Menu = Menu>(
   params?: MenuQueryParams,
-  options?: any,
+  options?: QueryHookOptions<Array<T>>,
 ): UseQueryResult<Array<T>, Error> => {
-  return useQuery<Array<T>, Error>({ ...fetchMenusQuery<T>(params), ...options });
+  return useQuery({ ...options, ...fetchMenusQuery<T>(params) });
 };
 
 /**
@@ -27,9 +29,9 @@ export const useFetchMenus = <T extends Menu = Menu>(
  */
 export const useFetchMenu = <T extends Menu = Menu>(
   menuId: number,
-  options?: any,
+  options?: QueryHookOptions<T>,
 ): UseQueryResult<T, Error> => {
-  return useQuery<T, Error>({ ...fetchMenuQuery<T>(menuId), ...options });
+  return useQuery({ ...options, ...fetchMenuQuery<T>(menuId) });
 };
 
 /**

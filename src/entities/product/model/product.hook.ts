@@ -1,6 +1,8 @@
 import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
+import type { QueryHookOptions } from '@/shared/lib/utils';
+
 import {
   createProductMutation,
   deleteProductMutation,
@@ -16,9 +18,9 @@ import type { Product, ProductQueryParams } from './product.type';
  */
 export const useFetchProducts = <T extends Product = Product>(
   params?: ProductQueryParams,
-  options?: any,
+  options?: QueryHookOptions<Array<T>>,
 ): UseQueryResult<Array<T>, Error> => {
-  return useQuery<Array<T>, Error>({ ...fetchProductsQuery<T>(params), ...options });
+  return useQuery({ ...options, ...fetchProductsQuery<T>(params) });
 };
 
 /**
@@ -27,9 +29,9 @@ export const useFetchProducts = <T extends Product = Product>(
  */
 export const useFetchProduct = <T extends Product = Product>(
   productId: number,
-  options?: any,
+  options?: QueryHookOptions<T>,
 ): UseQueryResult<T, Error> => {
-  return useQuery<T, Error>({ ...fetchProductQuery<T>(productId), ...options });
+  return useQuery({ ...options, ...fetchProductQuery<T>(productId) });
 };
 
 /**

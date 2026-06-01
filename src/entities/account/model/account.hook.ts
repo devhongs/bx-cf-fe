@@ -1,7 +1,7 @@
 import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-
+import type { QueryHookOptions } from '@/shared/lib/utils';
 
 import {
   createAccountMutation,
@@ -21,11 +21,11 @@ import type { Account, AccountsQueryParams } from './account.type';
  */
 export const useFetchAccounts = <T extends Account = Account>(
   params: AccountsQueryParams,
-  options?: any,
+  options?: QueryHookOptions<Array<T>>,
 ): UseQueryResult<Array<T>, Error> => {
-  return useQuery<Array<T>, Error>({
-    ...fetchAccountsQuery<T>(params),
+  return useQuery({
     ...options,
+    ...fetchAccountsQuery<T>(params),
   });
 };
 
@@ -35,11 +35,11 @@ export const useFetchAccounts = <T extends Account = Account>(
  */
 export const useFetchAccount = <T extends Account = Account>(
   accountNo: string,
-  options?: any,
+  options?: QueryHookOptions<T>,
 ): UseQueryResult<T, Error> => {
-  return useQuery<T, Error>({
-    ...fetchAccountQuery<T>(accountNo),
+  return useQuery({
     ...options,
+    ...fetchAccountQuery<T>(accountNo),
   });
 };
 
@@ -50,11 +50,11 @@ export const useFetchAccount = <T extends Account = Account>(
  */
 export const useFetchRecentAccounts = <T extends Account = Account>(
   params: AccountsQueryParams,
-  options?: any,
+  options?: QueryHookOptions<Array<T>>,
 ): UseQueryResult<Array<T>, Error> => {
-  return useQuery<Array<T>, Error>({
-    ...fetchRecentAccountsQuery<T>(params),
+  return useQuery({
     ...options,
+    ...fetchRecentAccountsQuery<T>(params),
   });
 };
 

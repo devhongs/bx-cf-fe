@@ -8,6 +8,11 @@ import endsWith from 'lodash-es/endsWith';
 import isEmpty from 'lodash-es/isEmpty';
 import startsWith from 'lodash-es/startsWith';
 
+export type QueryHookOptions<TQueryFnData, TData = TQueryFnData, TError = Error> = Omit<
+  UseQueryOptions<TQueryFnData, TError, TData, any>,
+  'queryKey' | 'queryFn'
+>;
+
 export function decodeQueryString(qs: string = window.location.search.substr(1)) {
   // expects qs to not have a ?
   // return if empty qs
