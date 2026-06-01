@@ -1,157 +1,215 @@
-import type {
-  UseMutationOptions,
-  UseMutationResult,
-  UseQueryOptions,
-  UseQueryResult,
-} from '@tanstack/react-query'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
+import type { QueryHookOptions } from '@/shared/types';
 
-import { mutateOptions, queryKeys, queryOptions } from './account.queries'
-import type { Account, AccountsQueryParams } from './account.type'
+import {
+  createAccountMutation,
+  deleteAccountMutation,
+  fetchAccountQuery,
+  fetchAccountListQuery,
+  fetchRecentAccountListQuery,
+  setFavoriteAccountMutation,
+  updateAccountMutation,
+  queryKeys,
+} from './account.queries';
+import type { Account, AccountsQueryParams } from './account.type';
 
 /**
  * 모든 계좌 목록을 가져오는 쿼리 훅.
  * @param params - 계좌 목록 조회 쿼리 파라미터.
  * @param options - 추가 쿼리 옵션.
  */
-export const useFetchAccounts = <T = Account>(
+export const useFetchAccountList = <T extends Account = Account>(
   params: AccountsQueryParams,
-  options?: UseQueryOptions<ApiListResponse<T>, Error>,
-): UseQueryResult<ApiListResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetchList<T>(params), ...options })
-}
+  options?: QueryHookOptions<Array<T>>,
+): UseQueryResult<Array<T>, Error> => {
+  return useQuery({
+    ...options,
+    ...fetchAccountListQuery<T>(params),
+  });
+};
 
 /**
  * 특정 계좌 No의 계좌 정보를 가져오는 쿼리 훅.
  * @param accountNo - 조회할 계좌 No.
  */
-export const useFetchAccount = <T = Account>(
+export const useFetchAccount = <T extends Account = Account>(
   accountNo: string,
-  options?: UseQueryOptions<ApiResponse<T>, Error>,
-): UseQueryResult<ApiResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetch<T>(accountNo), ...options })
-}
+  options?: QueryHookOptions<T>,
+): UseQueryResult<T, Error> => {
+  return useQuery({
+    ...options,
+    ...fetchAccountQuery<T>(accountNo),
+  });
+};
 
 /**
  * 최근 보낸 계좌 정보를 가져오는 쿼리 훅.
  * @param params - 계좌 목록 조회 쿼리 파라미터.
  * @param options - 추가 쿼리 옵션.
  */
-export const useFetchRecentAccounts = <T = Account>(
+export const useFetchRecentAccountList = <T extends Account = Account>(
   params: AccountsQueryParams,
-  options?: UseQueryOptions<ApiListResponse<T>, Error>,
-): UseQueryResult<ApiListResponse<T>, Error> => {
-  return useQuery({ ...queryOptions.fetchRecentList<T>(params), ...options })
-}
+  options?: QueryHookOptions<Array<T>>,
+): UseQueryResult<Array<T>, Error> => {
+  return useQuery({
+    ...options,
+    ...fetchRecentAccountListQuery<T>(params),
+  });
+};
 
 /**
  * 새로운 계좌를 생성하는 뮤테이션 훅.
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */
-export const useCreateCourse = (
+export const useCreateAccount = (
   options?: UseMutationOptions<Account, Error, Account, unknown>,
 ): UseMutationResult<Account, Error, Account, unknown> => {
+  const queryClient = useQueryClient();
   return useMutation({
-    ...mutateOptions.create(),
+    ...createAccountMutation(),
     ...options,
-    onSuccess: (data, variables, context, mutation) => {
-      // await showSaveComplete()
-      // 추가적인 성공 처리 로직이 있다면 실행
+    onSuccess: async (data, variables, context, mutation) => {
+      await queryClient.invalidateQueries({ queryKey: queryKeys.all });
       if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation)
+        options.onSuccess(data, variables, context, mutation);
       }
     },
-  })
-}
+  });
+};
 
 /**
  * 기존 계좌 정보를 업데이트하는 뮤테이션 훅.
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */
-export const useUpdateCourse = (
+export const useUpdateAccount = (
   options?: UseMutationOptions<Account, Error, Account, { previous?: unknown }>,
 ): UseMutationResult<Account, Error, Account, { previous?: unknown }> => {
+  const queryClient = useQueryClient();
   return useMutation({
-    ...mutateOptions.update(),
+    ...updateAccountMutation(),
     ...options,
-    onSuccess: (data, variables, context, mutation) => {
-      // 추가적인 성공 처리 로직이 있다면 실행
+    onSuccess: async (data, variables, context, mutation) => {
+      await queryClient.invalidateQueries({ queryKey: queryKeys.all });
       if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation)
+        options.onSuccess(data, variables, context, mutation);
       }
     },
-  })
-}
+  });
+};
 
 /**
  * 기존 계좌를 삭제하는 뮤테이션 훅.
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */
-export const useDeleteCourse = (
-  options?: UseMutationOptions<any, Error, number, unknown>,
-): UseMutationResult<any, Error, number, unknown> => {
-  // 반환 타입 any는 실제 API 응답 타입으로 명시 권장
+export const useDeleteAccount = (
+  options?: UseMutationOptions<void, Error, string, unknown>,
+): UseMutationResult<void, Error, string, unknown> => {
+  const queryClient = useQueryClient();
   return useMutation({
-    ...mutateOptions.delete(),
+    ...deleteAccountMutation(),
     ...options,
-    onSuccess: (data, variables, context, mutation) => {
-      // await showDeleteComplete()
-      // 추가적인 성공 처리 로직이 있다면 실행
+    onSuccess: async (data, variables, context, mutation) => {
+      await queryClient.invalidateQueries({ queryKey: queryKeys.all });
       if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation)
+        options.onSuccess(data, variables, context, mutation);
       }
     },
-  })
-}
+  });
+};
 
 /**
  * ✅ 대표계좌(즐겨찾기) 지정 뮤테이션 훅
  * - 토글이 아니라 "선택(select)" 개념
  * - 서버/목에서도 하나만 true가 되도록 보장
+ * - API 레이어에 존재하던 다중 동기화 비즈니스를 Hook 레이어로 이관 완료
  * - 낙관적 업데이트 → 실패 시 롤백 → invalidate
  */
 export const useSetFavoriteAccount = (
-  options?: UseMutationOptions<void, Error, string, { previous?: unknown }>,
-): UseMutationResult<void, Error, string, { previous?: unknown }> => {
-  const queryClient = useQueryClient()
+  options?: UseMutationOptions<void, Error, string, any>,
+): UseMutationResult<void, Error, string, any> => {
+  const queryClient = useQueryClient();
+  const mutationHelper = setFavoriteAccountMutation();
 
   return useMutation({
-    ...mutateOptions.setFavorite(),
+    mutationKey: ['setFavoriteAccount'],
+    mutationFn: async (accountNo: string) => {
+      // 1) 캐시 또는 API를 통해 현재 계좌 전체 목록 조회
+      // 낙관적 업데이트에 캐시가 있을 것이므로 캐시 상태를 가져오거나 없으면 새로 패치합니다.
+      const cachedQueries = queryClient.getQueriesData<Array<Account>>({
+        queryKey: ['account', 'list'],
+      });
+
+      let items: Account[] = [];
+      for (const [_, data] of cachedQueries) {
+        if (data) {
+          items = data as Account[];
+          break;
+        }
+      }
+
+      // 2) 즐겨찾기를 켤 타깃 계좌 탐색
+      const target = items.find((a) => a.accountNo === accountNo);
+      if (!target) {
+        throw new Error('Account not found in cache');
+      }
+
+      // 3) 이미 true인 다른 계좌들 false로 변경하기 위해 순차/동시 PATCH 요청
+      const otherFavorites = items.filter((a) => a.isFavorite && a.accountNo !== accountNo);
+
+      // 다중 PATCH를 순차/병렬 처리하여 즐겨찾기 해제
+      await Promise.all(
+        otherFavorites.map((acc) =>
+          mutationHelper.mutationFn({ id: (acc as any).id, isFavorite: false }),
+        ),
+      );
+
+      // 4) 타깃 계좌의 즐겨찾기 true로 설정
+      await mutationHelper.mutationFn({ id: (target as any).id, isFavorite: true });
+    },
     // 낙관적 업데이트
-    onMutate: async (accountNo) => {
-      await queryClient.cancelQueries({ queryKey: queryKeys.fetchList })
+    onMutate: async (accountNo: string) => {
+      // ['account']로 시작하는 모든 쿼리를 취소
+      await queryClient.cancelQueries({
+        queryKey: queryKeys.all,
+      });
 
-      const previous = queryClient.getQueryData(queryKeys.fetchList)
+      // 이전 쿼리 상태 스냅샷 저장
+      const previousQueries = queryClient.getQueriesData({
+        queryKey: queryKeys.all,
+      });
 
-      // 캐시: 선택된 계좌만 true, 나머지는 false
-      queryClient.setQueryData(queryKeys.fetchList, (old: any) => {
-        if (!old) return old
-        return {
-          ...old,
-          content: (old.content ?? []).map((acc: Account) => ({
+      // 캐시 업데이트: 선택된 계좌만 true, 나머지는 false
+      for (const [queryKey, oldData] of previousQueries as any) {
+        if (!oldData) continue;
+        queryClient.setQueryData(queryKey, (old: any) => {
+          if (!old) return old;
+          return old.map((acc: Account) => ({
             ...acc,
             isFavorite: acc.accountNo === accountNo,
-          })),
-        }
-      })
-
-      return { previous }
-    },
-    onError: (_err, _vars, ctx, mutation) => {
-      if (ctx?.previous) {
-        queryClient.setQueryData(queryKeys.fetchList, ctx.previous)
+          }));
+        });
       }
-      options?.onError?.(_err, _vars, ctx, mutation)
+
+      return { previousQueries };
     },
-    onSettled: (...args) => {
-      // 서버 진실과 동기화
-      queryClient.invalidateQueries({ queryKey: queryKeys.fetchList })
-      options?.onSettled?.(...args)
+    onError: (err: any, vars: any, ctx: any, mutation: any) => {
+      // 에러 발생 시 롤백
+      if (ctx?.previousQueries) {
+        for (const [queryKey, previousData] of ctx.previousQueries as any) {
+          queryClient.setQueryData(queryKey, previousData);
+        }
+      }
+      options?.onError?.(err, vars, ctx, mutation);
     },
-    onSuccess: (...args) => {
-      options?.onSuccess?.(...args)
+    onSettled: (data: any, error: any, variables: any, context: any, mutation: any) => {
+      // 서버 데이터와 동기화
+      queryClient.invalidateQueries({ queryKey: queryKeys.all });
+      options?.onSettled?.(data, error, variables, context, mutation);
     },
-  })
-}
+    onSuccess: (data: any, variables: any, context: any, mutation: any) => {
+      options?.onSuccess?.(data, variables, context, mutation);
+    },
+  } as any);
+};

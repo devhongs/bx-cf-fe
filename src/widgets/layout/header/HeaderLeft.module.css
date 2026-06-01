@@ -1,7 +1,7 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 .title {
-  @apply text-black font-bold flex items-center;
+  @apply text-black font-bold flex items-center bg-transparent border-0 p-0 cursor-pointer;
 
   .icon {
     @apply flex items-center pl-1;

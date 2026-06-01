@@ -1,39 +1,33 @@
-import type { UseQueryOptions } from '@tanstack/react-query'
+import { queryOptions } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
-
-import ProductService from '../api/product.api'
-
-import type { Product, ProductQueryParams } from './product.type'
+import { createProduct, deleteProduct, fetchProduct, fetchProductList } from '../api/product.api';
+import type { Product, ProductQueryParams } from './product.type';
 
 export const queryKeys = {
-  fetchList: ['products'] as const,
-  fetch: (id: number) => ['product', id] as const,
-}
+  all: ['product'] as const,
+  list: (params?: ProductQueryParams) => ['product', 'list', params] as const,
+  detail: (id: number) => ['product', 'detail', id] as const,
+};
 
-export const queryOptions = {
-  // 알람 목록 조회
-  fetchList: <T = Product>(
-    params?: ProductQueryParams,
-  ): UseQueryOptions<ApiListResponse<T>> => ({
-    queryKey: queryKeys.fetchList,
-    queryFn: async (): Promise<ApiListResponse<T>> =>
-      ProductService.fetchAll(params),
-  }),
-  // 알람 상세 조회
-  fetch: <T = Product>(menuId: number): UseQueryOptions<ApiResponse<T>> => ({
-    queryKey: queryKeys.fetch(menuId),
-    queryFn: () => ProductService.fetch(menuId),
-  }),
-}
+// 개별 Named Export와 v5 queryOptions 헬퍼 적용
+export const fetchProductListQuery = <T extends Product = Product>(params?: ProductQueryParams) =>
+  queryOptions({
+    queryKey: queryKeys.list(params),
+    queryFn: () => fetchProductList<T>(params),
+  });
 
-export const mutateOptions = {
-  // 알람 생성
-  create: () => ({
-    mutationFn: (payload: Product) => ProductService.create(payload),
-  }),
-  // 알람 삭제
-  delete: () => ({
-    mutationFn: (id: number) => ProductService.delete(id),
-  }),
-}
+export const fetchProductQuery = <T extends Product = Product>(productId: number) =>
+  queryOptions({
+    queryKey: queryKeys.detail(productId),
+    queryFn: () => fetchProduct<T>(productId),
+  });
+
+// 상품 생성 뮤테이션 옵션
+export const createProductMutation = () => ({
+  mutationFn: (payload: Product) => createProduct(payload),
+});
+
+// 상품 삭제 뮤테이션 옵션
+export const deleteProductMutation = () => ({
+  mutationFn: (id: number) => deleteProduct(id),
+});

@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 .transferAmountContainer {
   @apply flex flex-col items-center justify-start px-6 py-4 space-y-8;

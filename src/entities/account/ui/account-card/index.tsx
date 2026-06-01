@@ -1,33 +1,26 @@
-import { formatAccountNumberByBank } from '@/shared/lib/utils'
-import type { BaseProps } from '@/shared/types'
+import { formatAccountNumberByBank } from '@/shared/lib/utils';
+import type { BaseProps } from '@/shared/types';
 
-import type { BankId } from '../../model/account.type'
+import type { BankId } from '../../model/account.type';
 
-import styles from './index.module.css'
+import styles from './index.module.css';
 
 interface AccountCardProps extends BaseProps {
   data: {
-    bankId: BankId
-    accountNo: string
-    accountName: string
-    amount: number
-    isFavorite: boolean
-  }
-  onFavoriteSelect?: (accountNo: string) => void
-  onTransferClick?: () => void
+    bankId: BankId;
+    accountNo: string;
+    accountName: string;
+    amount: number;
+    isFavorite: boolean;
+  };
+  onFavoriteSelect?: (accountNo: string) => void;
+  onTransferClick?: () => void;
 }
 
-export default function AccountCard({
-  data,
-  onFavoriteSelect,
-  onTransferClick,
-}: AccountCardProps) {
-  const formatAccountNum = formatAccountNumberByBank(
-    data.bankId,
-    data.accountNo,
-  )
+export function AccountCard({ data, onFavoriteSelect, onTransferClick }: AccountCardProps) {
+  const formatAccountNum = formatAccountNumberByBank(data.bankId, data.accountNo);
 
-  const formatAmount = data.amount.toLocaleString('ko-KR')
+  const formatAmount = data.amount.toLocaleString('ko-KR');
 
   return (
     <div className={styles.card}>
@@ -56,12 +49,7 @@ export default function AccountCard({
 
       {/** 거래내역, 이체 버튼 */}
       <div className={styles.buttonWrapper}>
-        <button
-          type="button"
-          className={styles.button}
-          aria-label="이체"
-          onClick={onTransferClick}
-        >
+        <button type="button" className={styles.button} aria-label="이체" onClick={onTransferClick}>
           이체
         </button>
         <button type="button" className={styles.button} aria-label="거래내역">
@@ -69,5 +57,5 @@ export default function AccountCard({
         </button>
       </div>
     </div>
-  )
+  );
 }

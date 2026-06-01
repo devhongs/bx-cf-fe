@@ -1,36 +1,33 @@
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight } from 'lucide-react';
 
-import { useModal } from '@/shared/hooks'
-import type { BaseProps } from '@/shared/types'
-import { IconButton } from '@/shared/ui'
+import { useUserName } from '@/entities/user';
+import { useModal } from '@/shared/hooks';
+import type { BaseProps } from '@/shared/types';
 
-import styles from './HeaderLeft.module.css'
+import styles from './HeaderLeft.module.css';
 
 interface HeaderLeftProps extends BaseProps {
-  pageTitle: string
+  pageTitle: string;
 }
 
 export function HeaderLeft({ pageTitle }: HeaderLeftProps) {
-  const { open: openModal } = useModal()
+  const { open: openModal } = useModal();
+  const userName = useUserName();
 
   const handleUserNameClick = () => {
     openModal({
       path: 'user-info',
-    })
-  }
+    });
+  };
 
   if (pageTitle === '메뉴') {
     return (
-      <span className={styles.title} onClick={handleUserNameClick}>
-        사용자명
-        <IconButton
-          className={styles.icon}
-          icon={ChevronRight}
-          iconColor="#888888"
-        />
-      </span>
-    )
+      <button type="button" className={styles.title} onClick={handleUserNameClick}>
+        {userName}
+        <ChevronRight className={styles.icon} color="#888888" size={20} />
+      </button>
+    );
   }
 
-  return <span className={styles.title}>{pageTitle}</span>
+  return <span className={styles.title}>{pageTitle}</span>;
 }

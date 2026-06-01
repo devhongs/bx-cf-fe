@@ -1,1 +1,1 @@
-export * from './prodict-list'
+export * from './prodict-list';

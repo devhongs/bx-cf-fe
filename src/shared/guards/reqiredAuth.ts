@@ -1,20 +1,20 @@
-import { redirect } from '@tanstack/react-router'
+import { redirect } from '@tanstack/react-router';
 
-import { STORAGE_KEYS } from '../constants'
-import { session } from '../lib/utils'
+import { STORAGE_KEYS } from '../constants';
+import { local } from '../lib/utils';
 
 export const requireAuth = ({ location, context }: any) => {
-  const isLoggedIn = checkLogin()
+  const isLoggedIn = checkLogin();
   if (!isLoggedIn) {
     throw redirect({
       to: '/login',
       search: { redirect: location.href },
-    })
+    });
   }
-  return { ...context, state: location?.state }
-}
+  return { ...context, state: location?.state };
+};
 
 const checkLogin = (): boolean => {
-  const sessionId = session.get(STORAGE_KEYS.SESSION_ID)
-  return !!sessionId
-}
+  const user = local.get(STORAGE_KEYS.USER);
+  return !!user;
+};

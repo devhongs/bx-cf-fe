@@ -1,52 +1,38 @@
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
-import { API_URL } from '@/shared/constants'
-import HttpJsonService from '@/shared/lib/ajax/http.json.service'
+import { API_URL } from '@/shared/constants';
+import { httpService } from '@/shared/lib/ajax/http.service';
 
-import type { Menu, MenuQueryParams } from '../model/menu.type'
+import type { Menu, MenuQueryParams } from '../model/menu.type';
 
 /**
- * 메뉴 관련 API 요청을 처리하는 서비스 클래스.
+ * 메뉴 목록을 조회합니다.
+ * @param [params] - 조회 파라미터 (선택 사항).
+ * @returns 메뉴 목록 응답 Promise.
  */
-export default class MenuService {
-  /**
-   * 메뉴 목록을 조회합니다.
-   * @param [params] - 조회 파라미터 (선택 사항). ㄴ
-   * @returns 메뉴 목록 페이지네이션 응답 Promise.
-   */
-  static async fetchAll<T = Menu>(
-    params?: MenuQueryParams,
-  ): Promise<ApiListResponse<T>> {
-    // return httpService.get<ApiResponse<T>>(`${API_URL}menus`, params)
-    return HttpJsonService.fetchAll<T>(`${API_URL}/menus`, params)
-  }
+export const fetchMenuList = <T extends Menu = Menu>(
+  params?: MenuQueryParams,
+): Promise<Array<T>> =>
+  httpService.get<Array<T>>(`${API_URL}/menus`, params);
 
-  /**
-   * 특정 No의 메뉴을 조회합니다.
-   * @param accountNo - 조회할 메뉴 No.
-   * @returns 메뉴 상세 정보 Promise.
-   */
-  static async fetch<T = Menu>(id: number): Promise<ApiResponse<T>> {
-    // return httpService.get<T>(`${API_URL}//alarm/${accountNo}`)
-    return HttpJsonService.fetch<T>(`${API_URL}/menus/?id=${id}`)
-  }
+/**
+ * 특정 ID의 메뉴를 조회합니다.
+ * @param id - 조회할 메뉴 ID.
+ * @returns 메뉴 상세 정보 Promise.
+ */
+export const fetchMenu = <T extends Menu = Menu>(id: number): Promise<T> =>
+  httpService.get<T>(`${API_URL}/menus/${id}`);
 
-  /**
-   * 새로운 메뉴을 생성합니다.
-   * @param payload - 생성할 메뉴 정보.
-   * @returns 생성된 메뉴 정보 Promise.
-   */
-  static async create(payload: Menu): Promise<Menu> {
-    // return httpService.post<Alarm>(`${API_URL}//alarm`, payload)
-    return HttpJsonService.post<any>(`${API_URL}/menus/${payload.id}`, payload)
-  }
+/**
+ * 새로운 메뉴를 생성합니다.
+ * @param payload - 생성할 메뉴 정보.
+ * @returns 생성된 메뉴 정보 Promise.
+ */
+export const createMenu = (payload: Menu): Promise<Menu> =>
+  httpService.post<Menu>(`${API_URL}/menus`, payload);
 
-  /**
-   * 메뉴 삭제합니다.
-   * @param id - 삭제할 메뉴 ID.
-   * @returns 삭제 결과 Promise. (any 대신 실제 응답 타입 명시 권장)
-   */
-  static delete(id: number): Promise<any> {
-    // return HttpJsonService.delete<T>(`${API_URL}/menus/${id}`)
-    return HttpJsonService.delete<any>(`${API_URL}/menus/${id}?_dependent=id`)
-  }
-}
+/**
+ * 메뉴를 삭제합니다.
+ * @param id - 삭제할 메뉴 ID.
+ * @returns 삭제 완료 Promise.
+ */
+export const deleteMenu = (id: number): Promise<void> =>
+  httpService.delete<void>(`${API_URL}/menus/${id}`);

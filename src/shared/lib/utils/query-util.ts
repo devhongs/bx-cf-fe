@@ -2,30 +2,28 @@ import type {
   DefinedInitialDataOptions,
   UndefinedInitialDataOptions,
   UseQueryOptions,
-} from '@tanstack/react-query'
-import { skipToken } from '@tanstack/react-query'
-import endsWith from 'lodash-es/endsWith'
-import isEmpty from 'lodash-es/isEmpty'
-import startsWith from 'lodash-es/startsWith'
+} from '@tanstack/react-query';
+import { skipToken } from '@tanstack/react-query';
+import endsWith from 'lodash-es/endsWith';
+import isEmpty from 'lodash-es/isEmpty';
+import startsWith from 'lodash-es/startsWith';
 
-export function decodeQueryString(
-  qs: string = window.location.search.substr(1),
-) {
+export function decodeQueryString(qs: string = window.location.search.substr(1)) {
   // expects qs to not have a ?
   // return if empty qs
-  if (qs === '') return {}
+  if (qs === '') return {};
   return qs.split('&').reduce((acc: any, pair: any) => {
     // skip no param at all a=1&b=2&
-    if (pair.length === 0) return acc
-    const parts = pair.split('=')
+    if (pair.length === 0) return acc;
+    const parts = pair.split('=');
     // fix params without value
-    if (parts.length === 1) parts[1] = ''
+    if (parts.length === 1) parts[1] = '';
     // for value handle multiple unencoded = signs
-    const key = decodeURIComponent(parts[0])
-    const value = decodeURIComponent(parts.slice(1).join('='))
-    acc[key] = value
-    return acc
-  }, {})
+    const key = decodeURIComponent(parts[0]);
+    const value = decodeURIComponent(parts.slice(1).join('='));
+    acc[key] = value;
+    return acc;
+  }, {});
 }
 
 /**
@@ -36,24 +34,24 @@ export function decodeQueryString(
  * @returns 인코딩 처리 된 url
  */
 export function encodeQueryString(url: string): string {
-  const { api, search } = parseUrl(url)
-  let queryString: string | undefined
+  const { api, search } = parseUrl(url);
+  let queryString: string | undefined;
   if (search) {
     queryString = `&${search}`
       // eslint-disable-next-line no-useless-escape
       .split(/(\&[\w.]+\=)/g)
       .map((str: any) => {
         if ((startsWith(str, '&') && endsWith(str, '=')) || isEmpty(str)) {
-          return str
+          return str;
         }
-        return encodeURIComponent(str)
+        return encodeURIComponent(str);
       })
       .join('')
       // eslint-disable-next-line no-useless-escape
-      .split(/^\&/)[1]
+      .split(/^\&/)[1];
   }
 
-  return queryString ? `${api}?${queryString}` : api
+  return queryString ? `${api}?${queryString}` : api;
 }
 
 /**
@@ -63,10 +61,10 @@ export function encodeQueryString(url: string): string {
  * @returns {api: 'gv/api/assets', search: 'locationId=catalog_asset_01&name=\&'}
  */
 export function parseUrl(url: string): any {
-  const list: Array<string> = url.split('?')
-  const api = list[0]
-  const search = list.length > 1 ? list[1] : ''
-  return { api, search }
+  const list: Array<string> = url.split('?');
+  const api = list[0];
+  const search = list.length > 1 ? list[1] : '';
+  return { api, search };
 }
 
 export function getQuerySkipToken<T>() {
@@ -76,40 +74,42 @@ export function getQuerySkipToken<T>() {
   } as
     | UseQueryOptions<T, unknown, T>
     | DefinedInitialDataOptions<T, unknown, T>
-    | UndefinedInitialDataOptions<T, unknown, T>
+    | UndefinedInitialDataOptions<T, unknown, T>;
 }
 
 export function objectToQueryString(originUrl: string, conditions: any = {}) {
-  let url = originUrl
-  const paramList = [] as Array<string>
+  let url = originUrl;
+  const paramList = [] as Array<string>;
   if (conditions && !isEmpty(conditions)) {
     Object.keys(conditions).map((key: string) => {
-      const value = conditions[key]
+      const value = conditions[key];
       if (!isNullOrUndefined(value)) {
-        paramList.push(`${key}=${value}`)
+        paramList.push(`${key}=${value}`);
       }
-    })
+    });
   }
-  url += !isEmpty(paramList) ? `?${paramList.join('&')}` : ''
-  return url
+  url += !isEmpty(paramList) ? `?${paramList.join('&')}` : '';
+  return url;
 }
 
 export function isNullOrUndefined<T>(obj: T | null | undefined): boolean {
-  return typeof obj === 'undefined' || obj === null
+  return typeof obj === 'undefined' || obj === null;
 }
 
 export function toQueryParams(obj: any) {
-  const params = new URLSearchParams()
+  const params = new URLSearchParams();
   for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      const value = obj[key]
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      const value = obj[key];
       // 배열 처리
       if (Array.isArray(value)) {
-        value.forEach((val) => params.append(key, val))
+        for (const val of value) {
+          params.append(key, val);
+        }
       } else if (value !== undefined && value !== null) {
-        params.append(key, value)
+        params.append(key, value);
       }
     }
   }
-  return params.toString() // query string 반환
+  return params.toString(); // query string 반환
 }

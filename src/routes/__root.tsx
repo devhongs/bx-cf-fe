@@ -1,14 +1,14 @@
-import { Outlet, createRootRoute } from '@tanstack/react-router'
+import { Outlet, createRootRoute } from '@tanstack/react-router';
 
-import NotFound from '@/features/error/ui/not-found'
-import { ModalWrapper } from '@/shared/ui/modal/ModalWrapper'
+import { ModalProvider } from '@/app/providers/modal/ModalProvider';
+import { NotFound } from '@/features/error/ui/not-found';
 
 export const Route = createRootRoute({
   notFoundComponent: () => <NotFound />,
   component: () => (
     <>
       <Outlet />
-      <ModalWrapper />
+      <ModalProvider />
       {/* <TanstackDevtools
         config={{
           position: 'bottom-left',
@@ -22,4 +22,4 @@ export const Route = createRootRoute({
       /> */}
     </>
   ),
-})
+});

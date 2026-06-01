@@ -16,20 +16,20 @@ src/shared/constants/
 ### 기본 사용
 
 ```typescript
-import { API_URL, API_ENDPOINTS, ROUTES } from '@/shared/constants'
+import { API_URL, API_ENDPOINTS, ROUTES } from '@/shared/constants';
 
 // API 호출 시
-const response = await fetch(`${API_URL}/api/users`)
+const response = await fetch(`${API_URL}/api/users`);
 
 // 라우팅 시
-navigate(ROUTES.LOGIN)
+navigate(ROUTES.LOGIN);
 ```
 
 ### 개별 import
 
 ```typescript
-import { API_URL } from '@/shared/constants/api'
-import { ROUTES } from '@/shared/constants'
+import { API_URL } from '@/shared/constants/api';
+import { ROUTES } from '@/shared/constants';
 ```
 
 ## 상수 목록

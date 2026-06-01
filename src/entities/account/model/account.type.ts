@@ -11,59 +11,61 @@ export type BankId =
   | 'KT' // 케이뱅크
   | 'KK' // 카카오뱅크
   | 'TS' // 토스뱅크
-  | 'ETC' // 기타 (fallback)
+  | 'ETC'; // 기타 (fallback)
 
 export interface AccountsQueryParams {
   /**
    * 아이디
    */
-  userId?: string
+  userId?: string;
 }
 
 /**
  * 계좌
  */
 export interface Account {
-  id: string
-
+  /**
+   * 유저 아이디
+   */
+  userId: string;
   /**
    * 은행 식별자 (국민=KB, 신한=SHINHAN 등)
    */
-  bankId: BankId
+  bankId: BankId;
   /**
    * 예금주 이름
    */
-  name: string
+  name: string;
   /**
    * 계좌 번호
    */
-  accountNo: string
+  accountNo: string;
   /**
    * 계좌 명
    */
-  accountName: string
+  accountName: string;
   /**
    * 계좌 잔액
    */
-  amount: number
+  amount: number;
   /**
    * 즐겨찾기 여부 (true = 대표 계좌)
    */
-  isFavorite: boolean
+  isFavorite: boolean;
   /**
    * 계좌 타입
    */
-  accountType?: string
+  accountType?: string;
   /**
    * 계좌 상태
    */
-  accountStatus?: string
+  accountStatus?: string;
   /**
    * 계좌 생성일
    */
-  createdAt?: string
+  createdAt?: string;
   /**
    * 계좌 수정일
    */
-  updatedAt?: string
+  updatedAt?: string;
 }

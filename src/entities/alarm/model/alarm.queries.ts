@@ -1,39 +1,32 @@
-import type { UseQueryOptions } from '@tanstack/react-query'
+import { queryOptions } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
-
-import AlarmService from '../api/alarm.api'
-
-import type { Alarm, AlarmsQueryParams } from './alarm.type'
+import { createAlarm, deleteAlarm, fetchAlarm, fetchAlarmList } from '../api/alarm.api';
+import type { Alarm, AlarmsQueryParams } from './alarm.type';
 
 export const queryKeys = {
-  fetchList: ['alarms'] as const,
-  fetch: (id: number) => ['alarm', id] as const,
-}
+  all: ['alarm'] as const,
+  list: (params?: AlarmsQueryParams) => ['alarm', 'list', params] as const,
+  detail: (id: number) => ['alarm', 'detail', id] as const,
+};
 
-export const queryOptions = {
-  // 알람 목록 조회
-  fetchList: <T = Alarm>(
-    params?: AlarmsQueryParams,
-  ): UseQueryOptions<ApiListResponse<T>> => ({
-    queryKey: queryKeys.fetchList,
-    queryFn: async (): Promise<ApiListResponse<T>> =>
-      AlarmService.fetchAll(params),
-  }),
-  // 알람 상세 조회
-  fetch: <T = Alarm>(alarmId: number): UseQueryOptions<ApiResponse<T>> => ({
-    queryKey: queryKeys.fetch(alarmId),
-    queryFn: () => AlarmService.fetch(alarmId),
-  }),
-}
+// 개별 Named Export와 v5 queryOptions 헬퍼 적용
+export const fetchAlarmListQuery = <T extends Alarm = Alarm>(params?: AlarmsQueryParams) =>
+  queryOptions({
+    queryKey: queryKeys.list(params),
+    queryFn: () => fetchAlarmList<T>(params),
+  });
 
-export const mutateOptions = {
-  // 알람 생성
-  create: () => ({
-    mutationFn: (payload: Alarm) => AlarmService.create(payload),
-  }),
-  // 알람 삭제
-  delete: () => ({
-    mutationFn: (id: number) => AlarmService.delete(id),
-  }),
-}
+export const fetchAlarmQuery = <T extends Alarm = Alarm>(alarmId: number) =>
+  queryOptions({
+    queryKey: queryKeys.detail(alarmId),
+    queryFn: () => fetchAlarm<T>(alarmId),
+  });
+
+// 개별 Named Export 뮤테이션 옵션
+export const createAlarmMutation = () => ({
+  mutationFn: (payload: Alarm) => createAlarm(payload),
+});
+
+export const deleteAlarmMutation = () => ({
+  mutationFn: (id: number) => deleteAlarm(id),
+});

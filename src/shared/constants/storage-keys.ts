@@ -7,6 +7,9 @@ export const STORAGE_KEYS = {
   // 인증 관련
   SESSION_ID: 'sessionId',
   USER_ID: 'userId',
+  USER_NAME: 'userName',
+  USER: 'user',
+  RECENT_USER_ID: 'recentUserId',
   ACCESS_TOKEN: 'accessToken',
   REFRESH_TOKEN: 'refreshToken',
 
@@ -26,7 +29,7 @@ export const STORAGE_KEYS = {
 
   // 일자
   TX_DT: 'txDt',
-} as const
+} as const;
 
 // 스토리지 키 타입
-export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS]
+export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];

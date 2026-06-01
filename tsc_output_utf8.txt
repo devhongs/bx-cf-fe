@@ -1,0 +1,217 @@
+src/entities/alarm/model/alarm.hook.ts(23,3): error TS2322: Type 'DefinedUseQueryResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'UseQueryResult<T[], Error>'.
+  Type 'QueryObserverRefetchErrorResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'UseQueryResult<T[], Error>'.
+    Type 'QueryObserverRefetchErrorResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'QueryObserverRefetchErrorResult<T[], Error>'.
+      Type 'NoInfer_2<TQueryFnData>' is not assignable to type 'T[]'.
+        Type 'TQueryFnData' is not assignable to type 'T[]'.
+src/entities/alarm/model/alarm.hook.ts(23,36): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(options: DefinedInitialDataOptions<T[], Error, T[], readonly unknown[]>, queryClient?: QueryClient | undefined): DefinedUseQueryResult<T[], Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'DefinedInitialDataOptions<T[], Error, T[], readonly unknown[]>'.
+      Type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to type 'Omit<UseQueryOptions<T[], Error, T[], readonly unknown[]>, "queryFn">'.
+        Types of property 'enabled' are incompatible.
+          Type 'boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly ["alarm", "list", AlarmsQueryParams | undefined]>) => boolean) | undefined' is not assignable to type 'QueryBooleanOption<T[], Error, T[], readonly unknown[]> | undefined'.
+            Type '(query: Query<T[], Error, T[], readonly ["alarm", "list", AlarmsQueryParams | undefined]>) => boolean' is not assignable to type 'QueryBooleanOption<T[], Error, T[], readonly unknown[]> | undefined'.
+              Type '(query: Query<T[], Error, T[], readonly ["alarm", "list", AlarmsQueryParams | undefined]>) => boolean' is not assignable to type '(query: Query<T[], Error, T[], readonly unknown[]>) => boolean'.
+                Types of parameters 'query' and 'query' are incompatible.
+                  Type 'Query<T[], Error, T[], readonly unknown[]>' is not assignable to type 'Query<T[], Error, T[], readonly ["alarm", "list", AlarmsQueryParams | undefined]>'.
+                    Types of property 'queryKey' are incompatible.
+                      Type 'readonly unknown[]' is not assignable to type 'readonly ["alarm", "list", AlarmsQueryParams | undefined]'.
+                        Target requires 3 element(s) but source may have fewer.
+  Overload 2 of 3, '(options: UndefinedInitialDataOptions<T[], Error, T[], readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<T[], Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'UndefinedInitialDataOptions<T[], Error, T[], readonly unknown[]>'.
+      Type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to type 'UseQueryOptions<T[], Error, T[], readonly unknown[]>'.
+        Types of property 'queryFn' are incompatible.
+          Type 'QueryFunction<T[], readonly ["alarm", "list", AlarmsQueryParams | undefined], never> | undefined' is not assignable to type 'unique symbol | QueryFunction<T[], readonly unknown[], never> | undefined'.
+            Type 'QueryFunction<T[], readonly ["alarm", "list", AlarmsQueryParams | undefined], never>' is not assignable to type 'unique symbol | QueryFunction<T[], readonly unknown[], never> | undefined'.
+              Type 'QueryFunction<T[], readonly ["alarm", "list", AlarmsQueryParams | undefined], never>' is not assignable to type 'QueryFunction<T[], readonly unknown[], never>'.
+                Type 'readonly unknown[]' is not assignable to type 'readonly ["alarm", "list", AlarmsQueryParams | undefined]'.
+                  Target requires 3 element(s) but source may have fewer.
+  Overload 3 of 3, '(options: UseQueryOptions<T[], Error, T[], readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<T[], Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'UseQueryOptions<T[], Error, T[], readonly unknown[]>'.
+      Types of property 'queryFn' are incompatible.
+        Type 'QueryFunction<T[], readonly ["alarm", "list", AlarmsQueryParams | undefined], never> | undefined' is not assignable to type 'unique symbol | QueryFunction<T[], readonly unknown[], never> | undefined'.
+          Type 'QueryFunction<T[], readonly ["alarm", "list", AlarmsQueryParams | undefined], never>' is not assignable to type 'unique symbol | QueryFunction<T[], readonly unknown[], never> | undefined'.
+            Type 'QueryFunction<T[], readonly ["alarm", "list", AlarmsQueryParams | undefined], never>' is not assignable to type 'QueryFunction<T[], readonly unknown[], never>'.
+              Type 'readonly unknown[]' is not assignable to type 'readonly ["alarm", "list", AlarmsQueryParams | undefined]'.
+                Target requires 3 element(s) but source may have fewer.
+src/entities/alarm/model/alarm.hook.ts(34,3): error TS2322: Type 'DefinedUseQueryResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'UseQueryResult<T, Error>'.
+  Type 'QueryObserverRefetchErrorResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'UseQueryResult<T, Error>'.
+    Type 'QueryObserverRefetchErrorResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'QueryObserverRefetchErrorResult<T, Error>'.
+      Type 'NoInfer_2<TQueryFnData>' is not assignable to type 'T'.
+        'T' could be instantiated with an arbitrary type which could be unrelated to 'NoInfer_2<TQueryFnData>'.
+src/entities/alarm/model/alarm.hook.ts(34,29): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(options: DefinedInitialDataOptions<T, Error, T, readonly unknown[]>, queryClient?: QueryClient | undefined): DefinedUseQueryResult<NoInfer_2<T>, Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'DefinedInitialDataOptions<T, Error, T, readonly unknown[]>'.
+      Type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to type 'Omit<UseQueryOptions<T, Error, T, readonly unknown[]>, "queryFn">'.
+        Types of property 'enabled' are incompatible.
+          Type 'boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly ["alarm", "detail", number]>) => boolean) | undefined' is not assignable to type 'QueryBooleanOption<T, Error, T, readonly unknown[]> | undefined'.
+            Type '(query: Query<T, Error, T, readonly ["alarm", "detail", number]>) => boolean' is not assignable to type 'QueryBooleanOption<T, Error, T, readonly unknown[]> | undefined'.
+              Type '(query: Query<T, Error, T, readonly ["alarm", "detail", number]>) => boolean' is not assignable to type '(query: Query<T, Error, T, readonly unknown[]>) => boolean'.
+                Types of parameters 'query' and 'query' are incompatible.
+                  Type 'Query<T, Error, T, readonly unknown[]>' is not assignable to type 'Query<T, Error, T, readonly ["alarm", "detail", number]>'.
+                    Types of property 'queryKey' are incompatible.
+                      Type 'readonly unknown[]' is not assignable to type 'readonly ["alarm", "detail", number]'.
+                        Target requires 3 element(s) but source may have fewer.
+  Overload 2 of 3, '(options: UndefinedInitialDataOptions<T, Error, T, readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<NoInfer_2<T>, Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'UndefinedInitialDataOptions<T, Error, T, readonly unknown[]>'.
+      Type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to type 'UseQueryOptions<T, Error, T, readonly unknown[]>'.
+        Types of property 'queryFn' are incompatible.
+          Type 'QueryFunction<T, readonly ["alarm", "detail", number], never> | undefined' is not assignable to type 'unique symbol | QueryFunction<T, readonly unknown[], never> | undefined'.
+            Type 'QueryFunction<T, readonly ["alarm", "detail", number], never>' is not assignable to type 'unique symbol | QueryFunction<T, readonly unknown[], never> | undefined'.
+              Type 'QueryFunction<T, readonly ["alarm", "detail", number], never>' is not assignable to type 'QueryFunction<T, readonly unknown[], never>'.
+                Type 'readonly unknown[]' is not assignable to type 'readonly ["alarm", "detail", number]'.
+                  Target requires 3 element(s) but source may have fewer.
+  Overload 3 of 3, '(options: UseQueryOptions<T, Error, T, readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<NoInfer_2<T>, Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'UseQueryOptions<T, Error, T, readonly unknown[]>'.
+      Types of property 'queryFn' are incompatible.
+        Type 'QueryFunction<T, readonly ["alarm", "detail", number], never> | undefined' is not assignable to type 'unique symbol | QueryFunction<T, readonly unknown[], never> | undefined'.
+          Type 'QueryFunction<T, readonly ["alarm", "detail", number], never>' is not assignable to type 'unique symbol | QueryFunction<T, readonly unknown[], never> | undefined'.
+            Type 'QueryFunction<T, readonly ["alarm", "detail", number], never>' is not assignable to type 'QueryFunction<T, readonly unknown[], never>'.
+              Type 'readonly unknown[]' is not assignable to type 'readonly ["alarm", "detail", number]'.
+                Target requires 3 element(s) but source may have fewer.
+src/entities/menu/model/menu.hook.ts(23,3): error TS2322: Type 'DefinedUseQueryResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'UseQueryResult<T[], Error>'.
+  Type 'QueryObserverRefetchErrorResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'UseQueryResult<T[], Error>'.
+    Type 'QueryObserverRefetchErrorResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'QueryObserverRefetchErrorResult<T[], Error>'.
+      Type 'NoInfer_2<TQueryFnData>' is not assignable to type 'T[]'.
+        Type 'TQueryFnData' is not assignable to type 'T[]'.
+src/entities/menu/model/menu.hook.ts(23,36): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(options: DefinedInitialDataOptions<T[], Error, T[], readonly unknown[]>, queryClient?: QueryClient | undefined): DefinedUseQueryResult<T[], Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'DefinedInitialDataOptions<T[], Error, T[], readonly unknown[]>'.
+      Type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to type 'Omit<UseQueryOptions<T[], Error, T[], readonly unknown[]>, "queryFn">'.
+        Types of property 'enabled' are incompatible.
+          Type 'boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly ["menu", "list", MenuQueryParams | undefined]>) => boolean) | undefined' is not assignable to type 'QueryBooleanOption<T[], Error, T[], readonly unknown[]> | undefined'.
+            Type '(query: Query<T[], Error, T[], readonly ["menu", "list", MenuQueryParams | undefined]>) => boolean' is not assignable to type 'QueryBooleanOption<T[], Error, T[], readonly unknown[]> | undefined'.
+              Type '(query: Query<T[], Error, T[], readonly ["menu", "list", MenuQueryParams | undefined]>) => boolean' is not assignable to type '(query: Query<T[], Error, T[], readonly unknown[]>) => boolean'.
+                Types of parameters 'query' and 'query' are incompatible.
+                  Type 'Query<T[], Error, T[], readonly unknown[]>' is not assignable to type 'Query<T[], Error, T[], readonly ["menu", "list", MenuQueryParams | undefined]>'.
+                    Types of property 'queryKey' are incompatible.
+                      Type 'readonly unknown[]' is not assignable to type 'readonly ["menu", "list", MenuQueryParams | undefined]'.
+                        Target requires 3 element(s) but source may have fewer.
+  Overload 2 of 3, '(options: UndefinedInitialDataOptions<T[], Error, T[], readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<T[], Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'UndefinedInitialDataOptions<T[], Error, T[], readonly unknown[]>'.
+      Type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to type 'UseQueryOptions<T[], Error, T[], readonly unknown[]>'.
+        Types of property 'queryFn' are incompatible.
+          Type 'QueryFunction<T[], readonly ["menu", "list", MenuQueryParams | undefined], never> | undefined' is not assignable to type 'unique symbol | QueryFunction<T[], readonly unknown[], never> | undefined'.
+            Type 'QueryFunction<T[], readonly ["menu", "list", MenuQueryParams | undefined], never>' is not assignable to type 'unique symbol | QueryFunction<T[], readonly unknown[], never> | undefined'.
+              Type 'QueryFunction<T[], readonly ["menu", "list", MenuQueryParams | undefined], never>' is not assignable to type 'QueryFunction<T[], readonly unknown[], never>'.
+                Type 'readonly unknown[]' is not assignable to type 'readonly ["menu", "list", MenuQueryParams | undefined]'.
+                  Target requires 3 element(s) but source may have fewer.
+  Overload 3 of 3, '(options: UseQueryOptions<T[], Error, T[], readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<T[], Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'UseQueryOptions<T[], Error, T[], readonly unknown[]>'.
+      Types of property 'queryFn' are incompatible.
+        Type 'QueryFunction<T[], readonly ["menu", "list", MenuQueryParams | undefined], never> | undefined' is not assignable to type 'unique symbol | QueryFunction<T[], readonly unknown[], never> | undefined'.
+          Type 'QueryFunction<T[], readonly ["menu", "list", MenuQueryParams | undefined], never>' is not assignable to type 'unique symbol | QueryFunction<T[], readonly unknown[], never> | undefined'.
+            Type 'QueryFunction<T[], readonly ["menu", "list", MenuQueryParams | undefined], never>' is not assignable to type 'QueryFunction<T[], readonly unknown[], never>'.
+              Type 'readonly unknown[]' is not assignable to type 'readonly ["menu", "list", MenuQueryParams | undefined]'.
+                Target requires 3 element(s) but source may have fewer.
+src/entities/menu/model/menu.hook.ts(34,3): error TS2322: Type 'DefinedUseQueryResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'UseQueryResult<T, Error>'.
+  Type 'QueryObserverRefetchErrorResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'UseQueryResult<T, Error>'.
+    Type 'QueryObserverRefetchErrorResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'QueryObserverRefetchErrorResult<T, Error>'.
+      Type 'NoInfer_2<TQueryFnData>' is not assignable to type 'T'.
+        'T' could be instantiated with an arbitrary type which could be unrelated to 'NoInfer_2<TQueryFnData>'.
+src/entities/menu/model/menu.hook.ts(34,29): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(options: DefinedInitialDataOptions<T, Error, T, readonly unknown[]>, queryClient?: QueryClient | undefined): DefinedUseQueryResult<NoInfer_2<T>, Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'DefinedInitialDataOptions<T, Error, T, readonly unknown[]>'.
+      Type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to type 'Omit<UseQueryOptions<T, Error, T, readonly unknown[]>, "queryFn">'.
+        Types of property 'enabled' are incompatible.
+          Type 'boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly ["menu", "detail", number]>) => boolean) | undefined' is not assignable to type 'QueryBooleanOption<T, Error, T, readonly unknown[]> | undefined'.
+            Type '(query: Query<T, Error, T, readonly ["menu", "detail", number]>) => boolean' is not assignable to type 'QueryBooleanOption<T, Error, T, readonly unknown[]> | undefined'.
+              Type '(query: Query<T, Error, T, readonly ["menu", "detail", number]>) => boolean' is not assignable to type '(query: Query<T, Error, T, readonly unknown[]>) => boolean'.
+                Types of parameters 'query' and 'query' are incompatible.
+                  Type 'Query<T, Error, T, readonly unknown[]>' is not assignable to type 'Query<T, Error, T, readonly ["menu", "detail", number]>'.
+                    Types of property 'queryKey' are incompatible.
+                      Type 'readonly unknown[]' is not assignable to type 'readonly ["menu", "detail", number]'.
+                        Target requires 3 element(s) but source may have fewer.
+  Overload 2 of 3, '(options: UndefinedInitialDataOptions<T, Error, T, readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<NoInfer_2<T>, Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'UndefinedInitialDataOptions<T, Error, T, readonly unknown[]>'.
+      Type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to type 'UseQueryOptions<T, Error, T, readonly unknown[]>'.
+        Types of property 'queryFn' are incompatible.
+          Type 'QueryFunction<T, readonly ["menu", "detail", number], never> | undefined' is not assignable to type 'unique symbol | QueryFunction<T, readonly unknown[], never> | undefined'.
+            Type 'QueryFunction<T, readonly ["menu", "detail", number], never>' is not assignable to type 'unique symbol | QueryFunction<T, readonly unknown[], never> | undefined'.
+              Type 'QueryFunction<T, readonly ["menu", "detail", number], never>' is not assignable to type 'QueryFunction<T, readonly unknown[], never>'.
+                Type 'readonly unknown[]' is not assignable to type 'readonly ["menu", "detail", number]'.
+                  Target requires 3 element(s) but source may have fewer.
+  Overload 3 of 3, '(options: UseQueryOptions<T, Error, T, readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<NoInfer_2<T>, Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'UseQueryOptions<T, Error, T, readonly unknown[]>'.
+      Types of property 'queryFn' are incompatible.
+        Type 'QueryFunction<T, readonly ["menu", "detail", number], never> | undefined' is not assignable to type 'unique symbol | QueryFunction<T, readonly unknown[], never> | undefined'.
+          Type 'QueryFunction<T, readonly ["menu", "detail", number], never>' is not assignable to type 'unique symbol | QueryFunction<T, readonly unknown[], never> | undefined'.
+            Type 'QueryFunction<T, readonly ["menu", "detail", number], never>' is not assignable to type 'QueryFunction<T, readonly unknown[], never>'.
+              Type 'readonly unknown[]' is not assignable to type 'readonly ["menu", "detail", number]'.
+                Target requires 3 element(s) but source may have fewer.
+src/entities/product/model/product.hook.ts(23,3): error TS2322: Type 'DefinedUseQueryResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'UseQueryResult<T[], Error>'.
+  Type 'QueryObserverRefetchErrorResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'UseQueryResult<T[], Error>'.
+    Type 'QueryObserverRefetchErrorResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'QueryObserverRefetchErrorResult<T[], Error>'.
+      Type 'NoInfer_2<TQueryFnData>' is not assignable to type 'T[]'.
+        Type 'TQueryFnData' is not assignable to type 'T[]'.
+src/entities/product/model/product.hook.ts(23,36): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(options: DefinedInitialDataOptions<T[], Error, T[], readonly unknown[]>, queryClient?: QueryClient | undefined): DefinedUseQueryResult<T[], Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'DefinedInitialDataOptions<T[], Error, T[], readonly unknown[]>'.
+      Type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to type 'Omit<UseQueryOptions<T[], Error, T[], readonly unknown[]>, "queryFn">'.
+        Types of property 'enabled' are incompatible.
+          Type 'boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly ["product", "list", ProductQueryParams | undefined]>) => boolean) | undefined' is not assignable to type 'QueryBooleanOption<T[], Error, T[], readonly unknown[]> | undefined'.
+            Type '(query: Query<T[], Error, T[], readonly ["product", "list", ProductQueryParams | undefined]>) => boolean' is not assignable to type 'QueryBooleanOption<T[], Error, T[], readonly unknown[]> | undefined'.
+              Type '(query: Query<T[], Error, T[], readonly ["product", "list", ProductQueryParams | undefined]>) => boolean' is not assignable to type '(query: Query<T[], Error, T[], readonly unknown[]>) => boolean'.
+                Types of parameters 'query' and 'query' are incompatible.
+                  Type 'Query<T[], Error, T[], readonly unknown[]>' is not assignable to type 'Query<T[], Error, T[], readonly ["product", "list", ProductQueryParams | undefined]>'.
+                    Types of property 'queryKey' are incompatible.
+                      Type 'readonly unknown[]' is not assignable to type 'readonly ["product", "list", ProductQueryParams | undefined]'.
+                        Target requires 3 element(s) but source may have fewer.
+  Overload 2 of 3, '(options: UndefinedInitialDataOptions<T[], Error, T[], readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<T[], Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'UndefinedInitialDataOptions<T[], Error, T[], readonly unknown[]>'.
+      Type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to type 'UseQueryOptions<T[], Error, T[], readonly unknown[]>'.
+        Types of property 'queryFn' are incompatible.
+          Type 'QueryFunction<T[], readonly ["product", "list", ProductQueryParams | undefined], never> | undefined' is not assignable to type 'unique symbol | QueryFunction<T[], readonly unknown[], never> | undefined'.
+            Type 'QueryFunction<T[], readonly ["product", "list", ProductQueryParams | undefined], never>' is not assignable to type 'unique symbol | QueryFunction<T[], readonly unknown[], never> | undefined'.
+              Type 'QueryFunction<T[], readonly ["product", "list", ProductQueryParams | undefined], never>' is not assignable to type 'QueryFunction<T[], readonly unknown[], never>'.
+                Type 'readonly unknown[]' is not assignable to type 'readonly ["product", "list", ProductQueryParams | undefined]'.
+                  Target requires 3 element(s) but source may have fewer.
+  Overload 3 of 3, '(options: UseQueryOptions<T[], Error, T[], readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<T[], Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T[], Error, T[], any>) => boolean) | ((query: Query<T[], Error, T[], readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'UseQueryOptions<T[], Error, T[], readonly unknown[]>'.
+      Types of property 'queryFn' are incompatible.
+        Type 'QueryFunction<T[], readonly ["product", "list", ProductQueryParams | undefined], never> | undefined' is not assignable to type 'unique symbol | QueryFunction<T[], readonly unknown[], never> | undefined'.
+          Type 'QueryFunction<T[], readonly ["product", "list", ProductQueryParams | undefined], never>' is not assignable to type 'unique symbol | QueryFunction<T[], readonly unknown[], never> | undefined'.
+            Type 'QueryFunction<T[], readonly ["product", "list", ProductQueryParams | undefined], never>' is not assignable to type 'QueryFunction<T[], readonly unknown[], never>'.
+              Type 'readonly unknown[]' is not assignable to type 'readonly ["product", "list", ProductQueryParams | undefined]'.
+                Target requires 3 element(s) but source may have fewer.
+src/entities/product/model/product.hook.ts(34,3): error TS2322: Type 'DefinedUseQueryResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'UseQueryResult<T, Error>'.
+  Type 'QueryObserverRefetchErrorResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'UseQueryResult<T, Error>'.
+    Type 'QueryObserverRefetchErrorResult<NoInfer_2<TQueryFnData>, Error>' is not assignable to type 'QueryObserverRefetchErrorResult<T, Error>'.
+      Type 'NoInfer_2<TQueryFnData>' is not assignable to type 'T'.
+        'T' could be instantiated with an arbitrary type which could be unrelated to 'NoInfer_2<TQueryFnData>'.
+src/entities/product/model/product.hook.ts(34,29): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(options: DefinedInitialDataOptions<T, Error, T, readonly unknown[]>, queryClient?: QueryClient | undefined): DefinedUseQueryResult<NoInfer_2<T>, Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'DefinedInitialDataOptions<T, Error, T, readonly unknown[]>'.
+      Type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to type 'Omit<UseQueryOptions<T, Error, T, readonly unknown[]>, "queryFn">'.
+        Types of property 'enabled' are incompatible.
+          Type 'boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly ["product", "detail", number]>) => boolean) | undefined' is not assignable to type 'QueryBooleanOption<T, Error, T, readonly unknown[]> | undefined'.
+            Type '(query: Query<T, Error, T, readonly ["product", "detail", number]>) => boolean' is not assignable to type 'QueryBooleanOption<T, Error, T, readonly unknown[]> | undefined'.
+              Type '(query: Query<T, Error, T, readonly ["product", "detail", number]>) => boolean' is not assignable to type '(query: Query<T, Error, T, readonly unknown[]>) => boolean'.
+                Types of parameters 'query' and 'query' are incompatible.
+                  Type 'Query<T, Error, T, readonly unknown[]>' is not assignable to type 'Query<T, Error, T, readonly ["product", "detail", number]>'.
+                    Types of property 'queryKey' are incompatible.
+                      Type 'readonly unknown[]' is not assignable to type 'readonly ["product", "detail", number]'.
+                        Target requires 3 element(s) but source may have fewer.
+  Overload 2 of 3, '(options: UndefinedInitialDataOptions<T, Error, T, readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<NoInfer_2<T>, Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'UndefinedInitialDataOptions<T, Error, T, readonly unknown[]>'.
+      Type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to type 'UseQueryOptions<T, Error, T, readonly unknown[]>'.
+        Types of property 'queryFn' are incompatible.
+          Type 'QueryFunction<T, readonly ["product", "detail", number], never> | undefined' is not assignable to type 'unique symbol | QueryFunction<T, readonly unknown[], never> | undefined'.
+            Type 'QueryFunction<T, readonly ["product", "detail", number], never>' is not assignable to type 'unique symbol | QueryFunction<T, readonly unknown[], never> | undefined'.
+              Type 'QueryFunction<T, readonly ["product", "detail", number], never>' is not assignable to type 'QueryFunction<T, readonly unknown[], never>'.
+                Type 'readonly unknown[]' is not assignable to type 'readonly ["product", "detail", number]'.
+                  Target requires 3 element(s) but source may have fewer.
+  Overload 3 of 3, '(options: UseQueryOptions<T, Error, T, readonly unknown[]>, queryClient?: QueryClient | undefined): UseQueryResult<NoInfer_2<T>, Error>', gave the following error.
+    Argument of type '{ meta?: QueryMeta; subscribed?: boolean; enabled?: boolean | ((query: Query<T, Error, T, any>) => boolean) | ((query: Query<T, Error, T, readonly [...]>) => boolean) | undefined; ... 28 more ...; queryFn?: QueryFunction<...> | undefined; }' is not assignable to parameter of type 'UseQueryOptions<T, Error, T, readonly unknown[]>'.
+      Types of property 'queryFn' are incompatible.
+        Type 'QueryFunction<T, readonly ["product", "detail", number], never> | undefined' is not assignable to type 'unique symbol | QueryFunction<T, readonly unknown[], never> | undefined'.
+          Type 'QueryFunction<T, readonly ["product", "detail", number], never>' is not assignable to type 'unique symbol | QueryFunction<T, readonly unknown[], never> | undefined'.
+            Type 'QueryFunction<T, readonly ["product", "detail", number], never>' is not assignable to type 'QueryFunction<T, readonly unknown[], never>'.
+              Type 'readonly unknown[]' is not assignable to type 'readonly ["product", "detail", number]'.
+                Target requires 3 element(s) but source may have fewer.
+src/features/transfer/ui/transfer-list/index.tsx(17,30): error TS6133: 'dummy' is declared but its value is never read.
+src/routes/(modal)/transfer-list/index.tsx(1,1): error TS6133: 'useFetchAccount' is declared but its value is never read.
+src/routes/(modal)/transfer-list/index.tsx(2,1): error TS6133: 'Account' is declared but its value is never read.
+src/routes/(modal)/transfer-list/index.tsx(15,9): error TS6133: 'accountNo' is declared but its value is never read.
+src/routes/(modal)/user-info/index.tsx(11,31): error TS6133: 'props' is declared but its value is never read.
+src/shared/hooks/useForm.ts(51,9): error TS6133: 'setValidMaskValue' is declared but its value is never read.
+src/shared/lib/utils/common.i18n.ts(39,7): error TS6133: 'convertor' is declared but its value is never read.

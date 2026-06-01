@@ -1,22 +1,22 @@
-import type { BaseProps } from '@/shared/types'
+import type { BaseProps } from '@/shared/types';
 
-import styles from './UserAvatar.module.css'
+import styles from './UserAvatar.module.css';
 
 interface UserAvatarProps extends BaseProps {
-  name: string
-  imageUrl?: string
-  size?: number
-  showName?: boolean
+  name: string;
+  imageUrl?: string;
+  size?: number;
+  showName?: boolean;
 }
 
-export default function UserAvatar({
+export function UserAvatar({
   name,
   imageUrl = '/assets/images/avatar/avatar-men.svg',
   size = 50,
   showName,
 }: UserAvatarProps) {
   return (
-    <div className={styles.start}>
+    <div className={styles.layout}>
       <img
         src={imageUrl}
         alt={`${name}의 아바타`}
@@ -25,5 +25,5 @@ export default function UserAvatar({
       />
       {showName && name && <span className={styles.name}>{name}</span>}
     </div>
-  )
+  );
 }

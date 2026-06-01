@@ -1,31 +1,25 @@
-import type { UseQueryOptions } from '@tanstack/react-query'
+import { queryOptions } from '@tanstack/react-query';
 
-import type { ApiResponse } from '@/shared/api/types'
-
-import AuthService from '../api/auth.api'
-
-import type { Auth, AuthQueryParams } from './auth.type'
+import { login, logout } from '../api/auth.api';
+import type { Auth, AuthQueryParams } from './auth.type';
 
 export const queryKeys = {
-  login: ['login'] as const,
-  logout: ['logout'] as const,
-  checkAccessToken: ['checkAccessToken'] as const,
-  checkRefreshToken: ['checkRefreshToken'] as const,
-}
+  all: ['auth'] as const,
+  login: (params?: AuthQueryParams) => ['auth', 'login', params] as const,
+  logout: (params?: AuthQueryParams) => ['auth', 'logout', params] as const,
+  checkAccessToken: ['auth', 'checkAccessToken'] as const,
+  checkRefreshToken: ['auth', 'checkRefreshToken'] as const,
+};
 
-export const queryOptions = {
-  // 사용자 로그인
-  login: <T = Auth>(
-    params: AuthQueryParams,
-  ): UseQueryOptions<ApiResponse<T>> => ({
-    queryKey: queryKeys.login,
-    queryFn: async (): Promise<ApiResponse<T>> => AuthService.login(params.id),
-  }),
-  // 사용자 로그아웃
-  logout: <T = Auth>(
-    params: AuthQueryParams,
-  ): UseQueryOptions<ApiResponse<T>> => ({
-    queryKey: queryKeys.logout,
-    queryFn: async (): Promise<ApiResponse<T>> => AuthService.logout(params.id),
-  }),
-}
+// 개별 Named Export와 v5 queryOptions 헬퍼 적용
+export const loginQuery = <T extends Auth = Auth>(params: AuthQueryParams) =>
+  queryOptions({
+    queryKey: queryKeys.login(params),
+    queryFn: () => login<T>(params.id),
+  });
+
+export const logoutQuery = <T extends Auth = Auth>(params: AuthQueryParams) =>
+  queryOptions({
+    queryKey: queryKeys.logout(params),
+    queryFn: () => logout<T>(params.id),
+  });

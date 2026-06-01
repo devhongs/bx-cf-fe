@@ -1,8 +1,8 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-.start {
-  @apply h-full w-full bg-white;
+/* .layout {
+  @apply min-h-full w-full bg-white;
 
   .body {
   }
-}
+} */

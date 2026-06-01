@@ -1,6 +1,6 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-.start {
+.layout {
   @apply flex flex-col gap-2;
 
   .product {

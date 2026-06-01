@@ -1,41 +1,33 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
-import type { BankId } from '@/entities/account'
-import { BANK_OPTIONS } from '@/shared/constants'
-import { formatAccountNumberByBank } from '@/shared/lib/utils'
-import type { BaseProps } from '@/shared/types'
+import type { BankId } from '@/entities/account';
+import { BANK_OPTIONS } from '@/shared/constants';
+import { formatAccountNumberByBank } from '@/shared/lib/utils';
+import type { BaseProps } from '@/shared/types';
+import { Input, Button } from '@/shared/ui';
 
-import styles from './index.module.css'
+import styles from './index.module.css';
 
 interface TransferAmountProps extends BaseProps {
-  bankId?: BankId
-  accountNo?: string
-  name?: string
+  bankId?: BankId;
+  accountNo?: string;
+  name?: string;
 }
 
-export default function TransferAmount({
-  bankId,
-  accountNo,
-  name,
-}: TransferAmountProps) {
-  const [selectedBankId, setSelectedBankId] = useState<BankId | undefined>(
-    bankId,
-  )
-  const [targetAccountNo, setTargetAccountNo] = useState(accountNo ?? '')
-  const [receiverName, setReceiverName] = useState(name ?? '')
-  const [amount, setAmount] = useState<string>('')
+export function TransferAmount({ bankId, accountNo, name }: TransferAmountProps) {
+  const [selectedBankId, setSelectedBankId] = useState<BankId | undefined>(bankId);
+  const [targetAccountNo, setTargetAccountNo] = useState(accountNo ?? '');
+  const [receiverName, setReceiverName] = useState(name ?? '');
+  const [amount, setAmount] = useState<string>('');
 
-  const bankName = BANK_OPTIONS.find((bank) => bank.id === bankId)?.name || ''
-  const formattedAccountNo = formatAccountNumberByBank(
-    selectedBankId,
-    targetAccountNo,
-  )
+  const bankName = BANK_OPTIONS.find((bank) => bank.id === bankId)?.name || '';
+  const formattedAccountNo = formatAccountNumberByBank(selectedBankId, targetAccountNo);
 
   useEffect(() => {
-    setSelectedBankId(bankId)
-    setTargetAccountNo(accountNo ?? '')
-    setReceiverName(name ?? '')
-  }, [bankId, accountNo, name])
+    setSelectedBankId(bankId);
+    setTargetAccountNo(accountNo ?? '');
+    setReceiverName(name ?? '');
+  }, [bankId, accountNo, name]);
 
   return (
     <div className={styles.transferAmountContainer}>
@@ -50,7 +42,7 @@ export default function TransferAmount({
       <div className={styles.amountInputSection}>
         <div className={styles.amountInputTitle}>얼마를 보낼까요?</div>
         <div className={styles.amountInputContainer}>
-          <input
+          <Input
             type="text"
             inputMode="numeric"
             placeholder=""
@@ -70,13 +62,13 @@ export default function TransferAmount({
       </div>
 
       {/* 다음 버튼 */}
-      <button
+      <Button
         type="button"
         disabled={!amount}
         className={`${styles.submitButton} ${!amount ? styles.disabled : styles.enabled}`}
       >
         다음
-      </button>
+      </Button>
     </div>
-  )
+  );
 }

@@ -1,39 +1,32 @@
-import type { UseQueryOptions } from '@tanstack/react-query'
+import { queryOptions } from '@tanstack/react-query';
 
-import type { ApiListResponse, ApiResponse } from '@/shared/api/types'
-
-import MenuService from '../api/menu.api'
-
-import type { Menu, MenuQueryParams } from './menu.type'
+import { createMenu, deleteMenu, fetchMenu, fetchMenuList } from '../api/menu.api';
+import type { Menu, MenuQueryParams } from './menu.type';
 
 export const queryKeys = {
-  fetchList: ['menus'] as const,
-  fetch: (id: number) => ['menu', id] as const,
-}
+  all: ['menu'] as const,
+  list: (params?: MenuQueryParams) => ['menu', 'list', params] as const,
+  detail: (id: number) => ['menu', 'detail', id] as const,
+};
 
-export const queryOptions = {
-  // 알람 목록 조회
-  fetchList: <T = Menu>(
-    params?: MenuQueryParams,
-  ): UseQueryOptions<ApiListResponse<T>> => ({
-    queryKey: queryKeys.fetchList,
-    queryFn: async (): Promise<ApiListResponse<T>> =>
-      MenuService.fetchAll(params),
-  }),
-  // 알람 상세 조회
-  fetch: <T = Menu>(menuId: number): UseQueryOptions<ApiResponse<T>> => ({
-    queryKey: queryKeys.fetch(menuId),
-    queryFn: () => MenuService.fetch(menuId),
-  }),
-}
+// 개별 Named Export와 v5 queryOptions 헬퍼 적용
+export const fetchMenuListQuery = <T extends Menu = Menu>(params?: MenuQueryParams) =>
+  queryOptions({
+    queryKey: queryKeys.list(params),
+    queryFn: () => fetchMenuList<T>(params),
+  });
 
-export const mutateOptions = {
-  // 알람 생성
-  create: () => ({
-    mutationFn: (payload: Menu) => MenuService.create(payload),
-  }),
-  // 알람 삭제
-  delete: () => ({
-    mutationFn: (id: number) => MenuService.delete(id),
-  }),
-}
+export const fetchMenuQuery = <T extends Menu = Menu>(menuId: number) =>
+  queryOptions({
+    queryKey: queryKeys.detail(menuId),
+    queryFn: () => fetchMenu<T>(menuId),
+  });
+
+// 개별 Named Export 뮤테이션 옵션
+export const createMenuMutation = () => ({
+  mutationFn: (payload: Menu) => createMenu(payload),
+});
+
+export const deleteMenuMutation = () => ({
+  mutationFn: (id: number) => deleteMenu(id),
+});

@@ -1,20 +1,31 @@
 {
-  "users": [],
+  "users": [
+    {
+      "id": "user1",
+      "name": "김지은",
+      "email": "user1@bankwareglobal.com"
+    },
+    {
+      "id": "user2",
+      "name": "박성훈",
+      "email": "user2@bankwareglobal.com"
+    }
+  ],
   "accounts": [
     {
-      "id": "012345678901",
       "bankId": "KB",
       "accountNo": "012345678901",
       "accountName": "국민은행 통장",
       "amount": 2540000,
       "accountType": "입출금통장",
       "accountStatus": "정상",
+      "userId": "user1",
       "isFavorite": false,
       "createdAt": "2024-01-12T10:15:00Z",
       "updatedAt": "2025-02-10T09:30:00Z"
     },
     {
-      "id": "110234567890",
+      "userId": "user2",
       "bankId": "SH",
       "accountNo": "110234567890",
       "accountName": "신한저축예금",
@@ -26,7 +37,7 @@
       "updatedAt": "2025-01-05T08:20:00Z"
     },
     {
-      "id": "333344555555",
+      "userId": "user1",
       "bankId": "KAKAO",
       "accountNo": "333344555555",
       "accountName": "카카오뱅크 비상금통장",
@@ -38,7 +49,7 @@
       "updatedAt": "2024-12-15T16:40:00Z"
     },
     {
-      "id": "1002567890123",
+      "userId": "user2",
       "bankId": "WR",
       "accountNo": "1002567890123",
       "accountName": "우리은행 주거래통장",
@@ -50,7 +61,7 @@
       "updatedAt": "2025-01-20T15:45:00Z"
     },
     {
-      "id": "620345678901",
+      "userId": "user1",
       "bankId": "HN",
       "accountNo": "620345678901",
       "accountName": "하나은행 적금통장",
@@ -62,7 +73,7 @@
       "updatedAt": "2025-02-25T12:10:00Z"
     },
     {
-      "id": "1012345678910",
+      "userId": "user2",
       "bankId": "IBK",
       "accountNo": "1012345678910",
       "accountName": "IBK기업은행 사업자통장",
@@ -74,7 +85,7 @@
       "updatedAt": "2025-03-05T10:25:00Z"
     },
     {
-      "id": "30212345678901",
+      "userId": "user1",
       "bankId": "NH",
       "accountNo": "30212345678901",
       "accountName": "농협 청년희망적금",
@@ -86,7 +97,7 @@
       "updatedAt": "2025-02-02T18:15:00Z"
     },
     {
-      "id": "100234567890",
+      "userId": "user2",
       "bankId": "TOSS",
       "accountNo": "100234567890",
       "accountName": "토스뱅크 자유입출금통장",
@@ -100,61 +111,61 @@
   ],
   "recentAccounts": [
     {
-      "id": "123456789012",
+      "userId": "user1",
       "name": "김지은",
       "bankId": "KB",
       "accountNo": "123456789012"
     },
     {
-      "id": "110234567890",
+      "userId": "user2",
       "name": "박성훈",
       "bankId": "SH",
       "accountNo": "110234567890"
     },
     {
-      "id": "1002347890123",
+      "userId": "user1",
       "name": "이유진",
       "bankId": "WR",
       "accountNo": "1002347890123"
     },
     {
-      "id": "3021599789012",
+      "userId": "user2",
       "name": "정다현",
       "bankId": "NH",
       "accountNo": "3021599789012"
     },
     {
-      "id": "01098765412345",
+      "userId": "user1",
       "name": "한지호",
       "bankId": "IBK",
       "accountNo": "01098765412345"
     },
     {
-      "id": "3333021234567",
+      "userId": "user2",
       "name": "최은우",
       "bankId": "KK",
       "accountNo": "3333021234567"
     },
     {
-      "id": "1001234567890",
+      "userId": "user1",
       "name": "오지민",
       "bankId": "KT",
       "accountNo": "1001234567890"
     },
     {
-      "id": "123910234567",
+      "userId": "user2",
       "name": "윤하늘",
       "bankId": "HN",
       "accountNo": "123910234567"
     },
     {
-      "id": "100012345678",
+      "userId": "user1",
       "name": "배도현",
       "bankId": "TS",
       "accountNo": "100012345678"
     },
     {
-      "id": "620123456789",
+      "userId": "user2",
       "name": "서은채",
       "bankId": "SC",
       "accountNo": "620123456789"
@@ -163,6 +174,7 @@
   "alarms": [
     {
       "id": 1,
+      "userId": "user1",
       "title": "alarm 1",
       "description": "alarm 1 description",
       "type": "alarm",
@@ -171,6 +183,7 @@
     },
     {
       "id": 2,
+      "userId": "user2",
       "title": "alarm 2",
       "description": "alarm 2 description",
       "type": "alarm",
@@ -179,6 +192,7 @@
     },
     {
       "id": 3,
+      "userId": "user1",
       "title": "alarm 3",
       "description": "alarm 3 description",
       "type": "alarm",
