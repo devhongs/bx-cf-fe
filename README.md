@@ -1,9 +1,15 @@
-# 📘 프로젝트 개요
+# 📘 프로젝트 개요 (Project Overview)
 
-이 프로젝트는 React + TypeScript 기반의 웹 애플리케이션이며, FSD(Folder Structure Design) 아키텍처를 적용하여 기능 단위로 구조화되었습니다.
-개발 생산성과 유지보수성을 높이고, 서비스 확장에 유연하게 대응할 수 있도록 설계되었습니다.
+본 프로젝트는 초고속 빌드 성능과 극대화된 DX(Developer Experience)를 지향하는 **React + TypeScript + Vite** 기술 스택 기반의 엔터프라이즈급 금융/자산관리 웹 애플리케이션 프레임워크입니다.
 
-번들러로는 Vite를 사용하고 있으며, 개발 환경에서는 API 서버를 대체하기 위해 json-server를 활용한 Mock Server를 사용합니다.
+비즈니스 요구사항의 급격한 변화에 유연하게 대응하고 대규모 협업 개발 환경에서도 최상의 아키텍처 정밀도를 유지하기 위해 **Feature-Sliced Design (FSD)** 설계 규격을 전사적으로 적용하고 있습니다. 이를 통해 비즈니스 도메인과 UI 계층을 격리하고 다음과 같은 핵심 아키텍처적 가치를 제공합니다:
+
+* 🎯 **강력한 캡슐화와 결합도 최소화 (Loose Coupling)**: 레이어(Layer), 슬라이스(Slice), 세그먼트(Segment)로 분할된 구조를 통해 관심사를 엄격히 분리(Separation of Concerns)하고 모듈별 독립성을 극대화합니다.
+* 🔗 **예측 가능한 단방향 의존성 흐름**: 상위 레이어가 하위 레이어만 참조할 수 있도록 강제하여 복잡한 프로젝트에서 흔히 발생하는 순환 참조(Circular Dependency) 문제를 구조적으로 원천 배제합니다.
+* 🚀 **점진적 비즈니스 스케일아웃 (Scalability)**: 도메인 모델(Entity)과 핵심 기능(Feature)이 명확히 구획되어 서비스 확장에 다른 사이드 이펙트 없이 애자일한 기능 배포가 가능합니다.
+* ⚡ **고도화된 상태 동기화 파이프라인**: **TanStack Query (React Query) v5**와 엄격하게 타입 정의된 커스텀 훅 구조(`QueryHookOptions`)를 융합하여 안전하고 선언적인 비동기 상태 관리를 제공합니다.
+
+효율적인 프론트엔드 중심의 독립적 애자일 스프린트를 위해 **json-server를 활용한 지능형 로컬 Mocking 인프라**를 지원하여, 실제 상용 API 인터페이스 명세와의 강력한 호환성을 유지합니다.
 
 ---
 
@@ -103,12 +109,11 @@ src/
 
 훅은 상태 로직을 컴포넌트로부터 분리하여 재사용 가능하게 만드는 함수입니다.
 
-- **폴더명**: **camelCase**
-  - 일반적으로 `hooks` 라는 폴더 안에 모든 커스텀 훅을 모아둡니다.
-  - _예시: `hooks/`_
-- **파일명**: **camelCase**
-  - 훅 파일명은 `use` 접두사를 붙인 카멜 케이스를 사용합니다.
-  - _예시: `useToggle.ts`, `useFetchData.ts`_
+- **폴더명**: **camelCase** (또는 FSD 아키텍처 슬라이스 하위의 경우 **model** 또는 **hooks** 등)
+  - 일반적으로 공통 훅은 `hooks/` 폴더에, 각 슬라이스별 훅은 해당 슬라이스의 `model/` 또는 별도 폴더에 모아둡니다.
+- **파일명**: **camelCase.hook** 또는 슬라이스명 뒤에 **.hook**
+  - 훅 파일명은 `.hook.ts` 접미사를 사용하는 것을 규칙으로 합니다.
+  - _예시: `useToggle.hook.ts`, `account.hook.ts`, `product.hook.ts`_
 - **함수명 (모듈명)**: **camelCase**
   - 훅 함수의 이름 역시 `use`로 시작하는 카멜 케이스를 사용합니다.
   - _예시: `export function useToggle() { ... }`_
@@ -117,9 +122,10 @@ src/
 
 ```plaintext
 src/
-└── hooks/
-    ├── useToggle.ts
-    └── useFetchData.ts
+└── shared/
+    └── hooks/
+        ├── useToggle.hook.ts
+        └── useFetchData.hook.ts
 ```
 
 ---
@@ -131,8 +137,8 @@ src/
 - **폴더명**: **camelCase**
   - `utils` 또는 `lib` 과 같은 이름의 폴더를 사용합니다.
   - _예시: `utils/`_
-- **파일명**: **camelCase**
-  - 함수의 역할을 명확히 알 수 있도록 카멜 케이스로 파일명을 작성합니다.
+- **파일명**: **camelCase** 또는 **kebab-case**
+  - 함수의 역할을 명확히 알 수 있도록 카멜 케이스 또는 케밥 케이스로 파일명을 작성합니다.
   - _예시: `formatDate.ts`, `validation.ts`_
 - **함수명 (모듈명)**: **camelCase**
   - 파일 내의 함수들도 카멜 케이스를 사용합니다.
@@ -153,12 +159,12 @@ src/
 
 타입스크립트를 사용할 때, 인터페이스나 타입 별칭을 정의하는 파일입니다.
 
-- **폴더명**: **kebak-case**
+- **폴더명**: **kebab-case**
   - `types` 또는 `interfaces` 라는 이름의 폴더에 모아 관리합니다.
   - _예시: `types/`_
-- **파일명**: **camelCase**
-  - 관련된 타입들을 하나의 파일에 모을 경우, 도메인 이름을 기반으로 합니다.
-  - _예시: `user.ts` 또는 `User.ts`_
+- **파일명**: **camelCase.type** 또는 **kebab-case.type**
+  - 관련된 타입들을 하나의 파일에 모을 경우 도메인 이름을 기반으로 하며, 파일명 뒤에 `.type.ts`를 붙여 타입 파일임을 명시합니다.
+  - _예시: `user.type.ts`, `react-query.type.ts`_
 - **타입/인터페이스명**: **PascalCase**
   - 타입이나 인터페이스의 이름은 항상 파스칼 케이스를 사용합니다.
   - _예시: `export interface UserProfile { ... }`_
@@ -168,21 +174,22 @@ src/
 ```plaintext
 src/
 └── types/
-    ├── user.ts
-    └── post.ts
+    ├── index.ts
+    ├── user.type.ts
+    └── post.type.ts
 ```
 
 ---
 
 ## 요약표
 
-| 구분         | 폴더명     | 파일명              | 모듈/함수/타입명         |
-| :----------- | :--------- | :------------------ | :----------------------- |
-| **새그먼트** | kebak-case | -                   | -                        |
-| **컴포넌트** | kebak-case | PascalCase (`.tsx`) | PascalCase               |
-| **타입**     | kebak-case | camelCase (`.ts`)   | PascalCase               |
-| **훅**       | kebak-case | camelCase (`.ts`)   | camelCase (`use` 접두사) |
-| **유틸리티** | kebak-case | kebak-case (`.ts`)  | camelCase                |
+| 구분         | 폴더명     | 파일명                       | 모듈/함수/타입명         |
+| :----------- | :--------- | :--------------------------- | :----------------------- |
+| **새그먼트** | kebab-case | -                            | -                        |
+| **컴포넌트** | kebab-case | PascalCase (`.tsx`)          | PascalCase               |
+| **타입**     | kebab-case | camelCase/kebab-case (`.type.ts`) | PascalCase          |
+| **훅**       | kebab-case | camelCase/kebab-case (`.hook.ts`) | camelCase (`use` 접두사) |
+| **유틸리티** | kebab-case | kebab-case / camelCase       | camelCase                |
 
 <br>
 
@@ -204,60 +211,64 @@ src/
 │       ├── ui/
 │       │   └── AuthGuard/AuthGuard.tsx
 │       ├── hooks/
-│       │   └── useAuth.ts
+│       │   └── useAuth.hook.ts
 │       └── model/
-│           └── types.ts
+│           └── types.type.ts
 │
 ├── pages/
 │   └── profile-page/
 │       ├── ui/
 │       │   └── ProfilePage/ProfilePage.tsx
 │       └── model/
-│           └── types.ts
+│           └── types.type.ts
 │
 ├── features/
 │   └── update-profile/
 │       ├── ui/
 │       │   └── UpdateProfileForm/UpdateProfileForm.tsx
 │       ├── hooks/
-│       │   └── useUpdateProfile.ts
+│       │   └── useUpdateProfile.hook.ts
 │       ├── lib/
 │       │   └── validateProfile.ts
 │       └── model/
-│           └── types.ts
+│           └── types.type.ts
 │
 ├── entities/
 │   └── user/
 │       ├── ui/
 │       │   └── UserProfile/UserProfile.tsx
 │       ├── hooks/
-│       │   └── useUser.ts
+│       │   └── useUser.hook.ts
 │       ├── lib/
 │       │   └── formatName.ts
 │       └── model/
-│           └── types.ts
+│           └── types.type.ts
 │
 ├── widgets/
 │   └── chatbot-button/
 │       ├── ui/
 │       │   └── ChatbotButton/ChatbotButton.tsx
 │       ├── hooks/
-│       │   └── useChatbot.ts
+│       │   └── useChatbot.hook.ts
 │       ├── lib/
 │       │   └── openChatbot.ts
 │       └── model/
-│           └── types.ts
+│           └── types.type.ts
 │
 └── shared/
     ├── ui/
     │   ├── button/Button.tsx
     │   └── input/Input.tsx
     ├── hooks/
-    │   └── useToggle.ts
+    │   └── useToggle.hook.ts
     ├── lib/
     │   └── classNames.ts
     └── types/
-        └── base-props.ts
+        ├── index.ts
+        ├── bxui-core.type.ts
+        ├── modal.type.ts
+        ├── props.type.ts
+        └── react-query.type.ts
 ```
 
 ---
