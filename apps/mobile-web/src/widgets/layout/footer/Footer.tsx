@@ -1,9 +1,9 @@
 import { useLocation, useRouter } from '@tanstack/react-router';
-import { Ellipsis, House, PiggyBank, SquareChartGantt } from 'lucide-react';
+import { Ellipsis, House, SquareChartGantt, WalletMinimal } from 'lucide-react';
 
-import { cn } from '@bx/shared';
 import type { BaseProps } from '@bx/shared';
-import { FooterButton } from '@/widgets';
+import { cn } from '@bx/shared';
+import { FooterButton } from './FooterButton';
 
 import styles from './Footer.module.css';
 
@@ -39,7 +39,7 @@ export function Footer(props: FooterProps) {
 
 const footerMeta = [
   { label: '홈', path: '/main', icon: <House /> },
-  { label: '자산', path: '/asset', icon: <PiggyBank /> },
+  { label: '자산', path: '/asset', icon: <WalletMinimal /> },
   { label: '상품', path: '/product', icon: <SquareChartGantt /> },
   { label: '메뉴', path: '/menu', icon: <Ellipsis /> },
 ];

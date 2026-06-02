@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+.root {
+  @apply flex-1 flex flex-col items-center justify-center bg-gray-100 text-gray-800 h-[56px] gap-1 py-1;
+}
+
+.icon {
+  @apply w-12 h-7 flex items-center justify-center rounded-full bg-transparent transition-all duration-200;
+
+  svg {
+    stroke: #6b7280; /* Inactive Gray-500 for clear legibility */
+    transition: stroke 0.2s ease, transform 0.2s ease;
+  }
+
+  &.selected {
+    background-color: rgba(37, 99, 235, 0.12); /* Soft brand blue pill background */
+    
+    svg {
+      stroke: #2563eb; /* Vibrant brand blue active color */
+      stroke-width: 2.25px; /* Stand out slightly with stroke width */
+      transform: scale(1.1); /* Bouncy micro-scaling pop */
+    }
+  }
+}
+
+.label {
+  font-size: 12px; /* Exactly 12px label text */
+  @apply text-gray-500 font-medium;
+  transition: color 0.2s ease, font-weight 0.2s ease;
+
+  &.selected {
+    @apply font-bold text-blue-600;
+  }
+}

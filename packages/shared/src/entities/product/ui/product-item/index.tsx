@@ -10,7 +10,7 @@ interface ProductItemProps extends BaseProps {
 }
 
 export function ProductItem({ data, onItemClick = () => null }: ProductItemProps) {
-  const { name, description, iconColor, iconType, rateDescription, baseRate, maxRate } = data;
+  const { name, description, iconColor, iconType, baseRate, maxRate } = data;
   return (
     <div className={styles.layout}>
       {/* 아이콘 + 상품명 */}
@@ -31,9 +31,8 @@ export function ProductItem({ data, onItemClick = () => null }: ProductItemProps
       </div>
       {/* 금리 */}
       <div className={styles.rate}>
-        <div className={styles.icon}></div>
+        <div className={styles.icon} />
         <div className={styles.content}>
-          {rateDescription && <p className={styles.rateDescription}>{rateDescription}</p>}
           <div className={styles.rateText}>
             {maxRate && <span className={styles.maxRate}>최고 연 {maxRate}%</span>}
             {baseRate && <span className={styles.baseRate}>기본 연 {baseRate}%</span>}

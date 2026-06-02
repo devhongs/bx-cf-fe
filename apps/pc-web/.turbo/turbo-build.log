@@ -6,4 +6,4 @@ computing gzip size...
 dist/index.html                  0.32 kB │ gzip:  0.25 kB
 dist/assets/index-B0_iZQup.js  192.09 kB │ gzip: 61.05 kB
 
-[32m✓ built in 700ms[39m
+[32m✓ built in 616ms[39m
