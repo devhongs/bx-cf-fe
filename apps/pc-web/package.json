@@ -1,0 +1,15 @@
+{
+  "name": "pc-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3000",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@bx/shared": "workspace:*",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  }
+}
