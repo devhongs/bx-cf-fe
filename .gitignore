@@ -1,8 +1,15 @@
 node_modules
+apps/*/node_modules
+packages/*/node_modules
 .DS_Store
 dist
+apps/*/dist
+packages/*/dist
 dist-ssr
 count.txt
 .nitro
 .tanstack
+.turbo
+apps/*/.turbo
+packages/*/.turbo
 routeTree.gen.ts

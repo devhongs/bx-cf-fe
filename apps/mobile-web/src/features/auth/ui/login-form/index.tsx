@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { login as loginApi } from '@bx/shared';
 import { useUserStore } from '@bx/shared';
-import { STORAGE_KEYS } from '@/shared/constants';
+import { STORAGE_KEYS } from '@bx/shared';
 import { local } from '@bx/shared';
 import { Input } from '@bx/shared';
 

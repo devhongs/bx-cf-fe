@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import type { BankId } from '@bx/shared';
-import { BANK_OPTIONS } from '@/shared/constants';
+import { BANK_OPTIONS } from '@bx/shared';
 import { formatAccountNumberByBank } from '@bx/shared';
 import type { BaseProps } from '@bx/shared';
 import { Input, Button } from '@bx/shared';

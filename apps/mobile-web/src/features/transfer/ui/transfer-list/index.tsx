@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useFetchRecentAccountList } from '@bx/shared';
 import type { Account, BankId } from '@bx/shared';
-import { BANK_OPTIONS } from '@/shared/constants';
+import { BANK_OPTIONS } from '@bx/shared';
 import { useModal } from '@bx/shared';
 import { formatAccountNumberByBank } from '@bx/shared';
 import type { BaseProps } from '@bx/shared';
