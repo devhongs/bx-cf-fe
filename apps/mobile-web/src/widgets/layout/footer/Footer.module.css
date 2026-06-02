@@ -7,14 +7,27 @@
   transform: translateX(-50%);
   width: calc(100% - 32px);
   max-width: 420px; /* Optimized width for mobile screen boundaries */
-  background: rgba(255, 255, 255, 0.65); /* Translucent liquid glass */
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%); /* iOS Safari support */
-  border: 1px solid rgba(255, 255, 255, 0.45); /* Elegant light reflect borders */
-  border-radius: 9999px; /* Complete 타원형 capsule dock */
+  
+  /* Crystal glass base: lowered opacity to let dynamic pastel blobs bleed through beautifully */
+  background: rgba(255, 255, 255, 0.45); 
+  backdrop-filter: blur(28px) saturate(210%) contrast(92%);
+  -webkit-backdrop-filter: blur(28px) saturate(210%) contrast(92%); /* iOS Safari support */
+  
+  /* Crystal boundary: highly opaque white border mimicking real glass edge refraction */
+  border: 1px solid rgba(255, 255, 255, 0.75); 
+  border-radius: 9999px; /* Complete capsule dock */
+  
+  /* Specular Highlight Optimization for Light Pastel Backgrounds */
   box-shadow: 
-    0 12px 35px rgba(0, 0, 0, 0.08), 
-    0 2px 8px rgba(0, 0, 0, 0.03); /* Airy, premium drop shadows */
+    /* 1. Deep slate-indigo outer shadows for beautiful floating 3D contrast */
+    0 16px 45px rgba(27, 38, 59, 0.09), 
+    0 4px 12px rgba(27, 38, 59, 0.04),
+    /* 2. Glass Specular & Refraction Layers (Sharp top-left glares and self-shadowing bottom-right occlusion) */
+    inset 2px 2px 6px rgba(255, 255, 255, 0.9),       /* Ultra-bright Top-Left highlight glare */
+    inset 8px 8px 20px rgba(255, 255, 255, 0.45),      /* Internal light ambient glow */
+    inset -8px -8px 20px rgba(0, 0, 0, 0.025),        /* Subtle bottom self-shadowing refraction */
+    inset -2px -2px 6px rgba(0, 0, 0, 0.045);         /* Crisp refractive dark rim at bottom-right edge */
+    
   z-index: 1000;
   padding: 5px; /* Internal inset margins for nested buttons */
   box-sizing: border-box;
