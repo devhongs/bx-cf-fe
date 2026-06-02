@@ -6,4 +6,4 @@ computing gzip size...
 dist/index.html                  0.32 kB │ gzip:  0.24 kB
 dist/assets/index-CNOS20mo.js  191.19 kB │ gzip: 60.40 kB
 
-[32m✓ built in 240ms[39m
+[32m✓ built in 405ms[39m

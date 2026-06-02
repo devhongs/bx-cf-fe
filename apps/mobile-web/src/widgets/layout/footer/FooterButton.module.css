@@ -1,34 +1,55 @@
 @import "tailwindcss";
 
 .root {
-  @apply flex-1 flex flex-col items-center justify-center bg-gray-100 text-gray-800 h-[56px] gap-1 py-1;
-}
+  @apply flex-1 flex flex-col items-center justify-center h-11 rounded-full bg-transparent transition-all duration-300 gap-1 cursor-pointer;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  outline: none !important;
+  background: none !important;
+  box-sizing: border-box !important;
+  -webkit-appearance: none;
+  appearance: none;
 
-.icon {
-  @apply w-12 h-7 flex items-center justify-center rounded-full bg-transparent transition-all duration-200;
-
-  svg {
-    stroke: #6b7280; /* Inactive Gray-500 for clear legibility */
-    transition: stroke 0.2s ease, transform 0.2s ease;
+  /* Active press scaling feedback */
+  &:active {
+    transform: scale(0.95);
   }
 
   &.selected {
-    background-color: rgba(37, 99, 235, 0.12); /* Soft brand blue pill background */
-    
-    svg {
-      stroke: #2563eb; /* Vibrant brand blue active color */
-      stroke-width: 2.25px; /* Stand out slightly with stroke width */
-      transform: scale(1.1); /* Bouncy micro-scaling pop */
-    }
+    background-color: rgba(37, 99, 235, 0.09); /* Soft brand blue active capsule backdrop */
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2); /* Inset glass refraction reflect */
+  }
+}
+
+.icon {
+  @apply flex items-center justify-center transition-all duration-300;
+  height: 20px; /* Force stable height matching SVG */
+
+  svg {
+    stroke: #6b7280; /* Elegant inactive gray-500 */
+    width: 20px; /* Standard premium mobile icon sizing */
+    height: 20px;
+    transition: stroke 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .selected & svg {
+    stroke: #2563eb; /* Vibrant brand blue active color */
+    stroke-width: 2.25px; /* Stand out slightly with stroke weight */
+    transform: scale(1.08); /* Bouncy micro scaling pop */
   }
 }
 
 .label {
-  font-size: 12px; /* Exactly 12px label text */
-  @apply text-gray-500 font-medium;
-  transition: color 0.2s ease, font-weight 0.2s ease;
+  font-size: 12px; /* Exactly 12px label text size */
+  height: 12px; /* Bound height strictly to 12px */
+  line-height: 12px; /* Set line-height exactly to 12px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @apply text-gray-500 font-medium tracking-tight transition-all duration-300;
 
-  &.selected {
+  .selected & {
     @apply font-bold text-blue-600;
   }
 }

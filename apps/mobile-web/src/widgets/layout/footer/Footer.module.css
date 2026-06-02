@@ -1,9 +1,25 @@
 @import "tailwindcss";
 
 .root {
-  @apply flex text-black justify-between items-center;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 420px; /* Optimized width for mobile screen boundaries */
+  background: rgba(255, 255, 255, 0.65); /* Translucent liquid glass */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%); /* iOS Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.45); /* Elegant light reflect borders */
+  border-radius: 9999px; /* Complete 타원형 capsule dock */
+  box-shadow: 
+    0 12px 35px rgba(0, 0, 0, 0.08), 
+    0 2px 8px rgba(0, 0, 0, 0.03); /* Airy, premium drop shadows */
+  z-index: 1000;
+  padding: 5px; /* Internal inset margins for nested buttons */
+  box-sizing: border-box;
 }
 
 .buttonWrapper {
-  @apply flex w-full;
+  @apply flex w-full justify-between items-center;
 }

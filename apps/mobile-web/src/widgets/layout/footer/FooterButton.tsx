@@ -13,9 +13,9 @@ interface FooterButtonProps {
 
 export function FooterButton({ label, icon, isSelected, onClick = () => null }: FooterButtonProps) {
   return (
-    <button type="button" className={cn(styles.root)} onClick={onClick}>
-      <span className={cn(styles.icon, isSelected && styles.selected)}>{icon}</span>
-      <span className={cn(styles.label, isSelected && styles.selected)}>{label}</span>
+    <button type="button" className={cn(styles.root, isSelected && styles.selected)} onClick={onClick}>
+      <span className={cn(styles.icon)}>{icon}</span>
+      <span className={cn(styles.label)}>{label}</span>
     </button>
   );
 }
