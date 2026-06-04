@@ -42,14 +42,14 @@
 }
 
 .theme-green {
-  --bg-start: #ebf7f2;
-  --bg-mid: #dbf3e5;
-  --bg-end: #f1faf6;
-  --mesh-color1: rgba(110, 200, 165, 0.25);
-  --mesh-color2: rgba(90, 175, 140, 0.25);
-  --blob1-color: rgba(155, 235, 200, 0.7);
-  --blob2-color: rgba(130, 215, 175, 0.65);
-  --blob3-color: rgba(180, 245, 220, 0.6);
+  --bg-start: #f0f7f4;
+  --bg-mid: #dbefe9;
+  --bg-end: #f4faf7;
+  --mesh-color1: rgba(130, 205, 185, 0.25);
+  --mesh-color2: rgba(110, 190, 195, 0.25);
+  --blob1-color: rgba(160, 235, 215, 0.65); /* Elegant warm sage mint */
+  --blob2-color: rgba(140, 215, 225, 0.55); /* Soft premium sky teal-blue */
+  --blob3-color: rgba(205, 245, 230, 0.5);  /* Clean pistachio warm cream */
 }
 
 .theme-slate {
@@ -61,6 +61,17 @@
   --blob1-color: rgba(200, 210, 230, 0.7);
   --blob2-color: rgba(180, 190, 210, 0.65);
   --blob3-color: rgba(220, 225, 240, 0.6);
+}
+
+.theme-cream {
+  --bg-start: #f9f6f0;
+  --bg-mid: #f0eae1;
+  --bg-end: #faf8f4;
+  --mesh-color1: rgba(215, 205, 190, 0.25);
+  --mesh-color2: rgba(200, 190, 175, 0.25);
+  --blob1-color: rgba(230, 220, 205, 0.6); /* Soft warm sand */
+  --blob2-color: rgba(240, 232, 218, 0.55); /* Soft vanilla cream */
+  --blob3-color: rgba(220, 212, 198, 0.5);  /* Clean alabaster clay */
 }
 
 .meshBg {

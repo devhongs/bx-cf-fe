@@ -28,6 +28,7 @@
 
   svg {
     stroke: #6b7280; /* Elegant inactive gray-500 */
+    stroke-width: 2.5px; /* Thicker inactive stroke for robust legibility */
     width: 20px; /* Standard premium mobile icon sizing */
     height: 20px;
     transition: stroke 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
@@ -35,7 +36,7 @@
 
   .selected & svg {
     stroke: #2563eb; /* Vibrant brand blue active color */
-    stroke-width: 2.25px; /* Stand out slightly with stroke weight */
+    stroke-width: 3.25px; /* 1px thicker active stroke for distinct weight */
     transform: scale(1.08); /* Bouncy micro scaling pop */
   }
 }

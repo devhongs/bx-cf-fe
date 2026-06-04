@@ -11,33 +11,44 @@ interface ProductItemProps extends BaseProps {
 
 export function ProductItem({ data, onItemClick = () => null }: ProductItemProps) {
   const { name, description, iconColor, iconType, baseRate, maxRate } = data;
+
+  // Format rates string dynamically (e.g. "기본 연 6% ↑" or "최고 연 1.2% / 기본 연 6%")
+  const renderRates = () => {
+    if (!maxRate && !baseRate) return null;
+    if (baseRate && !maxRate) {
+      return `기본 연 ${baseRate}% ↑`;
+    }
+    if (maxRate && baseRate) {
+      return `최고 연 ${maxRate}% / 기본 연 ${baseRate}%`;
+    }
+    return null;
+  };
+
+  const rateText = renderRates();
+
   return (
-    <div className={styles.layout}>
-      {/* 아이콘 + 상품명 */}
-      <div className={styles.product} onClick={() => onItemClick(data)}>
-        {/* 아이콘 */}
-        <div className={styles.icon}>
-          <IconButton
-            iconType={iconType}
-            size="lg"
-            iconColor={iconColor}
-            iconBackground={'circle'}
-          />
-        </div>
-        <div className={styles.content}>
-          <h3 className={styles.name}>{name}</h3>
-          <p className={styles.description}>{description}</p>
-        </div>
+    <div className={styles.card} onClick={() => onItemClick(data)}>
+      {/* Clean and clear Left circular icon container with soft pastel theme backing */}
+      <div
+        className={styles.iconWrapper}
+        style={{
+          backgroundColor: `${iconColor}14`, // ~8% opacity for delicate pastel filling
+          borderColor: `${iconColor}33`,     // ~20% opacity for sharp boundary line
+        }}
+      >
+        <IconButton
+          iconType={iconType}
+          size="lg"
+          iconColor={iconColor}
+          className={styles.cleanIconButton}
+        />
       </div>
-      {/* 금리 */}
-      <div className={styles.rate}>
-        <div className={styles.icon} />
-        <div className={styles.content}>
-          <div className={styles.rateText}>
-            {maxRate && <span className={styles.maxRate}>최고 연 {maxRate}%</span>}
-            {baseRate && <span className={styles.baseRate}>기본 연 {baseRate}%</span>}
-          </div>
-        </div>
+
+      {/* Product content stacked vertically */}
+      <div className={styles.content}>
+        <h3 className={styles.name}>{name}</h3>
+        <p className={styles.description}>{description}</p>
+        {rateText && <span className={styles.rate}>{rateText}</span>}
       </div>
     </div>
   );

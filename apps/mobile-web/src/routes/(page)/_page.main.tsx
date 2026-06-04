@@ -1,20 +1,15 @@
-import { useFetchAccountList } from '@bx/shared';
-import type { Account } from '@bx/shared';
-import { AccountCard } from '@bx/shared';
+import { AiSearchCard } from '@/features/ai-search';
 import { createFileRoute } from '@tanstack/react-router';
 
 function MainPage() {
-  const { data } = useFetchAccountList({ userId: '1234567890' });
-  const content = data ?? [];
-
-  // 즐겨찾기 계좌가 없으면 첫 번째 계좌를 보여주는 안전장치 적용
-  const favoriteAccount = content.find((acc: Account) => acc.isFavorite) || content[0];
-
-  console.table(content);
+  const handleSearchClick = () => {
+    console.log('AI 검색 클릭됨');
+    // TODO: 향후 검색 모달 또는 페이지 이동 로직 추가 예정
+  };
 
   return (
-    <div style={{ padding: '20px' }}>
-      {favoriteAccount && <AccountCard data={favoriteAccount} />}
+    <div className="w-full h-full flex flex-col justify-center items-center px-4">
+      <AiSearchCard onClick={handleSearchClick} />
     </div>
   );
 }

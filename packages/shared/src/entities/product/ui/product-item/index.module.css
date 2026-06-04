@@ -1,41 +1,105 @@
 @import "tailwindcss";
 
-.layout {
-  @apply flex flex-col gap-2;
+.card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.82); /* Translucent premium glass card */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.65); /* Elegant light reflect border */
+  border-radius: 20px; /* High-end rounded corners */
+  box-shadow: 
+    0 10px 25px rgba(15, 23, 42, 0.03), 
+    0 2px 6px rgba(15, 23, 42, 0.01); /* Soft floating drop shadows */
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  width: 100%;
+  box-sizing: border-box;
+}
 
-  .product {
-    @apply flex flex-row gap-5 w-full text-left bg-transparent border-0 p-0 cursor-pointer;
+/* Hover and active micro-interactions */
+.card:hover {
+  transform: translateY(-2px) scale(1.01);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 14px 30px rgba(15, 23, 42, 0.06), 
+    0 4px 10px rgba(15, 23, 42, 0.02);
+}
 
-    .icon {
-      @apply flex-shrink-0 w-[60px] flex items-center justify-center;
-    }
+.card:active {
+  transform: translateY(0) scale(0.99);
+}
 
-    .content {
-      @apply flex-1 min-w-0;
+/* Clean, clear left circular icon wrapper with delicate pastel tone theme */
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1.2px solid;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
 
-      .name {
-        @apply text-lg text-gray-800 font-extrabold;
-      }
+.card:hover .iconWrapper {
+  transform: scale(1.05) rotate(5deg);
+}
 
-      .description {
-        @apply text-gray-400 text-base;
-      }
-    }
-  }
+/* Force standard button reset for sharp Lucide Icons inside */
+.cleanIconButton {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
 
-  .rate {
-    @apply flex flex-row gap-5;
+/* Product details typography stack */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-w: 0;
+  text-align: left;
+}
 
-    .icon {
-      @apply flex-shrink-0 w-[60px] font-extrabold flex items-center justify-center;
-    }
+.name {
+  font-size: 16.5px;
+  font-weight: 800;
+  color: #1e293b; /* Slate-800: sharp readable black/grey */
+  margin: 0;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
 
-    .content {
-      @apply flex-1 min-w-0;
+.description {
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b; /* Slate-500: elegant grey */
+  margin: 0;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-      .rateText {
-        @apply flex flex-row gap-3 text-sm text-blue-700 font-extrabold;
-      }
-    }
-  }
+.rate {
+  font-size: 13px;
+  font-weight: 700;
+  color: #2563eb; /* Vibrant brand blue rate text */
+  margin: 0;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
 }

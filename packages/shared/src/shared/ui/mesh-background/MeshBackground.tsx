@@ -2,15 +2,15 @@ import React from 'react';
 import { cn } from '../lib/cn';
 import styles from './MeshBackground.module.css';
 
-export type MeshBackgroundTheme = 'purple' | 'blue' | 'green' | 'slate';
+export type MeshBackgroundTheme = 'purple' | 'blue' | 'green' | 'slate' | 'cream';
 
 export interface MeshBackgroundProps {
   theme?: MeshBackgroundTheme;
 }
 
-export const MeshBackground: React.FC<MeshBackgroundProps> = ({ theme = 'purple' }) => {
-  // Safe mapping of theme class, default to theme-purple if not found or blank
-  const themeClass = styles[`theme-${theme}`] || styles['theme-purple'];
+export const MeshBackground: React.FC<MeshBackgroundProps> = ({ theme = 'cream' }) => {
+  // Safe mapping of theme class, default to theme-cream if not found or blank
+  const themeClass = styles[`theme-${theme}`] || styles['theme-cream'];
 
   return (
     <div className={cn(styles.root, themeClass)}>

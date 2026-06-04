@@ -1,26 +1,14 @@
 import { requireAuth } from '@/shared/guards';
 import { Footer } from '@/widgets/layout/footer/Footer';
 import { Header } from '@/widgets/layout/header/Header';
-import { Outlet, createFileRoute, useLocation } from '@tanstack/react-router';
-import { MeshBackground, type MeshBackgroundTheme } from '@bx/shared';
+import { Outlet, createFileRoute } from '@tanstack/react-router';
+import { MeshBackground } from '@bx/shared';
 
 function PageLayout() {
-  const location = useLocation();
-
-  // Determine background color theme dynamically based on current route
-  const getThemeByPath = (pathname: string): MeshBackgroundTheme => {
-    if (pathname.startsWith('/asset')) return 'blue';
-    if (pathname.startsWith('/product')) return 'green';
-    if (pathname.startsWith('/menu')) return 'slate';
-    return 'purple'; // Default home /main theme
-  };
-
-  const currentTheme = getThemeByPath(location.pathname);
-
   return (
-    <div className="relative min-h-dvh overflow-hidden bg-[#f5f0f9]">
-      {/* Dynamic premium organic liquid mesh backdrop */}
-      <MeshBackground theme={currentTheme} />
+    <div className="relative min-h-dvh overflow-hidden bg-[#f9f6f0]">
+      {/* Unified premium organic liquid mesh backdrop */}
+      <MeshBackground theme="cream" />
 
       {/* Main layout contents positioned on top */}
       <div className="relative z-10 w-full min-h-dvh flex flex-col">
