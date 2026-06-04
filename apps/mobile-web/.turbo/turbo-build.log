@@ -3,361 +3,361 @@ $ vite build
 
 ../images/common/bxui_logo.png referenced in ../images/common/bxui_logo.png didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-bell.svg referenced in ../images/icon/bx-bell.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
 ../images/icon/bx-book.svg referenced in ../images/icon/bx-book.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-close.svg referenced in ../images/icon/bx-close.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-calendar.svg referenced in ../images/icon/bx-calendar.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-bell.svg referenced in ../images/icon/bx-bell.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 ../images/icon/bx-add.svg referenced in ../images/icon/bx-add.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
+../images/icon/bx-calendar.svg referenced in ../images/icon/bx-calendar.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
 ../images/icon/bx-delete.svg referenced in ../images/icon/bx-delete.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-settings.svg referenced in ../images/icon/bx-settings.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-add-chart.svg referenced in ../images/icon/bx-add-chart.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 ../images/icon/bx-menu-open.svg referenced in ../images/icon/bx-menu-open.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-calculate.svg referenced in ../images/icon/bx-calculate.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-reference-all.svg referenced in ../images/icon/bx-reference-all.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-settings.svg referenced in ../images/icon/bx-settings.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-close.svg referenced in ../images/icon/bx-close.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 ../images/icon/bx-add-box.svg referenced in ../images/icon/bx-add-box.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 ../images/icon/bx-attach-file.svg referenced in ../images/icon/bx-attach-file.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-calendar-clock.svg referenced in ../images/icon/bx-calendar-clock.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-refresh.svg referenced in ../images/icon/bx-refresh.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-chat.svg referenced in ../images/icon/bx-chat.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-chart-data.svg referenced in ../images/icon/bx-chart-data.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-calculate.svg referenced in ../images/icon/bx-calculate.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 ../images/icon/bx-check-small.svg referenced in ../images/icon/bx-check-small.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-dvr.svg referenced in ../images/icon/bx-dvr.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-data-table.svg referenced in ../images/icon/bx-data-table.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-history.svg referenced in ../images/icon/bx-history.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-dark-mode.svg referenced in ../images/icon/bx-dark-mode.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-file.svg referenced in ../images/icon/bx-file.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-language.svg referenced in ../images/icon/bx-language.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-error.svg referenced in ../images/icon/bx-error.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-folder-upload.svg referenced in ../images/icon/bx-folder-upload.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-lock.svg referenced in ../images/icon/bx-lock.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-person-add.svg referenced in ../images/icon/bx-person-add.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-tab-move.svg referenced in ../images/icon/bx-tab-move.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-sync-alt.svg referenced in ../images/icon/bx-sync-alt.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-arrow-back.svg referenced in ../images/icon/bx-arrow-back.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-chrome-reader-mode.svg referenced in ../images/icon/bx-chrome-reader-mode.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-refresh.svg referenced in ../images/icon/bx-refresh.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-star.svg referenced in ../images/icon/bx-star.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-format-list.svg referenced in ../images/icon/bx-format-list.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-arrow-forward.svg referenced in ../images/icon/bx-arrow-forward.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-open-with.svg referenced in ../images/icon/bx-open-with.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-chart-data.svg referenced in ../images/icon/bx-chart-data.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 ../images/icon/bx-undo.svg referenced in ../images/icon/bx-undo.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-create-new.svg referenced in ../images/icon/bx-create-new.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-add-chart.svg referenced in ../images/icon/bx-add-chart.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-collections-bookmark.svg referenced in ../images/icon/bx-collections-bookmark.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-calendar-clock.svg referenced in ../images/icon/bx-calendar-clock.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-autorenew.svg referenced in ../images/icon/bx-autorenew.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-data-table.svg referenced in ../images/icon/bx-data-table.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-description.svg referenced in ../images/icon/bx-description.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-chat.svg referenced in ../images/icon/bx-chat.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-steppers.svg referenced in ../images/icon/bx-steppers.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-edit.svg referenced in ../images/icon/bx-edit.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-info.svg referenced in ../images/icon/bx-info.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-findpage.svg referenced in ../images/icon/bx-findpage.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-warning.svg referenced in ../images/icon/bx-warning.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-help.svg referenced in ../images/icon/bx-help.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-event-repeat.svg referenced in ../images/icon/bx-event-repeat.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-breaking-news.svg referenced in ../images/icon/bx-fill-breaking-news.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-quick-reference-all.svg referenced in ../images/icon/bx-fill-quick-reference-all.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-backup.svg referenced in ../images/icon/bx-backup.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-diversity.svg referenced in ../images/icon/bx-fill-diversity.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-calculate.svg referenced in ../images/icon/bx-fill-calculate.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-table-view.svg referenced in ../images/icon/bx-table-view.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-package.svg referenced in ../images/icon/bx-fill-package.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-library-add.svg referenced in ../images/icon/bx-library-add.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-category.svg referenced in ../images/icon/bx-fill-category.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-person-remove.svg referenced in ../images/icon/bx-person-remove.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-data-alert.svg referenced in ../images/icon/bx-data-alert.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-cancel.svg referenced in ../images/icon/bx-fill-cancel.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-bedtime.svg referenced in ../images/icon/bx-fill-bedtime.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-check-circle.svg referenced in ../images/icon/bx-fill-check-circle.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-dark-mode.svg referenced in ../images/icon/bx-dark-mode.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 ../images/icon/bx-check.svg referenced in ../images/icon/bx-check.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-reference-all.svg referenced in ../images/icon/bx-reference-all.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-description.svg referenced in ../images/icon/bx-description.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-fill-overview.svg referenced in ../images/icon/bx-fill-overview.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-findpage.svg referenced in ../images/icon/bx-findpage.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-fill-home.svg referenced in ../images/icon/bx-fill-home.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-remove.svg referenced in ../images/icon/bx-remove.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-fill-task.svg referenced in ../images/icon/bx-fill-task.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-phonelink.svg referenced in ../images/icon/bx-phonelink.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-fill-find-page.svg referenced in ../images/icon/bx-fill-find-page.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-lock.svg referenced in ../images/icon/bx-lock.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-arrow-back.svg referenced in ../images/icon/bx-arrow-back.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-tab-move.svg referenced in ../images/icon/bx-tab-move.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-download.svg referenced in ../images/icon/bx-download.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-menu.svg referenced in ../images/icon/bx-menu.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-chevron-right.svg referenced in ../images/icon/bx-chevron-right.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-library-bookssvg.svg referenced in ../images/icon/bx-library-bookssvg.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-redo.svg referenced in ../images/icon/bx-redo.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-search.svg referenced in ../images/icon/bx-search.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-steppers.svg referenced in ../images/icon/bx-steppers.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-warning.svg referenced in ../images/icon/bx-warning.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-north.svg referenced in ../images/icon/bx-north.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-breaking-news.svg referenced in ../images/icon/bx-fill-breaking-news.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-profile.svg referenced in ../images/icon/bx-fill-profile.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-calculate.svg referenced in ../images/icon/bx-fill-calculate.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-checkbook.svg referenced in ../images/icon/bx-fill-checkbook.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-diversity.svg referenced in ../images/icon/bx-fill-diversity.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-bookmark-star.svg referenced in ../images/icon/bx-fill-bookmark-star.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-analytics.svg referenced in ../images/icon/bx-fill-analytics.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-create-folder.svg referenced in ../images/icon/bx-fill-create-folder.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-folder-shared.svg referenced in ../images/icon/bx-fill-folder-shared.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-dvr.svg referenced in ../images/icon/bx-dvr.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-info.svg referenced in ../images/icon/bx-fill-info.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 ../images/icon/bx-mail.svg referenced in ../images/icon/bx-mail.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
+../images/icon/bx-folder-upload.svg referenced in ../images/icon/bx-folder-upload.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-leaderboard.svg referenced in ../images/icon/bx-fill-leaderboard.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-quick-reference.svg referenced in ../images/icon/bx-fill-quick-reference.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-overview.svg referenced in ../images/icon/bx-fill-overview.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-print.svg referenced in ../images/icon/bx-fill-print.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-task.svg referenced in ../images/icon/bx-fill-task.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
 ../images/icon/bx-fill-tab-move.svg referenced in ../images/icon/bx-fill-tab-move.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-fill-settings.svg referenced in ../images/icon/bx-fill-settings.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-sync.svg referenced in ../images/icon/bx-sync.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/arr-left.svg referenced in ../images/common/arr-left.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-breadcrumb-arrow.svg referenced in ../images/common/ico-breadcrumb-arrow.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-phonelink.svg referenced in ../images/icon/bx-phonelink.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-open-in-new.svg referenced in ../images/icon/bx-open-in-new.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 ../images/common/ico-home-gray.jpg referenced in ../images/common/ico-home-gray.jpg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 ../images/common/ico-breadcrumb-arrow2.svg referenced in ../images/common/ico-breadcrumb-arrow2.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-library-bookssvg.svg referenced in ../images/icon/bx-library-bookssvg.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-quick-reference.svg referenced in ../images/icon/bx-quick-reference.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-north.svg referenced in ../images/icon/bx-north.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-sync-alt.svg referenced in ../images/icon/bx-sync-alt.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 ../images/icon/bx-south.svg referenced in ../images/icon/bx-south.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/common/ico-discount.svg referenced in ../images/common/ico-discount.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-fill-quick-reference-all.svg referenced in ../images/icon/bx-fill-quick-reference-all.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 ../images/icon/bx-fill-add-circle.svg referenced in ../images/icon/bx-fill-add-circle.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/common/ico-cash.svg referenced in ../images/common/ico-cash.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-fill-bedtime.svg referenced in ../images/icon/bx-fill-bedtime.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/common/ico-calculator.svg referenced in ../images/common/ico-calculator.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-calendar.svg referenced in ../images/common/ico-calendar.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-print.svg referenced in ../images/icon/bx-fill-print.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-info.svg referenced in ../images/icon/bx-fill-info.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-view-kanban.svg referenced in ../images/icon/bx-fill-view-kanban.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-unchecked.svg referenced in ../images/common/ico-unchecked.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-folder-shared.svg referenced in ../images/icon/bx-fill-folder-shared.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-stacks.svg referenced in ../images/icon/bx-fill-stacks.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-task-alt.svg referenced in ../images/icon/bx-task-alt.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-checked.svg referenced in ../images/common/ico-checked.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-home.svg referenced in ../images/common/ico-home.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-conversion-path.svg referenced in ../images/icon/bx-fill-conversion-path.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-update.svg referenced in ../images/icon/bx-update.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-menu.svg referenced in ../images/icon/bx-menu.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-block.svg referenced in ../images/icon/bx-block.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-payments.svg referenced in ../images/icon/bx-fill-payments.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-radio-unchecked.svg referenced in ../images/common/ico-radio-unchecked.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-campaign.svg referenced in ../images/icon/bx-fill-campaign.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-download.svg referenced in ../images/icon/bx-download.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-radio-checked.svg referenced in ../images/common/ico-radio-checked.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-create-folder.svg referenced in ../images/icon/bx-fill-create-folder.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-/assets/images/icon-bank.svg referenced in /assets/images/icon-bank.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-search.svg referenced in ../images/common/ico-search.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-quick-reference.svg referenced in ../images/icon/bx-fill-quick-reference.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-leaderboard.svg referenced in ../images/icon/bx-fill-leaderboard.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-alarm.svg referenced in ../images/common/ico-alarm.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-monitoringl.svg referenced in ../images/icon/bx-monitoringl.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-help.svg referenced in ../images/icon/bx-fill-help.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-arrow-down.svg referenced in ../images/common/ico-arrow-down.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-remove.svg referenced in ../images/icon/bx-remove.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-visibility-off.svg referenced in ../images/icon/bx-visibility-off.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-menu.svg referenced in ../images/common/ico-menu.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-open-in-new.svg referenced in ../images/icon/bx-open-in-new.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-redo.svg referenced in ../images/icon/bx-redo.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-arrow-up.svg referenced in ../images/common/ico-arrow-up.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-pig.svg referenced in ../images/common/ico-pig.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-/assets/images/icon-arrow.svg referenced in /assets/images/icon-arrow.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-arrow-right.png referenced in ../images/common/ico-arrow-right.png didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-fill-category.svg referenced in ../images/icon/bx-fill-category.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 ../images/icon/bx-fill-delete-forever.svg referenced in ../images/icon/bx-fill-delete-forever.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-fill-alarm.svg referenced in ../images/icon/bx-fill-alarm.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-fill-help.svg referenced in ../images/icon/bx-fill-help.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/common/icon-bank_kb.png referenced in ../images/common/icon-bank_kb.png didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-check-off.svg referenced in ../images/common/ico-check-off.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-copy.svg referenced in ../images/common/ico-copy.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-/assets/images/icons/pay-bills.svg referenced in /assets/images/icons/pay-bills.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-cached.svg referenced in ../images/icon/bx-cached.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/ico-check-on.svg referenced in ../images/common/ico-check-on.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-/assets/images/icons/send-money.svg referenced in /assets/images/icons/send-money.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-checkbook.svg referenced in ../images/icon/bx-fill-checkbook.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-/assets/images/icons/deposit.svg referenced in /assets/images/icons/deposit.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-/assets/images/icons/withdrawal.svg referenced in /assets/images/icons/withdrawal.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-/assets/images/icons/pay.svg referenced in /assets/images/icons/pay.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-/assets/images/icons/pay-merchant.svg referenced in /assets/images/icons/pay-merchant.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-/assets/images/icons/view-insurance.svg referenced in /assets/images/icons/view-insurance.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-book2.svg referenced in ../images/icon/bx-fill-book2.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-/assets/images/icons/debit-card.svg referenced in /assets/images/icons/debit-card.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-/assets/images/icons/avail-insurance.svg referenced in /assets/images/icons/avail-insurance.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-analytics.svg referenced in ../images/icon/bx-fill-analytics.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-assignment-turned.svg referenced in ../images/icon/bx-fill-assignment-turned.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/common/icon-bank_sh.png referenced in ../images/common/icon-bank_sh.png didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-event-available.svg referenced in ../images/icon/bx-event-available.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-visibility.svg referenced in ../images/icon/bx-visibility.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-move-group.svg referenced in ../images/icon/bx-move-group.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-account-circle.svg referenced in ../images/icon/bx-fill-account-circle.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-chevron-right.svg referenced in ../images/icon/bx-chevron-right.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-news.svg referenced in ../images/icon/bx-news.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/common/ico-pig.svg referenced in ../images/common/ico-pig.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 ../images/icon/bx-screen-share.svg referenced in ../images/icon/bx-screen-share.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-fill-savings.svg referenced in ../images/icon/bx-fill-savings.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/common/ico-calculator.svg referenced in ../images/common/ico-calculator.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-analytics.svg referenced in ../images/icon/bx-analytics.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/common/ico-cash.svg referenced in ../images/common/ico-cash.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-open-infull.svg referenced in ../images/icon/bx-open-infull.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-arrow-forward.svg referenced in ../images/icon/bx-arrow-forward.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-search.svg referenced in ../images/icon/bx-search.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/icon/bx-table-view.svg referenced in ../images/icon/bx-table-view.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-account-circle.svg referenced in ../images/icon/bx-account-circle.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-search-check.svg referenced in ../images/icon/bx-search-check.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-search-insights.svg referenced in ../images/icon/bx-search-insights.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-
-../images/icon/bx-fill-profile.svg referenced in ../images/icon/bx-fill-profile.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/common/ico-calendar.svg referenced in ../images/common/ico-calendar.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 ../images/icon/bx-chevron-left.svg referenced in ../images/icon/bx-chevron-left.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
-../images/icon/bx-fill-bookmark-star.svg referenced in ../images/icon/bx-fill-bookmark-star.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+../images/common/ico-home.svg referenced in ../images/common/ico-home.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/ico-unchecked.svg referenced in ../images/common/ico-unchecked.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/ico-breadcrumb-arrow.svg referenced in ../images/common/ico-breadcrumb-arrow.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-account-circle.svg referenced in ../images/icon/bx-fill-account-circle.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/ico-checked.svg referenced in ../images/common/ico-checked.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-package.svg referenced in ../images/icon/bx-fill-package.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-conversion-path.svg referenced in ../images/icon/bx-fill-conversion-path.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-alarm.svg referenced in ../images/icon/bx-fill-alarm.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-cancel.svg referenced in ../images/icon/bx-fill-cancel.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-find-page.svg referenced in ../images/icon/bx-fill-find-page.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-edit.svg referenced in ../images/icon/bx-edit.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-campaign.svg referenced in ../images/icon/bx-fill-campaign.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-home.svg referenced in ../images/icon/bx-fill-home.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/ico-radio-unchecked.svg referenced in ../images/common/ico-radio-unchecked.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-monitoringl.svg referenced in ../images/icon/bx-monitoringl.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-help.svg referenced in ../images/icon/bx-help.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-settings.svg referenced in ../images/icon/bx-fill-settings.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/ico-radio-checked.svg referenced in ../images/common/ico-radio-checked.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-view-kanban.svg referenced in ../images/icon/bx-fill-view-kanban.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/ico-alarm.svg referenced in ../images/common/ico-alarm.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/ico-search.svg referenced in ../images/common/ico-search.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/assets/images/icon-bank.svg referenced in /assets/images/icon-bank.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-open-with.svg referenced in ../images/icon/bx-open-with.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-savings.svg referenced in ../images/icon/bx-fill-savings.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-sync.svg referenced in ../images/icon/bx-sync.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-payments.svg referenced in ../images/icon/bx-fill-payments.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/ico-arrow-down.svg referenced in ../images/common/ico-arrow-down.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/assets/images/icon-arrow.svg referenced in /assets/images/icon-arrow.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/ico-discount.svg referenced in ../images/common/ico-discount.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-check-circle.svg referenced in ../images/icon/bx-fill-check-circle.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-book2.svg referenced in ../images/icon/bx-fill-book2.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/ico-arrow-up.svg referenced in ../images/common/ico-arrow-up.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/ico-arrow-right.png referenced in ../images/common/ico-arrow-right.png didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/icon-bank_sh.png referenced in ../images/common/icon-bank_sh.png didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/assets/images/icons/send-money.svg referenced in /assets/images/icons/send-money.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/icon-bank_kb.png referenced in ../images/common/icon-bank_kb.png didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/ico-copy.svg referenced in ../images/common/ico-copy.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-autorenew.svg referenced in ../images/icon/bx-autorenew.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-update.svg referenced in ../images/icon/bx-update.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/assets/images/icons/pay.svg referenced in /assets/images/icons/pay.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/ico-check-off.svg referenced in ../images/common/ico-check-off.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/assets/images/icons/pay-bills.svg referenced in /assets/images/icons/pay-bills.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-event-available.svg referenced in ../images/icon/bx-event-available.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/assets/images/icons/deposit.svg referenced in /assets/images/icons/deposit.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-chrome-reader-mode.svg referenced in ../images/icon/bx-chrome-reader-mode.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/ico-menu.svg referenced in ../images/common/ico-menu.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/ico-check-on.svg referenced in ../images/common/ico-check-on.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-search-check.svg referenced in ../images/icon/bx-search-check.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/assets/images/icons/debit-card.svg referenced in /assets/images/icons/debit-card.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/assets/images/icons/pay-merchant.svg referenced in /assets/images/icons/pay-merchant.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/assets/images/icons/withdrawal.svg referenced in /assets/images/icons/withdrawal.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-assignment-turned.svg referenced in ../images/icon/bx-fill-assignment-turned.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/assets/images/icons/avail-insurance.svg referenced in /assets/images/icons/avail-insurance.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-fill-stacks.svg referenced in ../images/icon/bx-fill-stacks.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-history.svg referenced in ../images/icon/bx-history.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/assets/images/icons/view-insurance.svg referenced in /assets/images/icons/view-insurance.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-move-group.svg referenced in ../images/icon/bx-move-group.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-error.svg referenced in ../images/icon/bx-error.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-person-remove.svg referenced in ../images/icon/bx-person-remove.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-search-insights.svg referenced in ../images/icon/bx-search-insights.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/common/arr-left.svg referenced in ../images/common/arr-left.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-format-list.svg referenced in ../images/icon/bx-format-list.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-backup.svg referenced in ../images/icon/bx-backup.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-collections-bookmark.svg referenced in ../images/icon/bx-collections-bookmark.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-quick-reference.svg referenced in ../images/icon/bx-quick-reference.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-create-new.svg referenced in ../images/icon/bx-create-new.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-star.svg referenced in ../images/icon/bx-star.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-info.svg referenced in ../images/icon/bx-info.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-block.svg referenced in ../images/icon/bx-block.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 ../images/icon/bx-fill-credit-card.svg referenced in ../images/icon/bx-fill-credit-card.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-cached.svg referenced in ../images/icon/bx-cached.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-data-alert.svg referenced in ../images/icon/bx-data-alert.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-task-alt.svg referenced in ../images/icon/bx-task-alt.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-language.svg referenced in ../images/icon/bx-language.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-event-repeat.svg referenced in ../images/icon/bx-event-repeat.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-news.svg referenced in ../images/icon/bx-news.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-visibility-off.svg referenced in ../images/icon/bx-visibility-off.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-visibility.svg referenced in ../images/icon/bx-visibility.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-file.svg referenced in ../images/icon/bx-file.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-open-infull.svg referenced in ../images/icon/bx-open-infull.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-person-add.svg referenced in ../images/icon/bx-person-add.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-library-add.svg referenced in ../images/icon/bx-library-add.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-account-circle.svg referenced in ../images/icon/bx-account-circle.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+../images/icon/bx-analytics.svg referenced in ../images/icon/bx-analytics.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 [2Ktransforming...✓ 2450 modules transformed.
 rendering chunks...
 computing gzip size...
 dist/index.html                               0.89 kB │ gzip:   0.47 kB
 dist/assets/_auth-BkomPXN8.css                4.59 kB │ gzip:   1.48 kB
-dist/assets/_page-CZlsW1Rh.css               17.83 kB │ gzip:   4.10 kB
-dist/assets/alarm-list-qsqnyF6E.css          17.83 kB │ gzip:   4.10 kB
-dist/assets/_page-Cq2eMJXc.css               17.83 kB │ gzip:   4.10 kB
-dist/assets/user-info-DqS4w6Qc.css           18.75 kB │ gzip:   4.30 kB
-dist/assets/transfer-list-CC_AII6T.css       21.02 kB │ gzip:   4.56 kB
-dist/assets/transfer-amount-CwHa-_pz.css     22.78 kB │ gzip:   4.85 kB
-dist/assets/_page-CzdcJ-N1.css               57.34 kB │ gzip:   7.18 kB
-dist/assets/index-Dyp2yaBq.css              241.57 kB │ gzip:  34.65 kB
-dist/assets/_auth-BQIKPYH7.js                 0.21 kB │ gzip:   0.19 kB
-dist/assets/routes-DhJfxiPB.js                0.22 kB │ gzip:   0.20 kB
-dist/assets/_page.setting-Dqm8rfnD.js         0.25 kB │ gzip:   0.22 kB
-dist/assets/accout-detail-DW8WyAwp.js         0.32 kB │ gzip:   0.26 kB
-dist/assets/setting-CRWQuo6L.js               0.65 kB │ gzip:   0.46 kB
-dist/assets/alarm-detail-DbeWPlxv.js          1.07 kB │ gzip:   0.61 kB
-dist/assets/_page.asset-y7VNsSMe.js           1.33 kB │ gzip:   0.77 kB
-dist/assets/_page.main-DbicScq0.js            1.74 kB │ gzip:   0.91 kB
-dist/assets/_auth.login-CImITUlO.js           2.63 kB │ gzip:   1.16 kB
-dist/assets/_page.product-UJ4LpOWI.js         4.32 kB │ gzip:   1.37 kB
-dist/assets/_page.menu-CX7k5skV.js            4.46 kB │ gzip:   1.47 kB
-dist/assets/alarm-list-DNszHatJ.js            4.66 kB │ gzip:   1.59 kB
-dist/assets/user-info-BZFV30CO.js             5.56 kB │ gzip:   1.67 kB
+dist/assets/_page-C0wcWvXY.css               17.49 kB │ gzip:   3.98 kB
+dist/assets/alarm-list-qtFbuDC-.css          17.49 kB │ gzip:   3.98 kB
+dist/assets/_page-D8L-Fg3D.css               17.49 kB │ gzip:   3.98 kB
+dist/assets/user-info-CyqCmD_1.css           18.42 kB │ gzip:   4.18 kB
+dist/assets/transfer-list-BuSqPFkf.css       20.69 kB │ gzip:   4.44 kB
+dist/assets/transfer-amount-eIBJqUdc.css     22.44 kB │ gzip:   4.74 kB
+dist/assets/_page-xNwdEzRH.css               55.90 kB │ gzip:   6.83 kB
+dist/assets/index-BvWnlpSe.css              239.10 kB │ gzip:  34.15 kB
+dist/assets/_auth-BZLv0G36.js                 0.21 kB │ gzip:   0.19 kB
+dist/assets/routes-BE0ory8F.js                0.22 kB │ gzip:   0.20 kB
+dist/assets/_page.setting-CtrxaJD8.js         0.25 kB │ gzip:   0.22 kB
+dist/assets/accout-detail-hncx_6Di.js         0.32 kB │ gzip:   0.26 kB
+dist/assets/setting-De-YqYr-.js               0.65 kB │ gzip:   0.46 kB
+dist/assets/alarm-detail-Deg0abQG.js          1.07 kB │ gzip:   0.62 kB
+dist/assets/_page.asset-hiR_DrAe.js           1.33 kB │ gzip:   0.77 kB
+dist/assets/_page.main-CItMKkrA.js            1.48 kB │ gzip:   0.85 kB
+dist/assets/_auth.login-ByYWtAoj.js           2.63 kB │ gzip:   1.16 kB
+dist/assets/_page.product-DhgOwXB4.js         4.11 kB │ gzip:   1.32 kB
+dist/assets/_page.menu-BS0-pN3Q.js            4.26 kB │ gzip:   1.41 kB
+dist/assets/alarm-list-CmsDeg1-.js            4.45 kB │ gzip:   1.54 kB
+dist/assets/user-info-BDQ-fjYK.js             5.35 kB │ gzip:   1.62 kB
 dist/assets/web-vitals-BC-450nO.js            5.58 kB │ gzip:   2.34 kB
-dist/assets/transfer-amount-7PoOIcL0.js       7.09 kB │ gzip:   2.46 kB
-dist/assets/transfer-list-CRMt0h6k.js         7.13 kB │ gzip:   2.55 kB
-dist/assets/_page-B7bXnL3s.js                22.56 kB │ gzip:   4.74 kB
-dist/assets/index-BoOPMgGm.js             1,117.57 kB │ gzip: 311.18 kB
+dist/assets/transfer-amount-Du4YfNZa.js       6.89 kB │ gzip:   2.40 kB
+dist/assets/transfer-list-Br__PYD0.js         6.93 kB │ gzip:   2.50 kB
+dist/assets/_page-D2OwzFVQ.js                21.54 kB │ gzip:   4.48 kB
+dist/assets/index-Dg2WKfCR.js             1,115.74 kB │ gzip: 310.81 kB
 
 [33m[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugins. Here is a breakdown:
-  - @rolldown/plugin-babel (47%)
-  - vite:css (36%)
-  - @tailwindcss/vite:generate:build (10%)
+  - @rolldown/plugin-babel (45%)
+  - vite:css (39%)
+  - @tailwindcss/vite:generate:build (11%)
 See https://rolldown.rs/options/checks#plugintimings for more details.
 [39m
 [33m[plugin builtin:vite-reporter] 
@@ -365,4 +365,4 @@ See https://rolldown.rs/options/checks#plugintimings for more details.
 - Using dynamic import() to code-split the application
 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
-[32m✓ built in 6.69s[39m
+[32m✓ built in 6.04s[39m

@@ -1,4 +1,4 @@
-import { Search, Sparkles } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useRef } from 'react';
 
 interface AiSearchCardProps {
@@ -16,10 +16,10 @@ export function AiSearchCard({ onClick }: AiSearchCardProps) {
   return (
     <div
       onClick={handleCardClick}
-      className="relative w-full max-w-[340px] h-[180px] bg-white border-[3px] border-solid border-[#ff8c00] rounded-[40px] p-[20px] text-left flex flex-col justify-start transition-all duration-300 group cursor-text"
+      className="relative w-full max-w-[340px] h-[180px] bg-white/20 backdrop-blur-xl border-[3px] border-[#ff8c00] rounded-[40px] p-5 !flex !justify-between !items-center transition-all duration-300 group cursor-text"
     >
-      {/* 좌측 상단 본문 입력 영역 */}
-      <div className="mt-4 ml-3 pr-12 w-full">
+      {/* 좌측 입력 영역 */}
+      <div className="!flex-1">
         <input
           ref={inputRef}
           type="text"
@@ -28,14 +28,9 @@ export function AiSearchCard({ onClick }: AiSearchCardProps) {
         />
       </div>
 
-      {/* 우측 상단 고정 돋보기 아이콘 */}
-      <div className="absolute top-[18px] right-[18px]">
+      {/* 우측 돋보기 아이콘 (absolute 제거, flex 수직 중앙 정렬 강제) */}
+      <div className="!flex-shrink-0 ml-4">
         <Search className="w-6 h-6 text-[#5c5850] stroke-[1.5] transition-transform duration-300 group-hover:scale-110" />
-      </div>
-
-      {/* 우측 하단 고정 반짝이 데코레이션 */}
-      <div className="absolute bottom-[18px] right-[18px]">
-        <Sparkles className="w-7 h-7 text-[#a69e90] fill-[#a69e90]/10 stroke-[1.2] animate-pulse" />
       </div>
     </div>
   );

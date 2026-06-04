@@ -8,7 +8,7 @@ function MainPage() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center px-4">
+    <div className="w-full h-[calc(100dvh-176px)] px-4 !flex !flex-col !justify-center !items-center">
       <AiSearchCard onClick={handleSearchClick} />
     </div>
   );
