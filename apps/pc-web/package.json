@@ -5,11 +5,15 @@
   "scripts": {
     "dev": "vite --port 3000",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@bx/shared": "workspace:*",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0"
   }
 }
