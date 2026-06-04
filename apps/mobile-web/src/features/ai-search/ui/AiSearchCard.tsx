@@ -16,7 +16,7 @@ export function AiSearchCard({ onClick }: AiSearchCardProps) {
   return (
     <div
       onClick={handleCardClick}
-      className="relative w-[calc(100vw_-_32px)] max-w-[420px] h-[54px] bg-white/45 backdrop-blur-xl border border-white/75 rounded-full pl-[15px] pr-[15px] py-[5px] box-border !flex !justify-between !items-center transition-all duration-300 group cursor-text"
+      className="relative w-[calc(100vw_-_32px)] max-w-[420px] h-[54px] bg-white/45 backdrop-blur-xl border-2 border-gray-200 rounded-full pl-[15px] pr-[15px] py-[5px] box-border !flex !justify-between !items-center transition-all duration-300 group cursor-text"
     >
       {/* 좌측 입력 영역 */}
       <div className="!flex-1 pr-[54px]">
