@@ -85,7 +85,7 @@ d:/project/bwg/bx-cf-fe/
 │   └── shared/                    # 단일화된 스마트 공유 패키지 (@bx/shared)
 │       ├── src/
 │       │   ├── entities/          # FSD 핵심 엔티티 도메인 (Account, Alarm, Auth, Menu, Product, User)
-│       │   ├── shared/            # 공통 자산 (ui, hooks, model, lib, types, constants)
+│       │   ├── shared/            # 공통 자산 (ui, hooks, model, lib, types, constants, ajax)
 │       │   └── index.ts           # 배럴 파일 (외부로 비즈니스 및 UI 일괄 Export)
 │       └── package.json
 │
@@ -118,6 +118,17 @@ d:/project/bwg/bx-cf-fe/
 ### 2. 모듈화 및 Barrel 작성 규칙 (`index.ts`)
 * 엔티티, 훅, UI 컴포넌트 등은 관련 디렉토리의 `index.ts`를 통해 한곳에 묶어 노출시킵니다.
 * **순환 참조 배제 원칙**: `@bx/shared` 패키지 내부 모듈(예: `Modal.tsx`, `Page.tsx` 등)이 `@bx/shared` 본인 명칭으로 소스를 호출할 경우 순환 의존성 오류를 일으키므로, **패키지 내부에서는 반드시 로컬 상대 경로로 모듈을 임포트**해야 합니다.
+
+### 3. 공통 상수 관리 (Shared Constants)
+프로젝트 전반에서 사용되는 상수는 `@bx/shared` 패키지 내 `packages/shared/src/shared/constants/`에서 중앙 집중식으로 관리하며, `index.ts` 배럴 파일을 통해 일괄 제공합니다.
+* **상수 모듈 구성**:
+  * **`api.ts`**: API 관련 상수 (`API_URL` - `http://localhost:3333`, `API_ENDPOINTS` - 엔드포인트 객체, `API_CONFIG` - 타임아웃/재시도 설정)
+  * **`siteConfig.ts`**: 사이트 전역 설정 (`CONFIG` - 작동 모드, 페이즈, 세션 키, 타이머, 테마 모드, 이체 한도 설정 등)
+  * **`storage-keys.ts`**: 브라우저 캐시 및 스토리지 키 상수 집합 (`STORAGE_KEYS` 및 `StorageKey` 타입)
+  * **`index.ts`**: 배럴 파일 및 앱 기본 설정 (`APP_CONFIG`, `ROUTES` 라우팅 경로, `BANK_OPTIONS` 은행 목록)
+* **임포트 규칙**:
+  * **패키지 외부 (apps/*)**: 반드시 `@bx/shared` 배럴 모듈로 일괄 임포트하여 참조합니다. (예: `import { API_URL, STORAGE_KEYS } from '@bx/shared';`)
+  * **패키지 내부**: 순환 참조 방지를 위해 상대 경로를 사용하여 개별 임포트합니다. (예: `import { API_URL } from './api';`)
 
 ---
 
