@@ -23,9 +23,9 @@ pnpm install
   pnpm dev:all
   ```
   > **가동 포트 정보**:
-  > - **📱 모바일 웹 포탈 (Main)**: [http://localhost:3001](http://localhost:3001)
-  > - **💻 PC 게이트웨이 웹 (Placeholder)**: [http://localhost:3000](http://localhost:3000)
-  > - **⚙️ 관리자 포탈 (Admin)**: [http://localhost:3002](http://localhost:3002)
+  > - **📱 모바일 웹 포탈**: [http://localhost:3001](http://localhost:3001)
+  > - **💻 PC 게이트웨이 웹**: [http://localhost:3000](http://localhost:3000)
+  > - **⚙️ 관리자 포탈**: [http://localhost:3002](http://localhost:3002)
   > - **📡 Mocking API 데이터 서버**: [http://localhost:3333](http://localhost:3333)
 
 * **📱 모바일 웹 포탈 단독 구동 (FSD 핵심 기능 개발)**:
@@ -60,11 +60,18 @@ pnpm install
 
 ### 💻 개발 서버 구동 (Dev Servers)
 * **전체 플랫폼 가동**: `pnpm dev` (Turborepo를 통해 모든 앱을 병렬 실행)
-* **모바일 웹 포탈 (Main)**: `pnpm dev:mobile` (Port **`3001`**에서 동작하며 FSD 비즈니스 로직 구동)
-* **PC 게이트웨이 웹 (Gateway)**: `pnpm dev:pc` (Port **`3000`**에서 동작하며 모바일 접속 유도 뷰포트 페이지 제공)
-* **관리자 포탈 (Admin)**: `pnpm dev:admin` (Port **`3002`**에서 동작)
+* **모바일 웹 포탈**: `pnpm dev:mobile` (Port **`3001`**에서 동작하며 FSD 비즈니스 로직 구동)
+* **PC 게이트웨이 웹**: `pnpm dev:pc` (Port **`3000`**에서 동작하며 모바일 접속 유도 뷰포트 페이지 제공)
+* **관리자 포탈**: `pnpm dev:admin` (Port **`3002`**에서 동작)
 * **로컬 Mocking API 서버**: `pnpm dev:server` (Port **`3333`**에서 mock json-server 실행)
 * **통합 실행**: `pnpm dev:all` (전체 플랫폼 앱 개발 서버와 mock API 서버를 동시에 가동)
+
+### 🧪 E2E 테스트 (E2E Testing)
+본 프로젝트는 **Playwright** 기반의 E2E 테스트 환경이 구축되어 있으며, 루트 디렉토리에서 개별 플랫폼의 시나리오 검증을 실행할 수 있습니다.
+* **전체 플랫폼 E2E 테스트 실행**: `pnpm test:e2e`
+* **모바일 웹 포탈 E2E 테스트 단독 실행**: `pnpm test:e2e:mobile`
+* **PC 게이트웨이 웹 E2E 테스트 단독 실행**: `pnpm test:e2e:pc`
+* **관리자 포탈 E2E 테스트 단독 실행**: `pnpm test:e2e:admin`
 
 ### 🛠️ 검증 및 빌드 (Verify & Build)
 * **프로덕션 통합 빌드**: `pnpm run build` (Turborepo 파이프라인 캐싱을 사용해 전사 앱 번들링)
