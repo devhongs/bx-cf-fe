@@ -3,7 +3,7 @@ packages:
   - 'packages/*'
 
 allowBuilds:
-  '@biomejs/biome': set this to true or false
+  '@biomejs/biome': true
   core-js-pure: true
   esbuild: true
   unrs-resolver: true
