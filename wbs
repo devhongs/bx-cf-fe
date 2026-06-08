@@ -1,0 +1,122 @@
+[프로젝트 WBS (SP1) 작업 목록]
+
+1. 프로젝트 준비 및 설계
+  - Git 저장소 생성
+  - 프로젝트 일정 계획 수립
+    * 작업 분류 구조 (WBS)
+    * 작업 시간 산정 (Estimation)
+    * 스케줄링 (Scheduling)
+    * 간트 차트 (Gantt Chart)
+  - 프로젝트 구조 설계
+    * Monorepo vs Multirepo
+    * 렌더링 전략 선정 (CSR, SSR, SSG, ISR 등)
+    * 폴더 구조 정의 (components, pages, hooks, utils, services, assets 등)
+    * 프로젝트 아키텍처 설계
+    * BxUI 프레임워크 활용 방향
+  - 기획 문서 작성
+
+2. 개발 환경 구축 및 공통 설정
+  - 프로젝트 개발환경 셋팅
+    * 번들러 및 빌드 도구 설정 (Vite, Webpack, CRA 등)
+    * ESLint / Prettier / Husky 설정
+    * UI 라이브러리 선택 (예: MUI, Ant Design, Radix, Tailwind CSS)
+    * 라우팅 구조 설계 (/login, /dashboard, /settings 등)
+    * 상태 관리 라이브러리 선정 (Zustand)
+    * API 통신 라이브러리 선정 (Axios, React Query)
+  - API 연동 및 데이터 처리 기본
+    * mock server 세팅 및 테스트
+    * Axios 설정
+    * react query 설정
+    * 응답 데이터 정규화 및 캐싱
+  - 스타일링 기본
+    * Layout 퍼블리싱
+    * CSS-in-JS (Styled Components, Emotion 등) 적용
+    * Tailwind CSS 또는 SCSS 구조 설계
+  - 공통 화면 및 레이아웃
+    * 메인 레이아웃 설계 (헤더, 사이드바, 콘텐츠 영역)
+    * 사용자 정보 표시 (프로필, 알림 등)
+
+3. 메뉴 및 라우팅 시스템
+  - 메뉴 및 라우팅 구성
+    * 현재 경로에 따른 메뉴 활성화 (useLocation, NavLink)
+    * 404 페이지 및 리다이렉션 처리
+    * Lazy Loading 적용 (페이지 단위 코드 스플리팅)
+    * page, modal 라우팅시 필수값 체크
+
+4. 공통 기능 및 코어 인프라
+  - 공통 기능 및 유틸
+    * 사용자 인증 상태 관리 (zustand)
+    * API 에러 핸들링 공통화 (axios interceptor)
+    * 환경변수 설정 (.env 파일, API base URL 등)
+    * 로딩 처리 (spinner)
+    * localStorage, sessionStorage, IndexedDB 사용 검토
+    * 가맹점몰 로그인 및 FOUT(웹폰트 현상) 처리과
+  - 폼 처리 라이브러리 (React Hook Form)
+
+5. 주요 업무 화면 개발
+  - 업무 화면
+    * 메인 화면
+    * 자산 화면
+      - 계좌 카드 컴포넌트
+      - 계좌 리스트화면
+      - 계좌 거래내역화면
+      - 이체 계좌 화면
+      - 이체 금액 화면
+      - 이체 확인 화면
+      - 이체 완료 화면
+      - 대표 계좌 설정 화면 + 피그마화면구성
+    * 상품 화면
+    * 메뉴 화면
+      - 사용자 페이지
+      - 설정 페이지
+    * 이체 정보 화면
+
+6. 시스템 고도화 및 이슈 관리
+  - BxUI 관련 작업
+    * BxUI 문의 및 요청 사항
+  - 기능 고도화 및 최적화 (이슈 사항)
+    * 최초 로딩시 폰트 사이즈 변동 되면서 깜빡임 개선
+    * 다크 모드 / 테마 전환 기능 추가
+    * 프로젝트 컨벤션 readme.md 파일 작성
+    * modal 에서 일반 페이지로 라우팅시 modal 닫히면서 기존 페이지 보여지면서 라우팅 되는 현상 제어
+    * 앱 라우팅시 이동된 페이지 스크롤 top 으로 이동
+    * 글자 크기 조절 기능 (큰글씨/작은글씨)
+    * 다국어 지원 (i18n 적용 시)
+    * react 19 버전 업그레이드 검토
+
+
+[프로젝트 WBS (SP2) 작업 목록]
+
+1. 코어 인프라 및 공통 컴포넌트 개발
+  - Dashboard Builder
+  - 공통 UI 컴포넌트 생성 (Button, Modal, Card 등)
+  - 포털(Portal) 기반 컴포넌트 구현 (모달, 툴팁, Toast)
+
+2. 기술 스택 문서화
+  - 기술 스택 문서화
+    * 사용 라이브러리 목록 및 버전 명시
+    * 각 라이브러리의 도입 이유 및 비교 분석
+    * 향후 확장성 고려 사항 (예: SSR, 모바일 대응, 다국어 지원 등)
+
+3. 보안 및 인증 시스템
+  - 소셜 로그인 연동 (Google, Kakao, Naver 등)
+  - 로그인 기능 개발
+    * 로그인 폼 UI 구성 (email, password, submit 버튼)
+    * 로그인 API 연동 (토큰 기반 인증)
+    * 로그인 성공 시 토큰 저장 (localStorage, cookie, sessionStorage)
+    * 로그인 실패 시 에러 메시지 처리
+    * 자동 로그인 / 토큰 만료 처리
+    * 로그인 상태에 따른 라우팅 제어 (PrivateRoute 구현 등)
+
+4. 성능 최적화 및 고도화
+  - 반응형 디자인 적용 (모바일/태블릿 대응)
+  - 로깅 및 추적 기능 (예: Sentry, GA 연동)
+  - 테마 구조 정의
+  - 테스트 도구 및 전략 설정
+  - Lazy Loading (지연로딩) + Eager Loading (사전로딩)
+
+5. 관리자 시스템 개발
+  - 관리자 화면
+    * 메뉴 관리
+    * 사용자 관리
+    * SEO 메타 정보 관리

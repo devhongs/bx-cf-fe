@@ -1,9 +1,0 @@
-@import "tailwindcss";
-
-.root {
-  @apply flex text-black justify-between items-center;
-}
-
-.buttonWrapper {
-  @apply flex w-full;
-}

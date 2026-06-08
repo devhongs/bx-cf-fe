@@ -1,5 +1,0 @@
-export * from './api/product.api';
-export * from './model/product.hook';
-export * from './model/product.queries';
-export * from './model/product.type';
-export * from './ui/product-item';

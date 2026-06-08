@@ -644,8 +644,6 @@
       "description": "메즈메즈 저금",
       "iconType": "Banknote",
       "iconColor": "#de5a3c",
-      "baseRate": 6,
-      "maxRate": 1.2,
       "rateDescription": "6개월 기준",
       "type": "deposit"
     },
