@@ -1,0 +1,51 @@
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #1e1f20;
+  border: 1px solid #3c3c3e;
+  border-radius: 12px;
+  padding: 10px 16px;
+  transition: border-color 0.2s;
+}
+
+.bar:focus-within {
+  border-color: #8ab4f8;
+}
+
+.searchIcon {
+  color: #5f6368;
+  flex-shrink: 0;
+}
+
+.input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e3e3e3;
+  font-size: 0.9rem;
+}
+
+.input::placeholder {
+  color: #5f6368;
+}
+
+.sendBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: #8ab4f8;
+  border: none;
+  border-radius: 6px;
+  color: #202124;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  flex-shrink: 0;
+}
+
+.sendBtn:hover {
+  background-color: #aecbfa;
+}
