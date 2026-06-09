@@ -1,0 +1,95 @@
+Title,Description,Priority,Label
+프로젝트 기반 구축 - 모노레포 구조 설정 (turborepo + pnpm workspace),,Urgent,Must Have
+프로젝트 기반 구축 - 번들러 설정 (Vite 앱별 포트 분리),,Urgent,Must Have
+프로젝트 기반 구축 - TypeScript 설정 (tsconfig 경로 alias),,Urgent,Must Have
+환경변수 - .env / .env.local / .env.production 분리,,Urgent,Must Have
+환경변수 - VITE_API_URL 앱별 환경변수 정의 (하드코딩 제거),,Urgent,Must Have
+환경변수 - vite-env.d.ts 타입 선언,,Urgent,Must Have
+코드 품질 - Biome (lint + format) 설정,,Urgent,Must Have
+코드 품질 - Husky pre-commit 훅 설정,,Urgent,Must Have
+공통 패키지 @bx/shared 구조 확정,,Urgent,Must Have
+라우팅 - TanStack Router 기본 설정 (앱별),,Urgent,Must Have
+라우팅 - 인증 가드 구현 (requireAuth),,Urgent,Must Have
+라우팅 - 404 / 리다이렉션 처리,,Urgent,Must Have
+라우팅 - 라우트 파라미터 필수값 체크,,Urgent,Must Have
+라우팅 - modal에서 일반 페이지 전환 시 modal 닫힘 현상 제어,,Urgent,Must Have
+라우팅 - 페이지 이동 시 스크롤 top 이동,,Urgent,Must Have
+인증 - 로그인 폼 UI (id / password / submit),,Urgent,Must Have
+인증 - 로그인 API 연동,,Urgent,Must Have
+인증 - 토큰 저장 전략 결정 (localStorage / cookie / sessionStorage),,Urgent,Must Have
+인증 - 로그인 실패 에러 처리,,Urgent,Must Have
+인증 - Access token 만료 → silent refresh 처리,,Urgent,Must Have
+인증 - Refresh token rotation 전략,,Urgent,Must Have
+인증 - 로그아웃 처리,,Urgent,Must Have
+인증 - 로그인 상태에 따른 라우팅 제어 (PrivateRoute),,Urgent,Must Have
+API - Axios 인스턴스 설정 (baseURL / timeout / headers),,Urgent,Must Have
+API - Axios interceptor 요청 (토큰 자동 주입),,Urgent,Must Have
+API - Axios interceptor 응답 (401 토큰 갱신 / 403 권한 / 500 에러),,Urgent,Must Have
+API - React Query 글로벌 설정 (QueryClient / staleTime / retry),,Urgent,Must Have
+API - React Query 글로벌 에러 핸들러 연동,,Urgent,Must Have
+API - Request / Response DTO 타입 정의,,Urgent,Must Have
+API - 페이지네이션 패턴 결정 (offset vs cursor),,Urgent,Must Have
+API - 파일 업로드 / 다운로드 처리,,Urgent,Must Have
+Mock API - json-server 설정 (db.json port 3333),,Urgent,Must Have
+Mock API - E2E 실행 시 json-server 자동 시작 처리 (playwright webServer),,Urgent,Must Have
+공통 UI - 메인 레이아웃 (헤더 / 사이드바 / 콘텐츠 영역),,Urgent,Must Have
+공통 UI - 사용자 정보 표시 (프로필 / 알림),,Urgent,Must Have
+공통 UI - 로딩 처리 (spinner / skeleton),,Urgent,Must Have
+공통 UI - 에러 바운더리 (ErrorBoundary) 기본 구현,,Urgent,Must Have
+공통 UI - 공통 컴포넌트 (Button / Modal / Card / Input),,Urgent,Must Have
+공통 UI - 포털 기반 컴포넌트 (모달 / 툴팁 / Toast),,Urgent,Must Have
+업무화면 - 메인 화면,,Urgent,Must Have
+업무화면 - 상품 화면,,Urgent,Must Have
+업무화면 - 계좌 카드 컴포넌트,,Urgent,Must Have
+업무화면 - 계좌 리스트 화면,,Urgent,Must Have
+업무화면 - 계좌 거래내역 화면,,Urgent,Must Have
+업무화면 - 이체 계좌 선택 화면,,Urgent,Must Have
+업무화면 - 이체 금액 입력 화면,,Urgent,Must Have
+업무화면 - 이체 확인 화면,,Urgent,Must Have
+업무화면 - 이체 완료 화면,,Urgent,Must Have
+업무화면 - 메뉴 > 사용자 페이지,,Urgent,Must Have
+업무화면 - 메뉴 > 설정 페이지,,Urgent,Must Have
+관리자 - 메뉴 관리 화면,,Urgent,Must Have
+관리자 - 사용자 관리 화면,,Urgent,Must Have
+상태관리 - Zustand 클라이언트 전역 상태 (인증 / 사용자 정보),,Urgent,Must Have
+상태관리 - React Query 서버 상태 (API 캐싱 / 동기화),,Urgent,Must Have
+상태관리 - localStorage / sessionStorage 추상화 유틸,,Urgent,Must Have
+상태관리 - 저장 키 상수화 (STORAGE_KEYS),,Urgent,Must Have
+테스트 - 단위 테스트 전략 수립 (Vitest + @testing-library/react),,High,Should Have
+테스트 - E2E 시나리오 작성 > 앱별 로그인 플로우 (Playwright),,High,Should Have
+테스트 - E2E 시나리오 작성 > 핵심 업무 화면 주요 경로 (Playwright),,High,Should Have
+테스트 - 테스트 커버리지 기준 설정,,High,Should Have
+테스트 - MSW(Mock Service Worker) 도입 검토,,High,Should Have
+CI/CD - GitHub Actions PR lint + type-check + 단위 테스트,,High,Should Have
+CI/CD - GitHub Actions PR E2E 테스트 (json-server 포함),,High,Should Have
+CI/CD - GitHub Actions main merge 빌드 검증,,High,Should Have
+CI/CD - 환경별 배포 분기 (dev / staging / prod),,High,Should Have
+CI/CD - 앱별 빌드 결과물 배포 (pc-web / mobile-web / admin-portal),,High,Should Have
+폼 처리 - React Hook Form 기본 설정,,High,Should Have
+폼 처리 - 유효성 검사 전략 (Zod schema validation 연동),,High,Should Have
+폼 처리 - 공통 에러 메시지 표시 컴포넌트,,High,Should Have
+UX - 최초 로딩 시 폰트 깜빡임 (FOUT) 개선,,High,Should Have
+UX - 가맹점몰 로그인 처리,,High,Should Have
+보안 - 민감 정보 .env.local 분리 및 .gitignore 확인,,High,Should Have
+보안 - XSS 방어 (dangerouslySetInnerHTML 사용 금지 규칙),,High,Should Have
+보안 - CORS 정책 확인,,High,Should Have
+성능 최적화 - Lazy Loading (페이지 단위 코드 스플리팅),,Medium,Could Have
+성능 최적화 - Eager Loading (주요 경로 사전 로딩),,Medium,Could Have
+성능 최적화 - React 19 Compiler 적용 검토,,Medium,Could Have
+성능 최적화 - 번들 사이즈 분석 (vite-bundle-analyzer),,Medium,Could Have
+접근성 - 시맨틱 마크업 기준 정의,,Medium,Could Have
+접근성 - 키보드 네비게이션 지원,,Medium,Could Have
+접근성 - 스크린리더 대응 (aria 속성),,Medium,Could Have
+UI 고도화 - 다크모드 / 테마 전환 기능,,Medium,Could Have
+UI 고도화 - 글자 크기 조절 기능 (큰글씨 / 작은글씨),,Medium,Could Have
+UI 고도화 - 반응형 디자인 (모바일 / 태블릿 대응),,Medium,Could Have
+UI 고도화 - 대표 계좌 설정 화면,,Medium,Could Have
+개발경험 - 컴포넌트 문서화 (Storybook),,Medium,Could Have
+개발경험 - OpenAPI / Swagger 기반 타입 자동 생성 (openapi-typescript),,Medium,Could Have
+개발경험 - 프로젝트 컨벤션 README.md 작성,,Medium,Could Have
+개발경험 - 기술 스택 문서화 (도입 이유 / 버전 / 확장성),,Medium,Could Have
+모니터링 - 에러 추적 (Sentry),,Medium,Could Have
+모니터링 - 사용자 분석 (GA),,Medium,Could Have
+모니터링 - Web Vitals 측정,,Medium,Could Have
+다국어 - i18n 구조 설계 (i18next),,Medium,Could Have
+다국어 - 언어 전환 기능,,Medium,Could Have
