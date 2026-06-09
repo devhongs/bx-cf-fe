@@ -50,7 +50,7 @@ export function LeftSidebar() {
             key={item.path}
             type="button"
             className={`${styles.navItem} ${location.pathname === item.path ? styles.active : ''}`}
-            onClick={() => navigate({ to: item.path })}
+            onClick={() => navigate({ to: item.path as any })}
           >
             <span className={styles.navIcon}>{item.icon}</span>
             <span className={styles.navLabel}>{item.label}</span>

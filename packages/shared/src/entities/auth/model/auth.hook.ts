@@ -1,31 +1,30 @@
-import type { UseQueryResult } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
+import type { UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
-import type { QueryHookOptions } from '../../../shared/types';
-
-import { loginQuery, logoutQuery } from './auth.queries';
-import type { Auth, AuthQueryParams } from './auth.type';
+import { login, logout } from '../api/auth.api';
+import type { Auth } from './auth.type';
 
 /**
- * 사용자 로그인을 가져오는 쿼리 훅.
- * @param params - 사용자 로그인 쿼리 파라미터.
- * @param options - 추가 쿼리 옵션.
+ * 로그인 뮤테이션 훅.
+ * 사용자 액션(버튼 클릭)으로 실행되므로 useMutation 사용.
  */
-export const useFetchLogin = <T extends Auth = Auth>(
-  params: AuthQueryParams,
-  options?: QueryHookOptions<T>,
-): UseQueryResult<T, Error> => {
-  return useQuery({ ...options, ...loginQuery<T>(params) });
+export const useLogin = <T extends Auth = Auth>(
+  options?: UseMutationOptions<T, Error, string>,
+): UseMutationResult<T, Error, string> => {
+  return useMutation({
+    mutationFn: (id: string) => login<T>(id),
+    ...options,
+  });
 };
 
 /**
- * 사용자 로그아웃을 가져오는 쿼리 훅.
- * @param params - 사용자 로그아웃 쿼리 파라미터.
- * @param options - 추가 쿼리 옵션.
+ * 로그아웃 뮤테이션 훅.
  */
-export const useFetchLogout = <T extends Auth = Auth>(
-  params: AuthQueryParams,
-  options?: QueryHookOptions<T>,
-): UseQueryResult<T, Error> => {
-  return useQuery({ ...options, ...logoutQuery<T>(params) });
+export const useLogout = <T extends Auth = Auth>(
+  options?: UseMutationOptions<T, Error, string>,
+): UseMutationResult<T, Error, string> => {
+  return useMutation({
+    mutationFn: (id: string) => logout<T>(id),
+    ...options,
+  });
 };

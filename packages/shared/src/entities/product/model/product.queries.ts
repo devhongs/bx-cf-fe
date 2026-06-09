@@ -3,7 +3,7 @@ import { queryOptions } from '@tanstack/react-query';
 import { createProduct, deleteProduct, fetchProduct, fetchProductList } from '../api/product.api';
 import type { Product, ProductQueryParams } from './product.type';
 
-export const queryKeys = {
+export const productQueryKeys = {
   all: ['product'] as const,
   list: (params?: ProductQueryParams) => ['product', 'list', params] as const,
   detail: (id: number) => ['product', 'detail', id] as const,
@@ -12,13 +12,13 @@ export const queryKeys = {
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용
 export const fetchProductListQuery = <T extends Product = Product>(params?: ProductQueryParams) =>
   queryOptions({
-    queryKey: queryKeys.list(params),
+    queryKey: productQueryKeys.list(params),
     queryFn: () => fetchProductList<T>(params),
   });
 
 export const fetchProductQuery = <T extends Product = Product>(productId: number) =>
   queryOptions({
-    queryKey: queryKeys.detail(productId),
+    queryKey: productQueryKeys.detail(productId),
     queryFn: () => fetchProduct<T>(productId),
   });
 

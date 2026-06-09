@@ -9,7 +9,7 @@ interface MenuListProps extends BaseProps {
   dummy?: any;
 }
 
-export function MenuList({ dummy, className, ...rest }: MenuListProps) {
+export function MenuList({ dummy: _dummy, className, ...rest }: MenuListProps) {
   const { data } = useFetchMenuList();
   const content = data ?? [];
 

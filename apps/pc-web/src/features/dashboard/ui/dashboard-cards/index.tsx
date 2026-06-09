@@ -58,7 +58,7 @@ export function DashboardCards() {
           key={card.title}
           type="button"
           className={styles.card}
-          onClick={() => navigate({ to: card.path })}
+          onClick={() => navigate({ to: card.path as any })}
         >
           <div className={styles.iconWrapper} style={{ color: card.color }}>
             {card.icon}

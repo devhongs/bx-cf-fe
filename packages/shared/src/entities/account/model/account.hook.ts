@@ -11,7 +11,7 @@ import {
   fetchRecentAccountListQuery,
   setFavoriteAccountMutation,
   updateAccountMutation,
-  queryKeys,
+  accountQueryKeys,
 } from './account.queries';
 import type { Account, AccountsQueryParams } from './account.type';
 
@@ -70,11 +70,9 @@ export const useCreateAccount = (
   return useMutation({
     ...createAccountMutation(),
     ...options,
-    onSuccess: async (data, variables, context, mutation) => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.all });
-      if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation);
-      }
+    onSuccess: async (data, variables, onMutateResult, context) => {
+      await queryClient.invalidateQueries({ queryKey: accountQueryKeys.all });
+      options?.onSuccess?.(data, variables, onMutateResult, context);
     },
   });
 };
@@ -90,11 +88,9 @@ export const useUpdateAccount = (
   return useMutation({
     ...updateAccountMutation(),
     ...options,
-    onSuccess: async (data, variables, context, mutation) => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.all });
-      if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation);
-      }
+    onSuccess: async (data, variables, onMutateResult, context) => {
+      await queryClient.invalidateQueries({ queryKey: accountQueryKeys.all });
+      options?.onSuccess?.(data, variables, onMutateResult, context);
     },
   });
 };
@@ -110,11 +106,9 @@ export const useDeleteAccount = (
   return useMutation({
     ...deleteAccountMutation(),
     ...options,
-    onSuccess: async (data, variables, context, mutation) => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.all });
-      if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation);
-      }
+    onSuccess: async (data, variables, onMutateResult, context) => {
+      await queryClient.invalidateQueries({ queryKey: accountQueryKeys.all });
+      options?.onSuccess?.(data, variables, onMutateResult, context);
     },
   });
 };
@@ -172,12 +166,12 @@ export const useSetFavoriteAccount = (
     onMutate: async (accountNo: string) => {
       // ['account']로 시작하는 모든 쿼리를 취소
       await queryClient.cancelQueries({
-        queryKey: queryKeys.all,
+        queryKey: accountQueryKeys.all,
       });
 
       // 이전 쿼리 상태 스냅샷 저장
       const previousQueries = queryClient.getQueriesData({
-        queryKey: queryKeys.all,
+        queryKey: accountQueryKeys.all,
       });
 
       // 캐시 업데이트: 선택된 계좌만 true, 나머지는 false
@@ -194,22 +188,22 @@ export const useSetFavoriteAccount = (
 
       return { previousQueries };
     },
-    onError: (err: any, vars: any, ctx: any, mutation: any) => {
+    onError: (err: any, vars: any, onMutateResult: any, ctx: any) => {
       // 에러 발생 시 롤백
-      if (ctx?.previousQueries) {
-        for (const [queryKey, previousData] of ctx.previousQueries as any) {
+      if (onMutateResult?.previousQueries) {
+        for (const [queryKey, previousData] of onMutateResult.previousQueries as any) {
           queryClient.setQueryData(queryKey, previousData);
         }
       }
-      options?.onError?.(err, vars, ctx, mutation);
+      options?.onError?.(err, vars, onMutateResult, ctx);
     },
-    onSettled: (data: any, error: any, variables: any, context: any, mutation: any) => {
+    onSettled: (data: any, error: any, variables: any, onMutateResult: any, ctx: any) => {
       // 서버 데이터와 동기화
-      queryClient.invalidateQueries({ queryKey: queryKeys.all });
-      options?.onSettled?.(data, error, variables, context, mutation);
+      queryClient.invalidateQueries({ queryKey: accountQueryKeys.all });
+      options?.onSettled?.(data, error, variables, onMutateResult, ctx);
     },
-    onSuccess: (data: any, variables: any, context: any, mutation: any) => {
-      options?.onSuccess?.(data, variables, context, mutation);
+    onSuccess: (data: any, variables: any, onMutateResult: any, ctx: any) => {
+      options?.onSuccess?.(data, variables, onMutateResult, ctx);
     },
   } as any);
 };

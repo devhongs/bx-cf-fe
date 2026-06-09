@@ -8,6 +8,7 @@ import {
   deleteMenuMutation,
   fetchMenuQuery,
   fetchMenuListQuery,
+  menuQueryKeys,
 } from './menu.queries';
 import type { Menu, MenuQueryParams } from './menu.type';
 
@@ -45,11 +46,9 @@ export const useCreateMenu = (
   return useMutation({
     ...createMenuMutation(),
     ...options,
-    onSuccess: async (data, variables, context, mutation) => {
-      await queryClient.invalidateQueries({ queryKey: ['menu'] });
-      if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation);
-      }
+    onSuccess: async (data, variables, onMutateResult, context) => {
+      await queryClient.invalidateQueries({ queryKey: menuQueryKeys.all });
+      options?.onSuccess?.(data, variables, onMutateResult, context);
     },
   });
 };
@@ -65,11 +64,9 @@ export const useDeleteMenu = (
   return useMutation({
     ...deleteMenuMutation(),
     ...options,
-    onSuccess: async (data, variables, context, mutation) => {
-      await queryClient.invalidateQueries({ queryKey: ['menu'] });
-      if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation);
-      }
+    onSuccess: async (data, variables, onMutateResult, context) => {
+      await queryClient.invalidateQueries({ queryKey: menuQueryKeys.all });
+      options?.onSuccess?.(data, variables, onMutateResult, context);
     },
   });
 };

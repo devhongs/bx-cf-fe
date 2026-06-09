@@ -1,25 +1,5 @@
-import { queryOptions } from '@tanstack/react-query';
-
-import { login, logout } from '../api/auth.api';
-import type { Auth, AuthQueryParams } from './auth.type';
-
-export const queryKeys = {
+export const authQueryKeys = {
   all: ['auth'] as const,
-  login: (params?: AuthQueryParams) => ['auth', 'login', params] as const,
-  logout: (params?: AuthQueryParams) => ['auth', 'logout', params] as const,
   checkAccessToken: ['auth', 'checkAccessToken'] as const,
   checkRefreshToken: ['auth', 'checkRefreshToken'] as const,
 };
-
-// 개별 Named Export와 v5 queryOptions 헬퍼 적용
-export const loginQuery = <T extends Auth = Auth>(params: AuthQueryParams) =>
-  queryOptions({
-    queryKey: queryKeys.login(params),
-    queryFn: () => login<T>(params.id),
-  });
-
-export const logoutQuery = <T extends Auth = Auth>(params: AuthQueryParams) =>
-  queryOptions({
-    queryKey: queryKeys.logout(params),
-    queryFn: () => logout<T>(params.id),
-  });

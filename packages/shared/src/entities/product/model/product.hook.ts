@@ -8,6 +8,7 @@ import {
   deleteProductMutation,
   fetchProductQuery,
   fetchProductListQuery,
+  productQueryKeys,
 } from './product.queries';
 import type { Product, ProductQueryParams } from './product.type';
 
@@ -45,11 +46,9 @@ export const useCreateProduct = (
   return useMutation({
     ...createProductMutation(),
     ...options,
-    onSuccess: async (data, variables, context, mutation) => {
-      await queryClient.invalidateQueries({ queryKey: ['product'] });
-      if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation);
-      }
+    onSuccess: async (data, variables, onMutateResult, context) => {
+      await queryClient.invalidateQueries({ queryKey: productQueryKeys.all });
+      options?.onSuccess?.(data, variables, onMutateResult, context);
     },
   });
 };
@@ -65,11 +64,9 @@ export const useDeleteProduct = (
   return useMutation({
     ...deleteProductMutation(),
     ...options,
-    onSuccess: async (data, variables, context, mutation) => {
-      await queryClient.invalidateQueries({ queryKey: ['product'] });
-      if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation);
-      }
+    onSuccess: async (data, variables, onMutateResult, context) => {
+      await queryClient.invalidateQueries({ queryKey: productQueryKeys.all });
+      options?.onSuccess?.(data, variables, onMutateResult, context);
     },
   });
 };

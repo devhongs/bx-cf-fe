@@ -6,7 +6,8 @@
     "dev": "vite --port 3000",
     "build": "vite build",
     "serve": "vite preview",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@bx/shared": "workspace:*",

@@ -8,5 +8,6 @@ export * from './shared/types';
 export * from './shared/hooks';
 export * from './shared/model';
 export * from './shared/lib/utils';
+export * from './shared/lib/queryClient';
 export * from './shared/constants';
 export * from './shared/ui';

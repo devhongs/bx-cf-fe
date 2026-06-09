@@ -8,6 +8,7 @@ import {
   deleteAlarmMutation,
   fetchAlarmQuery,
   fetchAlarmListQuery,
+  alarmQueryKeys,
 } from './alarm.queries';
 import type { Alarm, AlarmsQueryParams } from './alarm.type';
 
@@ -45,11 +46,9 @@ export const useCreateAlarm = (
   return useMutation({
     ...createAlarmMutation(),
     ...options,
-    onSuccess: async (data, variables, context, mutation) => {
-      await queryClient.invalidateQueries({ queryKey: ['alarm'] });
-      if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation);
-      }
+    onSuccess: async (data, variables, onMutateResult, context) => {
+      await queryClient.invalidateQueries({ queryKey: alarmQueryKeys.all });
+      options?.onSuccess?.(data, variables, onMutateResult, context);
     },
   });
 };
@@ -65,11 +64,9 @@ export const useDeleteAlarm = (
   return useMutation({
     ...deleteAlarmMutation(),
     ...options,
-    onSuccess: async (data, variables, context, mutation) => {
-      await queryClient.invalidateQueries({ queryKey: ['alarm'] });
-      if (options?.onSuccess) {
-        options.onSuccess(data, variables, context, mutation);
-      }
+    onSuccess: async (data, variables, onMutateResult, context) => {
+      await queryClient.invalidateQueries({ queryKey: alarmQueryKeys.all });
+      options?.onSuccess?.(data, variables, onMutateResult, context);
     },
   });
 };

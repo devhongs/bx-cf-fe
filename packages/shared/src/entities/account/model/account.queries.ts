@@ -11,7 +11,7 @@ import {
 } from '../api/account.api';
 import type { Account, AccountsQueryParams } from './account.type';
 
-export const queryKeys = {
+export const accountQueryKeys = {
   all: ['account'] as const,
   list: (params?: AccountsQueryParams) => ['account', 'list', params] as const,
   recentList: (params?: AccountsQueryParams) => ['account', 'recent', params] as const,
@@ -21,19 +21,19 @@ export const queryKeys = {
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용
 export const fetchAccountListQuery = <T extends Account = Account>(params: AccountsQueryParams) =>
   queryOptions({
-    queryKey: queryKeys.list(params),
+    queryKey: accountQueryKeys.list(params),
     queryFn: () => fetchAccountList<T>(params),
   });
 
 export const fetchAccountQuery = <T extends Account = Account>(accountNo: string) =>
   queryOptions({
-    queryKey: queryKeys.detail(accountNo),
+    queryKey: accountQueryKeys.detail(accountNo),
     queryFn: () => fetchAccount<T>(accountNo),
   });
 
 export const fetchRecentAccountListQuery = <T extends Account = Account>(params: AccountsQueryParams) =>
   queryOptions({
-    queryKey: queryKeys.recentList(params),
+    queryKey: accountQueryKeys.recentList(params),
     queryFn: () => fetchRecentAccountList<T>(params),
   });
 

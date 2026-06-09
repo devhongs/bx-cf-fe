@@ -3,7 +3,7 @@ import { queryOptions } from '@tanstack/react-query';
 import { createMenu, deleteMenu, fetchMenu, fetchMenuList } from '../api/menu.api';
 import type { Menu, MenuQueryParams } from './menu.type';
 
-export const queryKeys = {
+export const menuQueryKeys = {
   all: ['menu'] as const,
   list: (params?: MenuQueryParams) => ['menu', 'list', params] as const,
   detail: (id: number) => ['menu', 'detail', id] as const,
@@ -12,13 +12,13 @@ export const queryKeys = {
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용
 export const fetchMenuListQuery = <T extends Menu = Menu>(params?: MenuQueryParams) =>
   queryOptions({
-    queryKey: queryKeys.list(params),
+    queryKey: menuQueryKeys.list(params),
     queryFn: () => fetchMenuList<T>(params),
   });
 
 export const fetchMenuQuery = <T extends Menu = Menu>(menuId: number) =>
   queryOptions({
-    queryKey: queryKeys.detail(menuId),
+    queryKey: menuQueryKeys.detail(menuId),
     queryFn: () => fetchMenu<T>(menuId),
   });
 

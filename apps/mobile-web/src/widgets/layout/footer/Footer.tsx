@@ -25,9 +25,8 @@ export function Footer(props: FooterProps) {
 
   const handleClickButton = (path: string) => {
     // TODO: zustand 통해서 라우팅 되게 수정
-    navigate({
-      to: path,
-    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    navigate({ to: path as any });
   };
 
   return (
