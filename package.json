@@ -20,7 +20,8 @@
     "lint": "turbo lint",
     "format": "biome format --write .",
     "watch:json-server": "json-server db.json --port 3333",
-    "check": "turbo check"
+    "check": "turbo check",
+    "wbs:sync": "node wbs/sync.js"
   },
   "dependencies": {
     "concurrently": "^9.2.1"
