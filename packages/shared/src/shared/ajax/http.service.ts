@@ -8,8 +8,6 @@ import type {
 
 import { encodeQueryString } from '../lib/utils';
 
-const API_REQUEST_TIMEOUT = 9000;
-
 interface RequestArgs {
   method: HttpMethod;
   url: string;
@@ -27,22 +25,25 @@ export enum HttpMethod {
 
 export class HttpService {
   private httpClient: AxiosInstance;
-  private options: AxiosRequestConfig;
 
   constructor() {
-    this.options = {
-      timeout: API_REQUEST_TIMEOUT,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    this.httpClient = axios.create(this.options);
+    this.httpClient = axios.create({
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
+  /**
+   * 앱 시작 시 한 번 호출해서 baseURL·timeout·인터셉터를 설정합니다.
+   * (apps/[app]/src/main.tsx에서 호출)
+   */
   init(config?: {
+    baseURL?: string;
+    timeout?: number;
     interceptors?: {
       request?: {
-        onFulfilled?: (value: InternalAxiosRequestConfig) => InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>;
+        onFulfilled?: (
+          value: InternalAxiosRequestConfig,
+        ) => InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>;
         onRejected?: (error: any) => any;
       };
       response?: {
@@ -51,9 +52,15 @@ export class HttpService {
       };
     };
   }): void {
+    if (config?.baseURL) this.httpClient.defaults.baseURL = config.baseURL;
+    if (config?.timeout) this.httpClient.defaults.timeout = config.timeout;
+
     const interceptors = config?.interceptors;
     if (interceptors?.request) {
-      this.httpClient.interceptors.request.use(interceptors.request.onFulfilled, interceptors.request.onRejected);
+      this.httpClient.interceptors.request.use(
+        interceptors.request.onFulfilled,
+        interceptors.request.onRejected,
+      );
     }
     if (interceptors?.response) {
       this.httpClient.interceptors.response.use(
@@ -64,69 +71,32 @@ export class HttpService {
   }
 
   async get<T>(url: string, queryParam?: Record<string, any>, options?: AxiosRequestConfig): Promise<T> {
-    return this.execute<T>(
-      {
-        method: HttpMethod.GET,
-        url: encodeQueryString(url),
-        queryParam,
-      },
-      options,
-    );
+    return this.execute<T>({ method: HttpMethod.GET, url: encodeQueryString(url), queryParam }, options);
   }
 
   async post<T>(url: string, payload?: unknown, options?: AxiosRequestConfig): Promise<T> {
-    return this.execute<T>(
-      {
-        method: HttpMethod.POST,
-        url,
-        payload,
-      },
-      options,
-    );
+    return this.execute<T>({ method: HttpMethod.POST, url, payload }, options);
   }
 
   async put<T>(url: string, payload?: unknown, options?: AxiosRequestConfig): Promise<T> {
-    return this.execute<T>(
-      {
-        method: HttpMethod.PUT,
-        url,
-        payload,
-      },
-      options,
-    );
+    return this.execute<T>({ method: HttpMethod.PUT, url, payload }, options);
   }
 
   async patch<T>(url: string, payload?: unknown, options?: AxiosRequestConfig): Promise<T> {
-    return this.execute<T>(
-      {
-        method: HttpMethod.PATCH,
-        url,
-        payload,
-      },
-      options,
-    );
+    return this.execute<T>({ method: HttpMethod.PATCH, url, payload }, options);
   }
 
   async delete<T>(url: string, payload?: unknown, options?: AxiosRequestConfig): Promise<T> {
-    return this.execute<T>(
-      {
-        method: HttpMethod.DELETE,
-        url,
-        payload,
-      },
-      options,
-    );
+    return this.execute<T>({ method: HttpMethod.DELETE, url, payload }, options);
   }
 
   private httpRequest<T>(args: RequestArgs, config?: AxiosRequestConfig): AxiosPromise<T> {
     const { method, url, queryParam, payload } = args;
-
     return this.httpClient.request<T>({
       method,
       url,
       params: queryParam,
       data: payload,
-      ...this.options,
       ...config,
     });
   }
@@ -140,9 +110,7 @@ export class HttpService {
       throw data;
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.data) {
-          throw error.response.data;
-        }
+        if (error.response?.data) throw error.response.data;
       }
       throw error;
     }

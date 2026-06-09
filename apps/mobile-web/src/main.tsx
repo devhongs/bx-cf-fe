@@ -3,6 +3,11 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 
+import { httpService, API_URL, API_CONFIG } from '@bx/shared';
+
+// API 초기화 — baseURL·timeout을 앱 시작 시 한 번만 설정
+httpService.init({ baseURL: API_URL, timeout: API_CONFIG.TIMEOUT });
+
 // Import the generated route tree
 
 import { queryClient } from './queryClient.ts';
