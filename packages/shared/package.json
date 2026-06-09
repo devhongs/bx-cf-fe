@@ -6,7 +6,9 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.4",
     "@tanstack/react-query": "^5.100.11",
+    "vaul": "^1.1.2",
     "axios": "^1.12.2",
     "clsx": "^2.1.1",
     "date-fns": "^4.2.1",

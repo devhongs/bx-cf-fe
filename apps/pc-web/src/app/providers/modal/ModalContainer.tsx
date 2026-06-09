@@ -1,7 +1,7 @@
 import { Suspense, lazy } from 'react';
 import type { ComponentType } from 'react';
 
-import * as DialogPrimitive from '@radix-ui/react-dialog';
+import { Dialog, DialogContent } from '@bx/shared';
 import type { ModalConfig } from '@bx/shared';
 import { useModalStore } from '@bx/shared';
 
@@ -13,6 +13,7 @@ const modalModules = import.meta.glob<Record<string, ComponentType<any>>>(
 
 const modalPathMap = Object.keys(modalModules).reduce(
   (acc, path) => {
+    // '/src/routes/(modal)/setting/index.tsx' → 'setting'
     const match = path.match(/\/src\/routes\/\(modal\)\/(.+)\/index\.tsx$/);
     if (match) acc[match[1]] = path;
     return acc;
@@ -39,7 +40,7 @@ interface ModalContainerProps extends ModalConfig {
   index?: number;
 }
 
-export const ModalContainer = ({ index = 0, ...config }: ModalContainerProps) => {
+export function ModalContainer({ index = 0, ...config }: ModalContainerProps) {
   const { close } = useModalStore();
 
   const fullPath = config.path?.startsWith('/')
@@ -47,7 +48,7 @@ export const ModalContainer = ({ index = 0, ...config }: ModalContainerProps) =>
     : modalPathMap[config.path ?? ''];
 
   if (!fullPath) {
-    if (config.path) console.error(`[mobile-web] Modal not found: ${config.path}`);
+    if (config.path) console.error(`[pc-web] Modal not found: ${config.path}`);
     return null;
   }
 
@@ -59,26 +60,17 @@ export const ModalContainer = ({ index = 0, ...config }: ModalContainerProps) =>
   };
 
   return (
-    <DialogPrimitive.Root open onOpenChange={handleOpenChange}>
-      <DialogPrimitive.Portal>
-        {/* 풀스크린: 오버레이 없음, 콘텐츠가 직접 inset-0 채움 */}
-        <DialogPrimitive.Content
-          className="fixed inset-0 z-[150] flex flex-col bg-white outline-none"
-          style={{ zIndex: 150 + index }}
-          // 모바일 풀스크린이므로 outside click 닫기 비활성
-          onInteractOutside={(e) => e.preventDefault()}
-        >
-          <Suspense
-            fallback={
-              <div className="flex h-full items-center justify-center text-sm text-gray-400">
-                로딩 중...
-              </div>
-            }
-          >
-            <Component {...config} />
-          </Suspense>
-        </DialogPrimitive.Content>
-      </DialogPrimitive.Portal>
-    </DialogPrimitive.Root>
+    <Dialog open onOpenChange={handleOpenChange}>
+      <DialogContent
+        /* pc-web 다크 테마 */
+        className="border-[#2a2a2c] bg-[#1e1f21] text-[#e3e3e3] max-w-xl"
+        style={{ zIndex: 200 + index }}
+        hideClose
+      >
+        <Suspense fallback={<div className="flex h-40 items-center justify-center text-sm text-gray-400">로딩 중...</div>}>
+          <Component {...config} />
+        </Suspense>
+      </DialogContent>
+    </Dialog>
   );
-};
+}

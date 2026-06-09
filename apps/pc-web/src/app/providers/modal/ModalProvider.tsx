@@ -3,7 +3,7 @@ import { useModalStore } from '@bx/shared';
 
 import { ModalContainer } from './ModalContainer';
 
-export const ModalProvider = ({ className: _className }: { className?: string }) => {
+export function ModalProvider() {
   const { modals } = useModalStore();
 
   if (modals.length === 0) return null;
@@ -15,4 +15,4 @@ export const ModalProvider = ({ className: _className }: { className?: string })
       ))}
     </>
   );
-};
+}

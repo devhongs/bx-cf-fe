@@ -1,5 +1,7 @@
 import { Outlet, createRootRoute } from '@tanstack/react-router';
 
+import { ModalProvider } from '@/app/providers/modal';
+
 export const Route = createRootRoute({
   notFoundComponent: () => (
     <div style={{
@@ -13,5 +15,10 @@ export const Route = createRootRoute({
       404 — 페이지를 찾을 수 없습니다.
     </div>
   ),
-  component: () => <Outlet />,
+  component: () => (
+    <>
+      <Outlet />
+      <ModalProvider />
+    </>
+  ),
 });
