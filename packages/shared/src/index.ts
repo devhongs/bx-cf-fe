@@ -4,6 +4,7 @@ export * from './entities/auth';
 export * from './entities/menu';
 export * from './entities/product';
 export * from './entities/user';
+export * from './shared/ajax/http.service';
 export * from './shared/types';
 export * from './shared/hooks';
 export * from './shared/model';

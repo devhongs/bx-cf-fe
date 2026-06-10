@@ -15,6 +15,13 @@ interface RequestArgs {
   payload?: unknown;
 }
 
+export interface ApiResponse<T = unknown> {
+  success: boolean;
+  code: string;
+  msg: string;
+  payload: T;
+}
+
 export enum HttpMethod {
   GET = 'GET',
   POST = 'POST',
@@ -103,14 +110,22 @@ export class HttpService {
 
   private async execute<T>(args: RequestArgs, options?: AxiosRequestConfig): Promise<T> {
     try {
-      const { data, status } = await this.httpRequest<any>(args, options);
-      if (status >= 200 && status < 300) {
-        return data.data !== undefined ? data.data : data;
+      const { data } = await this.httpRequest<ApiResponse<T>>(args, options);
+
+      if (data.success) {
+        return data.payload;
       }
+
       throw data;
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         if (error.response?.data) throw error.response.data;
+        throw {
+          success: false,
+          code: '-1',
+          msg: error.message,
+          payload: null,
+        } satisfies ApiResponse<null>;
       }
       throw error;
     }
@@ -118,3 +133,23 @@ export class HttpService {
 }
 
 export const httpService = new HttpService();
+
+/**
+ * json-server 등 { success, code, msg, payload } 포맷을 따르지 않는
+ * mock 백엔드의 응답을 표준 ApiResponse 포맷으로 감싸주는 인터셉터.
+ * httpService.init({ interceptors: { response: mockApiResponseInterceptor } }) 형태로 사용
+ */
+export const mockApiResponseInterceptor = {
+  onFulfilled: (response: any) => {
+    if (response?.data && typeof response.data === 'object' && 'success' in response.data) {
+      return response;
+    }
+    response.data = {
+      success: true,
+      code: '0',
+      msg: 'success',
+      payload: response.data,
+    } satisfies ApiResponse;
+    return response;
+  },
+};
