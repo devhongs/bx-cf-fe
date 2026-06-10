@@ -1,9 +1,8 @@
 import { Suspense, lazy } from 'react';
 import type { ComponentType } from 'react';
 
-import * as DialogPrimitive from '@radix-ui/react-dialog';
 import type { ModalConfig } from '@bx/shared';
-import { useModalStore } from '@bx/shared';
+import { DialogPrimitive, useModalStore } from '@bx/shared';
 
 /* ── 모달 컴포넌트 레지스트리 ── */
 const modalModules = import.meta.glob<Record<string, ComponentType<any>>>(
@@ -42,9 +41,7 @@ interface ModalContainerProps extends ModalConfig {
 export const ModalContainer = ({ index = 0, ...config }: ModalContainerProps) => {
   const { close } = useModalStore();
 
-  const fullPath = config.path?.startsWith('/')
-    ? config.path
-    : modalPathMap[config.path ?? ''];
+  const fullPath = config.path?.startsWith('/') ? config.path : modalPathMap[config.path ?? ''];
 
   if (!fullPath) {
     if (config.path) console.error(`[mobile-web] Modal not found: ${config.path}`);

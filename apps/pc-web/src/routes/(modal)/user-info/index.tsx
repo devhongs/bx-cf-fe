@@ -1,10 +1,10 @@
 import { User } from 'lucide-react';
 
-import { DialogTitle, DialogHeader, useUserStore } from '@bx/shared';
+import { DialogTitle, DialogHeader, useAuthStore } from '@bx/shared';
 import type { ModalConfig } from '@bx/shared';
 
 export function UserInfoModal(_props: ModalConfig) {
-  const user = useUserStore((s) => s.user);
+  const user = useAuthStore((s) => s.user);
 
   return (
     <div className="flex flex-col gap-6">
@@ -17,8 +17,8 @@ export function UserInfoModal(_props: ModalConfig) {
           <User size={28} className="text-[#8ab4f8]" />
         </div>
         <div className="text-center">
-          <p className="text-base font-semibold text-[#e3e3e3]">{user?.name ?? '사용자'}</p>
-          <p className="text-sm text-[#9aa0a6]">{user?.id ?? ''}</p>
+          <p className="text-base font-semibold text-[#e3e3e3]">{user?.usrNm ?? '사용자'}</p>
+          <p className="text-sm text-[#9aa0a6]">{user?.usrId ?? ''}</p>
         </div>
       </div>
 

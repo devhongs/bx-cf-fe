@@ -1,6 +1,6 @@
-import * as React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
+import * as React from 'react';
 
 import { cn } from '../lib/cn';
 
@@ -123,4 +123,6 @@ export {
   DialogFooter,
   DialogTitle,
   DialogDescription,
+  // raw Radix 네임스페이스 재노출 — 앱에서 직접 의존성 추가 없이 사용 (예: 풀스크린 모달)
+  DialogPrimitive,
 };

@@ -1,7 +1,7 @@
 import { useNavigate } from '@tanstack/react-router';
 import { LogOut } from 'lucide-react';
 
-import { useUserStore } from '@bx/shared';
+import { useAuthStore } from '@bx/shared';
 import { useModal } from '@bx/shared';
 import type { ModalConfig } from '@bx/shared';
 import { IconButton } from '@bx/shared';
@@ -14,7 +14,7 @@ interface SettingModalProps extends ModalConfig {
 export function SettingModal(_props: SettingModalProps) {
   const navigate = useNavigate();
   const { closeAll: closeAllModal } = useModal();
-  const logout = useUserStore((state) => state.logout);
+  const logout = useAuthStore((state) => state.logout);
 
   const handleLogoutClick = () => {
     logout();

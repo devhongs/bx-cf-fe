@@ -1,14 +1,14 @@
 import { useNavigate } from '@tanstack/react-router';
 import { LogOut, User } from 'lucide-react';
 
-import { useModal, useUserStore, DialogTitle, DialogHeader, DialogDescription } from '@bx/shared';
+import { useModal, useAuthStore, DialogTitle, DialogHeader, DialogDescription } from '@bx/shared';
 import type { ModalConfig } from '@bx/shared';
 
 export function SettingModal(_props: ModalConfig) {
   const navigate = useNavigate();
   const { closeAll } = useModal();
-  const logout = useUserStore((s) => s.logout);
-  const user = useUserStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
+  const user = useAuthStore((s) => s.user);
 
   const handleLogout = () => {
     logout();
@@ -29,8 +29,8 @@ export function SettingModal(_props: ModalConfig) {
           <User size={18} className="text-[#8ab4f8]" />
         </div>
         <div>
-          <p className="text-sm font-medium text-[#e3e3e3]">{user?.name ?? '사용자'}</p>
-          <p className="text-xs text-[#9aa0a6]">{user?.id ?? ''}</p>
+          <p className="text-sm font-medium text-[#e3e3e3]">{user?.usrNm ?? '사용자'}</p>
+          <p className="text-xs text-[#9aa0a6]">{user?.usrId ?? ''}</p>
         </div>
       </div>
 

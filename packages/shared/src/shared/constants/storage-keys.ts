@@ -11,7 +11,9 @@ export const STORAGE_KEYS = {
   USER: 'user',
   RECENT_USER_ID: 'recentUserId',
   ACCESS_TOKEN: 'accessToken',
+  ACCESS_TOKEN_EXPIRES_AT: 'accessTokenExpiresAt',
   REFRESH_TOKEN: 'refreshToken',
+  REFRESH_TOKEN_EXPIRES_AT: 'refreshTokenExpiresAt',
 
   // 사용자 설정
   USER_PREFERENCES: 'userPreferences',

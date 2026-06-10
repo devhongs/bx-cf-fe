@@ -47,6 +47,7 @@ test.describe('Mobile Web Scenario Test', () => {
     await expect(async () => {
       // productItem 컴포넌트가 5개 렌더링되었는지 검증
       const count = await productItems.count();
+      expect(count).toBeGreaterThan(0);
       // data.json 상의 상품 개수는 입출금통장, 한달적금, 26주적금, mini적금, K-패스 체크카드 총 5개입니다.
       // 5개 중 특정 상품명의 텍스트(예: "입출금통장")가 존재하는지도 함께 검증하여 완성도를 높입니다.
       await expect(page.locator('text=입출금통장')).toBeVisible();

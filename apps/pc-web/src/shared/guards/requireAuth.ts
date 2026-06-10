@@ -1,19 +1,13 @@
 import { redirect } from '@tanstack/react-router';
 
-import { STORAGE_KEYS, local } from '@bx/shared';
+import { isAuthenticated } from '@bx/shared';
 
 export const requireAuth = ({ location, context }: any) => {
-  const isLoggedIn = checkLogin();
-  if (!isLoggedIn) {
+  if (!isAuthenticated()) {
     throw redirect({
       to: '/login',
       search: { redirect: location.href },
     });
   }
   return { ...context, state: location?.state };
-};
-
-const checkLogin = (): boolean => {
-  const user = local.get(STORAGE_KEYS.USER);
-  return !!user;
 };

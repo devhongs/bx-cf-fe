@@ -1,6 +1,7 @@
 export * from './browser-util';
 export * from './cn';
 export * from './common.code';
+export * from './common.crypto';
 export * from './common.date';
 export * from './common.device';
 export * from './common.format';

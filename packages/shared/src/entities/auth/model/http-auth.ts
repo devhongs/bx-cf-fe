@@ -1,0 +1,43 @@
+/**
+ * httpService에 주입할 인증 설정 생성기.
+ * 토큰 부착 / 401 재발급 / 인증 실패 처리를 entities/auth 모듈과 연결한다.
+ *
+ * apps/[app]/src/main.tsx에서:
+ *   httpService.init({ ..., auth: createHttpAuthConfig() })
+ */
+
+import type { HttpAuthConfig } from '../../../shared/ajax/http.service';
+import { refreshTokenApi } from '../api/auth.api';
+
+import { useAuthStore } from './auth.store';
+import { isExpired, tokenStorage } from './token-storage';
+
+export const createHttpAuthConfig = (): HttpAuthConfig => ({
+  // 매 요청에 부착할 액세스 토큰
+  getAccessToken: () => tokenStorage.getAccessToken(),
+
+  // 401 발생 시 호출 — 성공하면 새 액세스 토큰, 실패하면 null 반환
+  refreshToken: async () => {
+    const refreshToken = tokenStorage.getRefreshToken();
+    const refreshExpiresAt = tokenStorage.getRefreshTokenExpiresAt();
+
+    // 리프레시 토큰이 없거나 만료됐으면 재발급 불가
+    if (!refreshToken || isExpired(refreshExpiresAt, 0)) return null;
+
+    try {
+      const res = await refreshTokenApi(refreshToken);
+      useAuthStore.getState().setAuth(res);
+      return res.accessToken;
+    } catch {
+      return null;
+    }
+  },
+
+  // 재발급까지 실패한 경우 — 세션 정리 후 로그인 페이지로 이동
+  onAuthFail: () => {
+    useAuthStore.getState().logout();
+    if (typeof window !== 'undefined') {
+      window.location.href = '/login';
+    }
+  },
+});

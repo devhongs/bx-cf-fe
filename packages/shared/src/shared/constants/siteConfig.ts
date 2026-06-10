@@ -11,17 +11,21 @@ const getInfo = () => {
 
 const info = getInfo();
 
+// process가 없는 브라우저 런타임에서도 안전하게 환경변수에 접근
+const procEnv =
+  (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env ?? {};
+
 const CONFIG = {
   SET_NAME: 'SET_NAME', // 이름을 변경하는 타입 정의
   ENV: {
     MODE: info.MODE,
     LOCAL_MODE: info.LOCAL_MODE,
-    PHASE: process.env.APP_PHASE,
-    BASE_PATH: process.env.NODE_ENV === 'development' ? '' : process.env.NEXT_PUBLIC_APP_BASE_PATH,
+    PHASE: procEnv.APP_PHASE,
+    BASE_PATH: procEnv.NODE_ENV === 'development' ? '' : procEnv.NEXT_PUBLIC_APP_BASE_PATH,
   },
   PROXY: {
-    TNSN_URL: process.env.APP_TNSN_URL, // '/online/gatewayEndpoint/json'
-    I18N_URL: process.env.APP_I18N_URL, // '/app/common/messages/'
+    TNSN_URL: procEnv.APP_TNSN_URL, // '/online/gatewayEndpoint/json'
+    I18N_URL: procEnv.APP_I18N_URL, // '/app/common/messages/'
   },
   SESSION: {
     CODE: '__code__', // 코드정보 (팝업 포함하지 않음)

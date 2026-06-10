@@ -1,7 +1,7 @@
 import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 
-import { STORAGE_KEYS, local, login as loginApi, useUserStore } from '@bx/shared';
+import { STORAGE_KEYS, local, login as loginApi, sha256, useAuthStore } from '@bx/shared';
 
 import styles from './index.module.css';
 
@@ -9,24 +9,25 @@ export function LoginForm() {
   const navigate = useNavigate();
   const [id, setId] = useState(() => local.get<string>(STORAGE_KEYS.RECENT_USER_ID) || '');
   const [password, setPassword] = useState('');
-  const loginStore = useUserStore((state) => state.login);
+  const setAuth = useAuthStore((state) => state.setAuth);
 
   const handleSubmit = async () => {
     if (!id.trim()) {
       alert('아이디를 입력해주세요.');
       return;
     }
+    if (!password) {
+      alert('비밀번호를 입력해주세요.');
+      return;
+    }
     try {
-      const response = await loginApi(id);
-      if (response?.id) {
-        local.set(STORAGE_KEYS.RECENT_USER_ID, response.id.toString());
-        loginStore(response);
-        navigate({ to: '/main' });
-      } else {
-        alert('존재하지 않는 사용자이거나 로그인 정보가 올바르지 않습니다.');
-      }
+      const usrPwd = await sha256(password);
+      const response = await loginApi({ usrId: id, usrPwd });
+      local.set(STORAGE_KEYS.RECENT_USER_ID, response.usrId);
+      setAuth(response);
+      navigate({ to: '/main' });
     } catch (error) {
-      alert('로그인 처리 중 오류가 발생했습니다.');
+      alert('로그인에 실패했습니다. 아이디 또는 비밀번호를 확인해주세요.');
       console.error(error);
     }
   };
@@ -95,12 +96,20 @@ export function LoginForm() {
       {/* 하단 푸터 */}
       <div className={styles.footer}>
         <div className={styles.footerLeft}>
-          <button type="button" className={styles.footerBtn}>한국어 ▾</button>
+          <button type="button" className={styles.footerBtn}>
+            한국어 ▾
+          </button>
         </div>
         <div className={styles.footerRight}>
-          <button type="button" className={styles.footerBtn}>도움말</button>
-          <button type="button" className={styles.footerBtn}>개인정보처리방침</button>
-          <button type="button" className={styles.footerBtn}>약관</button>
+          <button type="button" className={styles.footerBtn}>
+            도움말
+          </button>
+          <button type="button" className={styles.footerBtn}>
+            개인정보처리방침
+          </button>
+          <button type="button" className={styles.footerBtn}>
+            약관
+          </button>
         </div>
       </div>
     </div>

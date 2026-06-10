@@ -1,15 +1,7 @@
-import { useNavigate, useLocation } from '@tanstack/react-router';
-import {
-  LayoutDashboard,
-  Wallet,
-  ShoppingBag,
-  Bell,
-  Settings,
-  LogOut,
-  User,
-} from 'lucide-react';
+import { useLocation, useNavigate } from '@tanstack/react-router';
+import { Bell, LayoutDashboard, LogOut, Settings, ShoppingBag, User, Wallet } from 'lucide-react';
 
-import { useUserStore, local, STORAGE_KEYS } from '@bx/shared';
+import { useAuthStore } from '@bx/shared';
 
 import styles from './LeftSidebar.module.css';
 
@@ -24,12 +16,11 @@ const navItems = [
 export function LeftSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const user = useUserStore((s) => s.user);
-  const logoutStore = useUserStore((s) => s.logout);
+  const user = useAuthStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
 
   const handleLogout = () => {
-    local.remove(STORAGE_KEYS.USER);
-    logoutStore();
+    logout();
     navigate({ to: '/login' });
   };
 
@@ -65,8 +56,8 @@ export function LeftSidebar() {
             <User size={16} />
           </div>
           <div className={styles.profileInfo}>
-            <span className={styles.profileName}>{user?.name ?? '사용자'}</span>
-            <span className={styles.profileId}>{user?.id ?? ''}</span>
+            <span className={styles.profileName}>{user?.usrNm ?? '사용자'}</span>
+            <span className={styles.profileId}>{user?.usrId ?? ''}</span>
           </div>
         </div>
         <button type="button" className={styles.logoutBtn} onClick={handleLogout}>
