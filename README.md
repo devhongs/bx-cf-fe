@@ -1,162 +1,255 @@
 # 📘 BX-CF Enterprise Frontend Framework (Monorepo)
 
-본 프로젝트는 초고속 빌드 성능과 극대화된 DX(Developer Experience)를 지향하는 **React + TypeScript + Vite** 기술 스택 기반의 엔터프라이즈급 금융/자산관리 웹 애플리케이션 프레임워크입니다. 
+본 프로젝트는 초고속 빌드 성능과 극대화된 DX(Developer Experience)를 지향하는 **React 19 + TypeScript + Vite** 기술 스택 기반의 엔터프라이즈급 금융/자산관리 웹 애플리케이션 프레임워크입니다.
 
-**pnpm Workspaces와 Turborepo** 기반의 모노레포 구조로 이뤄져 있으며, 비즈니스 요구사항에 유연하게 대응하기 위해 **Feature-Sliced Design (FSD)** 설계 규격 및 단일화된 스마트 공유 패키지 아키텍처를 따르고 있습니다.
+**pnpm Workspaces + Turborepo** 기반의 모노레포로 구성되며, **Feature-Sliced Design (FSD)** 설계 규격과 단일 공유 패키지(`@bx/shared`) 아키텍처를 따릅니다. PC·모바일 웹은 각각 독립된 FSD 애플리케이션이며, 도메인 로직·UI·HTTP 통신·인증을 `@bx/shared`에서 공유합니다.
 
 ---
 
 ## 🚀 시작하기 (Quick Start)
 
-의존성 설치 및 개발 서버 가동은 다음 명령어로 즉시 시작할 수 있습니다.
-
-### 1. 패키지 의존성 설치 및 워크스페이스 링크 빌드
+### 1. 패키지 의존성 설치
 ```bash
 pnpm install
 ```
 
-### 2. 로컬 개발 환경 실행 명령어 모음 (Dev Scripts)
-개발 목적에 맞춰 원하시는 플랫폼 또는 Mocking 서버 명령어를 루트 디렉토리에서 즉시 수행할 수 있습니다.
+### 2. 개발 서버 실행
+가장 권장하는 방식은 모든 앱과 Mock API 서버를 한 번에 띄우는 것입니다.
 
-* **💻 클라이언트 플랫폼 앱 & Mocking API 서버 전체 통합 가동 (가장 권장)**:
-  ```bash
-  pnpm dev:all
-  ```
-  > **가동 포트 정보**:
-  > - **📱 모바일 웹 포탈**: [http://localhost:3001](http://localhost:3001)
-  > - **💻 PC 게이트웨이 웹**: [http://localhost:3000](http://localhost:3000)
-  > - **⚙️ 관리자 포탈**: [http://localhost:3002](http://localhost:3002)
-  > - **📡 Mocking API 데이터 서버**: [http://localhost:3333](http://localhost:3333)
+```bash
+pnpm dev:all
+```
 
-* **📱 모바일 웹 포탈 단독 구동 (FSD 핵심 기능 개발)**:
-  ```bash
-  pnpm dev:mobile
-  ```
-  *(포트 `3001`에서 가동)*
+> **가동 포트**
+> - 💻 **PC 웹**: [http://localhost:3000](http://localhost:3000)
+> - 📱 **모바일 웹**: [http://localhost:3001](http://localhost:3001)
+> - ⚙️ **관리자 포탈**: [http://localhost:3002](http://localhost:3002)
+> - 📡 **Mock API (json-server)**: [http://localhost:3333](http://localhost:3333)
 
-* **💻 PC 게이트웨이 웹 단독 구동 (데스크톱 안내 대문 개발)**:
-  ```bash
-  pnpm dev:pc
-  ```
-  *(포트 `3000`에서 가동)*
-
-* **⚙️ 관리자 포탈 단독 구동 (Admin Portal 개발)**:
-  ```bash
-  pnpm dev:admin
-  ```
-  *(포트 `3002`에서 가동)*
-
-* **📡 로컬 Mocking API 데이터 서버 단독 구동**:
-  ```bash
-  pnpm dev:server
-  ```
-  *(포트 `3333`에서 가동)*
-
----
-
-## 📜 실행 스크립트 (PNPM Workspace Scripts)
-
-루트 디렉토리에서 간편한 단축 명령어를 통해 개별 플랫폼 앱 개발 서버를 독립 제어하거나 통합 품질 검사를 수행할 수 있습니다.
-
-### 💻 개발 서버 구동 (Dev Servers)
-* **전체 플랫폼 가동**: `pnpm dev` (Turborepo를 통해 모든 앱을 병렬 실행)
-* **모바일 웹 포탈**: `pnpm dev:mobile` (Port **`3001`**에서 동작하며 FSD 비즈니스 로직 구동)
-* **PC 게이트웨이 웹**: `pnpm dev:pc` (Port **`3000`**에서 동작하며 모바일 접속 유도 뷰포트 페이지 제공)
-* **관리자 포탈**: `pnpm dev:admin` (Port **`3002`**에서 동작)
-* **로컬 Mocking API 서버**: `pnpm dev:server` (Port **`3333`**에서 mock json-server 실행)
-* **통합 실행**: `pnpm dev:all` (전체 플랫폼 앱 개발 서버와 mock API 서버를 동시에 가동)
-
-### 🧪 E2E 테스트 (E2E Testing)
-본 프로젝트는 **Playwright** 기반의 E2E 테스트 환경이 구축되어 있으며, 루트 디렉토리에서 개별 플랫폼의 시나리오 검증을 실행할 수 있습니다.
-* **전체 플랫폼 E2E 테스트 실행**: `pnpm test:e2e`
-* **모바일 웹 포탈 E2E 테스트 단독 실행**: `pnpm test:e2e:mobile`
-* **PC 게이트웨이 웹 E2E 테스트 단독 실행**: `pnpm test:e2e:pc`
-* **관리자 포탈 E2E 테스트 단독 실행**: `pnpm test:e2e:admin`
-
-### 🛠️ 검증 및 빌드 (Verify & Build)
-* **프로덕션 통합 빌드**: `pnpm run build` (Turborepo 파이프라인 캐싱을 사용해 전사 앱 번들링)
-* **타입 안전성 검사**: 각 개별 앱 디렉토리에서 `pnpm exec tsc --noEmit` 실행
-* **코드 포맷터**: `pnpm run format` (Biome을 통한 초고속 일괄 코드 포맷팅)
-
----
-
-## 📂 워크스페이스 디렉토리 아키텍처
-
-```plaintext
-d:/project/bwg/bx-cf-fe/
-├── pnpm-workspace.yaml            # pnpm 워크스페이스 정의 (apps/* 및 packages/*)
-├── turbo.json                     # 고성능 빌드 캐싱 파이프라인 정의 (Turborepo)
-├── biome.json                     # Biome 린터 & 포맷터 글로벌 설정 (A11y 제외 완료)
-│
-├── packages/
-│   └── shared/                    # 단일화된 스마트 공유 패키지 (@bx/shared)
-│       ├── src/
-│       │   ├── entities/          # FSD 핵심 엔티티 도메인 (Account, Alarm, Auth, Menu, Product, User)
-│       │   ├── shared/            # 공통 자산 (ui, hooks, model, lib, types, constants, ajax)
-│       │   └── index.ts           # 배럴 파일 (외부로 비즈니스 및 UI 일괄 Export)
-│       └── package.json
-│
-└── apps/
-    ├── mobile-web/                # [MAIN] 실제 작동하는 모바일 전용 핵심 애플리케이션 (Port 3001)
-    │   ├── src/                   # FSD 규칙에 따른 페이지 및 위젯 (FooterButton 캡슐화 완료)
-    │   ├── vite.config.ts         # publicDir 설정 (루트 public 자산 공유)
-    │   └── index.html             # 모바일용 헤더 및 메타데이터 최적화
-    │
-    ├── pc-web/                    # [GATE] 데스크톱 전용 게이트웨이 플레이스홀더 웹 (Port 3000)
-    │   ├── src/main.tsx           # 글래스모피즘 기반의 모바일 유도 안내 대문 페이지
-    │   └── vite.config.ts         # 포트 3000번 독립 번들링 설정
-    │
-    └── admin-portal/              # [ADMIN] 관리자용 플랫폼 템플릿 애플리케이션 (Port 3002)
+개별 구동:
+```bash
+pnpm dev:pc        # PC 웹 (3000)
+pnpm dev:mobile    # 모바일 웹 (3001)
+pnpm dev:admin     # 관리자 포탈 (3002)
+pnpm dev:server    # Mock API 서버 (3333)
 ```
 
 ---
 
-## 🎨 코드 스타일 및 개발 표준 (Code Standards)
+## 🌐 백엔드 연결 (Mock ↔ Spring)
 
-### 1. 린터 및 포맷터 (Biome)
-본 프로젝트는 기존 ESLint/Prettier 대신 차세대 초고속 러스트 기반 도구인 **Biome**을 채택하여 코드 품질과 스타일을 관리합니다.
-* **접근성(A11y) 검사 예외 적용**: 금융 및 자산 관리 프로토타이핑/마이그레이션 특성을 고려하여, 웹 접근성 관련 린트 규칙들(`a11y`)은 글로벌 [biome.json](file:///d:/project/bwg/bx-cf-fe/biome.json) 설정에서 완전히 무시(`"all": false`) 처리되어 개발 속도를 저해하지 않도록 보완되었습니다.
-* **포맷팅 규칙**:
-  * 인덴트: Space 2
-  * 개행 문자: LF
-  * 따옴표 스타일: Single Quotes (`'`)
-  * 세미콜론: 항상 사용 (`semicolons: always`)
+본 프로젝트는 **두 종류의 백엔드**를 지원하며, 앱별 `.env`의 `VITE_API_URL` **값만 바꿔** 전환합니다. 코드 수정은 필요 없습니다.
 
-### 2. 모듈화 및 Barrel 작성 규칙 (`index.ts`)
-* 엔티티, 훅, UI 컴포넌트 등은 관련 디렉토리의 `index.ts`를 통해 한곳에 묶어 노출시킵니다.
-* **순환 참조 배제 원칙**: `@bx/shared` 패키지 내부 모듈(예: `Modal.tsx`, `Page.tsx` 등)이 `@bx/shared` 본인 명칭으로 소스를 호출할 경우 순환 의존성 오류를 일으키므로, **패키지 내부에서는 반드시 로컬 상대 경로로 모듈을 임포트**해야 합니다.
+| 백엔드 | URL | 응답 포맷 | 비고 |
+| :--- | :--- | :--- | :--- |
+| **Mock** (json-server) | `http://localhost:3333` | raw JSON | 프로토타이핑·UI 개발용 |
+| **실서버** (Spring, JWT) | `http://localhost:18081/channel/backend/api/v1` | 공통 envelope | 인증·실데이터 연동 |
 
-### 3. 공통 상수 관리 (Shared Constants)
-프로젝트 전반에서 사용되는 상수는 `@bx/shared` 패키지 내 `packages/shared/src/shared/constants/`에서 중앙 집중식으로 관리하며, `index.ts` 배럴 파일을 통해 일괄 제공합니다.
-* **상수 모듈 구성**:
-  * **`api.ts`**: API 관련 상수 (`API_URL` - `http://localhost:3333`, `API_ENDPOINTS` - 엔드포인트 객체, `API_CONFIG` - 타임아웃/재시도 설정)
-  * **`siteConfig.ts`**: 사이트 전역 설정 (`CONFIG` - 작동 모드, 페이즈, 세션 키, 타이머, 테마 모드, 이체 한도 설정 등)
-  * **`storage-keys.ts`**: 브라우저 캐시 및 스토리지 키 상수 집합 (`STORAGE_KEYS` 및 `StorageKey` 타입)
-  * **`index.ts`**: 배럴 파일 및 앱 기본 설정 (`APP_CONFIG`, `ROUTES` 라우팅 경로, `BANK_OPTIONS` 은행 목록)
-* **임포트 규칙**:
-  * **패키지 외부 (apps/*)**: 반드시 `@bx/shared` 배럴 모듈로 일괄 임포트하여 참조합니다. (예: `import { API_URL, STORAGE_KEYS } from '@bx/shared';`)
-  * **패키지 내부**: 순환 참조 방지를 위해 상대 경로를 사용하여 개별 임포트합니다. (예: `import { API_URL } from './api';`)
+```bash
+# apps/pc-web/.env  ·  apps/mobile-web/.env
+VITE_API_URL=http://localhost:18081/channel/backend/api/v1   # Spring (기본)
+#VITE_API_URL=http://localhost:3333                          # Mock 사용 시 주석 교체
+```
+
+* `.env`는 **각 앱 디렉토리**에 위치해야 합니다(Vite는 앱별로 로드). 루트 `.env`는 Vite 앱이 읽지 않습니다.
+* `.env.production`은 `pnpm build` 시 적용됩니다.
+* URL이 `localhost:3333`이면 `IS_MOCK_API`가 자동으로 `true`가 되어, json-server의 raw 응답을 공통 envelope로 감싸는 보정 인터셉터가 적용되고 **JWT 인증은 비활성화**됩니다.
+
+### 공통 응답 규격 (envelope)
+실서버 응답은 공통부(`success`/`code`/`msg`)와 데이터부(`payload`)로 구성됩니다. `httpService`가 `payload`를 자동 언래핑하여 반환합니다.
+
+```jsonc
+{
+  "success": true,     // 성공/실패
+  "code": "0",         // 성공: "0", 실패: 음수 문자열
+  "msg": "success",    // 메시지
+  "payload": { }       // 실제 데이터 (any)
+}
+```
+
+### API 에러 코드 (`API_ERROR_CODE`)
+| 코드 | 상수 | 설명 |
+| :--- | :--- | :--- |
+| `-1001` | REQUIRED_VALUE_MISSING | 필수 입력값 누락 |
+| `-1002` | INVALID_TOKEN | 유효하지 않은 토큰 → **로그아웃** |
+| `-1003` | UNAUTHORIZED_CLIENT | 인증되지 않은 클라이언트 → **로그아웃** |
+| `-1004` | EXPIRED_TOKEN | 토큰 만료 → **자동 재발급(refresh)** |
+| `-1005` | ACCESS_DENIED | 리소스 접근 권한 없음 (로그아웃 X) |
+| `-2003/-2004` | JSON_*_PARSING | JSON 직렬화/역직렬화 오류 |
+| `-4001/-4002` | DB_*_ERROR | DB 조회/저장 오류 |
+| `-9999` | SERVER_ERROR | 서버 내부 오류 |
 
 ---
 
-## 📘 Git 커밋 메시지 규칙 (Commit Convention)
+## 🔐 인증 (JWT)
 
-일관된 코드 히스토리 관리를 위해 깃 커밋 메시지는 다음 규격을 의무적으로 준수합니다.
+Spring 백엔드 연동 시 **JWT 기반 인증**이 동작합니다. 토큰 부착·만료 시 자동 재발급·인증 실패 처리는 `@bx/shared`에 캡슐화되어 있으며, 앱은 `main.tsx`에서 한 번만 주입합니다.
 
-### 🔖 기본 형식
-* `Type(Scope): Subject`
+```ts
+// apps/[app]/src/main.tsx
+httpService.init({
+  baseURL: API_URL,
+  timeout: API_CONFIG.TIMEOUT,
+  interceptors: IS_MOCK_API ? { response: mockApiResponseInterceptor } : undefined,
+  auth: IS_MOCK_API ? undefined : createHttpAuthConfig(),
+});
+```
 
-### 🧱 Commit Type
+### 로그인 흐름
+1. 비밀번호를 `sha256()`로 해싱 → `POST /auth/login` (`{ usrId, usrPwd }`)
+2. 응답 `payload`(사용자 정보 + accessToken/refreshToken)를 `useAuthStore.setAuth()`로 저장
+3. 토큰은 **localStorage**에 보관(탭 간 공유·새로고침 유지)
+
+### 토큰 자동 관리 (인터셉터)
+* **요청**: 모든 요청에 `Authorization: Bearer <accessToken>` 자동 부착
+* **응답 (`-1004` 또는 HTTP 401)**: `POST /auth/refresh-token`으로 재발급 후 원요청 **자동 재시도**
+  * 동시 다발 요청은 **single-flight**로 refresh 1회만 호출
+  * 재발급 실패 → 로그아웃 + `/login` 리다이렉트
+* **응답 (`-1002`/`-1003`)**: 재발급 불가 → 즉시 로그아웃
+* **응답 (`-1005`)**: 인가(권한) 오류 → 로그아웃하지 않고 에러 그대로 전달
+
+### 라우트 가드
+보호 라우트(`(page)/_page`)는 `beforeLoad: requireAuth`로 진입 시 토큰을 검사합니다. `isAuthenticated()`는 **리프레시 토큰 유효성**을 기준으로 판단하므로, accessToken이 만료됐어도 refreshToken이 살아있으면 통과하고 다음 요청에서 자동 재발급됩니다.
+
+---
+
+## 📜 실행 스크립트 (Scripts)
+
+### 개발 서버
+| 명령 | 설명 |
+| :--- | :--- |
+| `pnpm dev` | 전체 앱 병렬 실행 (Turborepo) |
+| `pnpm dev:pc` / `dev:mobile` / `dev:admin` | 개별 앱 구동 |
+| `pnpm dev:server` | Mock API (json-server, 3333) |
+| `pnpm dev:all` | 전체 앱 + Mock API 동시 구동 |
+
+### 검증 / 빌드
+| 명령 | 설명 |
+| :--- | :--- |
+| `pnpm check` | 전체 타입 검사 (`turbo check` → 각 앱 `tsc --noEmit`) |
+| `pnpm lint` | Biome 린트 |
+| `pnpm format` | Biome 일괄 포맷팅 |
+| `pnpm build` | 프로덕션 통합 빌드 (Turborepo 캐싱) |
+
+### E2E (Playwright)
+| 명령 | 설명 |
+| :--- | :--- |
+| `pnpm test:e2e` | 전체 E2E |
+| `pnpm test:e2e:pc` / `:mobile` / `:admin` | 개별 앱 E2E |
+
+### 기타
+| 명령 | 설명 |
+| :--- | :--- |
+| `pnpm wbs:sync` | `docs/wbs.md` → GitHub Projects 동기화 (`docs/wbs-sync.js`) |
+
+---
+
+## 📂 디렉토리 아키텍처
+
+```plaintext
+bx-cf-fe/
+├── package.json                 # 루트 스크립트 & 워크스페이스
+├── pnpm-workspace.yaml          # 워크스페이스 정의 (apps/*, packages/*)
+├── turbo.json                   # Turborepo 파이프라인 캐싱
+├── biome.json                   # Biome 린터 & 포맷터 (a11y 규칙 제외)
+├── tsconfig.json                # 공통 TS 설정 (각 앱이 extends)
+├── tailwind.config.js           # Tailwind 폰트 확장
+├── db.json                      # json-server Mock 데이터
+├── public/                      # 공용 정적 자산 (앱 간 공유)
+├── docs/                        # 프로젝트 문서 & 도구
+│   ├── order.md / todo.md / wbs.md
+│   └── wbs-sync.js              # WBS → GitHub Projects 동기화 스크립트
+│
+├── packages/
+│   └── shared/                  # 공유 패키지 (@bx/shared)
+│       └── src/
+│           ├── entities/        # 도메인: account, alarm, auth, menu, product, user
+│           │   └── <entity>/    #   ├ api/    (HTTP 호출)
+│           │                    #   ├ model/  (타입·hook·queries·store)
+│           │                    #   └ ui/     (도메인 컴포넌트)
+│           ├── shared/          # 공통: ui, hooks, model, lib, types, constants, ajax
+│           │   ├── ajax/        #   http.service (envelope·인터셉터·JWT)
+│           │   ├── constants/   #   api, error-codes, siteConfig, storage-keys
+│           │   └── ui/          #   dialog, drawer, modal, button, input ...
+│           └── index.ts         # 배럴 (외부로 일괄 Export)
+│
+└── apps/
+    ├── pc-web/                  # PC 웹 (3000) — FSD 앱
+    │   └── src/
+    │       ├── app/             #   전역 프로바이더 (modal 등)
+    │       ├── routes/          #   TanStack Router 파일 기반 라우팅
+    │       │   ├── (auth)/      #     로그인
+    │       │   ├── (page)/      #     보호 라우트 (requireAuth)
+    │       │   └── (modal)/     #     모달 라우트
+    │       ├── pages/           #   페이지 컴포넌트
+    │       ├── features/        #   기능 단위 (auth, dashboard ...)
+    │       ├── widgets/         #   레이아웃 위젯 (sidebar 등)
+    │       └── shared/          #   앱 로컬 공통 (guards 등)
+    │
+    ├── mobile-web/              # 모바일 웹 (3001) — FSD 앱 (구조 동일, 풀스크린 모달)
+    │
+    └── admin-portal/            # 관리자 포탈 (3002) — 스켈레톤(템플릿)
+```
+
+> 라우트 트리(`routeTree.gen.ts`)는 TanStack Router 플러그인이 dev/build 시 자동 생성합니다(직접 수정 금지).
+
+---
+
+## 🎨 코드 스타일 및 개발 표준
+
+### 1. 린터·포맷터 (Biome)
+ESLint/Prettier 대신 Rust 기반 **Biome**으로 품질·스타일을 관리합니다.
+* **접근성(a11y) 규칙 제외**: 프로토타이핑/마이그레이션 속도를 위해 [biome.json](biome.json)에서 `a11y`를 비활성화했습니다.
+* **포맷 규칙**: 인덴트 Space 2 · 개행 LF · 작은따옴표(`'`) · 세미콜론 항상.
+
+### 2. Barrel(`index.ts`) 규칙
+* 엔티티·훅·UI는 디렉토리의 `index.ts`로 묶어 노출합니다.
+* **순환 참조 금지**: `@bx/shared` **내부** 모듈끼리는 반드시 **로컬 상대 경로**로 임포트합니다. (패키지 명칭 `@bx/shared`로 자기 자신을 호출하면 순환 의존성 발생)
+
+### 3. HTTP 통신 (`httpService`)
+* 모든 API 호출은 `@bx/shared`의 `httpService.get/post/put/patch/delete`를 사용합니다.
+* baseURL은 `httpService.init()`에서 1회 설정하므로, 각 API 함수는 **상대 경로**만 사용합니다. (예: `httpService.get('/products')`)
+* `execute()`가 envelope의 `payload`를 언래핑하여 반환하고, `success: false`는 에러로 throw합니다.
+
+### 4. 공통 상수 (`@bx/shared/.../constants`)
+| 모듈 | 내용 |
+| :--- | :--- |
+| `api.ts` | `API_URL`(env 주입), `IS_MOCK_API`, `API_CONFIG`(타임아웃·재시도) |
+| `error-codes.ts` | `API_ERROR_CODE` 및 인증 코드 판별 헬퍼 |
+| `siteConfig.ts` | 전역 `CONFIG` (모드·세션·타이머·테마·한도 등) |
+| `storage-keys.ts` | `STORAGE_KEYS` (토큰·사용자·캐시 키) |
+| `index.ts` | `APP_CONFIG`, `ROUTES`, `BANK_OPTIONS` |
+
+* **앱(apps/*)에서**: `@bx/shared` 배럴로 일괄 임포트. (예: `import { API_URL, STORAGE_KEYS } from '@bx/shared';`)
+* **패키지 내부에서**: 상대 경로로 개별 임포트. (예: `import { API_URL } from './api';`)
+
+---
+
+## 🪟 모달 시스템
+
+`@bx/shared`의 Zustand 스토어(`useModalStore`/`useModal`)로 모달 스택을 관리하고, Radix Dialog 기반 UI를 사용합니다.
+* **PC**: 화면 중앙 다이얼로그 (`Dialog`)
+* **모바일**: 풀스크린 다이얼로그
+* 모달 화면은 각 앱의 `routes/(modal)/<name>/index.tsx`에 두고, `useModal().open({ path: '<name>' })`으로 호출합니다.
+
+---
+
+## 📘 Git 커밋 컨벤션
+
+### 형식
+`Type(Scope): Subject`
+
+### Type
 | Type | 설명 |
 | :--- | :--- |
 | **feat** | 새로운 기능 추가 |
-| **fix** | 버그 및 에러 수정 |
+| **fix** | 버그·에러 수정 |
 | **docs** | 문서 수정 (README 등) |
-| **style** | 코드 포맷팅, 스타일 수정 (기능 영향 없음) |
-| **refactor**| 구조 리팩터링 |
-| **build** | 빌드 관련 설정 수정 (Vite, pnpm 등) |
-| **chore** | 패키지 업데이트, 잡다한 설정 변경 |
+| **style** | 포맷·스타일 (기능 영향 없음) |
+| **refactor** | 구조 리팩터링 |
+| **build** | 빌드 설정 (Vite, pnpm 등) |
+| **chore** | 패키지 업데이트·잡무 |
 
 ---
 
-*본 프레임워크에 대한 기술 문의 및 아키텍처 개선안은 개발 리드 혹은 pair programming 어시스턴트(Antigravity)에게 전달해 주시기 바랍니다.*
+*기술 문의 및 아키텍처 개선 제안은 개발 리드에게 전달해 주세요.*
