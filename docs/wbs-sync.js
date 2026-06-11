@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 
-const WBS_MD_PATH = path.resolve('wbs.md');
+const WBS_MD_PATH = path.resolve('docs/wbs.md');
 const GH_PATH = 'C:/Program Files/GitHub CLI/gh.exe';
 const PROJECT_NUMBER = '1';
 const OWNER = 'devhongs';
@@ -54,7 +54,7 @@ function runGraphQL(query, variables = {}) {
       payload.variables = variables;
     }
     
-    const payloadPath = path.resolve('wbs/graphql_payload.json');
+    const payloadPath = path.resolve('docs/graphql_payload.json');
     fs.writeFileSync(payloadPath, JSON.stringify(payload));
     
     const cmd = `"${GH_PATH}" api graphql -H "GraphQL-Features: sub_issues" --input "${payloadPath}"`;
@@ -205,7 +205,7 @@ function parseWbsMarkdown() {
 function createRepoIssue(title, body) {
   const titleEscaped = title.replace(/"/g, '\\"');
   
-  const tempPath = path.resolve('wbs/temp_body_create.txt');
+  const tempPath = path.resolve('docs/temp_body_create.txt');
   fs.writeFileSync(tempPath, body);
   
   const cmd = `issue create --repo ${REPO} --title "${titleEscaped}" --body-file "${tempPath}"`;
@@ -222,7 +222,7 @@ function createRepoIssue(title, body) {
 }
 
 function updateRepoIssueBody(number, body) {
-  const tempPath = path.resolve('wbs/temp_body_update.txt');
+  const tempPath = path.resolve('docs/temp_body_update.txt');
   fs.writeFileSync(tempPath, body);
   runCommandRaw(`issue edit ${number} --repo ${REPO} --body-file "${tempPath}"`);
   try { fs.unlinkSync(tempPath); } catch {}

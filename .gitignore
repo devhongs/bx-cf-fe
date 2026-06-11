@@ -7,6 +7,9 @@ apps/*/dist
 packages/*/dist
 dist-ssr
 count.txt
+tsc_output*.txt
+docs/graphql_payload.json
+docs/temp_body_*.txt
 .nitro
 .tanstack
 .turbo
