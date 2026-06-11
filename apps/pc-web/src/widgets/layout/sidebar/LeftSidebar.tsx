@@ -13,11 +13,14 @@ const navItems = [
   { label: '설정', path: '/setting', icon: <Settings size={18} /> },
 ];
 
+import { useLayout } from '@/shared/context/LayoutContext';
+
 export function LeftSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
+  const { leftSidebarOpen } = useLayout();
 
   const handleLogout = () => {
     logout();
@@ -25,13 +28,23 @@ export function LeftSidebar() {
   };
 
   return (
-    <aside className={styles.sidebar}>
+    <aside className={`${styles.sidebar} ${!leftSidebarOpen ? styles.collapsed : ''}`}>
+
       {/* 로고 */}
       <div className={styles.logoArea}>
-        <div className={styles.logo}>
-          <span className={styles.logoText}>BWG</span>
-        </div>
-        <span className={styles.logoLabel}>Finance</span>
+        <svg width="150" height="24" viewBox="0 0 150 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text
+            x="0"
+            y="18"
+            fill="#FFFFFF"
+            fontFamily="'Product Sans', 'Google Sans', 'Outfit', 'Inter', system-ui, sans-serif"
+            fontSize="18"
+            fontWeight="500"
+            letterSpacing="-0.3"
+          >
+            BWG AI Studio
+          </text>
+        </svg>
       </div>
 
       {/* 네비게이션 */}

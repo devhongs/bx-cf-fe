@@ -24,26 +24,34 @@
   transform: translateY(-2px);
 }
 
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
 .iconWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background-color: #2a2a2c;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.05);
+  flex-shrink: 0;
 }
 
 .cardTitle {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 500;
   color: #e3e3e3;
   margin: 0;
 }
 
 .cardDesc {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   color: #8e8e93;
-  margin: 0;
+  margin: 3px 0 0 0;
   line-height: 1.5;
 }

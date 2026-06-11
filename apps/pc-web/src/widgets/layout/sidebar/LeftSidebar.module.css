@@ -4,42 +4,37 @@
   height: 100vh;
   background-color: #1a1a1c;
   border-right: 1px solid #2a2a2c;
-  padding: 16px 0;
+  padding: 0 0 16px 0;
   overflow: hidden;
+  width: 240px;
+  min-width: 240px;
+  transition: width 0.2s ease-in-out, min-width 0.2s ease-in-out, border-right-color 0.2s, opacity 0.2s;
+}
+
+.collapsed {
+  width: 0 !important;
+  min-width: 0 !important;
+  border-right-color: transparent !important;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* 로고 */
 .logoArea {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 20px 20px;
+  height: 56px;
+  padding: 0 24px;
   border-bottom: 1px solid #2a2a2c;
   margin-bottom: 8px;
-}
-
-.logo {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #4285f4, #34a853, #fbbc05, #ea4335);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.logoText {
-  font-size: 0.6rem;
-  font-weight: 900;
-  color: #fff;
-  letter-spacing: -0.5px;
+  box-sizing: border-box;
 }
 
 .logoLabel {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #e3e3e3;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: -0.2px;
 }
 
 /* 네비게이션 */
@@ -61,7 +56,7 @@
   border: none;
   background: transparent;
   color: #9aa0a6;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 400;
   cursor: pointer;
   text-align: left;
@@ -75,8 +70,9 @@
 }
 
 .navItem.active {
-  background-color: #35363a;
-  color: #8ab4f8;
+  background-color: #2f3032;
+  color: #ffffff;
+  font-weight: 500;
 }
 
 .navIcon {
@@ -86,7 +82,7 @@
 }
 
 .navLabel {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
 }
 
 /* 하단 프로필 */

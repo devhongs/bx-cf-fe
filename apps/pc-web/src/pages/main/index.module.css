@@ -1,19 +1,21 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   padding: 0;
 }
 
 .topNav {
   display: flex;
   align-items: center;
-  padding: 16px 32px;
+  padding: 12px 24px;
   border-bottom: 1px solid #2a2a2c;
   background-color: #131314;
   position: sticky;
   top: 0;
   z-index: 10;
+  gap: 12px;
+  justify-content: space-between;
 }
 
 .pageTitle {
@@ -21,6 +23,26 @@
   font-weight: 500;
   color: #e3e3e3;
 }
+
+.toggleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #c4c7c5;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.toggleBtn:hover {
+  background-color: #2f3032;
+  color: #e3e3e3;
+}
+
 
 .content {
   flex: 1;

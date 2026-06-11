@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, X } from 'lucide-react';
 
+import { useLayout } from '@/shared/context/LayoutContext';
 import styles from './RightPanel.module.css';
 
 const ACCOUNT_TYPES = ['전체 계좌', '입출금', '적금', '카드'];
 const DATE_RANGES = ['오늘', '1주일', '1개월', '3개월'];
 
 export function RightPanel() {
+  const { rightPanelOpen, toggleRightPanel } = useLayout();
   const [accountType, setAccountType] = useState(ACCOUNT_TYPES[0]);
   const [dateRange, setDateRange] = useState(DATE_RANGES[2]);
   const [transferAmount, setTransferAmount] = useState('');
@@ -14,10 +16,20 @@ export function RightPanel() {
   const [alertEnabled, setAlertEnabled] = useState(false);
 
   return (
-    <aside className={styles.panel}>
+    <aside className={`${styles.panel} ${!rightPanelOpen ? styles.collapsed : ''}`}>
+
       <div className={styles.header}>
         <span className={styles.headerTitle}>빠른 설정</span>
+        <button
+          type="button"
+          className={styles.closeBtn}
+          onClick={toggleRightPanel}
+          title="패널 닫기"
+        >
+          <X size={16} />
+        </button>
       </div>
+
 
       <div className={styles.body}>
         {/* 계좌 유형 */}
