@@ -262,23 +262,3 @@ export class HttpService {
 }
 
 export const httpService = new HttpService();
-
-/**
- * json-server 등 { success, code, msg, payload } 포맷을 따르지 않는
- * mock 백엔드의 응답을 표준 ApiResponse 포맷으로 감싸주는 인터셉터.
- * httpService.init({ interceptors: { response: mockApiResponseInterceptor } }) 형태로 사용
- */
-export const mockApiResponseInterceptor = {
-  onFulfilled: (response: any) => {
-    if (response?.data && typeof response.data === 'object' && 'success' in response.data) {
-      return response;
-    }
-    response.data = {
-      success: true,
-      code: '0',
-      msg: 'success',
-      payload: response.data,
-    } satisfies ApiResponse;
-    return response;
-  },
-};

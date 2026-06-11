@@ -3,23 +3,14 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 
-import {
-  httpService,
-  API_URL,
-  API_CONFIG,
-  IS_MOCK_API,
-  mockApiResponseInterceptor,
-  createHttpAuthConfig,
-} from '@bx/shared';
+import { API_CONFIG, API_URL, createHttpAuthConfig, httpService } from '@bx/shared';
 
-// API 초기화 — 앱 시작 시 한 번만 설정
-// - mock(json-server): 응답 포맷 보정 인터셉터 적용, JWT 미사용
-// - 실서버(Spring): JWT 인증(토큰 부착 + 401 자동 재발급) 적용
+// API 초기화 — 앱 시작 시 한 번만 설정.
+// mock 서버(mock/server.js)도 Spring과 동일한 envelope/JWT 계약을 따르므로 단일 코드패스로 동작한다.
 httpService.init({
   baseURL: API_URL,
   timeout: API_CONFIG.TIMEOUT,
-  interceptors: IS_MOCK_API ? { response: mockApiResponseInterceptor } : undefined,
-  auth: IS_MOCK_API ? undefined : createHttpAuthConfig(),
+  auth: createHttpAuthConfig(),
 });
 
 // Import the generated route tree

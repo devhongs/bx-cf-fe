@@ -24,7 +24,7 @@ pnpm dev:all
 > - 💻 **PC 웹**: [http://localhost:3000](http://localhost:3000)
 > - 📱 **모바일 웹**: [http://localhost:3001](http://localhost:3001)
 > - ⚙️ **관리자 포탈**: [http://localhost:3002](http://localhost:3002)
-> - 📡 **Mock API (json-server)**: [http://localhost:3333](http://localhost:3333)
+> - 📡 **Mock API**: [http://localhost:3333](http://localhost:3333)
 
 개별 구동:
 ```bash
@@ -40,10 +40,12 @@ pnpm dev:server    # Mock API 서버 (3333)
 
 본 프로젝트는 **두 종류의 백엔드**를 지원하며, 앱별 `.env`의 `VITE_API_URL` **값만 바꿔** 전환합니다. 코드 수정은 필요 없습니다.
 
-| 백엔드 | URL | 응답 포맷 | 비고 |
-| :--- | :--- | :--- | :--- |
-| **Mock** (json-server) | `http://localhost:3333` | raw JSON | 프로토타이핑·UI 개발용 |
-| **실서버** (Spring, JWT) | `http://localhost:18081/channel/backend/api/v1` | 공통 envelope | 인증·실데이터 연동 |
+| 백엔드 | URL | 비고 |
+| :--- | :--- | :--- |
+| **Mock** (`mock/server.js`) | `http://localhost:3333` | 프로토타이핑·UI 개발용 |
+| **실서버** (Spring) | `http://localhost:18081/channel/backend/api/v1` | 인증·실데이터 연동 |
+
+> **핵심**: Mock 서버([mock/server.js](mock/server.js))는 Spring과 **동일한 계약**(공통 envelope + JWT 인증)을 흉내냅니다. 따라서 앱은 **단일 코드패스**로 동작하며, mock에서 검증한 인증·통신 로직이 Spring 연동 시 그대로 유지됩니다. (`pnpm dev:server`로 구동, Node 내장 모듈만 사용해 의존성 없음)
 
 ```bash
 # apps/pc-web/.env  ·  apps/mobile-web/.env
@@ -53,7 +55,7 @@ VITE_API_URL=http://localhost:18081/channel/backend/api/v1   # Spring (기본)
 
 * `.env`는 **각 앱 디렉토리**에 위치해야 합니다(Vite는 앱별로 로드). 루트 `.env`는 Vite 앱이 읽지 않습니다.
 * `.env.production`은 `pnpm build` 시 적용됩니다.
-* URL이 `localhost:3333`이면 `IS_MOCK_API`가 자동으로 `true`가 되어, json-server의 raw 응답을 공통 envelope로 감싸는 보정 인터셉터가 적용되고 **JWT 인증은 비활성화**됩니다.
+* Mock 서버는 `db.json`을 그대로 서빙하되 모든 응답을 envelope로 감싸고, `/auth/*` 엔드포인트는 Spring 형태의 가짜 토큰(먼 미래 만료)을 발급합니다. (`db.json` 변경 시 mock 서버 재시작 필요)
 
 ### 공통 응답 규격 (envelope)
 실서버 응답은 공통부(`success`/`code`/`msg`)와 데이터부(`payload`)로 구성됩니다. `httpService`가 `payload`를 자동 언래핑하여 반환합니다.
@@ -120,7 +122,7 @@ httpService.init({
 | :--- | :--- |
 | `pnpm dev` | 전체 앱 병렬 실행 (Turborepo) |
 | `pnpm dev:pc` / `dev:mobile` / `dev:admin` | 개별 앱 구동 |
-| `pnpm dev:server` | Mock API (json-server, 3333) |
+| `pnpm dev:server` | Mock API 서버 (`mock/server.js`, 3333) |
 | `pnpm dev:all` | 전체 앱 + Mock API 동시 구동 |
 
 ### 검증 / 빌드
@@ -154,7 +156,9 @@ bx-cf-fe/
 ├── biome.json                   # Biome 린터 & 포맷터 (a11y 규칙 제외)
 ├── tsconfig.json                # 공통 TS 설정 (각 앱이 extends)
 ├── tailwind.config.js           # Tailwind 폰트 확장
-├── db.json                      # json-server Mock 데이터
+├── db.json                      # Mock 데이터
+├── mock/                        # Mock API 서버 (Spring 계약 흉내, 무의존성)
+│   └── server.js
 ├── public/                      # 공용 정적 자산 (앱 간 공유)
 ├── docs/                        # 프로젝트 문서 & 도구
 │   ├── order.md / todo.md / wbs.md
