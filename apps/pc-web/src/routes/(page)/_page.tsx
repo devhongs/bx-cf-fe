@@ -2,8 +2,8 @@ import { Outlet, createFileRoute, useLocation } from '@tanstack/react-router';
 import { PanelRightOpen, Menu } from 'lucide-react';
 
 import { requireAuth } from '@/shared/guards/requireAuth';
-import { LeftSidebar } from '@/widgets/layout/sidebar/LeftSidebar';
-import { RightPanel } from '@/widgets/layout/right-panel/RightPanel';
+import { NavSidebar } from '@/widgets/layout/sidebar/NavSidebar';
+import { SettingsPanel } from '@/widgets/layout/panel/SettingsPanel';
 import { LayoutProvider, useLayout } from '@/shared/context/LayoutContext';
 
 const ROUTE_TITLES: Record<string, string> = {
@@ -36,13 +36,13 @@ function FoldIcon({ size = 18 }: { size?: number }) {
 
 function PageLayoutContent() {
   const location = useLocation();
-  const { leftSidebarOpen, toggleLeftSidebar, rightPanelOpen, toggleRightPanel } = useLayout();
+  const { navSidebarOpen, toggleNavSidebar, settingsPanelOpen, toggleSettingsPanel } = useLayout();
 
   const title = ROUTE_TITLES[location.pathname] || 'Playground';
 
   return (
     <div className="relative flex h-screen w-screen overflow-hidden bg-[#131314]">
-      <LeftSidebar />
+      <NavSidebar />
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
         {/* Global Header */}
         <header className="flex items-center justify-between h-14 px-6 border-b border-[#2a2a2c] bg-[#131314] shrink-0">
@@ -50,20 +50,20 @@ function PageLayoutContent() {
             <button
               type="button"
               className="flex items-center justify-center w-8 h-8 rounded-lg border-none bg-[#2a2a2d] text-[#c4c7c5] hover:bg-[#3c3d40] hover:text-[#e3e3e3] cursor-pointer transition-colors duration-200"
-              onClick={toggleLeftSidebar}
-              title={leftSidebarOpen ? "사이드바 접기" : "사이드바 펴기"}
+              onClick={toggleNavSidebar}
+              title={navSidebarOpen ? "사이드바 접기" : "사이드바 펴기"}
             >
-              {leftSidebarOpen ? <FoldIcon size={18} /> : <Menu size={18} />}
+              {navSidebarOpen ? <FoldIcon size={18} /> : <Menu size={18} />}
             </button>
             <span className="text-sm font-medium text-[#e3e3e3]">{title}</span>
           </div>
 
           <div>
-            {!rightPanelOpen && (
+            {!settingsPanelOpen && (
               <button
                 type="button"
                 className="flex items-center justify-center w-8 h-8 rounded-lg border-none bg-[#2a2a2d] text-[#c4c7c5] hover:bg-[#3c3d40] hover:text-[#e3e3e3] cursor-pointer transition-colors duration-200"
-                onClick={toggleRightPanel}
+                onClick={toggleSettingsPanel}
                 title="우측 패널 펴기"
               >
                 <PanelRightOpen size={18} />
@@ -77,7 +77,7 @@ function PageLayoutContent() {
           <Outlet />
         </main>
       </div>
-      <RightPanel />
+      <SettingsPanel />
     </div>
   );
 }

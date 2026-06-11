@@ -3,7 +3,7 @@ import { Bell, LayoutDashboard, LogOut, Settings, ShoppingBag, User, Wallet } fr
 
 import { useAuthStore } from '@bx/shared';
 
-import styles from './LeftSidebar.module.css';
+import styles from './NavSidebar.module.css';
 
 const navItems = [
   { label: '대시보드', path: '/main', icon: <LayoutDashboard size={18} /> },
@@ -15,12 +15,12 @@ const navItems = [
 
 import { useLayout } from '@/shared/context/LayoutContext';
 
-export function LeftSidebar() {
+export function NavSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
-  const { leftSidebarOpen } = useLayout();
+  const { navSidebarOpen } = useLayout();
 
   const handleLogout = () => {
     logout();
@@ -28,7 +28,7 @@ export function LeftSidebar() {
   };
 
   return (
-    <aside className={`${styles.sidebar} ${!leftSidebarOpen ? styles.collapsed : ''}`}>
+    <aside className={`${styles.sidebar} ${!navSidebarOpen ? styles.collapsed : ''}`}>
 
       {/* 로고 */}
       <div className={styles.logoArea}>

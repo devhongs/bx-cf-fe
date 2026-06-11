@@ -1,32 +1,32 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 
 interface LayoutContextProps {
-  leftSidebarOpen: boolean;
-  setLeftSidebarOpen: (open: boolean) => void;
-  rightPanelOpen: boolean;
-  setRightPanelOpen: (open: boolean) => void;
-  toggleLeftSidebar: () => void;
-  toggleRightPanel: () => void;
+  navSidebarOpen: boolean;
+  setNavSidebarOpen: (open: boolean) => void;
+  settingsPanelOpen: boolean;
+  setSettingsPanelOpen: (open: boolean) => void;
+  toggleNavSidebar: () => void;
+  toggleSettingsPanel: () => void;
 }
 
 const LayoutContext = createContext<LayoutContextProps | undefined>(undefined);
 
 export function LayoutProvider({ children }: { children: ReactNode }) {
-  const [leftSidebarOpen, setLeftSidebarOpen] = useState(true);
-  const [rightPanelOpen, setRightPanelOpen] = useState(true);
+  const [navSidebarOpen, setNavSidebarOpen] = useState(true);
+  const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
 
-  const toggleLeftSidebar = () => setLeftSidebarOpen((prev) => !prev);
-  const toggleRightPanel = () => setRightPanelOpen((prev) => !prev);
+  const toggleNavSidebar = () => setNavSidebarOpen((prev) => !prev);
+  const toggleSettingsPanel = () => setSettingsPanelOpen((prev) => !prev);
 
   return (
     <LayoutContext.Provider
       value={{
-        leftSidebarOpen,
-        setLeftSidebarOpen,
-        rightPanelOpen,
-        setRightPanelOpen,
-        toggleLeftSidebar,
-        toggleRightPanel,
+        navSidebarOpen,
+        setNavSidebarOpen,
+        settingsPanelOpen,
+        setSettingsPanelOpen,
+        toggleNavSidebar,
+        toggleSettingsPanel,
       }}
     >
       {children}
