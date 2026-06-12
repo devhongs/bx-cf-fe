@@ -51,12 +51,12 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 12px;
+  padding: 7px 12px;
   border-radius: 8px;
   border: none;
   background: transparent;
   color: #9aa0a6;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 400;
   cursor: pointer;
   text-align: left;
@@ -82,7 +82,27 @@
 }
 
 .navLabel {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
+}
+
+.navGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 16px;
+}
+
+.navGroup:first-child {
+  margin-top: 4px;
+}
+
+.navGroupTitle {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #70757a;
+  padding: 0 12px 6px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
 }
 
 /* 하단 프로필 */
