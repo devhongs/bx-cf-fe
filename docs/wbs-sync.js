@@ -87,31 +87,38 @@ function runCommandJSON(args) {
   }
 }
 
-// Fetch all open issues in the repo
+// Fetch all open issues in the repo (paginated — repos can exceed 100 issues)
 function getOpenIssues() {
-  const query = `
-    query {
-      repository(owner: "${OWNER}", name: "${REPO_NAME}") {
-        issues(first: 100, states: OPEN) {
-          nodes {
-            id
-            number
-            title
-            body
-            parent {
+  const all = [];
+  let after = null;
+  while (true) {
+    const query = `
+      query {
+        repository(owner: "${OWNER}", name: "${REPO_NAME}") {
+          issues(first: 100, states: OPEN${after ? `, after: "${after}"` : ''}) {
+            pageInfo { hasNextPage endCursor }
+            nodes {
               id
               number
+              title
+              body
+              parent {
+                id
+                number
+              }
             }
           }
         }
       }
-    }
-  `;
-  const res = runGraphQL(query);
-  if (res && res.data && res.data.repository) {
-    return res.data.repository.issues.nodes;
+    `;
+    const res = runGraphQL(query);
+    if (!res || !res.data || !res.data.repository) break;
+    const conn = res.data.repository.issues;
+    all.push(...conn.nodes);
+    if (!conn.pageInfo.hasNextPage) break;
+    after = conn.pageInfo.endCursor;
   }
-  return [];
+  return all;
 }
 
 // Get GraphQL ID by issue number
