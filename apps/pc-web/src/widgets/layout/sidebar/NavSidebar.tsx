@@ -1,8 +1,7 @@
 import { useLocation, useNavigate } from '@tanstack/react-router';
-import { Bell, LayoutDashboard, LogOut, Settings, ShoppingBag, User, Wallet } from 'lucide-react';
+import { Bell, LayoutDashboard, ShoppingBag, Wallet } from 'lucide-react';
 
-import { useAuthStore } from '@bx/shared';
-
+import { AccountMenu } from './AccountMenu';
 import styles from './NavSidebar.module.css';
 
 const navItems = [
@@ -18,7 +17,6 @@ const navItems = [
       { label: '자산', path: '/asset', icon: <Wallet size={16} /> },
       { label: '상품', path: '/product', icon: <ShoppingBag size={16} /> },
       { label: '알림', path: '/alarm', icon: <Bell size={16} /> },
-      { label: '설정', path: '/setting', icon: <Settings size={16} /> },
     ],
   },
 ];
@@ -28,14 +26,7 @@ import { useLayout } from '@/shared/context/LayoutContext';
 export function NavSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const user = useAuthStore((s) => s.user);
-  const logout = useAuthStore((s) => s.logout);
   const { navSidebarOpen } = useLayout();
-
-  const handleLogout = () => {
-    logout();
-    navigate({ to: '/login' });
-  };
 
   return (
     <aside className={`${styles.sidebar} ${!navSidebarOpen ? styles.collapsed : ''}`}>
@@ -84,21 +75,8 @@ export function NavSidebar() {
         ))}
       </nav>
 
-      {/* 하단 프로필 */}
-      <div className={styles.bottomArea}>
-        <div className={styles.profile}>
-          <div className={styles.avatar}>
-            <User size={16} />
-          </div>
-          <div className={styles.profileInfo}>
-            <span className={styles.profileName}>{user?.usrNm ?? '사용자'}</span>
-            <span className={styles.profileId}>{user?.usrId ?? ''}</span>
-          </div>
-        </div>
-        <button type="button" className={styles.logoutBtn} onClick={handleLogout}>
-          <LogOut size={16} />
-        </button>
-      </div>
+      {/* 하단 프로필 — 계정 메뉴 */}
+      <AccountMenu />
     </aside>
   );
 }
