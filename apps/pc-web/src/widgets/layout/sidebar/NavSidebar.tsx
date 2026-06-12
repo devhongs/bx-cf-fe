@@ -14,7 +14,7 @@ const navItems = [
     ],
   },
   {
-    label: 'PRODUCTS',
+    label: 'BANKING',
     type: 'TITLE',
     children: [
       { label: '자산', path: '/asset', icon: <Wallet size={16} /> },
