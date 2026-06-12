@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from '@tanstack/react-router';
-import { Bell, LayoutDashboard, ShoppingBag, Wallet } from 'lucide-react';
+import { Bell, FlaskConical, LayoutDashboard, ShoppingBag, Wallet } from 'lucide-react';
 
 import { AccountMenu } from './AccountMenu';
 import styles from './NavSidebar.module.css';
@@ -8,7 +8,10 @@ const navItems = [
   {
     label: 'MANAGE',
     type: 'TITLE',
-    children: [{ label: '대시보드', path: '/main', icon: <LayoutDashboard size={16} /> }],
+    children: [
+      { label: '대시보드', path: '/main', icon: <LayoutDashboard size={16} /> },
+      { label: 'Playground', path: '/playground', icon: <FlaskConical size={16} /> },
+    ],
   },
   {
     label: 'PRODUCTS',
