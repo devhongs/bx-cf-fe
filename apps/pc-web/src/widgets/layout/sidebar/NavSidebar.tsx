@@ -67,17 +67,19 @@ export function NavSidebar() {
         {navItems.map((group) => (
           <div key={group.label} className={styles.navGroup}>
             <div className={styles.navGroupTitle}>{group.label}</div>
-            {group.children?.map((item) => (
-              <button
-                key={item.path}
-                type="button"
-                className={`${styles.navItem} ${location.pathname === item.path ? styles.active : ''}`}
-                onClick={() => navigate({ to: item.path as any })}
-              >
-                <span className={styles.navIcon}>{item.icon}</span>
-                <span className={styles.navLabel}>{item.label}</span>
-              </button>
-            ))}
+            <div className={styles.navGroupChildren}>
+              {group.children?.map((item) => (
+                <button
+                  key={item.path}
+                  type="button"
+                  className={`${styles.navItem} ${location.pathname === item.path ? styles.active : ''}`}
+                  onClick={() => navigate({ to: item.path as any })}
+                >
+                  <span className={styles.navIcon}>{item.icon}</span>
+                  <span className={styles.navLabel}>{item.label}</span>
+                </button>
+              ))}
+            </div>
           </div>
         ))}
       </nav>
