@@ -1,7 +1,7 @@
 import { useNavigate } from '@tanstack/react-router';
 import { Star, Wallet, ArrowLeftRight, Bell, ShoppingBag, Settings } from 'lucide-react';
 
-import styles from './index.module.css';
+import styles from './DashboardCards.module.css';
 
 const cards = [
   {

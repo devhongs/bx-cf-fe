@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Search, ArrowRight } from 'lucide-react';
 
-import styles from './index.module.css';
+import styles from './QuickActionBar.module.css';
 
 export function QuickActionBar() {
   const [query, setQuery] = useState('');

@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { STORAGE_KEYS, local, login as loginApi, sha256, useAuthStore } from '@bx/shared';
 
-import styles from './index.module.css';
+import styles from './LoginForm.module.css';
 
 export function LoginForm() {
   const navigate = useNavigate();

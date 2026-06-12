@@ -2,7 +2,7 @@ import { useNavigate } from '@tanstack/react-router';
 
 import { useAuthStore } from '@bx/shared';
 
-import styles from './index.module.css';
+import styles from './LogoutButton.module.css';
 
 export function LogoutButton() {
   const navigate = useNavigate();

@@ -2,8 +2,8 @@ import { Outlet, createFileRoute, useLocation } from '@tanstack/react-router';
 import { PanelRightOpen, Menu } from 'lucide-react';
 
 import { requireAuth } from '@/shared/guards/requireAuth';
-import { NavSidebar } from '@/widgets/layout/sidebar/NavSidebar';
-import { SettingsPanel } from '@/widgets/layout/panel/SettingsPanel';
+import { NavSidebar } from '@/widgets/layout/sidebar';
+import { SettingsPanel } from '@/widgets/layout/panel';
 import { LayoutProvider, useLayout } from '@/shared/context/LayoutContext';
 
 const ROUTE_TITLES: Record<string, string> = {
