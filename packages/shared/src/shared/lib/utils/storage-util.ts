@@ -189,11 +189,10 @@ const createIndexedDBStorage = (): AsyncStorage => ({
 
       if (result === undefined) {
         return null;
-      } else if (typeof result === 'string') {
+      }if (typeof result === 'string') {
         return safeJsonParse<T>(result);
-      } else {
-        return result;
       }
+        return result;
     } catch (error) {
       log('error', '[IndexedDB] Get error:', error);
       return null;

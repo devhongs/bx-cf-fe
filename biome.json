@@ -7,7 +7,16 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["dist/**", "node_modules/**", "pnpm-lock.yaml"]
+    "ignore": [
+      "**/dist/**",
+      "**/node_modules/**",
+      "**/playwright-report/**",
+      "**/test-results/**",
+      "**/routeTree.gen.ts",
+      "**/bxui_template.css",
+      "docs/ppt-build/**",
+      "pnpm-lock.yaml"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -28,6 +37,11 @@
       "quoteStyle": "single",
       "semicolons": "always",
       "trailingCommas": "all"
+    }
+  },
+  "css": {
+    "parser": {
+      "cssModules": true
     }
   },
   "linter": {

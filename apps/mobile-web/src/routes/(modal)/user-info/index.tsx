@@ -23,27 +23,27 @@ export function UserInfoModal(_props: UserInfoModalProps) {
           showName={true}
         />
         <div className={styles.dividerContainer}>
-          <span className={styles.divider}></span>
+          <span className={styles.divider} />
         </div>
         <div>
           <h3 className={styles.title}>기본정보</h3>
           <h5 className={styles.description}>상세 내용...</h5>
         </div>
         <div className={styles.dividerContainer}>
-          <span className={styles.divider}></span>
+          <span className={styles.divider} />
         </div>
         <div>
           <h3 className={styles.title}>집정보</h3>
           <h5 className={styles.description}>상세 내용...</h5>
         </div>
         <div className={styles.dividerContainer}>
-          <span className={styles.divider}></span>
+          <span className={styles.divider} />
         </div>
         <div>
           <h3 className={styles.title}>직장정보</h3>
           <h5 className={styles.description}>상세 내용...</h5>
         </div>
-        <div className={styles.dividerContainer}></div>
+        <div className={styles.dividerContainer} />
         <button className={styles.editButton}>수정하기</button>
       </Modal.Body>
     </Modal>

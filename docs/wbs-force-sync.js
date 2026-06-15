@@ -9,9 +9,9 @@
 //   미리보기:  node docs/wbs-force-sync.js
 //   실   행:  node docs/wbs-force-sync.js --yes   (= pnpm wbs:force-sync --yes)
 
-import fs from 'fs';
-import path from 'path';
-import { execSync } from 'child_process';
+import fs from 'node:fs';
+import path from 'node:path';
+import { execSync } from 'node:child_process';
 
 const WBS_MD_PATH = path.resolve('docs/wbs.md');
 const GH_PATH = 'C:/Program Files/GitHub CLI/gh.exe';
@@ -115,8 +115,8 @@ function createRepoIssue(title, body) {
   fs.writeFileSync(tempPath, body);
   const url = runCommandRaw(`issue create --repo ${REPO} --title "${titleEscaped}" --body-file "${tempPath}"`);
   try { fs.unlinkSync(tempPath); } catch {}
-  if (url && url.startsWith('http')) {
-    const number = parseInt(url.split('/').pop(), 10);
+  if (url?.startsWith('http')) {
+    const number = Number.parseInt(url.split('/').pop(), 10);
     return { url, number };
   }
   return null;
@@ -143,7 +143,7 @@ function linkSubIssue(parentId, childId) {
 
 function addProjectItem(url, priority) {
   const addRes = runCommandJSON(`project item-add ${PROJECT_NUMBER} --owner ${OWNER} --url "${url}" --format json`);
-  if (addRes && addRes.id) {
+  if (addRes?.id) {
     const optionId = PRIORITY_MAP[priority];
     if (optionId) {
       runCommandRaw(

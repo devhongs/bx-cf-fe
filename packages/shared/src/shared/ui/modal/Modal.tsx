@@ -12,7 +12,7 @@
  *   </Modal>
  */
 import type { FC, ReactNode } from 'react';
-import * as React from 'react';
+import type * as React from 'react';
 import { ArrowLeft, X } from 'lucide-react';
 
 import { useModal } from '../../hooks';

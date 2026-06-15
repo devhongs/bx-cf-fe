@@ -92,7 +92,7 @@ const currencyFormat = (data: any, scale = 0) => {
     return '';
   }
   const num = Number(data);
-  if (isNaN(num)) return data;
+  if (Number.isNaN(num)) return data;
   return num.toLocaleString('en-US', {
     minimumFractionDigits: scale,
     maximumFractionDigits: scale,
@@ -108,12 +108,13 @@ const currencyFormat = (data: any, scale = 0) => {
  */
 const paramsFormat = (value: string, ...args: any) => {
   // if (!data) return data
+  let result = value;
   if (args?.length > 0) {
     for (const arg in args) {
-      value = value.replace(`{${arg}}`, args[arg]);
+      result = result.replace(`{${arg}}`, args[arg]);
     }
   }
-  return value;
+  return result;
 };
 
 /**

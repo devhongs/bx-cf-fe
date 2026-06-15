@@ -17,7 +17,7 @@
     "test:e2e:pc": "turbo test:e2e --filter=pc-web",
     "test:e2e:mobile": "turbo test:e2e --filter=mobile-web",
     "test:e2e:admin": "turbo test:e2e --filter=admin-portal",
-    "lint": "turbo lint",
+    "lint": "biome lint .",
     "format": "biome format --write .",
     "watch:json-server": "node mock/server.js",
     "check": "turbo check",

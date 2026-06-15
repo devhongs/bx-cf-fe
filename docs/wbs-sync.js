@@ -7,10 +7,10 @@
 //
 // 실행: node docs/wbs-sync.js   (= pnpm wbs:sync)
 
-import fs from 'fs';
-import path from 'path';
-import { execSync } from 'child_process';
-import os from 'os';
+import fs from 'node:fs';
+import path from 'node:path';
+import { execSync } from 'node:child_process';
+import os from 'node:os';
 
 const WBS_MD_PATH = path.resolve('docs/wbs.md');
 // OS 환경에 따라 gh CLI 경로 설정 (윈도우 로컬 경로는 하드코딩 백업, 리눅스/CI에서는 'gh' 사용)
@@ -123,8 +123,8 @@ function createRepoIssue(title, body) {
   fs.writeFileSync(tempPath, body);
   const url = runCommandRaw(`issue create --repo ${REPO} --title "${titleEscaped}" --body-file "${tempPath}"`);
   try { fs.unlinkSync(tempPath); } catch {}
-  if (url && url.startsWith('http')) {
-    const number = parseInt(url.split('/').pop(), 10);
+  if (url?.startsWith('http')) {
+    const number = Number.parseInt(url.split('/').pop(), 10);
     return { url, number };
   }
   return null;
@@ -159,7 +159,7 @@ function linkSubIssue(parentId, childId) {
 
 function addProjectItem(url, priority) {
   const addRes = runCommandJSON(`project item-add ${PROJECT_NUMBER} --owner ${OWNER} --url "${url}" --format json`);
-  if (addRes && addRes.id) {
+  if (addRes?.id) {
     const optionId = PRIORITY_MAP[priority];
     if (optionId) {
       runCommandRaw(

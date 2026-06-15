@@ -55,7 +55,7 @@ const getYear = (date?: any, delimiter = 'YYYY') => {
  * @returns
  */
 const addDay = (count: number, date?: any, delimiter = 'YYYYMMDD') => {
-  let parseDate;
+  let parseDate: ReturnType<typeof dayjs>;
   if (date) {
     parseDate = typeof date === 'object' ? date : dayjs(date);
   } else {
@@ -75,7 +75,7 @@ const addDay = (count: number, date?: any, delimiter = 'YYYYMMDD') => {
  * @returns
  */
 const addMonth = (count: number, date?: any, delimiter = 'YYYYMMDD') => {
-  let parseDate;
+  let parseDate: ReturnType<typeof dayjs>;
   if (date) {
     parseDate = typeof date === 'object' ? date : dayjs(date);
   } else {
@@ -94,7 +94,7 @@ const addMonth = (count: number, date?: any, delimiter = 'YYYYMMDD') => {
  * @returns
  */
 const addYear = (count: number, date?: any, delimiter = 'YYYYMMDD') => {
-  let parseDate;
+  let parseDate: ReturnType<typeof dayjs>;
   if (date) {
     parseDate = typeof date === 'object' ? date : dayjs(date);
   } else {
@@ -113,7 +113,7 @@ const addYear = (count: number, date?: any, delimiter = 'YYYYMMDD') => {
  * @returns
  */
 const addDate = (addValue: AddDay, date?: any, delimiter = 'YYYYMMDD') => {
-  let parseDate;
+  let parseDate: ReturnType<typeof dayjs>;
   if (date) {
     parseDate = typeof date === 'object' ? date : dayjs(date);
   } else {
