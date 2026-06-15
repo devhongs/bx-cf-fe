@@ -21,7 +21,8 @@
     "format": "biome format --write .",
     "watch:json-server": "node mock/server.js",
     "check": "turbo check",
-    "wbs:sync": "node docs/wbs-sync.js"
+    "wbs:sync": "node docs/wbs-sync.js",
+    "wbs:force-sync": "node docs/wbs-force-sync.js"
   },
   "dependencies": {
     "concurrently": "^9.2.1"
