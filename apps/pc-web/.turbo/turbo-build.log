@@ -1,17 +1,8 @@
 $ vite build
-Warning: Route file "D:/project/bwg/bx-cf-fe/apps/pc-web/src/routes/(modal)/alarm-list/index.tsx" does not export a Route. This file will not be included in the route tree.
+Warning: Route file "D:/project/bwg/bx-cf-fe/apps/pc-web/src/routes/(modal)/account-detail/index.tsx" does not export a Route. This file will not be included in the route tree.
 
 If this file is not intended to be a route, you can exclude it using one of these options:
-  1. Rename the file to "D:\project\bwg\bx-cf-fe\apps\pc-web\src\routes\(modal)\alarm-list\-index.tsx" (prefix with "-")
-  2. Use 'routeFileIgnorePattern' in your config to match this file
-
-Current configuration:
-  routeFileIgnorePrefix: "-"
-  routeFileIgnorePattern: undefined
-Warning: Route file "D:/project/bwg/bx-cf-fe/apps/pc-web/src/routes/(modal)/setting/index.tsx" does not export a Route. This file will not be included in the route tree.
-
-If this file is not intended to be a route, you can exclude it using one of these options:
-  1. Rename the file to "D:\project\bwg\bx-cf-fe\apps\pc-web\src\routes\(modal)\setting\-index.tsx" (prefix with "-")
+  1. Rename the file to "D:\project\bwg\bx-cf-fe\apps\pc-web\src\routes\(modal)\account-detail\-index.tsx" (prefix with "-")
   2. Use 'routeFileIgnorePattern' in your config to match this file
 
 Current configuration:
@@ -26,6 +17,15 @@ If this file is not intended to be a route, you can exclude it using one of thes
 Current configuration:
   routeFileIgnorePrefix: "-"
   routeFileIgnorePattern: undefined
+Warning: Route file "D:/project/bwg/bx-cf-fe/apps/pc-web/src/routes/(modal)/alarm-list/index.tsx" does not export a Route. This file will not be included in the route tree.
+
+If this file is not intended to be a route, you can exclude it using one of these options:
+  1. Rename the file to "D:\project\bwg\bx-cf-fe\apps\pc-web\src\routes\(modal)\alarm-list\-index.tsx" (prefix with "-")
+  2. Use 'routeFileIgnorePattern' in your config to match this file
+
+Current configuration:
+  routeFileIgnorePrefix: "-"
+  routeFileIgnorePattern: undefined
 Warning: Route file "D:/project/bwg/bx-cf-fe/apps/pc-web/src/routes/(modal)/user-info/index.tsx" does not export a Route. This file will not be included in the route tree.
 
 If this file is not intended to be a route, you can exclude it using one of these options:
@@ -35,10 +35,10 @@ If this file is not intended to be a route, you can exclude it using one of thes
 Current configuration:
   routeFileIgnorePrefix: "-"
   routeFileIgnorePattern: undefined
-Warning: Route file "D:/project/bwg/bx-cf-fe/apps/pc-web/src/routes/(modal)/account-detail/index.tsx" does not export a Route. This file will not be included in the route tree.
+Warning: Route file "D:/project/bwg/bx-cf-fe/apps/pc-web/src/routes/(modal)/setting/index.tsx" does not export a Route. This file will not be included in the route tree.
 
 If this file is not intended to be a route, you can exclude it using one of these options:
-  1. Rename the file to "D:\project\bwg\bx-cf-fe\apps\pc-web\src\routes\(modal)\account-detail\-index.tsx" (prefix with "-")
+  1. Rename the file to "D:\project\bwg\bx-cf-fe\apps\pc-web\src\routes\(modal)\setting\-index.tsx" (prefix with "-")
   2. Use 'routeFileIgnorePattern' in your config to match this file
 
 Current configuration:
@@ -53,25 +53,25 @@ dist/assets/_page-DR4cu4Oi.css                2.43 kB │ gzip:   0.87 kB
 dist/assets/_auth-BVvH-gef.css                2.73 kB │ gzip:   0.89 kB
 dist/assets/_page-DGU9XzSo.css                7.67 kB │ gzip:   1.94 kB
 dist/assets/index-n69tBYfM.css               34.70 kB │ gzip:   5.82 kB
-dist/assets/_auth-BIjORJHg.js                 0.10 kB │ gzip:   0.11 kB
-dist/assets/routes-R7tUZE1l.js                0.11 kB │ gzip:   0.12 kB
-dist/assets/_page.alarm-Cq7KVAAw.js           0.35 kB │ gzip:   0.28 kB
-dist/assets/_page.asset-CYzSlZxI.js           0.35 kB │ gzip:   0.28 kB
-dist/assets/_page.playground-DjbSzOhT.js      0.35 kB │ gzip:   0.28 kB
-dist/assets/alarm-list-CkheAbO9.js            0.50 kB │ gzip:   0.33 kB
-dist/assets/account-detail-DL_D3AWO.js        0.80 kB │ gzip:   0.43 kB
-dist/assets/user-info-B5Se7ALC.js             0.92 kB │ gzip:   0.46 kB
-dist/assets/_page.product-j7CbLEFj.js         1.01 kB │ gzip:   0.56 kB
-dist/assets/setting-m48UHPcV.js               1.22 kB │ gzip:   0.61 kB
-dist/assets/transfer-BCZIYyY6.js              1.82 kB │ gzip:   0.71 kB
-dist/assets/_page.main-DVKuav-Z.js            2.93 kB │ gzip:   1.34 kB
-dist/assets/_auth.login-DX4mn7OK.js           2.95 kB │ gzip:   1.23 kB
-dist/assets/_page-1NaFxNOS.js                 9.97 kB │ gzip:   3.33 kB
+dist/assets/_auth-CHiKGLS4.js                 0.10 kB │ gzip:   0.11 kB
+dist/assets/routes-CgIJ_QVU.js                0.11 kB │ gzip:   0.12 kB
+dist/assets/_page.alarm-CoSyZIQP.js           0.35 kB │ gzip:   0.28 kB
+dist/assets/_page.asset-D9_O4qQB.js           0.35 kB │ gzip:   0.28 kB
+dist/assets/_page.playground-Dq-D7v1y.js      0.35 kB │ gzip:   0.28 kB
+dist/assets/alarm-list-Dwjr4GUa.js            0.50 kB │ gzip:   0.33 kB
+dist/assets/account-detail-DbnZrHf7.js        0.80 kB │ gzip:   0.43 kB
 [33m[plugin builtin:vite-reporter] 
-dist/assets/index-BdspxVwb.js             1,175.23 kB │ gzip: 334.59 kB
-
+dist/assets/user-info-7B4sTGX5.js             0.92 kB │ gzip:   0.46 kB
+dist/assets/_page.product-BjJekEWc.js         1.01 kB │ gzip:   0.56 kB
+dist/assets/setting-BuqXPUKu.js               1.22 kB │ gzip:   0.61 kB
+dist/assets/transfer-DBufKi6M.js              1.82 kB │ gzip:   0.72 kB
+dist/assets/_page.main-btIR5h0t.js            2.93 kB │ gzip:   1.34 kB
+dist/assets/_auth.login-CbUNkqvZ.js           2.95 kB │ gzip:   1.23 kB
+dist/assets/_page-CpVT-9Yf.js                 9.97 kB │ gzip:   3.33 kB
+dist/assets/index-DYrWLQeq.js             1,175.26 kB │ gzip: 334.64 kB
 (!) Some chunks are larger than 500 kB after minification. Consider:
+
 - Using dynamic import() to code-split the application
 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+[32m✓ built in 2.38s[39m
 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
-[32m✓ built in 2.73s[39m
