@@ -1,17 +1,26 @@
-name: Develop Branch CI
+name: Develop Branch CI/CD
 
 on:
   push:
     branches:
       - develop
 
+env:
+  # Nginx 웹서버 배포 대상 경로 (실제 서버 환경에 맞춰 수정 가능)
+  PC_WEB_DEPLOY_PATH: /var/www/html/pc-web
+  MOBILE_WEB_DEPLOY_PATH: /var/www/html/mobile-web
+  ADMIN_PORTAL_DEPLOY_PATH: /var/www/html/admin-portal
+
 jobs:
-  verify:
+  verify-and-deploy:
     runs-on: self-hosted
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          # Self-hosted 러너는 작업 폴더를 재사용하므로 이전 빌드 잔재(dist, 캐시 등) 청소가 필수입니다.
+          clean: true
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
@@ -21,11 +30,14 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '20'
           cache: 'pnpm'
 
       - name: Install Dependencies
+        # HUSKY=0 설정을 통해 CI 서버에 불필요한 Git pre-commit 훅이 설치되는 것을 방지합니다.
         run: pnpm install --frozen-lockfile
+        env:
+          HUSKY: 0
 
       - name: Run Type Check
         run: pnpm check
@@ -34,4 +46,34 @@ jobs:
         run: pnpm lint
 
       - name: Build Application
+        # Vite 빌드 시점에 실서버 API 도메인을 주입하여 하드코딩되도록 처리합니다.
+        # (필요시 실제 Spring 백엔드 API 도메인 주소로 변경하여 주입)
+        env:
+          VITE_API_URL: http://localhost:18081/channel/backend/api/v1
         run: pnpm build
+
+      - name: Deploy to Nginx Web Server
+        # 빌드가 성공적으로 끝나면 각 앱의 배포 번들 파일(dist/*)들을 Nginx 서빙 폴더로 복사합니다.
+        run: |
+          # 1. PC Web 복사
+          if [ -d "apps/pc-web/dist" ]; then
+            echo "🚚 Deploying pc-web to ${{ env.PC_WEB_DEPLOY_PATH }}..."
+            sudo mkdir -p ${{ env.PC_WEB_DEPLOY_PATH }}
+            sudo cp -r apps/pc-web/dist/* ${{ env.PC_WEB_DEPLOY_PATH }}/
+          fi
+          
+          # 2. Mobile Web 복사
+          if [ -d "apps/mobile-web/dist" ]; then
+            echo "🚚 Deploying mobile-web to ${{ env.MOBILE_WEB_DEPLOY_PATH }}..."
+            sudo mkdir -p ${{ env.MOBILE_WEB_DEPLOY_PATH }}
+            sudo cp -r apps/mobile-web/dist/* ${{ env.MOBILE_WEB_DEPLOY_PATH }}/
+          fi
+          
+          # 3. Admin Portal 복사
+          if [ -d "apps/admin-portal/dist" ]; then
+            echo "🚚 Deploying admin-portal to ${{ env.ADMIN_PORTAL_DEPLOY_PATH }}..."
+            sudo mkdir -p ${{ env.ADMIN_PORTAL_DEPLOY_PATH }}
+            sudo cp -r apps/admin-portal/dist/* ${{ env.ADMIN_PORTAL_DEPLOY_PATH }}/
+          fi
+          
+          echo "✨ Deployment Completed successfully!"
