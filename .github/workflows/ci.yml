@@ -15,6 +15,8 @@ env:
   PC_WEB_DEPLOY_PATH: /Users/channelunit/apps/bx-cf-fe/pc-web
   MOBILE_WEB_DEPLOY_PATH: /Users/channelunit/apps/bx-cf-fe/mobile-web
   ADMIN_PORTAL_DEPLOY_PATH: /Users/channelunit/apps/bx-cf-fe/admin-portal
+  # GitHub Actions 내장 Node.js 20 경고 제거 및 24 버전 강제 사용
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   verify-and-deploy:
@@ -28,7 +30,7 @@ jobs:
           clean: true
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
         with:
           version: 11.1.3 # package.json packageManager 버전과 동기화
 
@@ -49,7 +51,7 @@ jobs:
         # (필요시 실제 Spring 백엔드 API 도메인 주소로 변경하여 주입)
         env:
           VITE_API_URL: http://localhost:18081/channel/backend/api/v1
-        run: pnpm build
+        run: pnpm build:debug
 
       - name: Run Type Check
         run: pnpm check
