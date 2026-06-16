@@ -26,7 +26,8 @@
     "watch:json-server": "node mock/server.js",
     "check": "turbo check",
     "wbs:sync": "node docs/wbs-sync.js",
-    "wbs:force-sync": "node docs/wbs-force-sync.js"
+    "wbs:force-sync": "node docs/wbs-force-sync.js",
+    "gen:api": "openapi-typescript http://192.168.11.197:18081/auth-svc/v3/api-docs -o packages/shared/src/shared/api/schema.d.ts"
   },
   "dependencies": {
     "concurrently": "^9.2.1"
@@ -50,6 +51,7 @@
     "jsdom": "^29.1.1",
     "json-server": "1.0.0-beta.15",
     "madge": "^8.0.0",
+    "openapi-typescript": "^7.13.0",
     "oxc": "^1.0.0",
     "turbo": "^2.0.4",
     "typescript": "^6.0.3",
@@ -58,6 +60,11 @@
     "web-vitals": "^5.2.0"
   },
   "pnpm": {
-    "allowedBuildScripts": ["core-js-pure", "esbuild", "unrs-resolver", "@biomejs/biome"]
+    "allowedBuildScripts": [
+      "core-js-pure",
+      "esbuild",
+      "unrs-resolver",
+      "@biomejs/biome"
+    ]
   }
 }

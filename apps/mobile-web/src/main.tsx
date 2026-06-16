@@ -26,6 +26,8 @@ import '@/shared/styles/styles.css';
 // Create a new router instance
 const router = createRouter({
   routeTree,
+  // Vite base(/mobile/ 또는 /)와 동일한 경로를 라우터 basepath 로 사용한다.
+  basepath: import.meta.env.BASE_URL,
   context: {},
   defaultPreload: 'intent',
   scrollRestoration: true,
