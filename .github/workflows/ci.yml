@@ -12,9 +12,9 @@ concurrency:
 
 env:
   # Nginx 웹서버 배포 대상 경로 (실제 서버 환경에 맞춰 수정 가능)
-  PC_WEB_DEPLOY_PATH: /var/www/html/pc-web
-  MOBILE_WEB_DEPLOY_PATH: /var/www/html/mobile-web
-  ADMIN_PORTAL_DEPLOY_PATH: /var/www/html/admin-portal
+  PC_WEB_DEPLOY_PATH: /Users/channelunit/apps/bx-cf-fe/pc-web
+  MOBILE_WEB_DEPLOY_PATH: /Users/channelunit/apps/bx-cf-fe/mobile-web
+  ADMIN_PORTAL_DEPLOY_PATH: /Users/channelunit/apps/bx-cf-fe/admin-portal
 
 jobs:
   verify-and-deploy:
