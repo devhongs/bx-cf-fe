@@ -7,7 +7,10 @@ import viteReact, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  // 운영 서버는 /mobile 하위 경로로 서빙되므로 빌드 시 base 를 /mobile/ 로 설정한다.
+  // dev 서버는 루트(/)로 유지한다.
+  base: command === 'build' ? '/mobile/' : '/',
   publicDir: '../../public',
   plugins: [
     TanStackRouterVite({
@@ -38,5 +41,5 @@ export default defineConfig({
   define: {
     'process.env': {},
   },
-});
+}));
 // Trigger reload

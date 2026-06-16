@@ -5,7 +5,10 @@ import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import viteReact from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  // 운영 서버는 /pc 하위 경로로 서빙되므로 빌드 시 base 를 /pc/ 로 설정한다.
+  // dev 서버(localhost:3000)는 루트(/)로 유지한다.
+  base: command === 'build' ? '/pc/' : '/',
   publicDir: '../../public',
   plugins: [
     TanStackRouterVite({
@@ -31,4 +34,4 @@ export default defineConfig({
   define: {
     'process.env': {},
   },
-});
+}));
