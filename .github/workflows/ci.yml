@@ -89,3 +89,38 @@ jobs:
           fi
 
           echo "✨ Deployment Completed successfully!"
+
+      - name: Notify Jandi on Success
+        if: success()
+        run: |
+          curl -X POST ${{ secrets.JANDI_WEBHOOK_URL }} \
+            -H "Accept: application/vnd.tosslab.jandi-v2+json" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "body": "🟢 Develop 브랜치 CI/CD 성공",
+              "connectColor": "#22C55E",
+              "connectInfo": [
+                {
+                  "title": "배포 및 검증 성공",
+                  "description": "• 레포지토리: ${{ github.repository }}\n• 커밋 메시지: ${{ github.event.head_commit.message }}\n• 실행자: ${{ github.actor }}"
+                }
+              ]
+            }'
+
+      - name: Notify Jandi on Failure
+        if: failure()
+        run: |
+          curl -X POST ${{ secrets.JANDI_WEBHOOK_URL }} \
+            -H "Accept: application/vnd.tosslab.jandi-v2+json" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "body": "🔴 Develop 브랜치 CI/CD 실패",
+              "connectColor": "#EF4444",
+              "connectInfo": [
+                {
+                  "title": "배포 및 검증 실패",
+                  "description": "• 레포지토리: ${{ github.repository }}\n• 워크플로우 실행 실패 단계를 확인해 주세요.\n• 실행자: ${{ github.actor }}"
+                }
+              ]
+            }'
+
