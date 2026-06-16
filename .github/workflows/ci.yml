@@ -50,7 +50,7 @@ jobs:
         # Vite 빌드 시점에 실서버 API 도메인을 주입하여 하드코딩되도록 처리합니다.
         # (필요시 실제 Spring 백엔드 API 도메인 주소로 변경하여 주입)
         env:
-          VITE_API_URL: http://192.168.11.197:18761/channel/backend/api/v1
+          VITE_API_URL: /channel/backend/api/v1
         run: pnpm build:debug
 
       - name: Run Type Check
