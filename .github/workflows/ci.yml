@@ -65,25 +65,25 @@ jobs:
           # 1. PC Web 복사
           if [ -d "apps/pc-web/dist" ]; then
             echo "🚚 Deploying pc-web to ${{ env.PC_WEB_DEPLOY_PATH }}..."
-            sudo mkdir -p "${{ env.PC_WEB_DEPLOY_PATH }}"
-            sudo rm -rf "${{ env.PC_WEB_DEPLOY_PATH }}"/*
-            sudo cp -r apps/pc-web/dist/* "${{ env.PC_WEB_DEPLOY_PATH }}/"
+            mkdir -p "${{ env.PC_WEB_DEPLOY_PATH }}"
+            rm -rf "${{ env.PC_WEB_DEPLOY_PATH }}"/*
+            cp -r apps/pc-web/dist/* "${{ env.PC_WEB_DEPLOY_PATH }}/"
           fi
 
           # 2. Mobile Web 복사
           if [ -d "apps/mobile-web/dist" ]; then
             echo "🚚 Deploying mobile-web to ${{ env.MOBILE_WEB_DEPLOY_PATH }}..."
-            sudo mkdir -p "${{ env.MOBILE_WEB_DEPLOY_PATH }}"
-            sudo rm -rf "${{ env.MOBILE_WEB_DEPLOY_PATH }}"/*
-            sudo cp -r apps/mobile-web/dist/* "${{ env.MOBILE_WEB_DEPLOY_PATH }}/"
+            mkdir -p "${{ env.MOBILE_WEB_DEPLOY_PATH }}"
+            rm -rf "${{ env.MOBILE_WEB_DEPLOY_PATH }}"/*
+            cp -r apps/mobile-web/dist/* "${{ env.MOBILE_WEB_DEPLOY_PATH }}/"
           fi
 
           # 3. Admin Portal 복사
           if [ -d "apps/admin-portal/dist" ]; then
             echo "🚚 Deploying admin-portal to ${{ env.ADMIN_PORTAL_DEPLOY_PATH }}..."
-            sudo mkdir -p "${{ env.ADMIN_PORTAL_DEPLOY_PATH }}"
-            sudo rm -rf "${{ env.ADMIN_PORTAL_DEPLOY_PATH }}"/*
-            sudo cp -r apps/admin-portal/dist/* "${{ env.ADMIN_PORTAL_DEPLOY_PATH }}/"
+            mkdir -p "${{ env.ADMIN_PORTAL_DEPLOY_PATH }}"
+            rm -rf "${{ env.ADMIN_PORTAL_DEPLOY_PATH }}"/*
+            cp -r apps/admin-portal/dist/* "${{ env.ADMIN_PORTAL_DEPLOY_PATH }}/"
           fi
 
           echo "✨ Deployment Completed successfully!"
