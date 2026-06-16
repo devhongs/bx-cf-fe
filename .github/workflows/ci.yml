@@ -44,21 +44,18 @@ jobs:
         env:
           HUSKY: 0
 
+      - name: Build Application
+        # Vite 빌드 시점에 실서버 API 도메인을 주입하여 하드코딩되도록 처리합니다.
+        # (필요시 실제 Spring 백엔드 API 도메인 주소로 변경하여 주입)
+        env:
+          VITE_API_URL: http://localhost:18081/channel/backend/api/v1
+        run: pnpm build
+
       - name: Run Type Check
         run: pnpm check
 
       - name: Run Code Linter
         run: pnpm lint
-
-      - name: Build Application
-        # Vite 빌드 시점에 API 주소를 번들에 주입합니다.
-        # 주의: 이 값은 "사용자 브라우저"에서 실행되므로 localhost 금지(각자 자기 PC를 호출하게 됨).
-        #   - 저장소 Settings > Variables 에 VITE_API_URL 을 설정하면 그 값이 우선 사용됩니다.
-        #   - 미설정 시 상대경로(/channel/backend/api/v1)로 폴백 → 같은 오리진으로 호출되며,
-        #     Nginx 가 /channel/backend 를 백엔드(예: localhost:18081)로 리버스 프록시하도록 설정 필요.
-        env:
-          VITE_API_URL: ${{ vars.VITE_API_URL || '/channel/backend/api/v1' }}
-        run: pnpm build
 
       - name: Deploy to Nginx Web Server
         # 빌드가 성공적으로 끝나면 각 앱의 배포 번들 파일(dist/*)들을 Nginx 서빙 폴더로 복사합니다.
