@@ -27,7 +27,7 @@
     "check": "turbo check",
     "wbs:sync": "node docs/wbs-sync.js",
     "wbs:force-sync": "node docs/wbs-force-sync.js",
-    "gen:api": "openapi-typescript http://192.168.11.197:18081/auth-svc/v3/api-docs -o packages/shared/src/shared/api/schema.d.ts"
+    "gen:api": "node scripts/gen-api.mjs"
   },
   "dependencies": {
     "concurrently": "^9.2.1"
