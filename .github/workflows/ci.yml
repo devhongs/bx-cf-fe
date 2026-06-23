@@ -107,20 +107,22 @@ jobs:
 
       - name: Notify Jandi on Success
         if: success()
+        env:
+          # 커밋 메시지는 env 로 전달해 셸/JSON 인젝션을 방지한다(여러 줄·따옴표 안전).
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
-          curl -X POST ${{ secrets.JANDI_WEBHOOK_URL }} \
+          DESCRIPTION=$(printf '• 레포지토리: %s\n• 커밋 메시지: %s\n• 실행자: %s' \
+            "${{ github.repository }}" "$COMMIT_MESSAGE" "${{ github.actor }}")
+          PAYLOAD=$(jq -n \
+            --arg body "🟢 Develop 브랜치 CI/CD 성공" \
+            --arg color "#22C55E" \
+            --arg title "배포 및 검증 성공" \
+            --arg desc "$DESCRIPTION" \
+            '{body: $body, connectColor: $color, connectInfo: [{title: $title, description: $desc}]}')
+          curl -X POST "${{ secrets.JANDI_WEBHOOK_URL }}" \
             -H "Accept: application/vnd.tosslab.jandi-v2+json" \
             -H "Content-Type: application/json" \
-            -d '{
-              "body": "🟢 Develop 브랜치 CI/CD 성공",
-              "connectColor": "#22C55E",
-              "connectInfo": [
-                {
-                  "title": "배포 및 검증 성공",
-                  "description": "• 레포지토리: ${{ github.repository }}\n• 커밋 메시지: ${{ github.event.head_commit.message }}\n• 실행자: ${{ github.actor }}"
-                }
-              ]
-            }'
+            -d "$PAYLOAD"
 
       - name: Notify Jandi on Failure
         if: failure()
