@@ -27,7 +27,8 @@
     "check": "turbo check",
     "wbs:sync": "node docs/wbs-sync.js",
     "wbs:force-sync": "node docs/wbs-force-sync.js",
-    "gen:api": "openapi-typescript http://192.168.11.197:18081/auth-svc/v3/api-docs -o packages/shared/src/shared/api/schema.d.ts"
+    "gen:api": "node scripts/gen-api.mjs",
+    "gen:readme": "node scripts/gen-readme-html.mjs"
   },
   "dependencies": {
     "concurrently": "^9.2.1"
@@ -51,6 +52,7 @@
     "jsdom": "^29.1.1",
     "json-server": "1.0.0-beta.15",
     "madge": "^8.0.0",
+    "marked": "^18.0.5",
     "openapi-typescript": "^7.13.0",
     "oxc": "^1.0.0",
     "turbo": "^2.0.4",

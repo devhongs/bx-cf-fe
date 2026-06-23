@@ -142,7 +142,35 @@ httpService.init({
 ### 기타
 | 명령 | 설명 |
 | :--- | :--- |
+| `pnpm gen:api` | 백엔드 OpenAPI 스펙 → TS 타입 생성 (`scripts/gen-api.mjs` → `packages/shared/src/shared/api/schema.d.ts`). 스펙 URL은 `API_DOCS_URL` 환경변수로 덮어쓰기 |
 | `pnpm wbs:sync` | `docs/wbs.md` → GitHub Projects 동기화 (`docs/wbs-sync.js`) |
+| `pnpm wbs:force-sync` | WBS 강제 재동기화 (`docs/wbs-force-sync.js`) |
+
+---
+
+## 🚢 배포 (Deployment)
+
+운영 서버는 **Nginx**로 서빙하며, 각 앱은 **별도 context(하위 경로)**로 분리됩니다. 빌드 시 Vite `base`가 주입되어 에셋 경로가 해당 context에 맞춰집니다.
+
+| 앱 | Nginx context | 빌드 `base` (vite.config) |
+| :--- | :--- | :--- |
+| pc-web | `/pc/` | `/pc/` |
+| mobile-web | `/mobile/` | `/mobile/` |
+| admin-portal | `/admin/` | `/admin/` |
+| **안내 페이지**(landing) | `/` (루트) | 없음 — 빌드 불요 정적 파일 |
+
+> dev 서버에서는 `base`가 `/`로 유지됩니다(빌드 시에만 context 경로 적용).
+
+### CI/CD ([.github/workflows/ci.yml](.github/workflows/ci.yml))
+`develop` 브랜치에 push되면 self-hosted 러너에서 자동으로 다음을 수행합니다.
+
+1. `pnpm install` → `pnpm build:debug`(전체 앱 빌드, `VITE_API_URL` 주입) → `pnpm check` → `pnpm lint`
+2. 각 앱 `dist/*`를 Nginx 서빙 폴더로 복사 (배포 완료 후 Jandi 알림)
+
+> **참고**: 현재 develop push 시 **세 앱이 모두 함께 빌드·배포**됩니다. 운영용 앱별 독립 배포가 필요하면 워크플로우를 분리(브랜치/태그/`paths` 필터 또는 turbo affected)해야 합니다.
+
+### 안내 페이지 (landing)
+`landing/index.html`은 FE·BE 자료(소개 PDF·README·WBS·저장소)를 링크로 안내하는 **단일 정적 페이지**입니다. 어떤 앱에도 속하지 않으므로 `public/`(앱 공유 publicDir)이 아닌 별도 `landing/`에 두고, Nginx 루트 context로 서빙합니다. 배포하려면 ci.yml에 `landing/*` 복사 스텝을 추가하면 됩니다.
 
 ---
 
@@ -159,10 +187,16 @@ bx-cf-fe/
 ├── db.json                      # Mock 데이터
 ├── mock/                        # Mock API 서버 (Spring 계약 흉내, 무의존성)
 │   └── server.js
-├── public/                      # 공용 정적 자산 (앱 간 공유)
+├── public/                      # 공용 정적 자산 (앱 간 공유 publicDir)
+├── landing/                     # 안내 페이지 (Nginx 루트 context, 앱 비종속)
+│   └── index.html
+├── scripts/
+│   └── gen-api.mjs              # OpenAPI → TS 타입 생성
+├── .github/workflows/ci.yml     # develop push 시 빌드·검증·Nginx 배포
 ├── docs/                        # 프로젝트 문서 & 도구
 │   ├── order.md / todo.md / wbs.md
-│   └── wbs-sync.js              # WBS → GitHub Projects 동기화 스크립트
+│   ├── wbs-sync.js              # WBS → GitHub Projects 동기화 스크립트
+│   └── ppt-build/               # 제안 PPT 빌드·렌더 산출물
 │
 ├── packages/
 │   └── shared/                  # 공유 패키지 (@bx/shared)
