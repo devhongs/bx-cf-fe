@@ -10,6 +10,7 @@ export const STORAGE_KEYS = {
   USER_NAME: 'userName',
   USER: 'user',
   RECENT_USER_ID: 'recentUserId',
+  RECENT_USER_PW: 'recentUserPw',
   ACCESS_TOKEN: 'accessToken',
   ACCESS_TOKEN_EXPIRES_AT: 'accessTokenExpiresAt',
   REFRESH_TOKEN: 'refreshToken',
