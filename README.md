@@ -142,7 +142,7 @@ httpService.init({
 ### 기타
 | 명령 | 설명 |
 | :--- | :--- |
-| `pnpm gen:api` | 백엔드 OpenAPI 스펙 → TS 타입 생성 (`scripts/gen-api.mjs` → `packages/shared/src/shared/api/schema.d.ts`). 스펙 URL은 `API_DOCS_URL` 환경변수로 덮어쓰기 |
+| `pnpm gen:api` | 여러 백엔드 OpenAPI 스펙 → 서비스별 TS 타입 생성 (`scripts/gen-api.mjs` → `packages/shared/src/shared/api/*.schema.d.ts`). 스펙 목록은 `API_DOCS_URLS` 환경변수로 덮어쓰기 |
 | `pnpm wbs:sync` | `docs/wbs.md` → GitHub Projects 동기화 (`docs/wbs-sync.js`) |
 | `pnpm wbs:force-sync` | WBS 강제 재동기화 (`docs/wbs-force-sync.js`) |
 
@@ -246,7 +246,7 @@ ESLint/Prettier 대신 Rust 기반 **Biome**으로 품질·스타일을 관리�
 
 ### 3. HTTP 통신 (`httpService`)
 * 모든 API 호출은 `@bx/shared`의 `httpService.get/post/put/patch/delete`를 사용합니다.
-* baseURL은 `httpService.init()`에서 1회 설정하므로, 각 API 함수는 **상대 경로**만 사용합니다. (예: `httpService.get('/products')`)
+* baseURL은 `httpService.init()`에서 1회 설정하므로, 각 API 함수는 **상대 경로**만 사용합니다. (예: `httpService.get('/product/list')`)
 * `execute()`가 envelope의 `payload`를 언래핑하여 반환하고, `success: false`는 에러로 throw합니다.
 
 ### 4. 공통 상수 (`@bx/shared/.../constants`)

@@ -10,16 +10,16 @@ export const productQueryKeys = {
 };
 
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용
-export const fetchProductListQuery = <T extends Product = Product>(params?: ProductQueryParams) =>
+export const fetchProductListQuery = (params?: ProductQueryParams) =>
   queryOptions({
     queryKey: productQueryKeys.list(params),
-    queryFn: () => fetchProductList<T>(params),
+    queryFn: () => fetchProductList(params),
   });
 
-export const fetchProductQuery = <T extends Product = Product>(productId: number) =>
+export const fetchProductQuery = (productId: number) =>
   queryOptions({
     queryKey: productQueryKeys.detail(productId),
-    queryFn: () => fetchProduct<T>(productId),
+    queryFn: () => fetchProduct(productId),
   });
 
 // 상품 생성 뮤테이션 옵션

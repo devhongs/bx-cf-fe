@@ -2,13 +2,11 @@ import { httpService } from '../../../shared/ajax/http.service';
 
 import type { Product, ProductQueryParams } from '../model/product.type';
 
-export const fetchProductList = <T extends Product = Product>(
-  params?: ProductQueryParams,
-): Promise<Array<T>> =>
-  httpService.get<Array<T>>('/products', params);
+export const fetchProductList = (params?: ProductQueryParams): Promise<Array<Product>> =>
+  httpService.get<Array<Product>>('/product/list', params);
 
-export const fetchProduct = <T extends Product = Product>(id: number): Promise<T> =>
-  httpService.get<T>(`/products/${id}`);
+export const fetchProduct = (id: number): Promise<Product> =>
+  httpService.get<Product>(`/product/${id}`);
 
 export const createProduct = (payload: Product): Promise<Product> =>
   httpService.post<Product>('/products', payload);
