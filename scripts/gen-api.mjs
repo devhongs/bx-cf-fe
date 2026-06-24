@@ -126,10 +126,9 @@ const toServiceSchema = async ({ name, doc }) => {
 
 const toIndex = (services) => ({
   path: 'index.ts',
-  content:
-    INDEX_BANNER +
-    services.map(({ name }) => `export type { ${name} } from './${name}.schema';`).join('\n') +
-    '\n',
+  content: `${INDEX_BANNER}${services
+    .map(({ name }) => `export type { ${name} } from './${name}.schema';`)
+    .join('\n')}\n`,
 });
 
 export const buildServiceOutputs = async (services) => {
