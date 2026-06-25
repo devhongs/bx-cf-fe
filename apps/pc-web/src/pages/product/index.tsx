@@ -19,12 +19,12 @@ export function ProductPage() {
         <ul className="flex flex-col gap-2">
           {products?.map((product) => (
             <li
-              key={product.id}
+              key={product.productId}
               className="rounded-lg border border-[#2a2a2c] bg-[#1e1f21] px-4 py-3"
             >
-              <p className="text-sm font-medium text-[#e3e3e3]">{product.name}</p>
-              {product.description && (
-                <p className="mt-1 text-xs text-[#9aa0a6]">{product.description}</p>
+              <p className="text-sm font-medium text-[#e3e3e3]">{product.productNm}</p>
+              {product.productDesc && (
+                <p className="mt-1 text-xs text-[#9aa0a6]">{product.productDesc}</p>
               )}
             </li>
           ))}

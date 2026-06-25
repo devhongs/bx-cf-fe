@@ -22,7 +22,7 @@ export function ProductList(_props: ProductListProps) {
   return (
     <div className={styles.layout}>
       {content.map((d: Product) => (
-        <ProductItem key={d.id} data={d} onItemClick={handleItemClick} />
+        <ProductItem key={d.productId} data={d} onItemClick={handleItemClick} />
       ))}
     </div>
   );

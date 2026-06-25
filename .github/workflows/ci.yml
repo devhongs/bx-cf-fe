@@ -15,6 +15,8 @@ env:
   PC_WEB_DEPLOY_PATH: /Users/channelunit/apps/bx-cf-fe/pc-web
   MOBILE_WEB_DEPLOY_PATH: /Users/channelunit/apps/bx-cf-fe/mobile-web
   ADMIN_PORTAL_DEPLOY_PATH: /Users/channelunit/apps/bx-cf-fe/admin-portal
+  # 안내 페이지(landing) — 어떤 앱에도 속하지 않는 Nginx 루트 context 정적 파일
+  LANDING_DEPLOY_PATH: /Users/channelunit/apps/bx-cf-fe/landing
   # GitHub Actions 내장 Node.js 20 경고 제거 및 24 버전 강제 사용
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -59,6 +61,11 @@ jobs:
       - name: Run Code Linter
         run: pnpm lint
 
+      - name: Generate README HTML (landing)
+        # README.md → landing/assets/fe.readme.html 재생성.
+        # BE README는 형제 레포 미체크아웃이라 자동 skip되며, 커밋된 be.readme.html을 그대로 배포한다.
+        run: pnpm gen:readme
+
       - name: Deploy to Nginx Web Server
         # 빌드가 성공적으로 끝나면 각 앱의 배포 번들 파일(dist/*)들을 Nginx 서빙 폴더로 복사합니다.
         run: |
@@ -88,24 +95,34 @@ jobs:
             cp -r apps/admin-portal/dist/* "${{ env.ADMIN_PORTAL_DEPLOY_PATH }}/"
           fi
 
+          # 4. Landing(안내 페이지) 복사 — 빌드 없이 정적 파일 그대로
+          if [ -d "landing" ]; then
+            echo "🚚 Deploying landing to ${{ env.LANDING_DEPLOY_PATH }}..."
+            mkdir -p "${{ env.LANDING_DEPLOY_PATH }}"
+            rm -rf "${{ env.LANDING_DEPLOY_PATH }}"/*
+            cp -r landing/* "${{ env.LANDING_DEPLOY_PATH }}/"
+          fi
+
           echo "✨ Deployment Completed successfully!"
 
       - name: Notify Jandi on Success
         if: success()
+        env:
+          # 커밋 메시지는 env 로 전달해 셸/JSON 인젝션을 방지한다(여러 줄·따옴표 안전).
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
-          curl -X POST ${{ secrets.JANDI_WEBHOOK_URL }} \
+          DESCRIPTION=$(printf '• 레포지토리: %s\n• 커밋 메시지: %s\n• 실행자: %s' \
+            "${{ github.repository }}" "$COMMIT_MESSAGE" "${{ github.actor }}")
+          PAYLOAD=$(jq -n \
+            --arg body "🟢 Develop 브랜치 CI/CD 성공" \
+            --arg color "#22C55E" \
+            --arg title "배포 및 검증 성공" \
+            --arg desc "$DESCRIPTION" \
+            '{body: $body, connectColor: $color, connectInfo: [{title: $title, description: $desc}]}')
+          curl -X POST "${{ secrets.JANDI_WEBHOOK_URL }}" \
             -H "Accept: application/vnd.tosslab.jandi-v2+json" \
             -H "Content-Type: application/json" \
-            -d '{
-              "body": "🟢 Develop 브랜치 CI/CD 성공",
-              "connectColor": "#22C55E",
-              "connectInfo": [
-                {
-                  "title": "배포 및 검증 성공",
-                  "description": "• 레포지토리: ${{ github.repository }}\n• 커밋 메시지: ${{ github.event.head_commit.message }}\n• 실행자: ${{ github.actor }}"
-                }
-              ]
-            }'
+            -d "$PAYLOAD"
 
       - name: Notify Jandi on Failure
         if: failure()

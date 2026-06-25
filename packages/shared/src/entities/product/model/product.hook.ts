@@ -17,22 +17,22 @@ import type { Product, ProductQueryParams } from './product.type';
  * @param params - 상품 목록 조회 쿼리 파라미터.
  * @param options - 추가 쿼리 옵션.
  */
-export const useFetchProductList = <T extends Product = Product>(
+export const useFetchProductList = (
   params?: ProductQueryParams,
-  options?: QueryHookOptions<Array<T>>,
-): UseQueryResult<Array<T>, Error> => {
-  return useQuery({ ...options, ...fetchProductListQuery<T>(params) });
+  options?: QueryHookOptions<Array<Product>>,
+): UseQueryResult<Array<Product>, Error> => {
+  return useQuery({ ...options, ...fetchProductListQuery(params) });
 };
 
 /**
  * 특정 상품 No의 상품 정보를 가져오는 쿼리 훅.
  * @param productId - 조회할 상품 ID.
  */
-export const useFetchProduct = <T extends Product = Product>(
+export const useFetchProduct = (
   productId: number,
-  options?: QueryHookOptions<T>,
-): UseQueryResult<T, Error> => {
-  return useQuery({ ...options, ...fetchProductQuery<T>(productId) });
+  options?: QueryHookOptions<Product>,
+): UseQueryResult<Product, Error> => {
+  return useQuery({ ...options, ...fetchProductQuery(productId) });
 };
 
 /**

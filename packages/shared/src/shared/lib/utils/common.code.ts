@@ -11,85 +11,74 @@ interface CodeOption {
   visibleName?: boolean;
 }
 
+interface CoreData {
+  codeFormat?: string;
+}
+
+/** 세션에 적재된 전체 코드맵 */
+const getCodeMap = (): CodeMap => session.get<CodeMap>(CONFIG.SESSION.CODE) ?? {};
+
+/** 그룹 코드에 해당하는 코드 리스트 (동기) */
+const getCodes = (code: string): Array<CodeItem> => getCodeMap()[code] ?? [];
+
+/** 그룹 코드 내에서 codeField 로 항목 찾기 */
+const findCode = (code: string, key: string): CodeItem | undefined =>
+  getCodes(code).find((item) => item.codeField === key);
+
 /**
- * 코드 가져오기
- * @param {string} code
+ * 코드 리스트 가져오기
+ * @param code 그룹 코드
  */
-const getCodeList = (code = ''): Promise<Array<CodeItem>> =>
-  new Promise((resolve) => {
-    const codeItems = session.get<Record<string, Array<CodeItem>>>(CONFIG.SESSION.CODE);
-
-    if (!codeItems) {
-      resolve([]);
-      return;
-    }
-
-    const codeInfo = codeItems[code] ?? [];
-    // console.log("getCodeList codeInfo :: ", codeInfo)
-
-    resolve(codeInfo);
-  });
+const getCodeList = (code = ''): Promise<Array<CodeItem>> => Promise.resolve(getCodes(code));
 
 /**
  * 코드를 값으로 변환 처리 (코드+값 / 코드 / 값)
- * @param code : 코드
- * @param key : 키
- * @param option : 옵션
- * @returns : 변환된 라벨
+ * @param code 그룹 코드
+ * @param key codeField
+ * @param option 표시 옵션
+ * @returns 변환된 라벨 (코드 없으면 받은 key 반환)
  */
-const codeValue = (code: string, key: string, option?: CodeOption) => {
-  const codeItems = session.get<CodeMap>(CONFIG.SESSION.CODE);
-
-  if (!codeItems) {
-    return key;
-  }
-
-  const codeInfo = codeItems[code] ?? [];
-  const codeItem = codeInfo.find((item) => item.codeField === key);
+const codeValue = (code: string, key: string, option?: CodeOption): string => {
+  const codeItem = findCode(code, key);
 
   // 코드 없을 경우 받은 값 return
   if (!codeItem) {
     return key;
   }
 
-  const settings: CodeOption = {
-    visibleCode: option?.visibleCode ?? true,
-    visibleName: option?.visibleName ?? true,
-  };
+  const visibleCode = option?.visibleCode ?? true;
+  const visibleName = option?.visibleName ?? true;
 
-  let result = '';
-
-  if (settings.visibleCode && settings.visibleName) {
-    const coreData = session.get<any>(CONFIG.SESSION.CORE_DATA);
-    result = $formatUtils.paramsFormat(
-      coreData?.codeFormat,
-      codeItem.codeField,
-      codeItem.labelField,
-    );
-  } else if (settings.visibleCode) {
-    result = codeItem.codeField;
-  } else if (settings.visibleName) {
-    result = codeItem.labelField;
+  if (visibleCode && visibleName) {
+    const coreData = session.get<CoreData>(CONFIG.SESSION.CORE_DATA);
+    return $formatUtils.paramsFormat(coreData?.codeFormat ?? '', codeItem.codeField, codeItem.labelField);
   }
 
-  return result;
+  if (visibleCode) {
+    return codeItem.codeField;
+  }
+
+  if (visibleName) {
+    return codeItem.labelField;
+  }
+
+  return '';
 };
 
-const codeValue2 = async (code: string, key: string) =>
-  new Promise((resolve) => {
-    getCodeList(code).then((codeList: any) => {
-      const item = codeList.find((d: any) => d.codeField === key);
-      resolve(item.labelField);
-    });
-  });
+/**
+ * 코드의 라벨을 비동기로 반환
+ * @param code 그룹 코드
+ * @param key codeField
+ * @returns labelField (코드 없으면 받은 key 반환)
+ */
+const codeValue2 = (code: string, key: string): Promise<string> =>
+  Promise.resolve(findCode(code, key)?.labelField ?? key);
 
-const valueList = (code: string) => {
-  const codeItems = session.get<CodeMap>(CONFIG.SESSION.CODE);
-  if (!codeItems) return [];
-
-  const codeInfo = codeItems[code] ?? [];
-  return codeInfo.map((item) => item.codeField);
-};
+/**
+ * 그룹 코드의 codeField 목록 반환
+ * @param code 그룹 코드
+ */
+const valueList = (code: string): Array<string> => getCodes(code).map((item) => item.codeField);
 
 export const $codeUtils = {
   getCodeList,

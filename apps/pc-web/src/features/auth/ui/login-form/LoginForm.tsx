@@ -8,7 +8,9 @@ import styles from './LoginForm.module.css';
 export function LoginForm() {
   const navigate = useNavigate();
   const [id, setId] = useState(() => local.get<string>(STORAGE_KEYS.RECENT_USER_ID) || '');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState(
+    () => local.get<string>(STORAGE_KEYS.RECENT_USER_PW) || '',
+  );
   const setAuth = useAuthStore((state) => state.setAuth);
 
   const handleSubmit = async () => {
@@ -23,7 +25,9 @@ export function LoginForm() {
     try {
       const usrPwd = await sha256(password);
       const response = await loginApi({ usrId: id, usrPwd });
+      // 다음 로그인 자동입력을 위해 아이디·비밀번호 저장 (개발 편의 — 운영 반영 전 제거 권장)
       local.set(STORAGE_KEYS.RECENT_USER_ID, response.usrId);
+      local.set(STORAGE_KEYS.RECENT_USER_PW, password);
       setAuth(response);
       navigate({ to: '/main' });
     } catch (error) {

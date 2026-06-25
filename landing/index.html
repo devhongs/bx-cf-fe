@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Channel Framework</title>
+    <link rel="icon" href="/favicon.ico" />
+    <style>
+      :root {
+        --bg: #080d13;
+        --panel: #101821;
+        --panel-2: #0d141c;
+        --panel-3: #121c27;
+        --line: #1e2b38;
+        --line-soft: #172330;
+        --text: #e5edf6;
+        --muted: #91a0b2;
+        --dim: #6f7f91;
+        --brand: #25d0bd;
+        --brand-soft: rgba(37, 208, 189, 0.13);
+        --green: #61d683;
+        --green-soft: rgba(97, 214, 131, 0.14);
+        --blue: #4aa3ff;
+        --blue-soft: rgba(74, 163, 255, 0.14);
+        --amber: #d8ae56;
+        --amber-soft: rgba(216, 174, 86, 0.14);
+        --shadow: rgba(0, 0, 0, 0.34);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        color-scheme: dark;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(700px 360px at 22% 0%, rgba(37, 208, 189, 0.08), transparent 58%),
+          linear-gradient(135deg, rgba(18, 28, 39, 0.86), rgba(8, 13, 19, 0.98)),
+          var(--bg);
+        color: var(--text);
+        font-family:
+          Inter, "Pretendard", "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.45;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .shell {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+      }
+
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid var(--line);
+        background: rgba(8, 13, 19, 0.62);
+        box-shadow: 12px 0 34px rgba(0, 0, 0, 0.16);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 64px;
+        padding: 0 18px;
+        border-bottom: 1px solid var(--line-soft);
+      }
+
+      .brand-mark {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--brand);
+        font-weight: 900;
+        font-size: 18px;
+        letter-spacing: 0;
+        line-height: 1;
+      }
+
+      .brand-name {
+        font-size: 16px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      .nav {
+        padding: 16px 12px;
+        display: grid;
+        gap: 6px;
+      }
+
+      .nav-item {
+        height: 34px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 12px;
+        border-radius: 6px;
+        color: #bcc8d6;
+        font-size: 13px;
+        text-decoration: none;
+      }
+
+      .nav-item.active {
+        color: #e9fffc;
+        background: linear-gradient(90deg, rgba(37, 208, 189, 0.25), rgba(37, 208, 189, 0.08));
+        box-shadow: inset 2px 0 0 var(--brand);
+      }
+
+      .nav-icon {
+        width: 18px;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      .nav-item.active .nav-icon {
+        color: var(--brand);
+      }
+
+      .system-card {
+        margin: auto 14px 14px;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: rgba(13, 20, 28, 0.78);
+      }
+
+      .system-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #cdd7e3;
+        font-size: 12px;
+        margin-bottom: 10px;
+      }
+
+      .system-toggle {
+        color: var(--green);
+      }
+
+      .meta-grid {
+        display: grid;
+        gap: 7px;
+        font-size: 11px;
+      }
+
+      .meta-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .meta-label {
+        color: var(--muted);
+      }
+
+      .meta-value {
+        color: #ccd7e5;
+        text-align: right;
+      }
+
+      .main {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .topbar {
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 18px;
+        padding: 0 18px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(10, 16, 23, 0.8);
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        height: 28px;
+        padding: 0 10px;
+        border: 1px solid rgba(97, 214, 131, 0.22);
+        border-radius: 5px;
+        background: var(--green-soft);
+        color: #95edaa;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .dot {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 10px rgba(97, 214, 131, 0.68);
+      }
+
+      .top-link {
+        color: #c7d2df;
+        font-size: 12px;
+        text-decoration: none;
+      }
+
+      .notice-badge {
+        display: inline-grid;
+        place-items: center;
+        min-width: 18px;
+        height: 18px;
+        margin-left: 5px;
+        padding: 0 5px;
+        border-radius: 999px;
+        color: #06251f;
+        background: var(--brand);
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .operator {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: #d7e0ea;
+        font-size: 12px;
+      }
+
+      .avatar {
+        display: grid;
+        place-items: center;
+        width: 24px;
+        height: 24px;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        color: var(--brand);
+      }
+
+      .content {
+        width: 100%;
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 22px 24px 26px;
+      }
+
+      .section {
+        margin-bottom: 22px;
+      }
+
+      .section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 10px;
+        color: #dbe5f0;
+        font-size: 16px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+      }
+
+      .section-icon {
+        width: 18px;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      .table-card {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: rgba(16, 24, 33, 0.76);
+        box-shadow: 0 18px 40px var(--shadow);
+      }
+
+      .table-head,
+      .row {
+        display: grid;
+        grid-template-columns: minmax(220px, 1.25fr) minmax(320px, 1.7fr) 92px 34px;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .table-head {
+        min-height: 34px;
+        padding: 0 14px;
+        border-bottom: 1px solid var(--line);
+        color: #93a2b4;
+        font-size: 11px;
+        background: rgba(18, 28, 39, 0.78);
+      }
+
+      .row {
+        min-height: 44px;
+        padding: 0 14px;
+        border-top: 1px solid var(--line-soft);
+        color: #cfd9e6;
+        text-decoration: none;
+        transition: background 0.16s ease, color 0.16s ease;
+      }
+
+      .row:first-of-type {
+        border-top: 0;
+      }
+
+      .row:hover {
+        color: #f3fffd;
+        background: rgba(37, 208, 189, 0.055);
+      }
+
+      .item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .item-icon {
+        width: 22px;
+        height: 22px;
+        display: grid;
+        place-items: center;
+        flex: none;
+        border: 1px solid rgba(37, 208, 189, 0.38);
+        border-radius: 5px;
+        color: var(--brand);
+        background: var(--brand-soft);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .item-name {
+        color: var(--brand);
+        font-size: 13px;
+        font-weight: 800;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+
+      .desc {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .badge {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 58px;
+        height: 24px;
+        border-radius: 5px;
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .badge.green {
+        color: #8beea4;
+        background: var(--green-soft);
+        border: 1px solid rgba(97, 214, 131, 0.2);
+      }
+
+      .badge.blue {
+        color: #8bc4ff;
+        background: var(--blue-soft);
+        border: 1px solid rgba(74, 163, 255, 0.22);
+      }
+
+      .badge.amber {
+        color: #f1cf7b;
+        background: var(--amber-soft);
+        border: 1px solid rgba(216, 174, 86, 0.22);
+      }
+
+      .chevron {
+        justify-self: end;
+        color: #b3c0cf;
+        font-size: 20px;
+        line-height: 1;
+      }
+
+      .apps-group {
+        background: rgba(37, 208, 189, 0.035);
+      }
+
+      .app-row {
+        min-height: 41px;
+        background: rgba(7, 13, 20, 0.18);
+      }
+
+      .app-row .item {
+        padding-left: 38px;
+        position: relative;
+      }
+
+      .app-row .item::before {
+        content: "";
+        position: absolute;
+        left: 10px;
+        top: -22px;
+        bottom: 50%;
+        width: 20px;
+        border-left: 1px solid #3b4b5d;
+        border-bottom: 1px solid #3b4b5d;
+      }
+
+      .app-row .item-icon {
+        width: 20px;
+        height: 20px;
+        color: #a9b8c9;
+        border-color: transparent;
+        background: transparent;
+        font-size: 13px;
+      }
+
+      .app-row .item-name {
+        font-size: 12px;
+      }
+
+      .app-row .desc {
+        font-size: 11px;
+      }
+
+      @media (max-width: 860px) {
+        .shell {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          display: none;
+        }
+
+        .topbar {
+          justify-content: flex-start;
+          overflow-x: auto;
+        }
+
+        .content {
+          padding: 18px 14px 28px;
+        }
+
+        .table-head {
+          display: none;
+        }
+
+        .row {
+          grid-template-columns: 1fr auto;
+          gap: 8px 12px;
+          min-height: auto;
+          padding: 13px 14px;
+        }
+
+        .row .desc {
+          grid-column: 1 / -1;
+        }
+
+        .row .badge {
+          grid-column: 1;
+          justify-self: start;
+        }
+
+        .row .chevron {
+          grid-column: 2;
+          grid-row: 1;
+        }
+
+        .app-row .item {
+          padding-left: 26px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar" aria-label="주요 메뉴">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">BX</div>
+          <div class="brand-name">BX Channel Framework</div>
+        </div>
+
+        <nav class="nav">
+          <a class="nav-item active" href="#home"><span class="nav-icon">⌂</span>홈</a>
+          <a class="nav-item" href="#frontend"><span class="nav-icon">▣</span>모니터링</a>
+          <a class="nav-item" href="#backend"><span class="nav-icon">⇧</span>배포 관리</a>
+        </nav>
+
+        <div class="system-card">
+          <div class="system-head">
+            <span>시스템 정보</span>
+            <span class="system-toggle">⌃</span>
+          </div>
+          <div class="meta-grid">
+            <div class="meta-row"><span class="meta-label">환경</span><span class="meta-value">운영</span></div>
+            <div class="meta-row"><span class="meta-label">버전</span><span class="meta-value">v2.3.1</span></div>
+            <div class="meta-row"><span class="meta-label">배포일</span><span class="meta-value">2026-06-24 18:04</span></div>
+            <div class="meta-row"><span class="meta-label">최근 배포</span><span class="meta-value">2026-06-24 18:04</span></div>
+            <div class="meta-row"><span class="meta-label">서버 시간</span><span class="meta-value">Asia/Seoul</span></div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main" id="home">
+        <header class="topbar">
+          <span class="status-pill">운영 환경</span>
+          <span class="top-link"><span class="dot"></span> 서비스 정상</span>
+          <a class="top-link" href="#project">공지 <span class="notice-badge">3</span></a>
+          <a class="top-link" href="#frontend">알림</a>
+          <span class="operator"><span class="avatar">◎</span>운영자⌄</span>
+        </header>
+
+        <div class="content">
+          <section class="section" id="project" aria-labelledby="project-title">
+            <h2 class="section-title" id="project-title"><span class="section-icon">□</span>Project</h2>
+            <div class="table-card">
+              <div class="table-head">
+                <span>항목</span>
+                <span>설명</span>
+                <span>버전</span>
+                <span></span>
+              </div>
+              <a class="row" href="./assets/BX-CF.pdf" target="_blank" rel="noopener">
+                <span class="item"><span class="item-icon">D</span><span class="item-name">프로젝트 소개</span></span>
+                <span class="desc">프로젝트 관련 문서 및 명세서</span>
+                <span class="badge green">v0.1</span>
+                <span class="chevron">›</span>
+              </a>
+            </div>
+          </section>
+
+          <section class="section" id="frontend" aria-labelledby="frontend-title">
+            <h2 class="section-title" id="frontend-title"><span class="section-icon">▣</span>Frontend</h2>
+            <div class="table-card">
+              <div class="table-head">
+                <span>항목</span>
+                <span>설명</span>
+                <span>버전</span>
+                <span></span>
+              </div>
+              <a class="row" href="./assets/FE.pdf" target="_blank" rel="noopener">
+                <span class="item"><span class="item-icon">D</span><span class="item-name">Docs</span></span>
+                <span class="desc">프론트엔드 아키텍처 및 기술 스택</span>
+                <span class="badge green">v0.1</span>
+                <span class="chevron">›</span>
+              </a>
+              <a class="row" href="./assets/fe.readme.html" target="_blank" rel="noopener">
+                <span class="item"><span class="item-icon">R</span><span class="item-name">README</span></span>
+                <span class="desc">FE 저장소 README HTML 렌더링 버전</span>
+                <span class="badge green">v0.1</span>
+                <span class="chevron">›</span>
+              </a>
+              <a class="row" href="https://github.com/devhongs/bx-cf-fe/projects" target="_blank" rel="noopener">
+                <span class="item"><span class="item-icon">W</span><span class="item-name">WBS</span></span>
+                <span class="desc">GitHub Projects 작업 분해 구조 및 일정 보드</span>
+                <span class="badge blue">v0.1</span>
+                <span class="chevron">›</span>
+              </a>
+              <a class="row" href="https://github.com/devhongs/bx-cf-fe" target="_blank" rel="noopener">
+                <span class="item"><span class="item-icon">G</span><span class="item-name">Git</span></span>
+                <span class="desc">프론트엔드 소스 코드 저장소</span>
+                <span class="badge green">v0.1</span>
+                <span class="chevron">›</span>
+              </a>
+              <div class="row apps-group" aria-label="프론트엔드 애플리케이션 모음">
+                <span class="item"><span class="item-icon">A</span><span class="item-name">Apps</span></span>
+                <span class="desc">프론트엔드 애플리케이션 모음</span>
+                <span class="badge green">v0.1</span>
+                <span class="chevron">›</span>
+              </div>
+              <a class="row app-row" href="http://192.168.11.197/pc" target="_blank" rel="noopener">
+                <span class="item"><span class="item-icon">□</span><span class="item-name">PC</span></span>
+                <span class="desc">PC 웹 애플리케이션</span>
+                <span class="badge green">v0.1</span>
+                <span class="chevron">›</span>
+              </a>
+              <a class="row app-row" href="http://192.168.11.197/mobile" target="_blank" rel="noopener">
+                <span class="item"><span class="item-icon">▯</span><span class="item-name">Mobile</span></span>
+                <span class="desc">모바일 웹 애플리케이션</span>
+                <span class="badge green">v0.1</span>
+                <span class="chevron">›</span>
+              </a>
+              <a class="row app-row" href="http://192.168.11.197/admin" target="_blank" rel="noopener">
+                <span class="item"><span class="item-icon">◈</span><span class="item-name">Admin</span></span>
+                <span class="desc">관리자 웹 애플리케이션</span>
+                <span class="badge green">v0.1</span>
+                <span class="chevron">›</span>
+              </a>
+            </div>
+          </section>
+
+          <section class="section" id="backend" aria-labelledby="backend-title">
+            <h2 class="section-title" id="backend-title"><span class="section-icon">▤</span>Backend</h2>
+            <div class="table-card">
+              <div class="table-head">
+                <span>항목</span>
+                <span>설명</span>
+                <span>버전</span>
+                <span></span>
+              </div>
+              <a class="row" href="./assets/BE.pdf" target="_blank" rel="noopener">
+                <span class="item"><span class="item-icon">D</span><span class="item-name">Docs</span></span>
+                <span class="desc">백엔드 API 문서 및 운영 가이드</span>
+                <span class="badge green">v0.1</span>
+                <span class="chevron">›</span>
+              </a>
+              <a class="row" href="./assets/be.readme.html" target="_blank" rel="noopener">
+                <span class="item"><span class="item-icon">R</span><span class="item-name">README</span></span>
+                <span class="desc">BE 저장소 README HTML 렌더링 버전</span>
+                <span class="badge green">v0.1</span>
+                <span class="chevron">›</span>
+              </a>
+              <a class="row" href="http://192.168.11.197:18081/swagger-ui.html" target="_blank" rel="noopener">
+                <span class="item"><span class="item-icon">S</span><span class="item-name">Swagger</span></span>
+                <span class="desc">API 문서 및 테스트 콘솔</span>
+                <span class="badge green">v0.1</span>
+                <span class="chevron">›</span>
+              </a>
+              <a class="row" href="https://github.com/yooyongbeom/bx-cf-be/projects?query=is%3Aopen" target="_blank" rel="noopener">
+                <span class="item"><span class="item-icon">W</span><span class="item-name">WBS</span></span>
+                <span class="desc">백엔드 작업 계획 및 일정</span>
+                <span class="badge blue">v0.1</span>
+                <span class="chevron">›</span>
+              </a>
+              <a class="row" href="https://github.com/yooyongbeom/bx-cf-be/tree/develop" target="_blank" rel="noopener">
+                <span class="item"><span class="item-icon">G</span><span class="item-name">Git</span></span>
+                <span class="desc">백엔드 소스 코드 저장소</span>
+                <span class="badge green">v0.1</span>
+                <span class="chevron">›</span>
+              </a>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

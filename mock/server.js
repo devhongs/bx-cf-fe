@@ -117,7 +117,11 @@ const server = createServer(async (req, res) => {
   }
 
   // ── 컬렉션 CRUD: /:name, /:name/:id ──
-  const [name, id] = path.split('/').filter(Boolean);
+  let [name, id] = path.split('/').filter(Boolean);
+  if (name === 'product') {
+    name = 'products';
+    if (id === 'list') id = undefined;
+  }
   const collection = name ? db[name] : undefined;
 
   if (!Array.isArray(collection)) {
