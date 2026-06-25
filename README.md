@@ -164,13 +164,33 @@ httpService.init({
 ### CI/CD ([.github/workflows/ci.yml](.github/workflows/ci.yml))
 `develop` 브랜치에 push되면 self-hosted 러너에서 자동으로 다음을 수행합니다.
 
-1. `pnpm install` → `pnpm build:debug`(전체 앱 빌드, `VITE_API_URL` 주입) → `pnpm check` → `pnpm lint`
-2. 각 앱 `dist/*`를 Nginx 서빙 폴더로 복사 (배포 완료 후 Jandi 알림)
+| 항목 | 값 |
+| :--- | :--- |
+| Runner | `self-hosted` |
+| Node.js | `22` |
+| pnpm | `11.1.3` (`packageManager`와 동기화) |
+| 배포 트리거 | `develop` 브랜치 push |
+| API URL 주입 | `VITE_API_URL=/channel/backend/api/v1` |
+
+1. `pnpm install --frozen-lockfile` → `pnpm build:debug`(전체 앱 빌드, `VITE_API_URL` 주입) → `pnpm check` → `pnpm lint`
+2. `pnpm gen:readme`로 `landing/assets/fe.readme.html` 재생성
+3. 각 앱 `dist/*`와 `landing/*`를 Nginx 서빙 폴더로 복사 (배포 완료 후 Jandi 알림)
+
+| 대상 | 서버 배포 경로 |
+| :--- | :--- |
+| pc-web | `/Users/channelunit/apps/bx-cf-fe/pc-web` |
+| mobile-web | `/Users/channelunit/apps/bx-cf-fe/mobile-web` |
+| admin-portal | `/Users/channelunit/apps/bx-cf-fe/admin-portal` |
+| landing | `/Users/channelunit/apps/bx-cf-fe/landing` |
 
 > **참고**: 현재 develop push 시 **세 앱이 모두 함께 빌드·배포**됩니다. 운영용 앱별 독립 배포가 필요하면 워크플로우를 분리(브랜치/태그/`paths` 필터 또는 turbo affected)해야 합니다.
+>
+> **주의**: CI는 `--frozen-lockfile`로 의존성을 설치합니다. `package.json`의 dependencies/devDependencies를 변경했다면 반드시 `pnpm-lock.yaml`도 함께 갱신해 커밋해야 합니다. lockfile만 갱신하려면 `pnpm install --lockfile-only`를 사용합니다.
 
 ### 안내 페이지 (landing)
-`landing/index.html`은 FE·BE 자료(소개 PDF·README·WBS·저장소)를 링크로 안내하는 **단일 정적 페이지**입니다. 어떤 앱에도 속하지 않으므로 `public/`(앱 공유 publicDir)이 아닌 별도 `landing/`에 두고, Nginx 루트 context로 서빙합니다. 배포하려면 ci.yml에 `landing/*` 복사 스텝을 추가하면 됩니다.
+`landing/index.html`은 FE·BE 자료(소개 PDF·README·WBS·저장소)를 링크로 안내하는 **단일 정적 페이지**입니다. 어떤 앱에도 속하지 않으므로 `public/`(앱 공유 publicDir)이 아닌 별도 `landing/`에 두고, Nginx 루트 context로 서빙합니다. CI/CD에서 `pnpm gen:readme` 실행 후 `landing/*` 전체를 landing 배포 경로로 복사합니다.
+
+> `README.md`를 수정했다면 `pnpm gen:readme`를 실행해 `landing/assets/fe.readme.html`도 함께 갱신해야 합니다.
 
 ---
 

@@ -1,6 +1,9 @@
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { Bell, FlaskConical, LayoutDashboard, ShoppingBag, Wallet } from 'lucide-react';
 
+import { useLayout } from '@/shared/context/LayoutContext';
+import type { ProductRouteState } from '@/routes/(page)/_page.product';
+
 import { AccountMenu } from './AccountMenu';
 import styles from './NavSidebar.module.css';
 
@@ -18,13 +21,16 @@ const navItems = [
     type: 'TITLE',
     children: [
       { label: '자산', path: '/asset', icon: <Wallet size={16} /> },
-      { label: '상품', path: '/product', icon: <ShoppingBag size={16} /> },
+      {
+        label: '상품',
+        path: '/product',
+        icon: <ShoppingBag size={16} />,
+        state: { productType: 'financial' } satisfies ProductRouteState,
+      },
       { label: '알림', path: '/alarm', icon: <Bell size={16} /> },
     ],
   },
 ];
-
-import { useLayout } from '@/shared/context/LayoutContext';
 
 export function NavSidebar() {
   const navigate = useNavigate();
@@ -67,7 +73,12 @@ export function NavSidebar() {
                   key={item.path}
                   type="button"
                   className={`${styles.navItem} ${location.pathname === item.path ? styles.active : ''}`}
-                  onClick={() => navigate({ to: item.path as any })}
+                  onClick={() =>
+                    navigate({
+                      to: item.path as any,
+                      state: item.state ? (prev) => ({ ...prev, ...item.state }) : undefined,
+                    })
+                  }
                 >
                   <span className={styles.navIcon}>{item.icon}</span>
                   <span className={styles.navLabel}>{item.label}</span>
