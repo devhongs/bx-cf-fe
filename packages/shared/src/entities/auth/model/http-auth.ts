@@ -12,6 +12,16 @@ import { refreshTokenApi } from '../api/auth.api';
 import { useAuthStore } from './auth.store';
 import { isExpired, tokenStorage } from './token-storage';
 
+const getAppBasePath = (): string =>
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore — import.meta.env는 Vite 앱 빌드 시 주입됨
+  (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || '/';
+
+export const getLoginPath = (basePath = getAppBasePath()): string => {
+  const normalizedBase = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
+  return `${normalizedBase || ''}/login`;
+};
+
 export const createHttpAuthConfig = (): HttpAuthConfig => ({
   // 매 요청에 부착할 액세스 토큰
   getAccessToken: () => tokenStorage.getAccessToken(),
@@ -37,7 +47,7 @@ export const createHttpAuthConfig = (): HttpAuthConfig => ({
   onAuthFail: () => {
     useAuthStore.getState().logout();
     if (typeof window !== 'undefined') {
-      window.location.href = '/login';
+      window.location.href = getLoginPath();
     }
   },
 });

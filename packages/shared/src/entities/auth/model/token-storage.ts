@@ -13,6 +13,8 @@ import type { AuthTokens } from './auth.type';
  * "yyyyMMddHHmmss" 문자열을 epoch(ms)로 변환한다.
  */
 const parseExpiresAt = (value: string): number => {
+  if (!/^\d{14}$/.test(value)) return Number.NaN;
+
   const year = Number(value.slice(0, 4));
   const month = Number(value.slice(4, 6)) - 1;
   const day = Number(value.slice(6, 8));
@@ -29,7 +31,9 @@ const parseExpiresAt = (value: string): number => {
  */
 export const isExpired = (expiresAt?: string | null, skewMs = 5_000): boolean => {
   if (!expiresAt) return true;
-  return Date.now() >= parseExpiresAt(expiresAt) - skewMs;
+  const expiryTime = parseExpiresAt(expiresAt);
+  if (!Number.isFinite(expiryTime)) return true;
+  return Date.now() >= expiryTime - skewMs;
 };
 
 export const tokenStorage = {

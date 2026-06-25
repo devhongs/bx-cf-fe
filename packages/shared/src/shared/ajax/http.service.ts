@@ -55,6 +55,8 @@ export class HttpService {
   private authConfig?: HttpAuthConfig;
   /** 동시 다발 401에서 refresh를 1회만 수행하기 위한 single-flight promise */
   private refreshPromise: Promise<string | null> | null = null;
+  private authRequestInterceptorId: number | null = null;
+  private authResponseInterceptorId: number | null = null;
 
   constructor() {
     this.httpClient = axios.create({
@@ -144,7 +146,14 @@ export class HttpService {
    * HTTP 200 + success:false(onFulfilled)로 올 수 있어 양쪽 모두 처리한다.
    */
   private setupAuthInterceptors(): void {
-    this.httpClient.interceptors.request.use((request) => {
+    if (this.authRequestInterceptorId !== null) {
+      this.httpClient.interceptors.request.eject(this.authRequestInterceptorId);
+    }
+    if (this.authResponseInterceptorId !== null) {
+      this.httpClient.interceptors.response.eject(this.authResponseInterceptorId);
+    }
+
+    this.authRequestInterceptorId = this.httpClient.interceptors.request.use((request) => {
       const token = this.authConfig?.getAccessToken();
       if (token) {
         request.headers.Authorization = `Bearer ${token}`;
@@ -152,7 +161,7 @@ export class HttpService {
       return request;
     });
 
-    this.httpClient.interceptors.response.use(
+    this.authResponseInterceptorId = this.httpClient.interceptors.response.use(
       // HTTP 200이지만 envelope.success가 false인 경우(만료 토큰 등) 처리
       async (response) => {
         const data = response.data as ApiResponse | undefined;

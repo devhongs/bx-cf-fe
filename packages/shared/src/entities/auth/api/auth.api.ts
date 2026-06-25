@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { httpService } from '../../../shared/ajax/http.service';
-import { API_URL } from '../../../shared/constants';
+import { API_CONFIG, API_URL } from '../../../shared/constants';
 
 import type { LoginRequest, LoginResponse } from '../model/auth.type';
 
@@ -27,7 +27,7 @@ export const refreshTokenApi = async (refreshToken: string): Promise<LoginRespon
   const { data } = await axios.post(
     `${API_URL}/auth/refresh-token`,
     { refreshToken },
-    { headers: { 'Content-Type': 'application/json' } },
+    { headers: { 'Content-Type': 'application/json' }, timeout: API_CONFIG.TIMEOUT },
   );
   if (!data?.success) throw data;
   return data.payload as LoginResponse;
