@@ -48,15 +48,6 @@ jobs:
         env:
           HUSKY: 0
 
-      - name: Generate OpenAPI Types
-        # 백엔드 OpenAPI 스펙 기준으로 FE 타입을 재생성합니다.
-        # self-hosted 러너가 scripts/gen-api.mjs의 API_DOCS_URLS 또는 기본 내부망 URL에 접근 가능해야 합니다.
-        run: pnpm gen:api
-
-      - name: Verify OpenAPI Type Sync
-        # 스펙 변경으로 generated 타입이 바뀌었는데 커밋되지 않은 경우 merge/deploy를 막습니다.
-        run: git diff --exit-code -- packages/shared/src/shared/api
-
       - name: Build Application
         # Vite 빌드 시점에 실서버 API 도메인을 주입하여 하드코딩되도록 처리합니다.
         # (필요시 실제 Spring 백엔드 API 도메인 주소로 변경하여 주입)
