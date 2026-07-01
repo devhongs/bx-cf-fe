@@ -26,8 +26,6 @@ const pickUser = (res: LoginResponse): AuthUser => ({
 const pickTokens = (res: LoginResponse): AuthTokens => ({
   accessToken: res.accessToken,
   accessTokenExpiresAt: res.accessTokenExpiresAt,
-  refreshToken: res.refreshToken,
-  refreshTokenExpiresAt: res.refreshTokenExpiresAt,
 });
 
 export const useAuthStore = create<AuthStore>((set) => {

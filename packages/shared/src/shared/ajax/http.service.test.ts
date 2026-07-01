@@ -1,3 +1,4 @@
+import type { InternalAxiosRequestConfig } from 'axios';
 import { describe, expect, it } from 'vitest';
 
 import { HttpService } from './http.service';
@@ -21,5 +22,60 @@ describe('HttpService auth interceptor setup', () => {
 
     expect(getInterceptorCount(service, 'request')).toBe(1);
     expect(getInterceptorCount(service, 'response')).toBe(1);
+  });
+
+  it('enables credentials on the shared axios client', () => {
+    const service = new HttpService();
+
+    service.init();
+
+    expect((service as any).httpClient.defaults.withCredentials).toBe(true);
+  });
+
+  it('sends an empty object body for post requests without payload', async () => {
+    const service = new HttpService();
+    let capturedConfig: InternalAxiosRequestConfig | undefined;
+
+    (service as any).httpClient.defaults.adapter = async (config: InternalAxiosRequestConfig) => {
+      capturedConfig = config;
+      return {
+        config,
+        data: { success: true, code: '0', msg: 'success', payload: null },
+        headers: {},
+        status: 200,
+        statusText: 'OK',
+      };
+    };
+
+    await service.post('/product/list');
+
+    expect(JSON.parse(String(capturedConfig?.data))).toEqual({});
+  });
+
+  it('does not attach access tokens to auth endpoints', async () => {
+    const service = new HttpService();
+    let capturedConfig: InternalAxiosRequestConfig | undefined;
+
+    service.init({
+      auth: {
+        getAccessToken: () => 'stale-access-token',
+        refreshToken: async () => null,
+        onAuthFail: () => undefined,
+      },
+    });
+    (service as any).httpClient.defaults.adapter = async (config: InternalAxiosRequestConfig) => {
+      capturedConfig = config;
+      return {
+        config,
+        data: { success: true, code: '0', msg: 'success', payload: null },
+        headers: {},
+        status: 200,
+        statusText: 'OK',
+      };
+    };
+
+    await service.post('/auth/login', { usrId: 'user', usrPwd: 'password' });
+
+    expect(capturedConfig?.headers.Authorization).toBeUndefined();
   });
 });

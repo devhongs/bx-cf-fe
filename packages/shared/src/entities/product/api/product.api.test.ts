@@ -18,11 +18,11 @@ describe('product api', () => {
         useYn: 'Y',
       },
     ];
-    const getSpy = vi.spyOn(httpService, 'get').mockResolvedValue(products);
+    const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue(products);
 
     const result = await fetchProductList();
 
-    expect(getSpy).toHaveBeenCalledWith('/product/list', undefined);
+    expect(postSpy).toHaveBeenCalledWith('/product/list', undefined);
     expect(result).toEqual(products);
   });
 

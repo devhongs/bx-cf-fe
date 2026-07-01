@@ -25,15 +25,15 @@ export type AuthUser = Required<
 >;
 
 /** JWT 토큰 정보 (만료시각 형식: yyyyMMddHHmmss) */
-export type AuthTokens = Required<
-  Pick<
-    AuthResponse,
-    'accessToken' | 'accessTokenExpiresAt' | 'refreshToken' | 'refreshTokenExpiresAt'
-  >
->;
+export type AuthTokens = Required<Pick<AuthResponse, 'accessToken' | 'accessTokenExpiresAt'>>;
 
 /**
  * 로그인/리프레시 응답 payload.
- * 사용자 정보 + 토큰 정보가 함께 내려온다. (usrPwd는 응답에서 항상 null)
+ * 사용자 정보 + accessToken 정보가 함께 내려온다. refreshToken은 HttpOnly Cookie로 관리한다.
  */
-export type LoginResponse = AuthUser & AuthTokens & { usrPwd: string | null };
+export type LoginResponse = AuthUser &
+  AuthTokens & {
+    usrPwd: string | null;
+    refreshToken?: string;
+    refreshTokenExpiresAt?: string;
+  };

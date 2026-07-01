@@ -61,6 +61,7 @@ export class HttpService {
   constructor() {
     this.httpClient = axios.create({
       headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
     });
   }
 
@@ -155,7 +156,7 @@ export class HttpService {
 
     this.authRequestInterceptorId = this.httpClient.interceptors.request.use((request) => {
       const token = this.authConfig?.getAccessToken();
-      if (token) {
+      if (token && !this.isAuthEndpoint(request.url)) {
         request.headers.Authorization = `Bearer ${token}`;
       }
       return request;
@@ -220,7 +221,7 @@ export class HttpService {
   }
 
   async post<T>(url: string, payload?: unknown, options?: AxiosRequestConfig): Promise<T> {
-    return this.execute<T>({ method: HttpMethod.POST, url, payload }, options);
+    return this.execute<T>({ method: HttpMethod.POST, url, payload: payload ?? {} }, options);
   }
 
   async put<T>(url: string, payload?: unknown, options?: AxiosRequestConfig): Promise<T> {

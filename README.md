@@ -99,19 +99,21 @@ httpService.init({
 
 ### 로그인 흐름
 1. 비밀번호를 `sha256()`로 해싱 → `POST /auth/login` (`{ usrId, usrPwd }`)
-2. 응답 `payload`(사용자 정보 + accessToken/refreshToken)를 `useAuthStore.setAuth()`로 저장
-3. 토큰은 **localStorage**에 보관(탭 간 공유·새로고침 유지)
+2. 응답 `payload`(사용자 정보 + accessToken + accessTokenExpiresAt)를 `useAuthStore.setAuth()`로 저장
+3. refreshToken 값은 서버가 **HttpOnly Cookie**로 관리하고, FE는 localStorage에 저장하지 않음
+4. accessToken 및 accessTokenExpiresAt은 **localStorage**에 보관(탭 간 공유·새로고침 유지)
 
 ### 토큰 자동 관리 (인터셉터)
 * **요청**: 모든 요청에 `Authorization: Bearer <accessToken>` 자동 부착
 * **응답 (`-1004` 또는 HTTP 401)**: `POST /auth/refresh-token`으로 재발급 후 원요청 **자동 재시도**
+  * refreshToken은 request body가 아니라 HttpOnly Cookie로 전송(`withCredentials: true`)
   * 동시 다발 요청은 **single-flight**로 refresh 1회만 호출
   * 재발급 실패 → 로그아웃 + `/login` 리다이렉트
 * **응답 (`-1002`/`-1003`)**: 재발급 불가 → 즉시 로그아웃
 * **응답 (`-1005`)**: 인가(권한) 오류 → 로그아웃하지 않고 에러 그대로 전달
 
 ### 라우트 가드
-보호 라우트(`(page)/_page`)는 `beforeLoad: requireAuth`로 진입 시 토큰을 검사합니다. `isAuthenticated()`는 **리프레시 토큰 유효성**을 기준으로 판단하므로, accessToken이 만료됐어도 refreshToken이 살아있으면 통과하고 다음 요청에서 자동 재발급됩니다.
+보호 라우트(`(page)/_page`)는 `beforeLoad: requireAuth`로 진입 시 인증 세션을 확인합니다. `ensureValidAuthSession()`은 `accessTokenExpiresAt`이 유효하면 바로 통과하고, 만료됐거나 accessToken이 없으면 refresh 쿠키로 accessToken 재발급을 시도한 뒤 페이지 진입 여부를 결정합니다.
 
 ---
 
@@ -172,9 +174,21 @@ httpService.init({
 | 배포 트리거 | `develop` 브랜치 push |
 | API URL 주입 | `VITE_API_URL=/channel/backend/api/v1` |
 
-1. `pnpm install --frozen-lockfile` → `pnpm build:debug`(전체 앱 빌드, `VITE_API_URL` 주입) → `pnpm check` → `pnpm lint`
-2. `pnpm gen:readme`로 `landing/assets/fe.readme.html` 재생성
-3. 각 앱 `dist/*`와 `landing/*`를 Nginx 서빙 폴더로 복사 (배포 완료 후 Jandi 알림)
+1. `pnpm install --frozen-lockfile`
+2. `pnpm gen:api`로 백엔드 OpenAPI 스펙 기준 타입 재생성
+3. `git diff --exit-code -- packages/shared/src/shared/api`로 generated 타입 커밋 누락 여부 확인
+4. `pnpm build:debug`(전체 앱 빌드, `VITE_API_URL` 주입) → `pnpm check` → `pnpm lint`
+5. `pnpm gen:readme`로 `landing/assets/fe.readme.html` 재생성
+6. 각 앱 `dist/*`와 `landing/*`를 Nginx 서빙 폴더로 복사 (배포 완료 후 Jandi 알림)
+
+### OpenAPI 스펙 정합성 체크
+CI는 빌드 성공 여부뿐 아니라 **백엔드 스펙과 FE generated 타입의 동기화 여부**도 확인합니다.
+
+* `pnpm gen:api`는 `scripts/gen-api.mjs`의 기본 내부망 Swagger URL 또는 `API_DOCS_URLS` 환경변수로 지정한 URL에서 스펙을 받아 `packages/shared/src/shared/api/*.schema.d.ts`를 재생성합니다.
+* 재생성 후 `packages/shared/src/shared/api`에 diff가 있으면, 백엔드 스펙 변경이 FE 타입 파일에 반영되지 않은 상태이므로 CI를 실패시킵니다.
+* 개발자 로컬에서도 Swagger URL에 접근 가능하면 PR 전에 같은 검사를 미리 수행할 수 있습니다: `pnpm gen:api && git diff --exit-code -- packages/shared/src/shared/api`.
+* self-hosted CI 러너도 Swagger URL에 접근 가능해야 합니다. 접근이 어렵다면 Swagger JSON snapshot을 repo에 저장하거나, 백엔드 릴리즈 산출물로 OpenAPI JSON을 제공받는 방식으로 전환합니다.
+* `gen-api` 실행 중 missing schema patch 경고가 발생하면 백엔드 OpenAPI 문서가 불완전하다는 신호입니다. 로컬 개발에서는 warning으로 볼 수 있지만, 배포용 CI에서는 백엔드 스펙 보완 또는 allowlist 정책을 먼저 검토합니다.
 
 | 대상 | 서버 배포 경로 |
 | :--- | :--- |

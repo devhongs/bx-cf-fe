@@ -71,232 +71,130 @@
   <body>
     <main class="md">
 <h1>BX-CF-BE</h1>
-<p>BWG 채널 백엔드 프레임워크. Spring Boot 3.3 / Java 21 / MSA 구조.</p>
-<h2>프로젝트 구조</h2>
-<pre><code>bx-cf-be/
-├── libs/
-│   ├── common/       공통 예외/AOP/JPA·MyBatis 기반 설정
-│   └── auth-core/    JWT 인증 필터 (AuthErrorCode, BwgAuthException)
-├── infra/
-│   ├── discovery-svc/  Eureka Server (18761)
-│   └── api-gateway/    Spring Cloud Gateway (18081)
-└── services/
-    ├── auth-svc/     인증/토큰 발급 (18082)
-    └── product-svc/  상품 관리 (18083)
-</code></pre>
-<p>서비스별 예외/에러코드는 각 모듈에 위치. common에는 Bwg 프레임워크 기반 코드만.</p>
-<h2>실행 순서</h2>
-<p>discovery-svc → auth-svc + product-svc → api-gateway</p>
-<h2>접속 정보</h2>
-<table>
-<thead>
-<tr>
-<th>환경</th>
-<th>Eureka</th>
-<th>DB</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>local</td>
-<td><a href="http://localhost:18761">http://localhost:18761</a></td>
-<td>jdbc:postgresql://192.168.11.197:5432/bxcfdb</td>
-</tr>
-<tr>
-<td>dev</td>
-<td><a href="http://192.168.11.197:18761">http://192.168.11.197:18761</a></td>
-<td>jdbc:postgresql://192.168.11.197:5432/bxcfdb</td>
-</tr>
-</tbody></table>
-<p>Postman: <code>reffile/BX-CF-BE-LCL.postman_collection.json</code></p>
-<h2>Swagger (API 문서)</h2>
-<p>게이트웨이에서 서비스별 문서를 한 화면에 모아 제공한다. (게이트웨이 기동 후 접속)</p>
-<table>
-<thead>
-<tr>
-<th>환경</th>
-<th>Swagger UI</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>local</td>
-<td><a href="http://localhost:18081/swagger-ui.html">http://localhost:18081/swagger-ui.html</a></td>
-</tr>
-<tr>
-<td>dev</td>
-<td><a href="http://192.168.11.197:18081/swagger-ui.html">http://192.168.11.197:18081/swagger-ui.html</a></td>
-</tr>
-</tbody></table>
+<h2>서비스 실행순서</h2>
 <ul>
-<li>우측 상단 <strong>Select a definition</strong> 드롭다운에서 auth-svc / product-svc 전환.</li>
-<li>Schemas 목록에는 DTO만 표시(공통 응답 래퍼 제외). 응답 모델에는 공통 응답 구조(success/code/msg/payload)가 인라인으로 표시된다.</li>
+<li>discovery -&gt; auth -&gt; gateway</li>
 </ul>
-<h3>Authorize (JWT) 사용법</h3>
-<p>product-svc API는 JWT가 필요하다(auth-svc 로그인/토큰 발급은 불필요). 토큰을 발급받아 Authorize에 등록하면 이후 요청에 자동으로 <code>Authorization: Bearer ...</code> 가 붙는다.</p>
+<h2>테스트 및 접속 url</h2>
+<ul>
+<li>유레카 : <a href="http://localhost:18761/">http://localhost:18761/</a></li>
+<li>h2 DB 콘솔 : <a href="http://localhost:18082/auth/h2-console">http://localhost:18082/auth/h2-console</a>
+         JDBC URL : jdbc:h2:mem:auth-db</li>
+<li>login : <a href="http://localhost:18081/channel/backend/api/v1/auth/login">http://localhost:18081/channel/backend/api/v1/auth/login</a></li>
+<li>성공여부 테스트 : <a href="http://localhost:18081/te/home">http://localhost:18081/te/home</a></li>
+<li>Refresh 요청 : <a href="http://localhost:18081/channel/backend/api/v1/auth/refresh-token">http://localhost:18081/channel/backend/api/v1/auth/refresh-token</a></li>
+</ul>
+<h2>프로젝트 구조, 인증/인가 프로세스 설명은 다음 문서에 있음</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 웹앱 프레임워크_구축 v0.5 2025.09.19.pptx</li>
+</ul>
+<h2>로컬에서 postman 테스트용 collection</h2>
+<ul>
+<li><input disabled="" type="checkbox"> BX-CF-BE-LCL.postman_collection</li>
+</ul>
+<h2>로그인 및 토큰발급 테스트 시나리오</h2>
 <ol>
-<li><p><strong>Select a definition → auth-svc</strong> 선택.</p>
-</li>
-<li><p><code>POST /channel/backend/api/v1/auth/login</code> → <strong>Try it out</strong> → 입력 후 <strong>Execute</strong>.</p>
-<pre><code class="language-json">// 응답 payload 에서 accessToken 복사
+<li><a href="http://localhost:18081/channel/backend/api/v1/auth/login">http://localhost:18081/channel/backend/api/v1/auth/login</a> (로그인)</li>
+</ol>
+<pre><code>request body
 {
-  &quot;success&quot;: true, &quot;code&quot;: &quot;0&quot;, &quot;msg&quot;: &quot;success&quot;,
-  &quot;payload&quot;: { &quot;accessToken&quot;: &quot;eyJhbGciOi...&quot;, &quot;refreshToken&quot;: &quot;...&quot; }
+      &quot;usrId&quot; : &quot;아이디&quot;
+      ,&quot;usrPwd: &quot;패스워드(sha-256)&quot;
 }
 </code></pre>
-</li>
-<li><p>우측 상단 <strong>Authorize 🔒</strong> 클릭 → <code>bearerAuth</code> 입력란에 <strong>accessToken 값만</strong> 붙여넣기(앞에 <code>Bearer </code> 안 붙여도 됨) → <strong>Authorize</strong>.</p>
-</li>
-<li><p><strong>Select a definition → product-svc</strong> 로 바꿔 API 호출 → 자물쇠가 잠긴 상태로 토큰이 자동 전송된다.</p>
-</li>
+<pre><code>response body (예)
+-- success/code/msg(공통부), payload(데이터부)로 구성
+-- payload 확인
+{
+     &quot;success&quot;: true,            -- 성공/실패 true:false
+      &quot;code&quot;: &quot;0&quot;,               -- 성공일 경우 0, 에러일경우 - (음수)
+      &quot;msg&quot;: &quot;success&quot;,          -- 성공/실패 메시지
+      &quot;payload&quot;: {
+         &quot;usrId&quot;: &quot;yongbeom.yoo&quot;,
+         &quot;usrNm&quot;: &quot;유용범&quot;,
+         &quot;positDivName&quot;: &quot;수석프로&quot;,
+         &quot;deptName&quot;: &quot;Channel Unit&quot;,
+         &quot;usrPwd&quot;: null,
+         &quot;accessToken&quot;: &quot;eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25nYmVvbS55b28iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTc1ODg3MTQ5MSwiZXhwIjoxNzU4ODcxNTUxfQ.yoZpG2ZxgvulHqG6YuUArTtbmXmv8shNEnVGX1CIL4A&quot;,
+         &quot;accessTokenExpiresAt&quot;: &quot;20250926162551&quot;,
+         &quot;refreshToken&quot;: &quot;eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25nYmVvbS55b28iLCJpYXQiOjE3NTg4NzE0OTEsImV4cCI6MTc1OTQ3NjI5MX0.yny3OPFFk6L1aChbBC5Zja7XaAylv9wVK3BAoWP1_jA&quot;,
+         &quot;refreshTokenExpiresAt&quot;: &quot;20251003162451&quot;,
+         &quot;roles&quot;: [
+            &quot;ROLE_USER&quot;,
+            &quot;ROLE_ADMIN&quot;
+         ]
+}
+</code></pre>
+<ol start="2">
+<li><a href="http://localhost:18081/te/home">http://localhost:18081/te/home</a> (로그인성공했는지 체크)</li>
 </ol>
-<blockquote>
-<p>한 번 Authorize한 토큰은 새로고침/재접속에도 유지된다(<code>springdoc.swagger-ui.persist-authorization</code>). 단 토큰 만료 시간이 지나면 <code>-1004</code>(401)가 나므로 재로그인 후 다시 Authorize 한다.
-local 기본 만료는 테스트용으로 짧게 설정돼 있으니 필요 시 <code>config/auth-core/local/application-local.yml</code> 의 <code>access-token-validity-ms</code> 로 조정한다.</p>
-</blockquote>
-<h2>빌드</h2>
-<pre><code class="language-bash"># IntelliJ Gradle Run Configuration
-# Tasks: :infra:discovery-svc:bootJar :infra:api-gateway:bootJar :services:auth-svc:bootJar :services:product-svc:bootJar
-# Arguments: -Pprofile=dev
+<pre><code>request header
+{
+   &#39;Authorization&#39;: &#39;Bearer &#39; + 발급받은토큰,               -- 반드시 Bearer 패턴 쓸것
+    ,&#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded&#39;    -- 테스트 요청응답이 html로 되어있어 지정함
+}
+request body
+{
 
-# 결과물: build/dist/bx-cf-be/*.jar
+}
 </code></pre>
-<h2>실행 (서버)</h2>
-<pre><code class="language-bash">java -Dfile.encoding=UTF-8 -Duser.timezone=Asia/Seoul -Xms512m -Xmx1024m \
-     -Dspring.profiles.active=dev \
-     -jar 서비스명.jar
+<pre><code>response body (html)
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;Login Success&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+	&lt;h2&gt;로그인 성공&lt;/h2&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
 </code></pre>
-<h2>설정 (프로파일)</h2>
-<p>설정 파일은 각 모듈이 아니라 루트의 <code>src/main/resources/config/</code> 아래에 모여 있고, 빌드 시 <code>processResources</code>가 <strong>선택된 프로파일 파일만</strong> 각 jar로 복사한다.</p>
-<pre><code>src/main/resources/config/
-├── {module}/application.yml              모듈 공통 (항상 포함)
-├── {module}/{profile}/application-{profile}.yml   프로파일별 (선택 포함)
-└── auth-core/{profile}/...               auth-core 공통 설정 (application-authcore-{profile}.yml 로 포함)
+<ol start="3">
+<li><a href="http://localhost:18081/channel/backend/api/v1/auth/refresh-token">http://localhost:18081/channel/backend/api/v1/auth/refresh-token</a> (리프레쉬)</li>
+</ol>
+<pre><code>{
+    &quot;refreshToken&quot;: 리프레쉬 토큰
+}
 </code></pre>
+<pre><code>response body (예)
+-- 성공할경우 1번과 같은 형식으로 옴
+{
+     &quot;success&quot;: true,            -- 성공/실패 true:false
+      &quot;code&quot;: &quot;0&quot;,               -- 성공일 경우 0, 에러일경우 - (음수)
+      &quot;msg&quot;: &quot;success&quot;,          -- 성공/실패 메시지
+      &quot;payload&quot;: {
+         &quot;usrId&quot;: &quot;yongbeom.yoo&quot;,
+         &quot;usrNm&quot;: &quot;유용범&quot;,
+         &quot;positDivName&quot;: &quot;수석프로&quot;,
+         &quot;deptName&quot;: &quot;Channel Unit&quot;,
+         &quot;usrPwd&quot;: null,
+         &quot;accessToken&quot;: &quot;eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25nYmVvbS55b28iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTc1ODg3MTQ5MSwiZXhwIjoxNzU4ODcxNTUxfQ.yoZpG2ZxgvulHqG6YuUArTtbmXmv8shNEnVGX1CIL4A&quot;,
+         &quot;accessTokenExpiresAt&quot;: &quot;20250926162551&quot;,
+         &quot;refreshToken&quot;: &quot;eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25nYmVvbS55b28iLCJpYXQiOjE3NTg4NzE0OTEsImV4cCI6MTc1OTQ3NjI5MX0.yny3OPFFk6L1aChbBC5Zja7XaAylv9wVK3BAoWP1_jA&quot;,
+         &quot;refreshTokenExpiresAt&quot;: &quot;20251003162451&quot;,
+         &quot;roles&quot;: [
+            &quot;ROLE_USER&quot;,
+            &quot;ROLE_ADMIN&quot;
+         ]
+}
+</code></pre>
+<h2>JAR 실행 예)</h2>
 <ul>
-<li>프로파일은 빌드 인자 <code>-Pprofile=dev</code> 로 결정 (미지정 시 <code>local</code>).</li>
-<li>예: <code>-Pprofile=dev</code> 로 빌드하면 <code>config/{module}/dev/</code> 의 파일만 패키징된다.</li>
-<li>모듈 자체(<code>각 모듈/src/main/resources</code>)에 같은 이름의 파일을 두면 <code>duplicatesStrategy=EXCLUDE</code> 로 그쪽이 우선되어 위 공통 설정이 무시되니 주의.</li>
+<li>java -jar -Dspring.profiles.active=local -Dfile.encoding=UTF-8 discovery-svc-0.0.1-SNAPSHOT.jar</li>
 </ul>
-<pre><code class="language-bash"># 빌드 시 프로파일 지정
-./gradlew :services:auth-svc:bootJar -Pprofile=dev
-</code></pre>
-<h2>공통 응답 규격</h2>
-<pre><code class="language-json">{ &quot;success&quot;: true, &quot;code&quot;: &quot;0&quot;, &quot;msg&quot;: &quot;success&quot;, &quot;payload&quot;: { } }
-</code></pre>
-<h2>API</h2>
-<h3>인증</h3>
-<pre><code>POST /channel/backend/api/v1/auth/login
-     body: { &quot;usrId&quot;: &quot;ID&quot;, &quot;usrPwd&quot;: &quot;SHA-256-PWD&quot; }
-
-POST /channel/backend/api/v1/auth/refresh-token
-     body: { &quot;refreshToken&quot;: &quot;...&quot; }
-</code></pre>
-<p>토큰 만료 시 <code>-1004</code> 반환 → refresh-token으로 재발급 후 재시도.</p>
-<h3>상품</h3>
-<pre><code>GET /channel/backend/api/v1/product/list?useYn=Y&amp;productNm=펀드
-GET /channel/backend/api/v1/product/{productId}
-</code></pre>
-<p>상품 API는 게이트웨이에서 JWT 인증이 필요하다. 요청 헤더에 로그인으로 발급받은 토큰을 넣는다.</p>
-<pre><code>Authorization: Bearer &lt;accessToken&gt;
-</code></pre>
-<p>토큰이 없거나 유효하지 않으면 <code>-1003</code>, 만료 시 <code>-1004</code> 반환. (auth-svc 로그인/토큰 발급은 인증 불필요)</p>
-<h2>에러 코드</h2>
-<h3>AuthErrorCode (libs/auth-core)</h3>
-<table>
-<thead>
-<tr>
-<th>코드</th>
-<th>설명</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-1001</td>
-<td>필수 입력값 누락</td>
-</tr>
-<tr>
-<td>-1002</td>
-<td>유효하지 않은 토큰</td>
-</tr>
-<tr>
-<td>-1003</td>
-<td>인증되지 않은 클라이언트</td>
-</tr>
-<tr>
-<td>-1004</td>
-<td>토큰 만료</td>
-</tr>
-<tr>
-<td>-1005</td>
-<td>접근 권한 없음</td>
-</tr>
-<tr>
-<td>-2003</td>
-<td>JSON 파싱 오류</td>
-</tr>
-<tr>
-<td>-4001</td>
-<td>DB 조회 실패</td>
-</tr>
-<tr>
-<td>-4002</td>
-<td>DB 저장 오류</td>
-</tr>
-<tr>
-<td>-9999</td>
-<td>서버 내부 오류</td>
-</tr>
-</tbody></table>
-<h3>ProductErrorCode (services/product-svc)</h3>
-<table>
-<thead>
-<tr>
-<th>코드</th>
-<th>설명</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-5001</td>
-<td>필수값 누락</td>
-</tr>
-<tr>
-<td>-5002</td>
-<td>유효하지 않은 상품 ID</td>
-</tr>
-<tr>
-<td>-5101</td>
-<td>상품 없음</td>
-</tr>
-<tr>
-<td>-5201</td>
-<td>상품 저장 실패</td>
-</tr>
-<tr>
-<td>-5301</td>
-<td>비활성화된 상품</td>
-</tr>
-<tr>
-<td>-5302</td>
-<td>재고 부족</td>
-</tr>
-<tr>
-<td>-5999</td>
-<td>상품 서비스 내부 오류</td>
-</tr>
-</tbody></table>
-<h3>GatewayErrorCode (infra/api-gateway)</h3>
-<table>
-<thead>
-<tr>
-<th>코드</th>
-<th>설명</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-9999</td>
-<td>게이트웨이 내부 오류</td>
-</tr>
-</tbody></table>
-<h2>참고</h2>
-<p><code>reffile/웹앱 프레임워크_구축 v0.5 2025.09.19.pptx</code></p>
+<h2>front에서의 인증/인가 요청 흐름</h2>
+<ol>
+<li>클라이언트는 API 요청 시 항상 Access Token을 사용</li>
+<li>필터가 Access Token을 검증</li>
+<li>만약 Access Token이 만료되었다면, 서버는 &quot;토큰이 만료되었다&quot;는 특정 에러 코드를 클라이언트에게 반환</li>
+<li>클라이언트는 이 특정 에러 코드를 받으면, 가지고 있던 Refresh Token으로 토큰 재발급을 요청하는 API(예: POST /auth/refresh)를 호출</li>
+<li>서버는 Refresh Token을 검증하고, 유효하다면 새로운 Access Token(과 새로운 Refresh Token)을 발급하여 클라이언트에게 전달</li>
+<li>클라이언트는 새로 받은 토큰으로 기존에 실패했던 API 요청을 다시 시도</li>
+</ol>
 
     </main>
   </body>

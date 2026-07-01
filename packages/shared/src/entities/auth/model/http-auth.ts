@@ -22,26 +22,29 @@ export const getLoginPath = (basePath = getAppBasePath()): string => {
   return `${normalizedBase || ''}/login`;
 };
 
+export const refreshAccessToken = async (): Promise<string | null> => {
+  try {
+    const res = await refreshTokenApi();
+    useAuthStore.getState().setAuth(res);
+    return res.accessToken;
+  } catch {
+    return null;
+  }
+};
+
+export const ensureValidAuthSession = async (): Promise<boolean> => {
+  const accessExpiresAt = tokenStorage.getAccessTokenExpiresAt();
+  if (tokenStorage.getAccessToken() && !isExpired(accessExpiresAt, 0)) return true;
+
+  return !!(await refreshAccessToken());
+};
+
 export const createHttpAuthConfig = (): HttpAuthConfig => ({
   // 매 요청에 부착할 액세스 토큰
   getAccessToken: () => tokenStorage.getAccessToken(),
 
   // 401 발생 시 호출 — 성공하면 새 액세스 토큰, 실패하면 null 반환
-  refreshToken: async () => {
-    const refreshToken = tokenStorage.getRefreshToken();
-    const refreshExpiresAt = tokenStorage.getRefreshTokenExpiresAt();
-
-    // 리프레시 토큰이 없거나 만료됐으면 재발급 불가
-    if (!refreshToken || isExpired(refreshExpiresAt, 0)) return null;
-
-    try {
-      const res = await refreshTokenApi(refreshToken);
-      useAuthStore.getState().setAuth(res);
-      return res.accessToken;
-    } catch {
-      return null;
-    }
-  },
+  refreshToken: refreshAccessToken,
 
   // 재발급까지 실패한 경우 — 세션 정리 후 로그인 페이지로 이동
   onAuthFail: () => {

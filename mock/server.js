@@ -34,6 +34,11 @@ const FAR_FUTURE = '20991231235959';
 const envelope = (payload, { success = true, code = '0', msg = 'success' } = {}) =>
   JSON.stringify({ success, code, msg, payload });
 
+const omitRefreshCookieFields = ({ refreshToken, refreshTokenExpiresAt, ...payload }) => payload;
+
+const refreshCookie = (refreshToken) =>
+  `refreshToken=${encodeURIComponent(refreshToken)}; HttpOnly; SameSite=Lax; Path=/auth/refresh-token`;
+
 /** 로그인/리프레시 응답 payload (Spring 형태) */
 const makeAuthPayload = (usrId) => {
   const user = (db.users ?? []).find((u) => u.usrId === usrId);
@@ -52,12 +57,16 @@ const makeAuthPayload = (usrId) => {
   };
 };
 
-const send = (res, status, bodyStr) => {
+const send = (req, res, status, bodyStr, headers = {}) => {
+  const origin = req.headers.origin ?? '*';
   res.writeHead(status, {
     'Content-Type': 'application/json; charset=utf-8',
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Credentials': 'true',
     'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    Vary: 'Origin',
+    ...headers,
   });
   res.end(bodyStr);
 };
@@ -83,7 +92,7 @@ const server = createServer(async (req, res) => {
   const path = url.pathname;
 
   // CORS preflight
-  if (method === 'OPTIONS') return send(res, 204, '');
+  if (method === 'OPTIONS') return send(req, res, 204, '');
 
   // ── 인증 (JWT 흉내) ──
   if (path === '/auth/login' && method === 'POST') {
@@ -93,27 +102,27 @@ const server = createServer(async (req, res) => {
     // 아이디(db.json users에 존재) + 비밀번호(1111) 둘 다 일치해야 통과
     if (!user || !passwordOk) {
       return send(
+        req,
         res,
         200,
         envelope(null, { success: false, code: '-1003', msg: '아이디 또는 비밀번호가 올바르지 않습니다.' }),
       );
     }
-    return send(res, 200, envelope(makeAuthPayload(body.usrId)));
+    const authPayload = makeAuthPayload(body.usrId);
+    return send(req, res, 200, envelope(omitRefreshCookieFields(authPayload)), {
+      'Set-Cookie': refreshCookie(authPayload.refreshToken),
+    });
   }
   if (path === '/auth/refresh-token' && method === 'POST') {
-    const body = await readBody(req);
-    if (!body.refreshToken) {
-      return send(
-        res,
-        200,
-        envelope(null, { success: false, code: '-1002', msg: '유효하지 않은 토큰' }),
-      );
-    }
-    // refreshToken만으로는 usrId를 알 수 없어 mock 기본 사용자로 재발급
-    return send(res, 200, envelope(makeAuthPayload(db.users?.[0]?.usrId ?? 'mockuser')));
+    const authPayload = makeAuthPayload(db.users?.[0]?.usrId ?? 'mockuser');
+    return send(req, res, 200, envelope(omitRefreshCookieFields(authPayload)), {
+      'Set-Cookie': refreshCookie(authPayload.refreshToken),
+    });
   }
   if (path === '/auth/logout' && method === 'POST') {
-    return send(res, 200, envelope(null));
+    return send(req, res, 200, envelope(null), {
+      'Set-Cookie': 'refreshToken=; HttpOnly; SameSite=Lax; Path=/auth/refresh-token; Max-Age=0',
+    });
   }
 
   // ── 컬렉션 CRUD: /:name, /:name/:id ──
@@ -126,6 +135,7 @@ const server = createServer(async (req, res) => {
 
   if (!Array.isArray(collection)) {
     return send(
+      req,
       res,
       404,
       envelope(null, { success: false, code: '-4001', msg: `Not found: ${path}` }),
@@ -138,15 +148,15 @@ const server = createServer(async (req, res) => {
     const items = filters.length
       ? collection.filter((it) => filters.every(([k, v]) => String(it[k]) === v))
       : collection;
-    return send(res, 200, envelope(items));
+    return send(req, res, 200, envelope(items));
   }
 
   // GET /:name/:id
   if (method === 'GET' && id) {
     const item = collection.find((it) => matchId(it, id));
     return item
-      ? send(res, 200, envelope(item))
-      : send(res, 200, envelope(null, { success: false, code: '-4001', msg: '데이터 없음' }));
+      ? send(req, res, 200, envelope(item))
+      : send(req, res, 200, envelope(null, { success: false, code: '-4001', msg: '데이터 없음' }));
   }
 
   // POST /:name
@@ -154,7 +164,7 @@ const server = createServer(async (req, res) => {
     const body = await readBody(req);
     const created = { id: body.id ?? Date.now(), ...body };
     collection.push(created);
-    return send(res, 201, envelope(created));
+    return send(req, res, 201, envelope(created));
   }
 
   // PUT / PATCH /:name/:id
@@ -162,20 +172,20 @@ const server = createServer(async (req, res) => {
     const body = await readBody(req);
     const idx = collection.findIndex((it) => matchId(it, id));
     if (idx === -1) {
-      return send(res, 200, envelope(null, { success: false, code: '-4001', msg: '데이터 없음' }));
+      return send(req, res, 200, envelope(null, { success: false, code: '-4001', msg: '데이터 없음' }));
     }
     collection[idx] = method === 'PUT' ? { ...body } : { ...collection[idx], ...body };
-    return send(res, 200, envelope(collection[idx]));
+    return send(req, res, 200, envelope(collection[idx]));
   }
 
   // DELETE /:name/:id
   if (method === 'DELETE' && id) {
     const idx = collection.findIndex((it) => matchId(it, id));
     if (idx !== -1) collection.splice(idx, 1);
-    return send(res, 200, envelope(null));
+    return send(req, res, 200, envelope(null));
   }
 
-  return send(res, 404, envelope(null, { success: false, code: '-4001', msg: 'Not found' }));
+  return send(req, res, 404, envelope(null, { success: false, code: '-4001', msg: 'Not found' }));
 });
 
 server.listen(PORT, () => {

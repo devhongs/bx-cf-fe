@@ -10,7 +10,7 @@ describe('auth api', () => {
     vi.restoreAllMocks();
   });
 
-  it('uses the shared API timeout for refresh requests', async () => {
+  it('uses cookie credentials and no request body for refresh requests', async () => {
     const postSpy = vi.spyOn(axios, 'post').mockResolvedValue({
       data: {
         success: true,
@@ -22,19 +22,17 @@ describe('auth api', () => {
           roles: [],
           accessToken: 'access',
           accessTokenExpiresAt: '20991231235959',
-          refreshToken: 'refresh',
-          refreshTokenExpiresAt: '20991231235959',
           usrPwd: null,
         },
       },
     });
 
-    await refreshTokenApi('refresh-token');
+    await refreshTokenApi();
 
     expect(postSpy).toHaveBeenCalledWith(
       expect.stringContaining('/auth/refresh-token'),
-      { refreshToken: 'refresh-token' },
-      expect.objectContaining({ timeout: API_CONFIG.TIMEOUT }),
+      undefined,
+      expect.objectContaining({ timeout: API_CONFIG.TIMEOUT, withCredentials: true }),
     );
   });
 });
