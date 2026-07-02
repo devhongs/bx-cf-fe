@@ -44,7 +44,6 @@ describe('http auth config', () => {
       roles: [],
       accessToken: 'new-access-token',
       accessTokenExpiresAt: '20991231235959',
-      usrPwd: null,
     });
 
     await expect(ensureValidAuthSession()).resolves.toBe(true);

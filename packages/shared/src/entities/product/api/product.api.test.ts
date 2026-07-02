@@ -14,8 +14,7 @@ describe('product api', () => {
       {
         productId: 1,
         productNm: 'Fund',
-        productDesc: 'Fund product',
-        useYn: 'Y',
+        price: 1000,
       },
     ];
     const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue(products);
@@ -33,11 +32,11 @@ describe('product api', () => {
       productDesc: 'Fund product',
       useYn: 'Y',
     };
-    const getSpy = vi.spyOn(httpService, 'get').mockResolvedValue(product);
+    const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue(product);
 
     const result = await fetchProduct(1);
 
-    expect(getSpy).toHaveBeenCalledWith('/product/1');
+    expect(postSpy).toHaveBeenCalledWith('/product/detail/1');
     expect(result).toEqual(product);
   });
 });

@@ -6,7 +6,7 @@ export const fetchProductList = (params?: ProductQueryParams): Promise<Array<Pro
   httpService.post<Array<Product>>('/product/list', params);
 
 export const fetchProduct = (id: number): Promise<Product> =>
-  httpService.get<Product>(`/product/${id}`);
+  httpService.post<Product>(`/product/detail/${id}`);
 
 export const createProduct = (payload: Product): Promise<Product> =>
   httpService.post<Product>('/products', payload);

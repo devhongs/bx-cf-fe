@@ -1,12 +1,10 @@
 # Agent Instructions
 
-## API schema check
+## OpenAPI sync
 
-When the user asks "api 변경됐는지 확인해줘" or a similar question:
+When the user asks "openapi 동기화" or a similar question:
 
-- Do not run `pnpm gen:api` immediately.
-- Generate OpenAPI types into a temporary directory only.
-- Compare the temporary output with `packages/shared/src/shared/api`.
-- If there is no diff, report that the API spec has not changed.
-- If there is a diff, ask the user for confirmation before running `pnpm gen:api`.
-- Run `pnpm gen:api` only after explicit user approval.
+- Run `pnpm gen:api` to fetch the latest OpenAPI schema.
+- Generate TypeScript types from the latest schema.
+- Check the generated schema/type changes with `git diff -- packages/shared/src/shared/api`.
+- Report the changed API surface and any follow-up code updates needed.

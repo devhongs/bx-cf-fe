@@ -69,10 +69,6 @@ export namespace auth {
   export type webhooks = Record<string, never>;
   export interface components {
       schemas: {
-          RefreshTknRefreshTokenRequest: {
-              /** @description 리프레시 토큰 */
-              refreshToken: string;
-          };
           AuthLoginRequest: {
               /**
                * @description 사용자 ID
@@ -92,17 +88,12 @@ export namespace auth {
                */
               usrId: string;
           };
-          AuthResponse: {
+          AuthLoginResponse: {
               /**
                * @description 사용자 ID
                * @example hong.gildong
                */
-              usrId?: string;
-              /**
-               * Format: password
-               * @description 비밀번호
-               */
-              usrPwd?: string;
+              usrId: string;
               /**
                * @description 사용자명
                * @example 홍길동
@@ -119,22 +110,67 @@ export namespace auth {
                */
               deptName?: string;
               /** @description 액세스 토큰 */
-              accessToken?: string;
+              accessToken: string;
               /** @description 액세스 토큰 만료 일시 */
-              accessTokenExpiresAt?: string;
-              /** @description 리프레시 토큰 */
-              refreshToken?: string;
-              /** @description 리프레시 토큰 만료 일시 */
-              refreshTokenExpiresAt?: string;
+              accessTokenExpiresAt: string;
               /** @description 권한 목록 */
               roles?: string[];
           };
-          ApiResponseAuthResponse: {
-              success?: boolean;
-              code?: string;
-              msg?: string;
-              requestId?: string;
-              payload?: components["schemas"]["AuthResponse"];
+          AuthErpLoginResponse: {
+              /**
+               * @description 사용자 ID
+               * @example hong.gildong
+               */
+              usrId: string;
+              /**
+               * @description 사용자명
+               * @example 홍길동
+               */
+              usrNm?: string;
+              /**
+               * @description 직위명
+               * @example 대리
+               */
+              positDivName?: string;
+              /**
+               * @description 부서명
+               * @example 채널개발팀
+               */
+              deptName?: string;
+              /** @description 액세스 토큰 */
+              accessToken: string;
+              /** @description 액세스 토큰 만료 일시 */
+              accessTokenExpiresAt: string;
+              /** @description 권한 목록 */
+              roles?: string[];
+          };
+          AuthRefreshTokenResponse: {
+              /**
+               * @description 사용자 ID
+               * @example hong.gildong
+               */
+              usrId: string;
+              /**
+               * @description 사용자명
+               * @example 홍길동
+               */
+              usrNm?: string;
+              /**
+               * @description 직위명
+               * @example 대리
+               */
+              positDivName?: string;
+              /**
+               * @description 부서명
+               * @example 채널개발팀
+               */
+              deptName?: string;
+              /** @description 액세스 토큰 */
+              accessToken: string;
+              /** @description 액세스 토큰 만료 일시 */
+              accessTokenExpiresAt: string;
+              /** @description 권한 목록 */
+              roles?: string[];
           };
       };
       responses: never;
@@ -152,23 +188,10 @@ export namespace auth {
               path?: never;
               cookie?: never;
           };
-          requestBody: {
-              content: {
-                  "application/json": components["schemas"]["RefreshTknRefreshTokenRequest"];
-              };
-          };
+          requestBody?: never;
           responses: {
               /** @description OK */
               200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": components["schemas"]["ApiResponseAuthResponse"];
-                  };
-              };
-              /** @description Internal Server Error */
-              500: {
                   headers: {
                       [name: string]: unknown;
                   };
@@ -182,7 +205,7 @@ export namespace auth {
                           msg?: string;
                           /** @description 요청 추적 ID */
                           requestId?: string;
-                          payload?: Record<string, never>;
+                          payload?: components["schemas"]["AuthRefreshTokenResponse"];
                       };
                   };
               };
@@ -207,15 +230,6 @@ export namespace auth {
                       [name: string]: unknown;
                   };
                   content: {
-                      "*/*": components["schemas"]["ApiResponseAuthResponse"];
-                  };
-              };
-              /** @description Internal Server Error */
-              500: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
                       "*/*": {
                           /** @description 성공 여부 */
                           success?: boolean;
@@ -225,7 +239,7 @@ export namespace auth {
                           msg?: string;
                           /** @description 요청 추적 ID */
                           requestId?: string;
-                          payload?: Record<string, never>;
+                          payload?: components["schemas"]["AuthLoginResponse"];
                       };
                   };
               };
@@ -250,15 +264,6 @@ export namespace auth {
                       [name: string]: unknown;
                   };
                   content: {
-                      "*/*": components["schemas"]["ApiResponseAuthResponse"];
-                  };
-              };
-              /** @description Internal Server Error */
-              500: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
                       "*/*": {
                           /** @description 성공 여부 */
                           success?: boolean;
@@ -268,7 +273,7 @@ export namespace auth {
                           msg?: string;
                           /** @description 요청 추적 ID */
                           requestId?: string;
-                          payload?: Record<string, never>;
+                          payload?: components["schemas"]["AuthErpLoginResponse"];
                       };
                   };
               };

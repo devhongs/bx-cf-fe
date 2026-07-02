@@ -22,7 +22,6 @@ describe('auth api', () => {
           roles: [],
           accessToken: 'access',
           accessTokenExpiresAt: '20991231235959',
-          usrPwd: null,
         },
       },
     });

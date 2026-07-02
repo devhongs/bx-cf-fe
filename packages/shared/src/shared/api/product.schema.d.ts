@@ -5,26 +5,6 @@
 
 export namespace product {
   export interface paths {
-      "/{productId}": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          /**
-           * 상품 단건 조회
-           * @description 상품 ID로 단건 상품을 조회한다.
-           */
-          get: operations["getProduct"];
-          put?: never;
-          post?: never;
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
-      };
       "/list": {
           parameters: {
               query?: never;
@@ -32,13 +12,33 @@ export namespace product {
               path?: never;
               cookie?: never;
           };
+          get?: never;
+          put?: never;
           /**
            * 상품 목록 조회
            * @description 조건에 맞는 상품 목록을 조회한다.
            */
-          get: operations["getProductList"];
+          post: operations["getProductList"];
+          delete?: never;
+          options?: never;
+          head?: never;
+          patch?: never;
+          trace?: never;
+      };
+      "/detail/{productId}": {
+          parameters: {
+              query?: never;
+              header?: never;
+              path?: never;
+              cookie?: never;
+          };
+          get?: never;
           put?: never;
-          post?: never;
+          /**
+           * 상품 단건 조회
+           * @description 상품 ID로 단건 상품을 조회한다.
+           */
+          post: operations["getProduct"];
           delete?: never;
           options?: never;
           head?: never;
@@ -49,43 +49,51 @@ export namespace product {
   export type webhooks = Record<string, never>;
   export interface components {
       schemas: {
-          ProductDto: {
-              /** Format: int64 */
-              productId?: number;
-              productNm?: string;
-              productDesc?: string;
-              /** Format: int64 */
-              price?: number;
-              /** Format: int32 */
-              stockQty?: number;
-              useYn?: string;
-          };
-          ProductResponse: {
+          ProductListResponse: {
               /**
                * Format: int64
                * @description 상품 ID
                * @example 1001
                */
-              productId?: number;
+              productId: number;
               /**
                * @description 상품명
                * @example 안정형 펀드
                */
-              productNm?: string;
-              /** @description 상품 설명 */
-              productDesc?: string;
+              productNm: string;
               /**
                * Format: int64
                * @description 가격
                * @example 100000
                */
               price?: number;
+          };
+          ProductDetailResponse: {
+              /**
+               * Format: int64
+               * @description 상품 ID
+               * @example 1001
+               */
+              productId: number;
+              /**
+               * @description 상품명
+               * @example 안정형 펀드
+               */
+              productNm: string;
+              /** @description 상품 설명 */
+              productDesc: string;
+              /**
+               * Format: int64
+               * @description 가격
+               * @example 100000
+               */
+              price: number;
               /**
                * Format: int32
                * @description 재고 수량
                * @example 50
                */
-              stockQty?: number;
+              stockQty: number;
               /**
                * @description 사용 여부 (Y/N)
                * @example Y
@@ -93,12 +101,18 @@ export namespace product {
                */
               useYn?: "Y" | "N";
           };
-          ApiResponseProductResponse: {
-              success?: boolean;
-              code?: string;
-              msg?: string;
-              requestId?: string;
-              payload?: components["schemas"]["ProductResponse"];
+          ProductListRequest: {
+              /**
+               * @description 상품명
+               * @example 안정형 펀드
+               */
+              productNm?: string;
+              /**
+               * @description 사용 여부 (Y/N)
+               * @example Y
+               * @enum {string}
+               */
+              useYn?: "Y" | "N";
           };
       };
       responses: never;
@@ -109,11 +123,49 @@ export namespace product {
   }
   export type $defs = Record<string, never>;
   export interface operations {
+      getProductList: {
+          parameters: {
+              query?: never;
+              header?: never;
+              path?: never;
+              cookie?: never;
+          };
+          requestBody: {
+              content: {
+                  "application/json": components["schemas"]["ProductListRequest"];
+              };
+          };
+          responses: {
+              /** @description OK */
+              200: {
+                  headers: {
+                      [name: string]: unknown;
+                  };
+                  content: {
+                      "*/*": {
+                          /** @description 성공 여부 */
+                          success?: boolean;
+                          /** @description 응답 코드 */
+                          code?: string;
+                          /** @description 응답 메시지 */
+                          msg?: string;
+                          /** @description 요청 추적 ID */
+                          requestId?: string;
+                          payload?: components["schemas"]["ProductListResponse"][];
+                      };
+                  };
+              };
+          };
+      };
       getProduct: {
           parameters: {
               query?: never;
               header?: never;
               path: {
+                  /**
+                   * @description 상품 ID
+                   * @example 1001
+                   */
                   productId: number;
               };
               cookie?: never;
@@ -126,15 +178,6 @@ export namespace product {
                       [name: string]: unknown;
                   };
                   content: {
-                      "*/*": components["schemas"]["ApiResponseProductResponse"];
-                  };
-              };
-              /** @description Internal Server Error */
-              500: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
                       "*/*": {
                           /** @description 성공 여부 */
                           success?: boolean;
@@ -144,58 +187,7 @@ export namespace product {
                           msg?: string;
                           /** @description 요청 추적 ID */
                           requestId?: string;
-                          payload?: Record<string, never>;
-                      };
-                  };
-              };
-          };
-      };
-      getProductList: {
-          parameters: {
-              query: {
-                  paramDto: components["schemas"]["ProductDto"];
-              };
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          requestBody?: never;
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: components["schemas"]["ProductDto"][];
-                      };
-                  };
-              };
-              /** @description Internal Server Error */
-              500: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: Record<string, never>;
+                          payload?: components["schemas"]["ProductDetailResponse"];
                       };
                   };
               };

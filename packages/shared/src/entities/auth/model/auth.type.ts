@@ -9,8 +9,10 @@
  */
 import type { auth } from '../../../shared/api';
 
-/** 백엔드 응답 payload DTO (자동 생성 — 응답 전용, 필드 optional) */
-type AuthResponse = auth.components['schemas']['AuthResponse'];
+type AuthLoginResponse = auth.components['schemas']['AuthLoginResponse'];
+type AuthRefreshTokenResponse = auth.components['schemas']['AuthRefreshTokenResponse'];
+/** 백엔드 응답 payload DTO (자동 생성 — 응답 전용) */
+type AuthResponse = AuthLoginResponse | AuthRefreshTokenResponse;
 
 /**
  * 로그인 요청 바디 (usrPwd는 SHA-256 해시).
@@ -20,20 +22,10 @@ type AuthResponse = auth.components['schemas']['AuthResponse'];
 export type LoginRequest = auth.components['schemas']['AuthLoginRequest'];
 
 /** 인증된 사용자 정보 */
-export type AuthUser = Required<
-  Pick<AuthResponse, 'usrId' | 'usrNm' | 'positDivName' | 'deptName' | 'roles'>
->;
+export type AuthUser = Pick<AuthResponse, 'usrId' | 'usrNm' | 'positDivName' | 'deptName' | 'roles'>;
 
 /** JWT 토큰 정보 (만료시각 형식: yyyyMMddHHmmss) */
 export type AuthTokens = Required<Pick<AuthResponse, 'accessToken' | 'accessTokenExpiresAt'>>;
 
-/**
- * 로그인/리프레시 응답 payload.
- * 사용자 정보 + accessToken 정보가 함께 내려온다. refreshToken은 HttpOnly Cookie로 관리한다.
- */
-export type LoginResponse = AuthUser &
-  AuthTokens & {
-    usrPwd: string | null;
-    refreshToken?: string;
-    refreshTokenExpiresAt?: string;
-  };
+/** 로그인/리프레시 응답 payload. refreshToken은 HttpOnly Cookie로 관리한다. */
+export type LoginResponse = AuthResponse;
