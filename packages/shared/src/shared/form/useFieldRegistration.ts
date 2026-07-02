@@ -12,18 +12,7 @@ export const useFieldRegistration = <TValues extends FormValues>(
 
   useLayoutEffect(() => {
     registerField(config);
-  }, [
-    config.name,
-    config.rules,
-    config.hidden,
-    config.disabled,
-    config.readOnly,
-    config.clearOnHidden,
-    config.includeHiddenValue,
-    config.excludeDisabledValue,
-    config.validateDisabled,
-    registerField,
-  ]);
+  }, [config, registerField]);
 
   useEffect(() => {
     if (config.hidden && !previousHidden.current && config.clearOnHidden) {

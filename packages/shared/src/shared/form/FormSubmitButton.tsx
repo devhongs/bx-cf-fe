@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type * as React from 'react';
 import { useFormState } from 'react-hook-form';
 
 import { Button, type ButtonProps } from '../ui/button/Button';
