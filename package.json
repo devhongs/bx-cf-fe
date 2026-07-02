@@ -25,6 +25,7 @@
     "format": "biome format --write .",
     "watch:json-server": "node mock/server.js",
     "check": "turbo check",
+    "check:api-paths": "node scripts/check-api-paths.mjs",
     "wbs:sync": "node docs/wbs-sync.js",
     "wbs:force-sync": "node docs/wbs-force-sync.js",
     "gen:api": "node scripts/gen-api.mjs",

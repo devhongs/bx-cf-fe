@@ -5,3 +5,4 @@
 
 export type { auth } from './auth.schema';
 export type { product } from './product.schema';
+export type { system } from './system.schema';

@@ -2,11 +2,12 @@
  * Generate OpenAPI TypeScript definitions for multiple backend services.
  *
  * Default services:
- *   - auth:    http://192.168.11.197:18081/auth-svc/v3/api-docs
- *   - product: http://192.168.11.197:18081/product-svc/v3/api-docs
+ *   - auth:    http://192.168.110.217:18081/auth-svc/v3/api-docs
+ *   - product: http://192.168.110.217:18081/product-svc/v3/api-docs
+ *   - system:  http://192.168.110.217:18081/system-svc/v3/api-docs
  *
  * Override with API_DOCS_URLS when needed:
- *   API_DOCS_URLS='auth=http://.../auth-svc/v3/api-docs,product=http://.../product-svc/v3/api-docs'
+ *   API_DOCS_URLS='auth=http://.../auth-svc/v3/api-docs,product=http://.../product-svc/v3/api-docs,system=http://.../system-svc/v3/api-docs'
  */
 import { mkdir, writeFile } from 'node:fs/promises';
 import { basename } from 'node:path';
@@ -17,8 +18,9 @@ import openapiTS, { astToString } from 'openapi-typescript';
 const OUT_DIR = new URL('../packages/shared/src/shared/api/', import.meta.url);
 
 const DEFAULT_SERVICES = [
-  { name: 'auth', url: 'http://192.168.11.197:18081/auth-svc/v3/api-docs' },
-  { name: 'product', url: 'http://192.168.11.197:18081/product-svc/v3/api-docs' },
+  { name: 'auth', url: 'http://192.168.110.217:18081/auth-svc/v3/api-docs' },
+  { name: 'product', url: 'http://192.168.110.217:18081/product-svc/v3/api-docs' },
+  { name: 'system', url: 'http://192.168.110.217:18081/system-svc/v3/api-docs' },
 ];
 
 const BANNER = `/**
@@ -131,6 +133,21 @@ const toIndex = (services) => ({
     .join('\n')}\n`,
 });
 
+const toRoutes = (services) => ({
+  path: 'routes.json',
+  content: `${JSON.stringify(
+    {
+      generatedBy: 'scripts/gen-api.mjs',
+      services: services.map(({ name, doc }) => ({
+        name,
+        serverUrl: doc.servers?.[0]?.url ?? null,
+      })),
+    },
+    null,
+    2,
+  )}\n`,
+});
+
 export const buildServiceOutputs = async (services) => {
   const files = [];
   let patched = 0;
@@ -141,6 +158,7 @@ export const buildServiceOutputs = async (services) => {
     patched += output.patched;
   }
 
+  files.push(toRoutes(services));
   files.push(toIndex(services));
   return { files, patched };
 };

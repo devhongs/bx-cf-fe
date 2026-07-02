@@ -1,0 +1,17 @@
+{
+  "generatedBy": "scripts/gen-api.mjs",
+  "services": [
+    {
+      "name": "auth",
+      "serverUrl": "/channel/backend/api/v1/auth"
+    },
+    {
+      "name": "product",
+      "serverUrl": "/channel/backend/api/v1/product"
+    },
+    {
+      "name": "system",
+      "serverUrl": "/channel/backend/api/v1/system"
+    }
+  ]
+}
