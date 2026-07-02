@@ -10,11 +10,6 @@ const ENTITY_DIR = 'packages/shared/src/entities';
 
 const ALLOWLIST = [
   {
-    method: 'post',
-    rawPath: '/auth/logout',
-    reason: 'logout endpoint is used by FE but is not currently exposed in auth OpenAPI',
-  },
-  {
     rawPathPrefix: '/products',
     reason: 'legacy product mutation endpoints are used by FE but are not currently exposed in product OpenAPI',
   },

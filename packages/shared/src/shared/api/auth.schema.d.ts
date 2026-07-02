@@ -25,6 +25,26 @@ export namespace auth {
           patch?: never;
           trace?: never;
       };
+      "/logout": {
+          parameters: {
+              query?: never;
+              header?: never;
+              path?: never;
+              cookie?: never;
+          };
+          get?: never;
+          put?: never;
+          /**
+           * 로그아웃
+           * @description Refresh Token과 Redis 세션 컨텍스트를 제거한다.
+           */
+          post: operations["logout"];
+          delete?: never;
+          options?: never;
+          head?: never;
+          patch?: never;
+          trace?: never;
+      };
       "/login": {
           parameters: {
               query?: never;
@@ -36,7 +56,7 @@ export namespace auth {
           put?: never;
           /**
            * 일반 로그인
-           * @description 사용자 ID/비밀번호로 로그인하여 토큰을 발급한다.
+           * @description 사용자 ID와 비밀번호로 로그인하고 토큰을 발급한다.
            */
           post: operations["login"];
           delete?: never;
@@ -56,7 +76,7 @@ export namespace auth {
           put?: never;
           /**
            * ERP 로그인
-           * @description ERP 연동 계정으로 로그인하여 토큰을 발급한다.
+           * @description ERP 연동 계정으로 로그인하고 토큰을 발급한다.
            */
           post: operations["erpLogin"];
           delete?: never;
@@ -69,6 +89,13 @@ export namespace auth {
   export type webhooks = Record<string, never>;
   export interface components {
       schemas: {
+          ApiResponseVoid: {
+              success?: boolean;
+              code?: string;
+              msg?: string;
+              payload?: Record<string, never>;
+              requestId?: string;
+          };
           AuthLoginRequest: {
               /**
                * @description 사용자 ID
@@ -206,6 +233,39 @@ export namespace auth {
                           /** @description 요청 추적 ID */
                           requestId?: string;
                           payload?: components["schemas"]["AuthRefreshTokenResponse"];
+                      };
+                  };
+              };
+          };
+      };
+      logout: {
+          parameters: {
+              query?: never;
+              header: {
+                  "X-Auth-User": string;
+                  "X-Auth-Session-Id": string;
+              };
+              path?: never;
+              cookie?: never;
+          };
+          requestBody?: never;
+          responses: {
+              /** @description OK */
+              200: {
+                  headers: {
+                      [name: string]: unknown;
+                  };
+                  content: {
+                      "*/*": {
+                          /** @description 성공 여부 */
+                          success?: boolean;
+                          /** @description 응답 코드 */
+                          code?: string;
+                          /** @description 응답 메시지 */
+                          msg?: string;
+                          /** @description 요청 추적 ID */
+                          requestId?: string;
+                          payload?: Record<string, never>;
                       };
                   };
               };
