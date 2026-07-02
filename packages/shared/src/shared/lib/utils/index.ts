@@ -6,7 +6,6 @@ export * from './common.date';
 export * from './common.device';
 export * from './common.format';
 export * from './common.i18n';
-export * from './common.valid';
 export * from './component-util';
 export * from './query-util';
 export * from './accountFormat';

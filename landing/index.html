@@ -16,8 +16,8 @@
         --text: #e5edf6;
         --muted: #91a0b2;
         --dim: #6f7f91;
-        --brand: #25d0bd;
-        --brand-soft: rgba(37, 208, 189, 0.13);
+        --brand: #ff9f2f;
+        --brand-soft: rgba(255, 159, 47, 0.16);
         --green: #61d683;
         --green-soft: rgba(97, 214, 131, 0.14);
         --blue: #4aa3ff;
@@ -39,7 +39,7 @@
         margin: 0;
         min-height: 100vh;
         background:
-          radial-gradient(700px 360px at 22% 0%, rgba(37, 208, 189, 0.08), transparent 58%),
+          radial-gradient(700px 360px at 22% 0%, rgba(255, 159, 47, 0.08), transparent 58%),
           linear-gradient(135deg, rgba(18, 28, 39, 0.86), rgba(8, 13, 19, 0.98)),
           var(--bg);
         color: var(--text);
@@ -117,7 +117,7 @@
 
       .nav-item.active {
         color: #e9fffc;
-        background: linear-gradient(90deg, rgba(37, 208, 189, 0.25), rgba(37, 208, 189, 0.08));
+        background: linear-gradient(90deg, rgba(255, 159, 47, 0.25), rgba(255, 159, 47, 0.08));
         box-shadow: inset 2px 0 0 var(--brand);
       }
 
@@ -280,11 +280,70 @@
       }
 
       .table-card {
+        position: relative;
+        isolation: isolate;
         overflow: hidden;
         border: 1px solid var(--line);
         border-radius: 6px;
         background: rgba(16, 24, 33, 0.76);
         box-shadow: 0 18px 40px var(--shadow);
+      }
+
+      .table-card::before {
+        content: "";
+        position: absolute;
+        top: -72px;
+        left: -42%;
+        z-index: 1;
+        width: 42%;
+        height: calc(100% + 144px);
+        pointer-events: none;
+        background:
+          radial-gradient(
+            ellipse at center,
+            rgba(255, 159, 47, 0.2) 0%,
+            rgba(255, 159, 47, 0.08) 42%,
+            transparent 72%
+          );
+        filter: blur(4px);
+        mix-blend-mode: screen;
+        opacity: 0;
+        transform: translateX(-120%) skewX(-14deg);
+        animation: spotlight-sweep 9s ease-in-out infinite;
+        animation-delay: -2.5s;
+      }
+
+      .table-card > * {
+        position: relative;
+        z-index: 2;
+      }
+
+      @keyframes spotlight-sweep {
+        0%,
+        18% {
+          opacity: 0;
+          transform: translateX(-120%) skewX(-14deg);
+        }
+
+        36% {
+          opacity: 0.72;
+        }
+
+        64% {
+          opacity: 0.56;
+        }
+
+        82%,
+        100% {
+          opacity: 0;
+          transform: translateX(360%) skewX(-14deg);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .table-card::before {
+          animation: none;
+        }
       }
 
       .table-head,
@@ -319,7 +378,7 @@
 
       .row:hover {
         color: #f3fffd;
-        background: rgba(37, 208, 189, 0.055);
+        background: rgba(255, 159, 47, 0.07);
       }
 
       .item {
@@ -335,7 +394,7 @@
         display: grid;
         place-items: center;
         flex: none;
-        border: 1px solid rgba(37, 208, 189, 0.38);
+        border: 1px solid rgba(255, 159, 47, 0.42);
         border-radius: 5px;
         color: var(--brand);
         background: var(--brand-soft);
@@ -393,7 +452,7 @@
       }
 
       .apps-group {
-        background: rgba(37, 208, 189, 0.035);
+        background: rgba(255, 159, 47, 0.045);
       }
 
       .app-row {
@@ -537,6 +596,12 @@
                 <span class="badge green">v0.1</span>
                 <span class="chevron">›</span>
               </a>
+              <a class="row" href="http://192.168.110.217:3000" target="_blank" rel="noopener">
+                <span class="item"><span class="item-icon">G</span><span class="item-name">Grafana</span></span>
+                <span class="desc">운영 모니터링 대시보드</span>
+                <span class="badge green">OPS</span>
+                <span class="chevron">›</span>
+              </a>
             </div>
           </section>
 
@@ -564,7 +629,7 @@
               <a class="row" href="https://github.com/devhongs/bx-cf-fe/projects" target="_blank" rel="noopener">
                 <span class="item"><span class="item-icon">W</span><span class="item-name">WBS</span></span>
                 <span class="desc">GitHub Projects 작업 분해 구조 및 일정 보드</span>
-                <span class="badge blue">v0.1</span>
+                <span class="badge green">v0.1</span>
                 <span class="chevron">›</span>
               </a>
               <a class="row" href="https://github.com/devhongs/bx-cf-fe" target="_blank" rel="noopener">
@@ -630,7 +695,7 @@
               <a class="row" href="https://github.com/yooyongbeom/bx-cf-be/projects?query=is%3Aopen" target="_blank" rel="noopener">
                 <span class="item"><span class="item-icon">W</span><span class="item-name">WBS</span></span>
                 <span class="desc">백엔드 작업 계획 및 일정</span>
-                <span class="badge blue">v0.1</span>
+                <span class="badge green">v0.1</span>
                 <span class="chevron">›</span>
               </a>
               <a class="row" href="https://github.com/yooyongbeom/bx-cf-be/tree/develop" target="_blank" rel="noopener">
