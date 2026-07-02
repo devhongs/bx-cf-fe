@@ -1,55 +1,6 @@
 import { useState } from 'react';
 
-import {
-  Form,
-  FormInput,
-  FormSelect,
-  FormSubmitButton,
-  type FormTransform,
-  type FormValidate,
-} from '@bx/shared';
-
-interface SignupFormValues {
-  userId: string;
-  name: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-  userType: string;
-}
-
-interface SignupPayload {
-  userId: string;
-  name: string;
-  email: string;
-  password: string;
-  userType: string;
-}
-
-const defaultValues: SignupFormValues = {
-  userId: '',
-  name: '',
-  email: '',
-  password: '',
-  passwordConfirm: '',
-  userType: '',
-};
-
-const validateSignupForm: FormValidate<SignupFormValues> = (values) => {
-  if (values.password !== values.passwordConfirm) {
-    return { passwordConfirm: '비밀번호가 일치하지 않습니다.' };
-  }
-
-  return true;
-};
-
-const transformSignupPayload: FormTransform<SignupFormValues, SignupPayload> = (values) => ({
-  userId: values.userId ?? '',
-  name: values.name ?? '',
-  email: values.email ?? '',
-  password: values.password ?? '',
-  userType: values.userType ?? '',
-});
+import { SignupForm, type SignupPayload } from '@/features/auth/ui/signup-form';
 
 export function PlaygroundPage() {
   const [payload, setPayload] = useState<SignupPayload | null>(null);
@@ -67,62 +18,7 @@ export function PlaygroundPage() {
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,560px)_minmax(360px,1fr)]">
           <section className="rounded-lg border border-[#2f3033] bg-[#1b1c1f] p-6 shadow-sm">
-            <Form
-              className="space-y-5"
-              defaultValues={defaultValues}
-              validate={validateSignupForm}
-              transform={transformSignupPayload}
-              onSubmit={handleSubmit}
-            >
-              <FormInput
-                label="아이디"
-                name="userId"
-                placeholder="tester01"
-                rules={{ required: true, minLength: 4 }}
-              />
-              <FormInput
-                label="이름"
-                name="name"
-                placeholder="홍길동"
-                rules={{ required: true }}
-              />
-              <FormInput
-                label="이메일"
-                name="email"
-                placeholder="tester@example.com"
-                rules={{ required: true, email: true }}
-              />
-              <FormInput
-                label="비밀번호"
-                name="password"
-                placeholder="8자 이상"
-                rules={{ required: true, minLength: 8 }}
-                type="password"
-              />
-              <FormInput
-                label="비밀번호 확인"
-                name="passwordConfirm"
-                placeholder="비밀번호 재입력"
-                rules={{ required: true }}
-                type="password"
-              />
-              <FormSelect
-                label="가입 유형"
-                name="userType"
-                options={[
-                  { value: 'personal', label: '개인' },
-                  { value: 'business', label: '사업자' },
-                ]}
-                placeholder="가입 유형 선택"
-                rules={{ required: true }}
-              />
-
-              <div className="pt-2">
-                <FormSubmitButton className="w-full" loadingLabel="처리 중">
-                  가입하기
-                </FormSubmitButton>
-              </div>
-            </Form>
+            <SignupForm onSubmit={handleSubmit} />
           </section>
 
           <section className="rounded-lg border border-[#2f3033] bg-[#1b1c1f] p-6 shadow-sm">
