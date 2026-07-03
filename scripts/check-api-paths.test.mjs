@@ -10,14 +10,14 @@ import {
 const productSchema = `
 export namespace product {
   export interface paths {
-      "/list": {
-          get?: never;
-          post: operations["getProductList"];
-      };
-      "/detail/{productId}": {
-          get?: never;
-          post: operations["getProduct"];
-      };
+    '/list': {
+      get?: never;
+      post: operations['getProductList'];
+    };
+    '/detail/{productId}': {
+      get?: never;
+      post: operations['getProduct'];
+    };
   }
 }
 `;

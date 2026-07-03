@@ -127,10 +127,10 @@ export const parseSchemaPaths = (schemaText) => {
   let current = null;
 
   for (const line of schemaText.split('\n')) {
-    const pathMatch = line.match(/^\s{6}"([^"]+)": \{$/);
+    const pathMatch = line.match(/^\s*(['"])(\/[^'"]+)\1:\s*\{$/);
     if (pathMatch) {
       if (current) paths.push(current);
-      current = { path: pathMatch[1], methods: new Set() };
+      current = { path: pathMatch[2], methods: new Set() };
       continue;
     }
 
