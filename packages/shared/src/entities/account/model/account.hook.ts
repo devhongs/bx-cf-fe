@@ -4,14 +4,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { QueryHookOptions } from '../../../shared/types';
 
 import {
+  accountQueryKeys,
   createAccountMutation,
   deleteAccountMutation,
-  fetchAccountQuery,
   fetchAccountListQuery,
+  fetchAccountQuery,
   fetchRecentAccountListQuery,
   setFavoriteAccountMutation,
   updateAccountMutation,
-  accountQueryKeys,
 } from './account.queries';
 import type { Account, AccountsQueryParams } from './account.type';
 

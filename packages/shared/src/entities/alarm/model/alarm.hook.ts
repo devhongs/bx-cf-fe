@@ -4,11 +4,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { QueryHookOptions } from '../../../shared/types';
 
 import {
+  alarmQueryKeys,
   createAlarmMutation,
   deleteAlarmMutation,
-  fetchAlarmQuery,
   fetchAlarmListQuery,
-  alarmQueryKeys,
+  fetchAlarmQuery,
 } from './alarm.queries';
 import type { Alarm, AlarmsQueryParams } from './alarm.type';
 

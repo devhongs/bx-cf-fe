@@ -1,4 +1,4 @@
-import { DialogTitle, DialogHeader, DialogDescription } from '@bx/shared';
+import { DialogDescription, DialogHeader, DialogTitle } from '@bx/shared';
 import type { ModalConfig } from '@bx/shared';
 
 type AccountDetailProps = {

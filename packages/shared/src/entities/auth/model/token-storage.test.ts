@@ -2,11 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { STORAGE_KEYS } from '../../../shared/constants';
 
-import {
-  hasValidAccessSession,
-  isExpired,
-  tokenStorage,
-} from './token-storage';
+import { hasValidAccessSession, isExpired, tokenStorage } from './token-storage';
 
 describe('token expiration checks', () => {
   beforeEach(() => {

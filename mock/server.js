@@ -105,7 +105,11 @@ const server = createServer(async (req, res) => {
         req,
         res,
         200,
-        envelope(null, { success: false, code: '-1003', msg: '아이디 또는 비밀번호가 올바르지 않습니다.' }),
+        envelope(null, {
+          success: false,
+          code: '-1003',
+          msg: '아이디 또는 비밀번호가 올바르지 않습니다.',
+        }),
       );
     }
     const authPayload = makeAuthPayload(body.usrId);
@@ -172,7 +176,12 @@ const server = createServer(async (req, res) => {
     const body = await readBody(req);
     const idx = collection.findIndex((it) => matchId(it, id));
     if (idx === -1) {
-      return send(req, res, 200, envelope(null, { success: false, code: '-4001', msg: '데이터 없음' }));
+      return send(
+        req,
+        res,
+        200,
+        envelope(null, { success: false, code: '-4001', msg: '데이터 없음' }),
+      );
     }
     collection[idx] = method === 'PUT' ? { ...body } : { ...collection[idx], ...body };
     return send(req, res, 200, envelope(collection[idx]));

@@ -1,6 +1,6 @@
 import { Bell } from 'lucide-react';
 
-import { DialogTitle, DialogHeader } from '@bx/shared';
+import { DialogHeader, DialogTitle } from '@bx/shared';
 import type { ModalConfig } from '@bx/shared';
 
 export function AlarmListModal(_props: ModalConfig) {

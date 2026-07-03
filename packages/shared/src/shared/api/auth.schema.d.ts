@@ -5,339 +5,339 @@
 
 export namespace auth {
   export interface paths {
-      "/refresh-token": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          get?: never;
-          put?: never;
-          /**
-           * 토큰 재발급
-           * @description Refresh Token으로 Access Token을 재발급한다.
-           */
-          post: operations["refreshToken"];
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
+    '/refresh-token': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
-      "/logout": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          get?: never;
-          put?: never;
-          /**
-           * 로그아웃
-           * @description Refresh Token과 Redis 세션 컨텍스트를 제거한다.
-           */
-          post: operations["logout"];
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
+      get?: never;
+      put?: never;
+      /**
+       * 토큰 재발급
+       * @description Refresh Token으로 Access Token을 재발급한다.
+       */
+      post: operations['refreshToken'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/logout': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
-      "/login": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          get?: never;
-          put?: never;
-          /**
-           * 일반 로그인
-           * @description 사용자 ID와 비밀번호로 로그인하고 토큰을 발급한다.
-           */
-          post: operations["login"];
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
+      get?: never;
+      put?: never;
+      /**
+       * 로그아웃
+       * @description Refresh Token과 Redis 세션 컨텍스트를 제거한다.
+       */
+      post: operations['logout'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/login': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
-      "/erp-login": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          get?: never;
-          put?: never;
-          /**
-           * ERP 로그인
-           * @description ERP 연동 계정으로 로그인하고 토큰을 발급한다.
-           */
-          post: operations["erpLogin"];
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
+      get?: never;
+      put?: never;
+      /**
+       * 일반 로그인
+       * @description 사용자 ID와 비밀번호로 로그인하고 토큰을 발급한다.
+       */
+      post: operations['login'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/erp-login': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
+      get?: never;
+      put?: never;
+      /**
+       * ERP 로그인
+       * @description ERP 연동 계정으로 로그인하고 토큰을 발급한다.
+       */
+      post: operations['erpLogin'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
   }
   export type webhooks = Record<string, never>;
   export interface components {
-      schemas: {
-          ApiResponseVoid: {
-              success?: boolean;
-              code?: string;
-              msg?: string;
-              payload?: Record<string, never>;
-              requestId?: string;
-          };
-          AuthLoginRequest: {
-              /**
-               * @description 사용자 ID
-               * @example hong.gildong
-               */
-              usrId: string;
-              /**
-               * Format: password
-               * @description 비밀번호
-               */
-              usrPwd: string;
-          };
-          AuthErpLoginRequest: {
-              /**
-               * @description 사용자 ID
-               * @example hong.gildong
-               */
-              usrId: string;
-          };
-          AuthLoginResponse: {
-              /**
-               * @description 사용자 ID
-               * @example hong.gildong
-               */
-              usrId: string;
-              /**
-               * @description 사용자명
-               * @example 홍길동
-               */
-              usrNm?: string;
-              /**
-               * @description 직위명
-               * @example 대리
-               */
-              positDivName?: string;
-              /**
-               * @description 부서명
-               * @example 채널개발팀
-               */
-              deptName?: string;
-              /** @description 액세스 토큰 */
-              accessToken: string;
-              /** @description 액세스 토큰 만료 일시 */
-              accessTokenExpiresAt: string;
-              /** @description 권한 목록 */
-              roles?: string[];
-          };
-          AuthErpLoginResponse: {
-              /**
-               * @description 사용자 ID
-               * @example hong.gildong
-               */
-              usrId: string;
-              /**
-               * @description 사용자명
-               * @example 홍길동
-               */
-              usrNm?: string;
-              /**
-               * @description 직위명
-               * @example 대리
-               */
-              positDivName?: string;
-              /**
-               * @description 부서명
-               * @example 채널개발팀
-               */
-              deptName?: string;
-              /** @description 액세스 토큰 */
-              accessToken: string;
-              /** @description 액세스 토큰 만료 일시 */
-              accessTokenExpiresAt: string;
-              /** @description 권한 목록 */
-              roles?: string[];
-          };
-          AuthRefreshTokenResponse: {
-              /**
-               * @description 사용자 ID
-               * @example hong.gildong
-               */
-              usrId: string;
-              /**
-               * @description 사용자명
-               * @example 홍길동
-               */
-              usrNm?: string;
-              /**
-               * @description 직위명
-               * @example 대리
-               */
-              positDivName?: string;
-              /**
-               * @description 부서명
-               * @example 채널개발팀
-               */
-              deptName?: string;
-              /** @description 액세스 토큰 */
-              accessToken: string;
-              /** @description 액세스 토큰 만료 일시 */
-              accessTokenExpiresAt: string;
-              /** @description 권한 목록 */
-              roles?: string[];
-          };
+    schemas: {
+      ApiResponseVoid: {
+        success?: boolean;
+        code?: string;
+        msg?: string;
+        payload?: Record<string, never>;
+        requestId?: string;
       };
-      responses: never;
-      parameters: never;
-      requestBodies: never;
-      headers: never;
-      pathItems: never;
+      AuthLoginRequest: {
+        /**
+         * @description 사용자 ID
+         * @example hong.gildong
+         */
+        usrId: string;
+        /**
+         * Format: password
+         * @description 비밀번호
+         */
+        usrPwd: string;
+      };
+      AuthErpLoginRequest: {
+        /**
+         * @description 사용자 ID
+         * @example hong.gildong
+         */
+        usrId: string;
+      };
+      AuthLoginResponse: {
+        /**
+         * @description 사용자 ID
+         * @example hong.gildong
+         */
+        usrId: string;
+        /**
+         * @description 사용자명
+         * @example 홍길동
+         */
+        usrNm?: string;
+        /**
+         * @description 직위명
+         * @example 대리
+         */
+        positDivName?: string;
+        /**
+         * @description 부서명
+         * @example 채널개발팀
+         */
+        deptName?: string;
+        /** @description 액세스 토큰 */
+        accessToken: string;
+        /** @description 액세스 토큰 만료 일시 */
+        accessTokenExpiresAt: string;
+        /** @description 권한 목록 */
+        roles?: string[];
+      };
+      AuthErpLoginResponse: {
+        /**
+         * @description 사용자 ID
+         * @example hong.gildong
+         */
+        usrId: string;
+        /**
+         * @description 사용자명
+         * @example 홍길동
+         */
+        usrNm?: string;
+        /**
+         * @description 직위명
+         * @example 대리
+         */
+        positDivName?: string;
+        /**
+         * @description 부서명
+         * @example 채널개발팀
+         */
+        deptName?: string;
+        /** @description 액세스 토큰 */
+        accessToken: string;
+        /** @description 액세스 토큰 만료 일시 */
+        accessTokenExpiresAt: string;
+        /** @description 권한 목록 */
+        roles?: string[];
+      };
+      AuthRefreshTokenResponse: {
+        /**
+         * @description 사용자 ID
+         * @example hong.gildong
+         */
+        usrId: string;
+        /**
+         * @description 사용자명
+         * @example 홍길동
+         */
+        usrNm?: string;
+        /**
+         * @description 직위명
+         * @example 대리
+         */
+        positDivName?: string;
+        /**
+         * @description 부서명
+         * @example 채널개발팀
+         */
+        deptName?: string;
+        /** @description 액세스 토큰 */
+        accessToken: string;
+        /** @description 액세스 토큰 만료 일시 */
+        accessTokenExpiresAt: string;
+        /** @description 권한 목록 */
+        roles?: string[];
+      };
+    };
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
   }
   export type $defs = Record<string, never>;
   export interface operations {
-      refreshToken: {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          requestBody?: never;
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: components["schemas"]["AuthRefreshTokenResponse"];
-                      };
-                  };
-              };
-          };
+    refreshToken: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
-      logout: {
-          parameters: {
-              query?: never;
-              header: {
-                  "X-Auth-User": string;
-                  "X-Auth-Session-Id": string;
-              };
-              path?: never;
-              cookie?: never;
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
           };
-          requestBody?: never;
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: Record<string, never>;
-                      };
-                  };
-              };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: components['schemas']['AuthRefreshTokenResponse'];
+            };
           };
+        };
       };
-      login: {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          requestBody: {
-              content: {
-                  "application/json": components["schemas"]["AuthLoginRequest"];
-              };
-          };
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: components["schemas"]["AuthLoginResponse"];
-                      };
-                  };
-              };
-          };
+    };
+    logout: {
+      parameters: {
+        query?: never;
+        header: {
+          'X-Auth-User': string;
+          'X-Auth-Session-Id': string;
+        };
+        path?: never;
+        cookie?: never;
       };
-      erpLogin: {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
           };
-          requestBody: {
-              content: {
-                  "application/json": components["schemas"]["AuthErpLoginRequest"];
-              };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: Record<string, never>;
+            };
           };
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: components["schemas"]["AuthErpLoginResponse"];
-                      };
-                  };
-              };
-          };
+        };
       };
+    };
+    login: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['AuthLoginRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: components['schemas']['AuthLoginResponse'];
+            };
+          };
+        };
+      };
+    };
+    erpLogin: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['AuthErpLoginRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: components['schemas']['AuthErpLoginResponse'];
+            };
+          };
+        };
+      };
+    };
   }
 }

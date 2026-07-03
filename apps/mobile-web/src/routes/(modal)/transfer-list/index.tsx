@@ -19,4 +19,3 @@ export function TransferListModal(_props: TransferListModalProps) {
     </Modal>
   );
 }
-

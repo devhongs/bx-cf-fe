@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { ChevronDown, X } from 'lucide-react';
+import { useState } from 'react';
 
 import { useLayout } from '@/shared/context/LayoutContext';
 import styles from './SettingsPanel.module.css';
@@ -17,7 +17,6 @@ export function SettingsPanel() {
 
   return (
     <aside className={`${styles.panel} ${!settingsPanelOpen ? styles.collapsed : ''}`}>
-
       <div className={styles.header}>
         <span className={styles.headerTitle}>빠른 설정</span>
         <button
@@ -30,7 +29,6 @@ export function SettingsPanel() {
         </button>
       </div>
 
-
       <div className={styles.body}>
         {/* 계좌 유형 */}
         <div className={styles.section}>
@@ -42,7 +40,9 @@ export function SettingsPanel() {
               onChange={(e) => setAccountType(e.target.value)}
             >
               {ACCOUNT_TYPES.map((t) => (
-                <option key={t} value={t}>{t}</option>
+                <option key={t} value={t}>
+                  {t}
+                </option>
               ))}
             </select>
             <ChevronDown size={14} className={styles.selectIcon} />

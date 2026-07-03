@@ -1,3 +1,4 @@
+import { ArrowLeft, X } from 'lucide-react';
 /**
  * Modal — 레이아웃 셸 컴포넌트
  *
@@ -13,13 +14,12 @@
  */
 import type { FC, ReactNode } from 'react';
 import type * as React from 'react';
-import { ArrowLeft, X } from 'lucide-react';
 
 import { useModal } from '../../hooks';
-import { cn } from '../lib/cn';
-import { getSlot } from '../lib/component-util';
 import type { BaseProps } from '../../types';
 import { IconButton } from '../icon-button/IconButton';
+import { cn } from '../lib/cn';
+import { getSlot } from '../lib/component-util';
 
 export interface ModalProps extends BaseProps {
   title?: string;
@@ -69,9 +69,7 @@ const ModalComponent: React.FC<ModalProps> = ({
       </div>
 
       {/* 설명 */}
-      {DescSlot && (
-        <div className="shrink-0 px-4 py-2 text-sm text-gray-500">{DescSlot}</div>
-      )}
+      {DescSlot && <div className="shrink-0 px-4 py-2 text-sm text-gray-500">{DescSlot}</div>}
 
       {/* 바디 */}
       <div className="flex-1 overflow-y-auto">{BodySlot}</div>

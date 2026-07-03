@@ -1,10 +1,10 @@
 import { Outlet, createFileRoute, useLocation } from '@tanstack/react-router';
-import { PanelRightOpen, Menu } from 'lucide-react';
+import { Menu, PanelRightOpen } from 'lucide-react';
 
-import { requireAuth } from '@/shared/guards/requireAuth';
-import { NavSidebar } from '@/widgets/layout/sidebar';
-import { SettingsPanel } from '@/widgets/layout/panel';
 import { LayoutProvider, useLayout } from '@/shared/context/LayoutContext';
+import { requireAuth } from '@/shared/guards/requireAuth';
+import { SettingsPanel } from '@/widgets/layout/panel';
+import { NavSidebar } from '@/widgets/layout/sidebar';
 
 const ROUTE_TITLES: Record<string, string> = {
   '/main': '대시보드',
@@ -51,7 +51,7 @@ function PageLayoutContent() {
               type="button"
               className="flex items-center justify-center w-8 h-8 rounded-lg border-none bg-[#2a2a2d] text-[#c4c7c5] hover:bg-[#3c3d40] hover:text-[#e3e3e3] cursor-pointer transition-colors duration-200"
               onClick={toggleNavSidebar}
-              title={navSidebarOpen ? "사이드바 접기" : "사이드바 펴기"}
+              title={navSidebarOpen ? '사이드바 접기' : '사이드바 펴기'}
             >
               {navSidebarOpen ? <FoldIcon size={18} /> : <Menu size={18} />}
             </button>

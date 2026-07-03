@@ -6,8 +6,8 @@ import type { QueryHookOptions } from '../../../shared/types';
 import {
   createMenuMutation,
   deleteMenuMutation,
-  fetchMenuQuery,
   fetchMenuListQuery,
+  fetchMenuQuery,
   menuQueryKeys,
 } from './menu.queries';
 import type { Menu, MenuQueryParams } from './menu.type';

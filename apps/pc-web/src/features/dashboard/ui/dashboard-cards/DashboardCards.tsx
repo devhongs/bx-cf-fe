@@ -1,5 +1,5 @@
 import { useNavigate } from '@tanstack/react-router';
-import { Star, Wallet, ArrowLeftRight, Bell, ShoppingBag, Settings } from 'lucide-react';
+import { ArrowLeftRight, Bell, Settings, ShoppingBag, Star, Wallet } from 'lucide-react';
 
 import styles from './DashboardCards.module.css';
 
@@ -61,7 +61,10 @@ export function DashboardCards() {
           onClick={() => navigate({ to: card.path as any })}
         >
           <div className={styles.cardHeader}>
-            <div className={styles.iconWrapper} style={{ color: card.color, backgroundColor: `${card.color}1a` }}>
+            <div
+              className={styles.iconWrapper}
+              style={{ color: card.color, backgroundColor: `${card.color}1a` }}
+            >
               {card.icon}
             </div>
             <h3 className={styles.cardTitle}>{card.title}</h3>

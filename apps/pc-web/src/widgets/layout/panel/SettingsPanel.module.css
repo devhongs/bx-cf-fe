@@ -22,7 +22,6 @@
   overflow: hidden;
 }
 
-
 .header {
   display: flex;
   align-items: center;
@@ -56,14 +55,12 @@
   color: #e3e3e3;
 }
 
-
 .headerTitle {
   font-size: 0.95rem;
   font-weight: 500;
   color: #fff;
   letter-spacing: -0.2px;
 }
-
 
 .body {
   padding: 20px 16px;
@@ -225,7 +222,7 @@
 }
 
 .toggle::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 16px;
   height: 16px;

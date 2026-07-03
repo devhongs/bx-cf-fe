@@ -6,8 +6,8 @@ import type { QueryHookOptions } from '../../../shared/types';
 import {
   createProductMutation,
   deleteProductMutation,
-  fetchProductQuery,
   fetchProductListQuery,
+  fetchProductQuery,
   productQueryKeys,
 } from './product.queries';
 import type { Product, ProductQueryParams } from './product.type';

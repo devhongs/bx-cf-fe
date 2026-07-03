@@ -24,15 +24,11 @@ export const logout = (): Promise<void> => httpService.post<void>('/auth/logout'
  * 재귀적으로 호출될 수 있으므로, raw axios로 직접 호출한다.
  */
 export const refreshTokenApi = async (): Promise<LoginResponse> => {
-  const { data } = await axios.post(
-    `${API_URL}/auth/refresh-token`,
-    undefined,
-    {
-      headers: { 'Content-Type': 'application/json' },
-      timeout: API_CONFIG.TIMEOUT,
-      withCredentials: true,
-    },
-  );
+  const { data } = await axios.post(`${API_URL}/auth/refresh-token`, undefined, {
+    headers: { 'Content-Type': 'application/json' },
+    timeout: API_CONFIG.TIMEOUT,
+    withCredentials: true,
+  });
   if (!data?.success) throw data;
   return data.payload as LoginResponse;
 };

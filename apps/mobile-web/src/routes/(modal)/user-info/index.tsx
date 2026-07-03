@@ -1,4 +1,4 @@
-import { useUserName, UserAvatar } from '@bx/shared';
+import { UserAvatar, useUserName } from '@bx/shared';
 import type { ModalConfig } from '@bx/shared';
 import { Modal } from '@bx/shared';
 
@@ -49,4 +49,3 @@ export function UserInfoModal(_props: UserInfoModalProps) {
     </Modal>
   );
 }
-

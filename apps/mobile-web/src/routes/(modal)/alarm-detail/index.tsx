@@ -17,4 +17,3 @@ export function AlarmDetailModal({ props }: AlarmDetailModalProps) {
     </Modal>
   );
 }
-

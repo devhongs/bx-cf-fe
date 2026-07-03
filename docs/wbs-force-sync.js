@@ -9,9 +9,9 @@
 //   미리보기:  node docs/wbs-force-sync.js
 //   실   행:  node docs/wbs-force-sync.js --yes   (= pnpm wbs:force-sync --yes)
 
+import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
-import { execSync } from 'node:child_process';
 
 const WBS_MD_PATH = path.resolve('docs/wbs.md');
 const GH_PATH = 'C:/Program Files/GitHub CLI/gh.exe';
@@ -38,7 +38,9 @@ function runGraphQL(query, variables = {}) {
     fs.writeFileSync(payloadPath, JSON.stringify(payload));
     const cmd = `"${GH_PATH}" api graphql -H "GraphQL-Features: sub_issues" --input "${payloadPath}"`;
     const res = execSync(cmd, { encoding: 'utf-8' });
-    try { fs.unlinkSync(payloadPath); } catch {}
+    try {
+      fs.unlinkSync(payloadPath);
+    } catch {}
     return JSON.parse(res.trim());
   } catch (err) {
     console.error('GraphQL execution error:', err.message);
@@ -113,8 +115,12 @@ function createRepoIssue(title, body) {
   const titleEscaped = title.replace(/"/g, '\\"');
   const tempPath = path.resolve('docs/_force_body.txt');
   fs.writeFileSync(tempPath, body);
-  const url = runCommandRaw(`issue create --repo ${REPO} --title "${titleEscaped}" --body-file "${tempPath}"`);
-  try { fs.unlinkSync(tempPath); } catch {}
+  const url = runCommandRaw(
+    `issue create --repo ${REPO} --title "${titleEscaped}" --body-file "${tempPath}"`,
+  );
+  try {
+    fs.unlinkSync(tempPath);
+  } catch {}
   if (url?.startsWith('http')) {
     const number = Number.parseInt(url.split('/').pop(), 10);
     return { url, number };
@@ -126,7 +132,9 @@ function updateRepoIssueBody(number, body) {
   const tempPath = path.resolve('docs/_force_body_update.txt');
   fs.writeFileSync(tempPath, body);
   runCommandRaw(`issue edit ${number} --repo ${REPO} --body-file "${tempPath}"`);
-  try { fs.unlinkSync(tempPath); } catch {}
+  try {
+    fs.unlinkSync(tempPath);
+  } catch {}
 }
 
 function linkSubIssue(parentId, childId) {
@@ -142,7 +150,9 @@ function linkSubIssue(parentId, childId) {
 }
 
 function addProjectItem(url, priority) {
-  const addRes = runCommandJSON(`project item-add ${PROJECT_NUMBER} --owner ${OWNER} --url "${url}" --format json`);
+  const addRes = runCommandJSON(
+    `project item-add ${PROJECT_NUMBER} --owner ${OWNER} --url "${url}" --format json`,
+  );
   if (addRes?.id) {
     const optionId = PRIORITY_MAP[priority];
     if (optionId) {
@@ -223,10 +233,15 @@ function main() {
   const parents = parseWbsMarkdown();
 
   const totalChildren = parents.reduce((s, p) => s + p.children.length, 0);
-  const checkedChildren = parents.reduce((s, p) => s + p.children.filter((c) => c.checked).length, 0);
+  const checkedChildren = parents.reduce(
+    (s, p) => s + p.children.filter((c) => c.checked).length,
+    0,
+  );
 
   console.log('🔁 WBS Force-Sync (전체 삭제 후 재생성)');
-  console.log(`   - wbs.md: 섹션 ${parents.length}개 / 항목 ${totalChildren}개 (완료 ${checkedChildren} · 진행 ${totalChildren - checkedChildren})`);
+  console.log(
+    `   - wbs.md: 섹션 ${parents.length}개 / 항목 ${totalChildren}개 (완료 ${checkedChildren} · 진행 ${totalChildren - checkedChildren})`,
+  );
 
   const existing = getAllIssueNumbers();
   console.log(`   - 기존 이슈: ${existing.length}개 (전부 삭제 예정)`);
@@ -251,7 +266,10 @@ function main() {
     console.log(`\n📂 [${i + 1}/${parents.length}] ${p.title}  (${p.priority})`);
 
     const parentCreated = createRepoIssue(p.title, '### 세부 작업 목록');
-    if (!parentCreated) { console.error('   ❌ 부모 이슈 생성 실패'); continue; }
+    if (!parentCreated) {
+      console.error('   ❌ 부모 이슈 생성 실패');
+      continue;
+    }
     const parentId = getIssueGraphQLIdByNumber(parentCreated.number);
     console.log(`   -> 부모 이슈 #${parentCreated.number}`);
 
@@ -261,7 +279,10 @@ function main() {
     for (const c of p.children) {
       const title = `[${cleanName}] ${c.title}`;
       const created = createRepoIssue(title, c.bodyLines.join('\n'));
-      if (!created) { console.error(`   ❌ 자식 이슈 생성 실패: ${c.title}`); continue; }
+      if (!created) {
+        console.error(`   ❌ 자식 이슈 생성 실패: ${c.title}`);
+        continue;
+      }
 
       addProjectItem(created.url, c.priority);
       const childId = getIssueGraphQLIdByNumber(created.number);

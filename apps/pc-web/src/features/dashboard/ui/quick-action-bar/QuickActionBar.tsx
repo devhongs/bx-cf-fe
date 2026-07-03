@@ -1,5 +1,5 @@
+import { ArrowRight, Search } from 'lucide-react';
 import { useState } from 'react';
-import { Search, ArrowRight } from 'lucide-react';
 
 import styles from './QuickActionBar.module.css';
 

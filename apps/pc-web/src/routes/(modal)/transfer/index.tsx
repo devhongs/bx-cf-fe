@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { DialogTitle, DialogHeader, DialogDescription } from '@bx/shared';
+import { DialogDescription, DialogHeader, DialogTitle } from '@bx/shared';
 import type { ModalConfig } from '@bx/shared';
 import { useModal } from '@bx/shared';
 
@@ -18,7 +18,9 @@ export function TransferModal(_props: ModalConfig) {
     <div className="flex flex-col gap-6">
       <DialogHeader>
         <DialogTitle className="text-[#e3e3e3]">이체</DialogTitle>
-        <DialogDescription className="text-[#9aa0a6]">빠르고 안전하게 송금하세요.</DialogDescription>
+        <DialogDescription className="text-[#9aa0a6]">
+          빠르고 안전하게 송금하세요.
+        </DialogDescription>
       </DialogHeader>
 
       <div className="flex flex-col gap-3">

@@ -6,7 +6,7 @@ import { BANK_OPTIONS } from '@bx/shared';
 import { useModal } from '@bx/shared';
 import { formatAccountNumberByBank } from '@bx/shared';
 import type { BaseProps } from '@bx/shared';
-import { Input, Button, Select } from '@bx/shared';
+import { Button, Input, Select } from '@bx/shared';
 
 import styles from './index.module.css';
 

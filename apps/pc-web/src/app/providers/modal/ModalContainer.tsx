@@ -43,9 +43,7 @@ interface ModalContainerProps extends ModalConfig {
 export function ModalContainer({ index = 0, ...config }: ModalContainerProps) {
   const { close } = useModalStore();
 
-  const fullPath = config.path?.startsWith('/')
-    ? config.path
-    : modalPathMap[config.path ?? ''];
+  const fullPath = config.path?.startsWith('/') ? config.path : modalPathMap[config.path ?? ''];
 
   if (!fullPath) {
     if (config.path) console.error(`[pc-web] Modal not found: ${config.path}`);
@@ -67,7 +65,13 @@ export function ModalContainer({ index = 0, ...config }: ModalContainerProps) {
         style={{ zIndex: 200 + index }}
         hideClose
       >
-        <Suspense fallback={<div className="flex h-40 items-center justify-center text-sm text-gray-400">로딩 중...</div>}>
+        <Suspense
+          fallback={
+            <div className="flex h-40 items-center justify-center text-sm text-gray-400">
+              로딩 중...
+            </div>
+          }
+        >
           <Component {...config} />
         </Suspense>
       </DialogContent>

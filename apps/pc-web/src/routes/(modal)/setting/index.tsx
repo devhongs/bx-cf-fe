@@ -1,7 +1,7 @@
 import { useNavigate } from '@tanstack/react-router';
 import { LogOut, User } from 'lucide-react';
 
-import { useModal, useAuthStore, DialogTitle, DialogHeader, DialogDescription } from '@bx/shared';
+import { DialogDescription, DialogHeader, DialogTitle, useAuthStore, useModal } from '@bx/shared';
 import type { ModalConfig } from '@bx/shared';
 
 export function SettingModal(_props: ModalConfig) {
@@ -20,7 +20,9 @@ export function SettingModal(_props: ModalConfig) {
     <div className="flex flex-col gap-6">
       <DialogHeader>
         <DialogTitle className="text-[#e3e3e3]">설정</DialogTitle>
-        <DialogDescription className="text-[#9aa0a6]">계정 및 앱 설정을 관리합니다.</DialogDescription>
+        <DialogDescription className="text-[#9aa0a6]">
+          계정 및 앱 설정을 관리합니다.
+        </DialogDescription>
       </DialogHeader>
 
       {/* 계정 정보 */}

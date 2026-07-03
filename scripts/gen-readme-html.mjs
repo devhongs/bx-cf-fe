@@ -8,7 +8,7 @@
  * FE README 는 이 레포, BE README 는 형제 레포(../bx-cf-be)에서 읽는다.
  * 소스가 없으면(예: CI 에 BE 레포 미체크아웃) 해당 항목은 건너뛴다.
  */
-import { readFile, writeFile, mkdir, access } from 'node:fs/promises';
+import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { marked } from 'marked';
 
 const OUT_DIR = new URL('../landing/assets/', import.meta.url);

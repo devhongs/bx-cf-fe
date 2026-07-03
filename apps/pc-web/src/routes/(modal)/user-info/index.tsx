@@ -1,6 +1,6 @@
 import { User } from 'lucide-react';
 
-import { DialogTitle, DialogHeader, useAuthStore } from '@bx/shared';
+import { DialogHeader, DialogTitle, useAuthStore } from '@bx/shared';
 import type { ModalConfig } from '@bx/shared';
 
 export function UserInfoModal(_props: ModalConfig) {

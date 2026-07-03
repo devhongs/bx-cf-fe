@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.describe('pc-web basic checks', () => {
   test('should load the homepage and check title/h1', async ({ page }) => {

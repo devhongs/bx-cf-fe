@@ -4,7 +4,7 @@ import type { BankId } from '@bx/shared';
 import { BANK_OPTIONS } from '@bx/shared';
 import { formatAccountNumberByBank } from '@bx/shared';
 import type { BaseProps } from '@bx/shared';
-import { Input, Button } from '@bx/shared';
+import { Button, Input } from '@bx/shared';
 
 import styles from './index.module.css';
 

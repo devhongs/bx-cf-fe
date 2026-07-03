@@ -7,10 +7,10 @@
 //
 // 실행: node docs/wbs-sync.js   (= pnpm wbs:sync)
 
-import fs from 'node:fs';
-import path from 'node:path';
 import { execSync } from 'node:child_process';
+import fs from 'node:fs';
 import os from 'node:os';
+import path from 'node:path';
 
 const WBS_MD_PATH = path.resolve('docs/wbs.md');
 // OS 환경에 따라 gh CLI 경로 설정 (윈도우 로컬 경로는 하드코딩 백업, 리눅스/CI에서는 'gh' 사용)
@@ -48,7 +48,9 @@ function runGraphQL(query, variables = {}) {
     fs.writeFileSync(payloadPath, JSON.stringify(payload));
     const cmd = `"${GH_PATH}" api graphql -H "GraphQL-Features: sub_issues" --input "${payloadPath}"`;
     const res = execSync(cmd, { encoding: 'utf-8' });
-    try { fs.unlinkSync(payloadPath); } catch {}
+    try {
+      fs.unlinkSync(payloadPath);
+    } catch {}
     return JSON.parse(res.trim());
   } catch (err) {
     console.error('GraphQL execution error:', err.message);
@@ -121,8 +123,12 @@ function createRepoIssue(title, body) {
   const titleEscaped = title.replace(/"/g, '\\"');
   const tempPath = path.resolve('docs/temp_body_create.txt');
   fs.writeFileSync(tempPath, body);
-  const url = runCommandRaw(`issue create --repo ${REPO} --title "${titleEscaped}" --body-file "${tempPath}"`);
-  try { fs.unlinkSync(tempPath); } catch {}
+  const url = runCommandRaw(
+    `issue create --repo ${REPO} --title "${titleEscaped}" --body-file "${tempPath}"`,
+  );
+  try {
+    fs.unlinkSync(tempPath);
+  } catch {}
   if (url?.startsWith('http')) {
     const number = Number.parseInt(url.split('/').pop(), 10);
     return { url, number };
@@ -134,7 +140,9 @@ function updateRepoIssueBody(number, body) {
   const tempPath = path.resolve('docs/temp_body_update.txt');
   fs.writeFileSync(tempPath, body);
   runCommandRaw(`issue edit ${number} --repo ${REPO} --body-file "${tempPath}"`);
-  try { fs.unlinkSync(tempPath); } catch {}
+  try {
+    fs.unlinkSync(tempPath);
+  } catch {}
 }
 
 function closeIssue(number) {
@@ -158,7 +166,9 @@ function linkSubIssue(parentId, childId) {
 }
 
 function addProjectItem(url, priority) {
-  const addRes = runCommandJSON(`project item-add ${PROJECT_NUMBER} --owner ${OWNER} --url "${url}" --format json`);
+  const addRes = runCommandJSON(
+    `project item-add ${PROJECT_NUMBER} --owner ${OWNER} --url "${url}" --format json`,
+  );
   if (addRes?.id) {
     const optionId = PRIORITY_MAP[priority];
     if (optionId) {
@@ -259,7 +269,10 @@ function main() {
     let parentIssue = issueMapByTitle[wbsParent.title.trim()];
     if (!parentIssue) {
       const created = createRepoIssue(wbsParent.title, '### 세부 작업 목록');
-      if (!created) { console.error('   ❌ 부모 이슈 생성 실패'); continue; }
+      if (!created) {
+        console.error('   ❌ 부모 이슈 생성 실패');
+        continue;
+      }
       parentIssue = {
         id: getIssueGraphQLIdByNumber(created.number),
         number: created.number,
@@ -285,7 +298,10 @@ function main() {
       let childIssue = issueMapByTitle[childTitle];
       if (!childIssue) {
         const created = createRepoIssue(childTitle, childBody);
-        if (!created) { console.error(`      ❌ 자식 이슈 생성 실패: ${wbsChild.title}`); continue; }
+        if (!created) {
+          console.error(`      ❌ 자식 이슈 생성 실패: ${wbsChild.title}`);
+          continue;
+        }
         addProjectItem(created.url, wbsChild.priority);
         childIssue = {
           id: getIssueGraphQLIdByNumber(created.number),
@@ -326,7 +342,10 @@ function main() {
 
     // 모든 항목이 완료면 부모도 closed, 아니면 open 유지
     if (wbsParent.children.length > 0) {
-      reconcileState(parentIssue, wbsParent.children.every((c) => c.checked));
+      reconcileState(
+        parentIssue,
+        wbsParent.children.every((c) => c.checked),
+      );
     }
   }
 

@@ -51,7 +51,11 @@ const codeValue = (code: string, key: string, option?: CodeOption): string => {
 
   if (visibleCode && visibleName) {
     const coreData = session.get<CoreData>(CONFIG.SESSION.CORE_DATA);
-    return $formatUtils.paramsFormat(coreData?.codeFormat ?? '', codeItem.codeField, codeItem.labelField);
+    return $formatUtils.paramsFormat(
+      coreData?.codeFormat ?? '',
+      codeItem.codeField,
+      codeItem.labelField,
+    );
   }
 
   if (visibleCode) {

@@ -5,1187 +5,1187 @@
 
 export namespace system {
   export interface paths {
-      "/menus/{menuId}/update": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          get?: never;
-          put?: never;
-          /** 메뉴 수정 */
-          post: operations["updateMenu"];
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
+    '/menus/{menuId}/update': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
-      "/menus/{menuId}/actions/list": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          get?: never;
-          put?: never;
-          /** 메뉴 기능 목록 조회 */
-          post: operations["getMenuActions"];
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
+      get?: never;
+      put?: never;
+      /** 메뉴 수정 */
+      post: operations['updateMenu'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/menus/{menuId}/actions/list': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
-      "/menus/roles/{roleId}/save": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          get?: never;
-          put?: never;
-          /** 역할별 메뉴 권한 저장 */
-          post: operations["saveRoleMenus"];
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
+      get?: never;
+      put?: never;
+      /** 메뉴 기능 목록 조회 */
+      post: operations['getMenuActions'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/menus/roles/{roleId}/save': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
-      "/menus/roles/{roleId}/list": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          get?: never;
-          put?: never;
-          /** 역할별 메뉴 목록 조회 */
-          post: operations["getMenusByRoleId"];
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
+      get?: never;
+      put?: never;
+      /** 역할별 메뉴 권한 저장 */
+      post: operations['saveRoleMenus'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/menus/roles/{roleId}/list': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
-      "/menus/list": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          get?: never;
-          put?: never;
-          /** 메뉴 목록 조회 */
-          post: operations["getMenus"];
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
+      get?: never;
+      put?: never;
+      /** 역할별 메뉴 목록 조회 */
+      post: operations['getMenusByRoleId'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/menus/list': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
-      "/menus/create": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          get?: never;
-          put?: never;
-          /** 메뉴 등록 */
-          post: operations["createMenu"];
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
+      get?: never;
+      put?: never;
+      /** 메뉴 목록 조회 */
+      post: operations['getMenus'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/menus/create': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
-      "/common-codes/groups/{groupCd}/update": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          get?: never;
-          put?: never;
-          /** 공통코드 그룹 수정 */
-          post: operations["updateCommonCodeGroup"];
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
+      get?: never;
+      put?: never;
+      /** 메뉴 등록 */
+      post: operations['createMenu'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/common-codes/groups/{groupCd}/update': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
-      "/common-codes/groups/{groupCd}/codes/{code}/update": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          get?: never;
-          put?: never;
-          /** 공통코드 수정 */
-          post: operations["updateCommonCode"];
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
+      get?: never;
+      put?: never;
+      /** 공통코드 그룹 수정 */
+      post: operations['updateCommonCodeGroup'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/common-codes/groups/{groupCd}/codes/{code}/update': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
-      "/common-codes/groups/{groupCd}/codes/list": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          get?: never;
-          put?: never;
-          /** 공통코드 목록 조회 */
-          post: operations["getCommonCodes"];
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
+      get?: never;
+      put?: never;
+      /** 공통코드 수정 */
+      post: operations['updateCommonCode'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/common-codes/groups/{groupCd}/codes/list': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
-      "/common-codes/groups/{groupCd}/codes/create": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          get?: never;
-          put?: never;
-          /** 공통코드 등록 */
-          post: operations["createCommonCode"];
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
+      get?: never;
+      put?: never;
+      /** 공통코드 목록 조회 */
+      post: operations['getCommonCodes'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/common-codes/groups/{groupCd}/codes/create': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
-      "/common-codes/groups/list": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          get?: never;
-          put?: never;
-          /** 공통코드 그룹 목록 조회 */
-          post: operations["getCommonCodeGroups"];
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
+      get?: never;
+      put?: never;
+      /** 공통코드 등록 */
+      post: operations['createCommonCode'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/common-codes/groups/list': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
-      "/common-codes/groups/create": {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          get?: never;
-          put?: never;
-          /** 공통코드 그룹 등록 */
-          post: operations["createCommonCodeGroup"];
-          delete?: never;
-          options?: never;
-          head?: never;
-          patch?: never;
-          trace?: never;
+      get?: never;
+      put?: never;
+      /** 공통코드 그룹 목록 조회 */
+      post: operations['getCommonCodeGroups'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/common-codes/groups/create': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
+      get?: never;
+      put?: never;
+      /** 공통코드 그룹 등록 */
+      post: operations['createCommonCodeGroup'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
   }
   export type webhooks = Record<string, never>;
   export interface components {
-      schemas: {
-          ApiResponseVoid: {
-              success?: boolean;
-              code?: string;
-              msg?: string;
-              payload?: Record<string, never>;
-              requestId?: string;
-          };
-          CommonCodeListResponse: {
-              /**
-               * Format: int64
-               * @description 공통코드 ID
-               */
-              codeId?: number;
-              /**
-               * Format: int64
-               * @description 공통코드 그룹 ID
-               */
-              groupId?: number;
-              /** @description 공통코드 그룹 코드 */
-              groupCd?: string;
-              /**
-               * @description 공통코드
-               * @example Y
-               */
-              code?: string;
-              /**
-               * @description 공통코드명
-               * @example 사용
-               */
-              codeNm?: string;
-              /** @description 공통코드 설명 */
-              codeDesc?: string;
-              /**
-               * Format: int64
-               * @description 상위 공통코드 ID
-               */
-              parentCodeId?: number;
-              /**
-               * Format: int32
-               * @description 정렬 순서
-               * @example 1
-               */
-              sortSeq?: number;
-              /**
-               * @description 사용 여부
-               * @example Y
-               * @enum {string}
-               */
-              useYn?: "Y" | "N";
-              /**
-               * Format: date
-               * @description 유효 시작일
-               * @example 2026-01-01
-               */
-              validFrom?: string;
-              /**
-               * Format: date
-               * @description 유효 종료일
-               * @example 2026-12-31
-               */
-              validTo?: string;
-              /**
-               * @description 추가 데이터(JSON 문자열)
-               * @example {}
-               */
-              extraData?: string;
-              /**
-               * @description 생성자 ID
-               * @example admin
-               */
-              createdBy?: string;
-              /**
-               * @description 수정자 ID
-               * @example admin
-               */
-              updatedBy?: string;
-          };
-          CommonCodeGroupCreateRequest: {
-              /**
-               * @description 공통코드 그룹 코드
-               * @example USE_YN
-               */
-              groupCd: string;
-              /**
-               * @description 공통코드 그룹명
-               * @example 사용 여부
-               */
-              groupNm: string;
-              /** @description 공통코드 그룹 설명 */
-              groupDesc?: string;
-              /**
-               * @description 시스템 코드 여부
-               * @example N
-               * @enum {string}
-               */
-              systemYn?: "Y" | "N";
-              /**
-               * @description 사용 여부
-               * @example Y
-               * @enum {string}
-               */
-              useYn?: "Y" | "N";
-              /**
-               * Format: int32
-               * @description 정렬 순서
-               * @example 1
-               */
-              sortSeq?: number;
-              /**
-               * @description 생성자 ID
-               * @example admin
-               */
-              createdBy?: string;
-          };
-          CommonCodeGroupUpdateRequest: {
-              /**
-               * @description 공통코드 그룹명
-               * @example 사용 여부
-               */
-              groupNm: string;
-              /** @description 공통코드 그룹 설명 */
-              groupDesc?: string;
-              /**
-               * @description 시스템 코드 여부
-               * @example N
-               * @enum {string}
-               */
-              systemYn?: "Y" | "N";
-              /**
-               * @description 사용 여부
-               * @example Y
-               * @enum {string}
-               */
-              useYn?: "Y" | "N";
-              /**
-               * Format: int32
-               * @description 정렬 순서
-               * @example 1
-               */
-              sortSeq?: number;
-              /**
-               * @description 수정자 ID
-               * @example admin
-               */
-              updatedBy?: string;
-          };
-          MenuActionListResponse: {
-              /**
-               * Format: int64
-               * @description 메뉴 기능 ID
-               */
-              actionId?: number;
-              /**
-               * Format: int64
-               * @description 메뉴 ID
-               */
-              menuId?: number;
-              /**
-               * @description 기능 코드
-               * @example READ
-               */
-              actionCd?: string;
-              /**
-               * @description 기능명
-               * @example 조회
-               */
-              actionNm?: string;
-              /**
-               * @description HTTP 메서드
-               * @example GET
-               */
-              httpMethod?: string;
-              /**
-               * @description API 패턴
-               * @example /channel/backend/api/v1/system/menus/**
-               */
-              apiPattern?: string;
-              /**
-               * Format: int32
-               * @description 정렬 순서
-               * @example 1
-               */
-              sortSeq?: number;
-              /**
-               * @description 사용 여부
-               * @example Y
-               * @enum {string}
-               */
-              useYn?: "Y" | "N";
-              /** @description 생성자 ID */
-              createdBy?: string;
-              /** @description 수정자 ID */
-              updatedBy?: string;
-          };
-          MenuListResponse: {
-              /**
-               * Format: int64
-               * @description 메뉴 ID
-               */
-              menuId?: number;
-              /**
-               * Format: int64
-               * @description 상위 메뉴 ID
-               */
-              parentMenuId?: number;
-              /**
-               * @description 메뉴 코드
-               * @example DASHBOARD
-               */
-              menuCd?: string;
-              /**
-               * @description 메뉴명
-               * @example 대시보드
-               */
-              menuNm?: string;
-              /**
-               * @description 메뉴 유형
-               * @example MENU
-               */
-              menuType?: string;
-              /**
-               * @description 화면 경로
-               * @example /dashboard
-               */
-              path?: string;
-              /**
-               * @description 프론트엔드 컴포넌트 경로
-               * @example DashboardView
-               */
-              component?: string;
-              /**
-               * @description 아이콘명
-               * @example LayoutDashboard
-               */
-              icon?: string;
-              /**
-               * Format: int32
-               * @description 메뉴 깊이
-               * @example 1
-               */
-              depth?: number;
-              /**
-               * Format: int32
-               * @description 정렬 순서
-               * @example 1
-               */
-              sortSeq?: number;
-              /**
-               * @description 노출 여부
-               * @example Y
-               * @enum {string}
-               */
-              visibleYn?: "Y" | "N";
-              /**
-               * @description 사용 여부
-               * @example Y
-               * @enum {string}
-               */
-              useYn?: "Y" | "N";
-              /** @description 비고 */
-              remark?: string;
-              /**
-               * @description 생성자 ID
-               * @example admin
-               */
-              createdBy?: string;
-              /**
-               * @description 수정자 ID
-               * @example admin
-               */
-              updatedBy?: string;
-          };
-          RoleMenuSaveSaveRequest: {
-              /** @description 역할에 부여할 메뉴 ID 목록 */
-              menuIds: number[];
-              /**
-               * @description 생성자 ID
-               * @example admin
-               */
-              createdBy?: string;
-          };
-          MenuCreateRequest: {
-              /**
-               * Format: int64
-               * @description 상위 메뉴 ID
-               */
-              parentMenuId?: number;
-              /**
-               * @description 메뉴 코드
-               * @example DASHBOARD
-               */
-              menuCd: string;
-              /**
-               * @description 메뉴명
-               * @example 대시보드
-               */
-              menuNm: string;
-              /**
-               * @description 메뉴 유형
-               * @example MENU
-               */
-              menuType?: string;
-              /**
-               * @description 화면 경로
-               * @example /dashboard
-               */
-              path?: string;
-              /**
-               * @description 프론트엔드 컴포넌트 경로
-               * @example DashboardView
-               */
-              component?: string;
-              /**
-               * @description 아이콘명
-               * @example LayoutDashboard
-               */
-              icon?: string;
-              /**
-               * Format: int32
-               * @description 메뉴 깊이
-               * @example 1
-               */
-              depth?: number;
-              /**
-               * Format: int32
-               * @description 정렬 순서
-               * @example 1
-               */
-              sortSeq?: number;
-              /**
-               * @description 노출 여부
-               * @example Y
-               * @enum {string}
-               */
-              visibleYn?: "Y" | "N";
-              /**
-               * @description 사용 여부
-               * @example Y
-               * @enum {string}
-               */
-              useYn?: "Y" | "N";
-              /** @description 비고 */
-              remark?: string;
-              /**
-               * @description 생성자 ID
-               * @example admin
-               */
-              createdBy?: string;
-          };
-          MenuUpdateRequest: {
-              /**
-               * Format: int64
-               * @description 상위 메뉴 ID
-               */
-              parentMenuId?: number;
-              /**
-               * @description 메뉴명
-               * @example 대시보드
-               */
-              menuNm: string;
-              /**
-               * @description 메뉴 유형
-               * @example MENU
-               */
-              menuType?: string;
-              /**
-               * @description 화면 경로
-               * @example /dashboard
-               */
-              path?: string;
-              /**
-               * @description 프론트엔드 컴포넌트 경로
-               * @example DashboardView
-               */
-              component?: string;
-              /**
-               * @description 아이콘명
-               * @example LayoutDashboard
-               */
-              icon?: string;
-              /**
-               * Format: int32
-               * @description 메뉴 깊이
-               * @example 1
-               */
-              depth?: number;
-              /**
-               * Format: int32
-               * @description 정렬 순서
-               * @example 1
-               */
-              sortSeq?: number;
-              /**
-               * @description 노출 여부
-               * @example Y
-               * @enum {string}
-               */
-              visibleYn?: "Y" | "N";
-              /**
-               * @description 사용 여부
-               * @example Y
-               * @enum {string}
-               */
-              useYn?: "Y" | "N";
-              /** @description 비고 */
-              remark?: string;
-              /**
-               * @description 수정자 ID
-               * @example admin
-               */
-              updatedBy?: string;
-          };
-          CommonCodeCreateRequest: {
-              /**
-               * @description 공통코드
-               * @example Y
-               */
-              code: string;
-              /**
-               * @description 공통코드명
-               * @example 사용
-               */
-              codeNm: string;
-              /** @description 공통코드 설명 */
-              codeDesc?: string;
-              /**
-               * Format: int64
-               * @description 상위 공통코드 ID
-               */
-              parentCodeId?: number;
-              /**
-               * Format: int32
-               * @description 정렬 순서
-               * @example 1
-               */
-              sortSeq?: number;
-              /**
-               * @description 사용 여부
-               * @example Y
-               * @enum {string}
-               */
-              useYn?: "Y" | "N";
-              /**
-               * Format: date
-               * @description 유효 시작일
-               * @example 2026-01-01
-               */
-              validFrom?: string;
-              /**
-               * Format: date
-               * @description 유효 종료일
-               * @example 2026-12-31
-               */
-              validTo?: string;
-              /**
-               * @description 추가 데이터(JSON 문자열)
-               * @example {}
-               */
-              extraData?: string;
-              /**
-               * @description 생성자 ID
-               * @example admin
-               */
-              createdBy?: string;
-          };
-          CommonCodeUpdateRequest: {
-              /**
-               * @description 공통코드명
-               * @example 사용
-               */
-              codeNm: string;
-              /** @description 공통코드 설명 */
-              codeDesc?: string;
-              /**
-               * Format: int64
-               * @description 상위 공통코드 ID
-               */
-              parentCodeId?: number;
-              /**
-               * Format: int32
-               * @description 정렬 순서
-               * @example 1
-               */
-              sortSeq?: number;
-              /**
-               * @description 사용 여부
-               * @example Y
-               * @enum {string}
-               */
-              useYn?: "Y" | "N";
-              /**
-               * Format: date
-               * @description 유효 시작일
-               * @example 2026-01-01
-               */
-              validFrom?: string;
-              /**
-               * Format: date
-               * @description 유효 종료일
-               * @example 2026-12-31
-               */
-              validTo?: string;
-              /**
-               * @description 추가 데이터(JSON 문자열)
-               * @example {}
-               */
-              extraData?: string;
-              /**
-               * @description 수정자 ID
-               * @example admin
-               */
-              updatedBy?: string;
-          };
-          CommonCodeGroupListResponse: {
-              /**
-               * Format: int64
-               * @description 공통코드 그룹 ID
-               */
-              groupId?: number;
-              /**
-               * @description 공통코드 그룹 코드
-               * @example USE_YN
-               */
-              groupCd?: string;
-              /**
-               * @description 공통코드 그룹명
-               * @example 사용 여부
-               */
-              groupNm?: string;
-              /** @description 공통코드 그룹 설명 */
-              groupDesc?: string;
-              /**
-               * @description 시스템 코드 여부
-               * @example N
-               * @enum {string}
-               */
-              systemYn?: "Y" | "N";
-              /**
-               * @description 사용 여부
-               * @example Y
-               * @enum {string}
-               */
-              useYn?: "Y" | "N";
-              /**
-               * Format: int32
-               * @description 정렬 순서
-               * @example 1
-               */
-              sortSeq?: number;
-              /**
-               * @description 생성자 ID
-               * @example admin
-               */
-              createdBy?: string;
-              /**
-               * @description 수정자 ID
-               * @example admin
-               */
-              updatedBy?: string;
-          };
+    schemas: {
+      ApiResponseVoid: {
+        success?: boolean;
+        code?: string;
+        msg?: string;
+        payload?: Record<string, never>;
+        requestId?: string;
       };
-      responses: never;
-      parameters: never;
-      requestBodies: never;
-      headers: never;
-      pathItems: never;
+      CommonCodeListResponse: {
+        /**
+         * Format: int64
+         * @description 공통코드 ID
+         */
+        codeId?: number;
+        /**
+         * Format: int64
+         * @description 공통코드 그룹 ID
+         */
+        groupId?: number;
+        /** @description 공통코드 그룹 코드 */
+        groupCd?: string;
+        /**
+         * @description 공통코드
+         * @example Y
+         */
+        code?: string;
+        /**
+         * @description 공통코드명
+         * @example 사용
+         */
+        codeNm?: string;
+        /** @description 공통코드 설명 */
+        codeDesc?: string;
+        /**
+         * Format: int64
+         * @description 상위 공통코드 ID
+         */
+        parentCodeId?: number;
+        /**
+         * Format: int32
+         * @description 정렬 순서
+         * @example 1
+         */
+        sortSeq?: number;
+        /**
+         * @description 사용 여부
+         * @example Y
+         * @enum {string}
+         */
+        useYn?: 'Y' | 'N';
+        /**
+         * Format: date
+         * @description 유효 시작일
+         * @example 2026-01-01
+         */
+        validFrom?: string;
+        /**
+         * Format: date
+         * @description 유효 종료일
+         * @example 2026-12-31
+         */
+        validTo?: string;
+        /**
+         * @description 추가 데이터(JSON 문자열)
+         * @example {}
+         */
+        extraData?: string;
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
+      };
+      CommonCodeGroupCreateRequest: {
+        /**
+         * @description 공통코드 그룹 코드
+         * @example USE_YN
+         */
+        groupCd: string;
+        /**
+         * @description 공통코드 그룹명
+         * @example 사용 여부
+         */
+        groupNm: string;
+        /** @description 공통코드 그룹 설명 */
+        groupDesc?: string;
+        /**
+         * @description 시스템 코드 여부
+         * @example N
+         * @enum {string}
+         */
+        systemYn?: 'Y' | 'N';
+        /**
+         * @description 사용 여부
+         * @example Y
+         * @enum {string}
+         */
+        useYn?: 'Y' | 'N';
+        /**
+         * Format: int32
+         * @description 정렬 순서
+         * @example 1
+         */
+        sortSeq?: number;
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
+      };
+      CommonCodeGroupUpdateRequest: {
+        /**
+         * @description 공통코드 그룹명
+         * @example 사용 여부
+         */
+        groupNm: string;
+        /** @description 공통코드 그룹 설명 */
+        groupDesc?: string;
+        /**
+         * @description 시스템 코드 여부
+         * @example N
+         * @enum {string}
+         */
+        systemYn?: 'Y' | 'N';
+        /**
+         * @description 사용 여부
+         * @example Y
+         * @enum {string}
+         */
+        useYn?: 'Y' | 'N';
+        /**
+         * Format: int32
+         * @description 정렬 순서
+         * @example 1
+         */
+        sortSeq?: number;
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
+      };
+      MenuActionListResponse: {
+        /**
+         * Format: int64
+         * @description 메뉴 기능 ID
+         */
+        actionId?: number;
+        /**
+         * Format: int64
+         * @description 메뉴 ID
+         */
+        menuId?: number;
+        /**
+         * @description 기능 코드
+         * @example READ
+         */
+        actionCd?: string;
+        /**
+         * @description 기능명
+         * @example 조회
+         */
+        actionNm?: string;
+        /**
+         * @description HTTP 메서드
+         * @example GET
+         */
+        httpMethod?: string;
+        /**
+         * @description API 패턴
+         * @example /channel/backend/api/v1/system/menus/**
+         */
+        apiPattern?: string;
+        /**
+         * Format: int32
+         * @description 정렬 순서
+         * @example 1
+         */
+        sortSeq?: number;
+        /**
+         * @description 사용 여부
+         * @example Y
+         * @enum {string}
+         */
+        useYn?: 'Y' | 'N';
+        /** @description 생성자 ID */
+        createdBy?: string;
+        /** @description 수정자 ID */
+        updatedBy?: string;
+      };
+      MenuListResponse: {
+        /**
+         * Format: int64
+         * @description 메뉴 ID
+         */
+        menuId?: number;
+        /**
+         * Format: int64
+         * @description 상위 메뉴 ID
+         */
+        parentMenuId?: number;
+        /**
+         * @description 메뉴 코드
+         * @example DASHBOARD
+         */
+        menuCd?: string;
+        /**
+         * @description 메뉴명
+         * @example 대시보드
+         */
+        menuNm?: string;
+        /**
+         * @description 메뉴 유형
+         * @example MENU
+         */
+        menuType?: string;
+        /**
+         * @description 화면 경로
+         * @example /dashboard
+         */
+        path?: string;
+        /**
+         * @description 프론트엔드 컴포넌트 경로
+         * @example DashboardView
+         */
+        component?: string;
+        /**
+         * @description 아이콘명
+         * @example LayoutDashboard
+         */
+        icon?: string;
+        /**
+         * Format: int32
+         * @description 메뉴 깊이
+         * @example 1
+         */
+        depth?: number;
+        /**
+         * Format: int32
+         * @description 정렬 순서
+         * @example 1
+         */
+        sortSeq?: number;
+        /**
+         * @description 노출 여부
+         * @example Y
+         * @enum {string}
+         */
+        visibleYn?: 'Y' | 'N';
+        /**
+         * @description 사용 여부
+         * @example Y
+         * @enum {string}
+         */
+        useYn?: 'Y' | 'N';
+        /** @description 비고 */
+        remark?: string;
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
+      };
+      RoleMenuSaveSaveRequest: {
+        /** @description 역할에 부여할 메뉴 ID 목록 */
+        menuIds: number[];
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
+      };
+      MenuCreateRequest: {
+        /**
+         * Format: int64
+         * @description 상위 메뉴 ID
+         */
+        parentMenuId?: number;
+        /**
+         * @description 메뉴 코드
+         * @example DASHBOARD
+         */
+        menuCd: string;
+        /**
+         * @description 메뉴명
+         * @example 대시보드
+         */
+        menuNm: string;
+        /**
+         * @description 메뉴 유형
+         * @example MENU
+         */
+        menuType?: string;
+        /**
+         * @description 화면 경로
+         * @example /dashboard
+         */
+        path?: string;
+        /**
+         * @description 프론트엔드 컴포넌트 경로
+         * @example DashboardView
+         */
+        component?: string;
+        /**
+         * @description 아이콘명
+         * @example LayoutDashboard
+         */
+        icon?: string;
+        /**
+         * Format: int32
+         * @description 메뉴 깊이
+         * @example 1
+         */
+        depth?: number;
+        /**
+         * Format: int32
+         * @description 정렬 순서
+         * @example 1
+         */
+        sortSeq?: number;
+        /**
+         * @description 노출 여부
+         * @example Y
+         * @enum {string}
+         */
+        visibleYn?: 'Y' | 'N';
+        /**
+         * @description 사용 여부
+         * @example Y
+         * @enum {string}
+         */
+        useYn?: 'Y' | 'N';
+        /** @description 비고 */
+        remark?: string;
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
+      };
+      MenuUpdateRequest: {
+        /**
+         * Format: int64
+         * @description 상위 메뉴 ID
+         */
+        parentMenuId?: number;
+        /**
+         * @description 메뉴명
+         * @example 대시보드
+         */
+        menuNm: string;
+        /**
+         * @description 메뉴 유형
+         * @example MENU
+         */
+        menuType?: string;
+        /**
+         * @description 화면 경로
+         * @example /dashboard
+         */
+        path?: string;
+        /**
+         * @description 프론트엔드 컴포넌트 경로
+         * @example DashboardView
+         */
+        component?: string;
+        /**
+         * @description 아이콘명
+         * @example LayoutDashboard
+         */
+        icon?: string;
+        /**
+         * Format: int32
+         * @description 메뉴 깊이
+         * @example 1
+         */
+        depth?: number;
+        /**
+         * Format: int32
+         * @description 정렬 순서
+         * @example 1
+         */
+        sortSeq?: number;
+        /**
+         * @description 노출 여부
+         * @example Y
+         * @enum {string}
+         */
+        visibleYn?: 'Y' | 'N';
+        /**
+         * @description 사용 여부
+         * @example Y
+         * @enum {string}
+         */
+        useYn?: 'Y' | 'N';
+        /** @description 비고 */
+        remark?: string;
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
+      };
+      CommonCodeCreateRequest: {
+        /**
+         * @description 공통코드
+         * @example Y
+         */
+        code: string;
+        /**
+         * @description 공통코드명
+         * @example 사용
+         */
+        codeNm: string;
+        /** @description 공통코드 설명 */
+        codeDesc?: string;
+        /**
+         * Format: int64
+         * @description 상위 공통코드 ID
+         */
+        parentCodeId?: number;
+        /**
+         * Format: int32
+         * @description 정렬 순서
+         * @example 1
+         */
+        sortSeq?: number;
+        /**
+         * @description 사용 여부
+         * @example Y
+         * @enum {string}
+         */
+        useYn?: 'Y' | 'N';
+        /**
+         * Format: date
+         * @description 유효 시작일
+         * @example 2026-01-01
+         */
+        validFrom?: string;
+        /**
+         * Format: date
+         * @description 유효 종료일
+         * @example 2026-12-31
+         */
+        validTo?: string;
+        /**
+         * @description 추가 데이터(JSON 문자열)
+         * @example {}
+         */
+        extraData?: string;
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
+      };
+      CommonCodeUpdateRequest: {
+        /**
+         * @description 공통코드명
+         * @example 사용
+         */
+        codeNm: string;
+        /** @description 공통코드 설명 */
+        codeDesc?: string;
+        /**
+         * Format: int64
+         * @description 상위 공통코드 ID
+         */
+        parentCodeId?: number;
+        /**
+         * Format: int32
+         * @description 정렬 순서
+         * @example 1
+         */
+        sortSeq?: number;
+        /**
+         * @description 사용 여부
+         * @example Y
+         * @enum {string}
+         */
+        useYn?: 'Y' | 'N';
+        /**
+         * Format: date
+         * @description 유효 시작일
+         * @example 2026-01-01
+         */
+        validFrom?: string;
+        /**
+         * Format: date
+         * @description 유효 종료일
+         * @example 2026-12-31
+         */
+        validTo?: string;
+        /**
+         * @description 추가 데이터(JSON 문자열)
+         * @example {}
+         */
+        extraData?: string;
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
+      };
+      CommonCodeGroupListResponse: {
+        /**
+         * Format: int64
+         * @description 공통코드 그룹 ID
+         */
+        groupId?: number;
+        /**
+         * @description 공통코드 그룹 코드
+         * @example USE_YN
+         */
+        groupCd?: string;
+        /**
+         * @description 공통코드 그룹명
+         * @example 사용 여부
+         */
+        groupNm?: string;
+        /** @description 공통코드 그룹 설명 */
+        groupDesc?: string;
+        /**
+         * @description 시스템 코드 여부
+         * @example N
+         * @enum {string}
+         */
+        systemYn?: 'Y' | 'N';
+        /**
+         * @description 사용 여부
+         * @example Y
+         * @enum {string}
+         */
+        useYn?: 'Y' | 'N';
+        /**
+         * Format: int32
+         * @description 정렬 순서
+         * @example 1
+         */
+        sortSeq?: number;
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
+      };
+    };
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
   }
   export type $defs = Record<string, never>;
   export interface operations {
-      updateMenu: {
-          parameters: {
-              query?: never;
-              header?: never;
-              path: {
-                  menuId: number;
-              };
-              cookie?: never;
-          };
-          requestBody: {
-              content: {
-                  "application/json": components["schemas"]["MenuUpdateRequest"];
-              };
-          };
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: Record<string, never>;
-                      };
-                  };
-              };
-          };
+    updateMenu: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          menuId: number;
+        };
+        cookie?: never;
       };
-      getMenuActions: {
-          parameters: {
-              query?: never;
-              header?: never;
-              path: {
-                  menuId: number;
-              };
-              cookie?: never;
-          };
-          requestBody?: never;
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: components["schemas"]["MenuActionListResponse"][];
-                      };
-                  };
-              };
-          };
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['MenuUpdateRequest'];
+        };
       };
-      saveRoleMenus: {
-          parameters: {
-              query?: never;
-              header?: never;
-              path: {
-                  roleId: number;
-              };
-              cookie?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
           };
-          requestBody: {
-              content: {
-                  "application/json": components["schemas"]["RoleMenuSaveSaveRequest"];
-              };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: Record<string, never>;
+            };
           };
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: Record<string, never>;
-                      };
-                  };
-              };
-          };
+        };
       };
-      getMenusByRoleId: {
-          parameters: {
-              query?: never;
-              header?: never;
-              path: {
-                  roleId: number;
-              };
-              cookie?: never;
-          };
-          requestBody?: never;
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: components["schemas"]["MenuListResponse"][];
-                      };
-                  };
-              };
-          };
+    };
+    getMenuActions: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          menuId: number;
+        };
+        cookie?: never;
       };
-      getMenus: {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
           };
-          requestBody?: never;
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: components["schemas"]["MenuListResponse"][];
-                      };
-                  };
-              };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: components['schemas']['MenuActionListResponse'][];
+            };
           };
+        };
       };
-      createMenu: {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          requestBody: {
-              content: {
-                  "application/json": components["schemas"]["MenuCreateRequest"];
-              };
-          };
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: Record<string, never>;
-                      };
-                  };
-              };
-          };
+    };
+    saveRoleMenus: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          roleId: number;
+        };
+        cookie?: never;
       };
-      updateCommonCodeGroup: {
-          parameters: {
-              query?: never;
-              header?: never;
-              path: {
-                  groupCd: string;
-              };
-              cookie?: never;
-          };
-          requestBody: {
-              content: {
-                  "application/json": components["schemas"]["CommonCodeGroupUpdateRequest"];
-              };
-          };
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: Record<string, never>;
-                      };
-                  };
-              };
-          };
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['RoleMenuSaveSaveRequest'];
+        };
       };
-      updateCommonCode: {
-          parameters: {
-              query?: never;
-              header?: never;
-              path: {
-                  groupCd: string;
-                  code: string;
-              };
-              cookie?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
           };
-          requestBody: {
-              content: {
-                  "application/json": components["schemas"]["CommonCodeUpdateRequest"];
-              };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: Record<string, never>;
+            };
           };
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: Record<string, never>;
-                      };
-                  };
-              };
-          };
+        };
       };
-      getCommonCodes: {
-          parameters: {
-              query?: never;
-              header?: never;
-              path: {
-                  groupCd: string;
-              };
-              cookie?: never;
-          };
-          requestBody?: never;
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: components["schemas"]["CommonCodeListResponse"][];
-                      };
-                  };
-              };
-          };
+    };
+    getMenusByRoleId: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          roleId: number;
+        };
+        cookie?: never;
       };
-      createCommonCode: {
-          parameters: {
-              query?: never;
-              header?: never;
-              path: {
-                  groupCd: string;
-              };
-              cookie?: never;
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
           };
-          requestBody: {
-              content: {
-                  "application/json": components["schemas"]["CommonCodeCreateRequest"];
-              };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: components['schemas']['MenuListResponse'][];
+            };
           };
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: Record<string, never>;
-                      };
-                  };
-              };
-          };
+        };
       };
-      getCommonCodeGroups: {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
-          };
-          requestBody?: never;
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: components["schemas"]["CommonCodeGroupListResponse"][];
-                      };
-                  };
-              };
-          };
+    };
+    getMenus: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
       };
-      createCommonCodeGroup: {
-          parameters: {
-              query?: never;
-              header?: never;
-              path?: never;
-              cookie?: never;
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
           };
-          requestBody: {
-              content: {
-                  "application/json": components["schemas"]["CommonCodeGroupCreateRequest"];
-              };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: components['schemas']['MenuListResponse'][];
+            };
           };
-          responses: {
-              /** @description OK */
-              200: {
-                  headers: {
-                      [name: string]: unknown;
-                  };
-                  content: {
-                      "*/*": {
-                          /** @description 성공 여부 */
-                          success?: boolean;
-                          /** @description 응답 코드 */
-                          code?: string;
-                          /** @description 응답 메시지 */
-                          msg?: string;
-                          /** @description 요청 추적 ID */
-                          requestId?: string;
-                          payload?: Record<string, never>;
-                      };
-                  };
-              };
-          };
+        };
       };
+    };
+    createMenu: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['MenuCreateRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: Record<string, never>;
+            };
+          };
+        };
+      };
+    };
+    updateCommonCodeGroup: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          groupCd: string;
+        };
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['CommonCodeGroupUpdateRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: Record<string, never>;
+            };
+          };
+        };
+      };
+    };
+    updateCommonCode: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          groupCd: string;
+          code: string;
+        };
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['CommonCodeUpdateRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: Record<string, never>;
+            };
+          };
+        };
+      };
+    };
+    getCommonCodes: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          groupCd: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: components['schemas']['CommonCodeListResponse'][];
+            };
+          };
+        };
+      };
+    };
+    createCommonCode: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          groupCd: string;
+        };
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['CommonCodeCreateRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: Record<string, never>;
+            };
+          };
+        };
+      };
+    };
+    getCommonCodeGroups: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: components['schemas']['CommonCodeGroupListResponse'][];
+            };
+          };
+        };
+      };
+    };
+    createCommonCodeGroup: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['CommonCodeGroupCreateRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: Record<string, never>;
+            };
+          };
+        };
+      };
+    };
   }
 }

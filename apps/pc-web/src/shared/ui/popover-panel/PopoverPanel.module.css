@@ -13,12 +13,12 @@
   transition: opacity 0.15s, transform 0.15s;
 }
 
-.content[data-state='open'] {
+.content[data-state="open"] {
   opacity: 1;
   transform: scale(1);
 }
 
-.content[data-state='closed'] {
+.content[data-state="closed"] {
   opacity: 0;
   transform: scale(0.95);
 }

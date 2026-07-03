@@ -1,5 +1,5 @@
-import type { BankId } from '@bx/shared';
 import { TransferAmount } from '@/features/transfer/ui/transfer-amount';
+import type { BankId } from '@bx/shared';
 import type { ModalConfig } from '@bx/shared';
 import { Modal } from '@bx/shared';
 
@@ -29,4 +29,3 @@ export function TransferAmountModal({ props }: TransferAmountModalProps) {
     </Modal>
   );
 }
-

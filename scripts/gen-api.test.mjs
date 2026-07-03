@@ -94,7 +94,8 @@ describe('gen-api multi-service output', () => {
     expect(auth).toContain('ApiResponseAuthResponse');
     expect(auth).toContain('payload?: components["schemas"]["AuthResponse"]');
 
-    const product = outputs.files.find((file) => file.path === 'product.schema.d.ts')?.content ?? '';
+    const product =
+      outputs.files.find((file) => file.path === 'product.schema.d.ts')?.content ?? '';
     expect(product).toContain('export namespace product');
     expect(product).toContain('ProductDto');
     expect(product).toContain('payload?: components["schemas"]["ProductDto"][]');
@@ -103,7 +104,9 @@ describe('gen-api multi-service output', () => {
     expect(index).toContain("export type { auth } from './auth.schema';");
     expect(index).toContain("export type { product } from './product.schema';");
 
-    const routes = JSON.parse(outputs.files.find((file) => file.path === 'routes.json')?.content ?? '{}');
+    const routes = JSON.parse(
+      outputs.files.find((file) => file.path === 'routes.json')?.content ?? '{}',
+    );
     expect(routes.services).toEqual([
       { name: 'auth', serverUrl: '/channel/backend/api/v1/auth' },
       { name: 'product', serverUrl: '/channel/backend/api/v1/product' },

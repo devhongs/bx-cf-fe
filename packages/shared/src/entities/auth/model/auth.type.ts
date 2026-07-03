@@ -22,7 +22,10 @@ type AuthResponse = AuthLoginResponse | AuthRefreshTokenResponse;
 export type LoginRequest = auth.components['schemas']['AuthLoginRequest'];
 
 /** 인증된 사용자 정보 */
-export type AuthUser = Pick<AuthResponse, 'usrId' | 'usrNm' | 'positDivName' | 'deptName' | 'roles'>;
+export type AuthUser = Pick<
+  AuthResponse,
+  'usrId' | 'usrNm' | 'positDivName' | 'deptName' | 'roles'
+>;
 
 /** JWT 토큰 정보 (만료시각 형식: yyyyMMddHHmmss) */
 export type AuthTokens = Required<Pick<AuthResponse, 'accessToken' | 'accessTokenExpiresAt'>>;

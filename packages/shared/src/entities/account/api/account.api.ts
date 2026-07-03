@@ -4,16 +4,14 @@ import type { Account, AccountsQueryParams } from '../model/account.type';
 
 export const fetchAccountList = <T extends Account = Account>(
   params?: AccountsQueryParams,
-): Promise<Array<T>> =>
-  httpService.get<Array<T>>('/accounts', params);
+): Promise<Array<T>> => httpService.get<Array<T>>('/accounts', params);
 
 export const fetchAccount = <T extends Account = Account>(accountNo: string): Promise<T> =>
   httpService.get<T>(`/accounts/${accountNo}`);
 
 export const fetchRecentAccountList = <T extends Account = Account>(
   params?: AccountsQueryParams,
-): Promise<Array<T>> =>
-  httpService.get<Array<T>>('/recentAccounts', params);
+): Promise<Array<T>> => httpService.get<Array<T>>('/recentAccounts', params);
 
 export const createAccount = (payload: Account): Promise<Account> =>
   httpService.post<Account>('/accounts', payload);

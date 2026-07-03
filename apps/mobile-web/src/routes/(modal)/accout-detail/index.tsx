@@ -12,4 +12,3 @@ export function AccountDetail(_props: AccountDetailProps) {
     </Modal>
   );
 }
-

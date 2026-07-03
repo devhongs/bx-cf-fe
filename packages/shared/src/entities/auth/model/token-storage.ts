@@ -85,7 +85,6 @@ export const tokenStorage = {
   getAccessTokenExpiresAt(): string | null {
     return getStoredString(STORAGE_KEYS.ACCESS_TOKEN_EXPIRES_AT);
   },
-
 };
 
 /**

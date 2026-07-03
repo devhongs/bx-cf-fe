@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { Bell, FlaskConical, LayoutDashboard, ShoppingBag, Wallet } from 'lucide-react';
 
-import { useLayout } from '@/shared/context/LayoutContext';
 import type { ProductRouteState } from '@/routes/(page)/_page.product';
+import { useLayout } from '@/shared/context/LayoutContext';
 
 import { AccountMenu } from './AccountMenu';
 import styles from './NavSidebar.module.css';

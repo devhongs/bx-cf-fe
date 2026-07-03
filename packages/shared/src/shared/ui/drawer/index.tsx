@@ -1,6 +1,6 @@
+import { X } from 'lucide-react';
 import * as React from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
-import { X } from 'lucide-react';
 
 import { cn } from '../lib/cn';
 
@@ -44,40 +44,43 @@ export interface DrawerContentProps
 const DrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,
   DrawerContentProps
->(({ className, children, hideHandle = false, hideClose = false, fullscreen = false, ...props }, ref) => (
-  <DrawerPortal>
-    <DrawerOverlay />
-    <DrawerPrimitive.Content
-      ref={ref}
-      className={cn(
-        'fixed inset-x-0 bottom-0 z-50 flex flex-col bg-white',
-        fullscreen
-          ? 'h-[100dvh] rounded-none'
-          : 'max-h-[90dvh] rounded-t-2xl',
-        className,
-      )}
-      {...props}
-    >
-      {/* 드래그 핸들 */}
-      {!hideHandle && !fullscreen && (
-        <div className="mx-auto mt-3 h-1.5 w-12 rounded-full bg-gray-300" />
-      )}
-      {/* X 버튼 (풀스크린일 때만 기본 표시) */}
-      {!hideClose && fullscreen && (
-        <DrawerClose
-          className={cn(
-            'absolute right-4 top-4 rounded-md p-1',
-            'opacity-60 hover:opacity-100 transition-opacity focus:outline-none',
-          )}
-        >
-          <X size={18} />
-          <span className="sr-only">닫기</span>
-        </DrawerClose>
-      )}
-      {children}
-    </DrawerPrimitive.Content>
-  </DrawerPortal>
-));
+>(
+  (
+    { className, children, hideHandle = false, hideClose = false, fullscreen = false, ...props },
+    ref,
+  ) => (
+    <DrawerPortal>
+      <DrawerOverlay />
+      <DrawerPrimitive.Content
+        ref={ref}
+        className={cn(
+          'fixed inset-x-0 bottom-0 z-50 flex flex-col bg-white',
+          fullscreen ? 'h-[100dvh] rounded-none' : 'max-h-[90dvh] rounded-t-2xl',
+          className,
+        )}
+        {...props}
+      >
+        {/* 드래그 핸들 */}
+        {!hideHandle && !fullscreen && (
+          <div className="mx-auto mt-3 h-1.5 w-12 rounded-full bg-gray-300" />
+        )}
+        {/* X 버튼 (풀스크린일 때만 기본 표시) */}
+        {!hideClose && fullscreen && (
+          <DrawerClose
+            className={cn(
+              'absolute right-4 top-4 rounded-md p-1',
+              'opacity-60 hover:opacity-100 transition-opacity focus:outline-none',
+            )}
+          >
+            <X size={18} />
+            <span className="sr-only">닫기</span>
+          </DrawerClose>
+        )}
+        {children}
+      </DrawerPrimitive.Content>
+    </DrawerPortal>
+  ),
+);
 DrawerContent.displayName = 'DrawerContent';
 
 /* ── 레이아웃 헬퍼 ── */

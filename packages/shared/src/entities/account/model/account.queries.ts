@@ -31,7 +31,9 @@ export const fetchAccountQuery = <T extends Account = Account>(accountNo: string
     queryFn: () => fetchAccount<T>(accountNo),
   });
 
-export const fetchRecentAccountListQuery = <T extends Account = Account>(params: AccountsQueryParams) =>
+export const fetchRecentAccountListQuery = <T extends Account = Account>(
+  params: AccountsQueryParams,
+) =>
   queryOptions({
     queryKey: accountQueryKeys.recentList(params),
     queryFn: () => fetchRecentAccountList<T>(params),

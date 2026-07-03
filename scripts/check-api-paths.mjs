@@ -1,4 +1,4 @@
-import { readdir, readFile, stat } from 'node:fs/promises';
+import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -11,7 +11,8 @@ const ENTITY_DIR = 'packages/shared/src/entities';
 const ALLOWLIST = [
   {
     rawPathPrefix: '/products',
-    reason: 'legacy product mutation endpoints are used by FE but are not currently exposed in product OpenAPI',
+    reason:
+      'legacy product mutation endpoints are used by FE but are not currently exposed in product OpenAPI',
   },
   {
     rawPathPrefix: '/accounts',
@@ -48,8 +49,7 @@ const schemaPathToRegExp = (schemaPath) => {
 const referencePathForMatch = (referencePath) =>
   referencePath.replace(/\$\{[^}]+\}/g, '__path_param__');
 
-const isTypeScriptSource = (filePath) =>
-  filePath.endsWith('.ts') || filePath.endsWith('.tsx');
+const isTypeScriptSource = (filePath) => filePath.endsWith('.ts') || filePath.endsWith('.tsx');
 
 const fileExists = async (filePath) => {
   try {
@@ -103,7 +103,9 @@ const commonPathPrefix = (paths) => {
 };
 
 export const deriveServicePrefixes = (services) => {
-  const serverPaths = services.map((service) => normalizeUrlPath(service.serverUrl)).filter(Boolean);
+  const serverPaths = services
+    .map((service) => normalizeUrlPath(service.serverUrl))
+    .filter(Boolean);
   const commonPrefix = commonPathPrefix(serverPaths);
 
   return services.map((service) => {
@@ -269,12 +271,16 @@ const printResult = (result) => {
   );
 
   for (const item of result.matched) {
-    console.log(`  OK    ${item.method.toUpperCase()} ${item.rawPath} -> ${item.service}:${item.schemaPath}`);
+    console.log(
+      `  OK    ${item.method.toUpperCase()} ${item.rawPath} -> ${item.service}:${item.schemaPath}`,
+    );
   }
 
   for (const item of result.allowed) {
     const rule = ALLOWLIST.find((entry) => matchesAllowlist(entry, item));
-    console.log(`  ALLOW ${item.method.toUpperCase()} ${item.rawPath} (${rule?.reason ?? 'allowed'})`);
+    console.log(
+      `  ALLOW ${item.method.toUpperCase()} ${item.rawPath} (${rule?.reason ?? 'allowed'})`,
+    );
   }
 
   for (const item of result.missing) {

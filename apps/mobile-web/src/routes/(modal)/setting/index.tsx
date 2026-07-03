@@ -33,4 +33,3 @@ export function SettingModal(_props: SettingModalProps) {
     </Modal>
   );
 }
-

@@ -15,4 +15,3 @@ function ProductPage() {
 export const Route = createFileRoute('/(page)/_page/product')({
   component: ProductPage,
 });
-

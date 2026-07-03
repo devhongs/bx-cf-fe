@@ -193,8 +193,7 @@ export const generateApiSchemas = async ({
   return outputs;
 };
 
-const isDirectRun =
-  process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+const isDirectRun = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
 
 if (isDirectRun) {
   const outputs = await generateApiSchemas();

@@ -1,9 +1,9 @@
 import type React from 'react';
 import type { FC, ReactNode } from 'react';
 
+import type { BaseProps } from '../../types';
 import { cn } from '../lib/cn';
 import { getSlot } from '../lib/component-util';
-import type { BaseProps } from '../../types';
 
 import styles from './Page.module.css';
 
@@ -34,4 +34,3 @@ export const Page = Object.assign(PageComponent, {
   Body,
   Description,
 });
-

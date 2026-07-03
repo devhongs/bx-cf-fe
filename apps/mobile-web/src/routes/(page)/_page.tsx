@@ -1,8 +1,8 @@
 import { requireAuth } from '@/shared/guards';
 import { Footer } from '@/widgets/layout/footer/Footer';
 import { Header } from '@/widgets/layout/header/Header';
-import { Outlet, createFileRoute } from '@tanstack/react-router';
 import { MeshBackground } from '@bx/shared';
+import { Outlet, createFileRoute } from '@tanstack/react-router';
 
 function PageLayout() {
   return (
@@ -30,4 +30,3 @@ export const Route = createFileRoute('/(page)/_page')({
 function RouteComponent() {
   return <PageLayout />;
 }
-

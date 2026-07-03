@@ -22,4 +22,3 @@ function MenuPage() {
 export const Route = createFileRoute('/(page)/_page/menu')({
   component: MenuPage,
 });
-

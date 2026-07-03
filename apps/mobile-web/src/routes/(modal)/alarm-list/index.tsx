@@ -17,4 +17,3 @@ export function AlarmListModal({ onClose }: AlarmListModalProps) {
     </Modal>
   );
 }
-
