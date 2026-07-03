@@ -110,9 +110,14 @@ export class HttpService {
     }
   }
 
-  /** 로그인·재발급 등 인증 엔드포인트 여부 (재발급 재시도 제외 → 무한루프 방지) */
-  private isAuthEndpoint(url?: string): boolean {
-    return (url ?? '').includes('/auth/');
+  /** 로그인·재발급처럼 Authorization을 붙이지 않아야 하는 인증 엔드포인트 여부 */
+  private isTokenlessAuthEndpoint(url?: string): boolean {
+    const requestUrl = url ?? '';
+    return (
+      requestUrl.includes('/auth/login') ||
+      requestUrl.includes('/auth/erp-login') ||
+      requestUrl.includes('/auth/refresh-token')
+    );
   }
 
   /**
@@ -156,7 +161,7 @@ export class HttpService {
 
     this.authRequestInterceptorId = this.httpClient.interceptors.request.use((request) => {
       const token = this.authConfig?.getAccessToken();
-      if (token && !this.isAuthEndpoint(request.url)) {
+      if (token && !this.isTokenlessAuthEndpoint(request.url)) {
         request.headers.Authorization = `Bearer ${token}`;
       }
       return request;
@@ -168,7 +173,7 @@ export class HttpService {
         const data = response.data as ApiResponse | undefined;
         if (
           !this.authConfig ||
-          this.isAuthEndpoint(response.config?.url) ||
+          this.isTokenlessAuthEndpoint(response.config?.url) ||
           !data ||
           data.success !== false
         ) {
@@ -190,7 +195,7 @@ export class HttpService {
         const status = error.response?.status;
         const code = (error.response?.data as ApiResponse | undefined)?.code;
 
-        if (!this.authConfig || this.isAuthEndpoint(original?.url)) {
+        if (!this.authConfig || this.isTokenlessAuthEndpoint(original?.url)) {
           return Promise.reject(error);
         }
 

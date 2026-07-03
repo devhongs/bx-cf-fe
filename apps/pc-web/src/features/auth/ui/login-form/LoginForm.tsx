@@ -1,43 +1,51 @@
 import { useNavigate } from '@tanstack/react-router';
-import { useState } from 'react';
+import { z } from 'zod';
 
-import { STORAGE_KEYS, local, login as loginApi, sha256, useAuthStore } from '@bx/shared';
+import {
+  Form,
+  FormInput,
+  FormSubmitButton,
+  STORAGE_KEYS,
+  local,
+  sha256,
+  useLogin,
+  useZodForm,
+} from '@bx/shared';
 
 import styles from './LoginForm.module.css';
 
+const REQUIRED_MESSAGE = '필수 입력 항목입니다.';
+
+const loginSchema = z.object({
+  usrId: z.string().trim().min(1, REQUIRED_MESSAGE),
+  password: z.string().min(1, REQUIRED_MESSAGE),
+});
+
+type LoginFormValues = z.input<typeof loginSchema>;
+type LoginPayload = z.output<typeof loginSchema>;
+
 export function LoginForm() {
   const navigate = useNavigate();
-  const [id, setId] = useState(() => local.get<string>(STORAGE_KEYS.RECENT_USER_ID) || '');
-  const [password, setPassword] = useState(
-    () => local.get<string>(STORAGE_KEYS.RECENT_USER_PW) || '',
-  );
-  const setAuth = useAuthStore((state) => state.setAuth);
+  const loginMutation = useLogin();
+  const form = useZodForm(loginSchema, {
+    defaultValues: {
+      usrId: local.get<string>(STORAGE_KEYS.RECENT_USER_ID) || '',
+      password: local.get<string>(STORAGE_KEYS.RECENT_USER_PW) || '',
+    },
+  });
 
-  const handleSubmit = async () => {
-    if (!id.trim()) {
-      alert('아이디를 입력해주세요.');
-      return;
-    }
-    if (!password) {
-      alert('비밀번호를 입력해주세요.');
-      return;
-    }
+  const handleSubmit = async ({ usrId, password }: LoginPayload) => {
     try {
       const usrPwd = await sha256(password);
-      const response = await loginApi({ usrId: id, usrPwd });
+      const response = await loginMutation.mutateAsync({ usrId, usrPwd });
       // 다음 로그인 자동입력을 위해 아이디·비밀번호 저장 (개발 편의 — 운영 반영 전 제거 권장)
       local.set(STORAGE_KEYS.RECENT_USER_ID, response.usrId);
       local.set(STORAGE_KEYS.RECENT_USER_PW, password);
-      setAuth(response);
       navigate({ to: '/main' });
     } catch (error) {
       alert('로그인에 실패했습니다. 아이디 또는 비밀번호를 확인해주세요.');
       console.error(error);
     }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') handleSubmit();
   };
 
   return (
@@ -55,45 +63,42 @@ export function LoginForm() {
 
         {/* 우측 영역 */}
         <div className={styles.right}>
-          <input
-            name="id"
-            type="text"
-            className={styles.input}
-            placeholder="이메일 또는 아이디"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
-            onKeyDown={handleKeyDown}
-            autoFocus
-          />
-          <input
-            name="password"
-            type="password"
-            className={styles.input}
-            placeholder="비밀번호"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
+          <Form className={styles.form} form={form} onSubmit={handleSubmit}>
+            <FormInput<LoginFormValues>
+              className={styles.input}
+              name="usrId"
+              placeholder="이메일 또는 아이디"
+              required
+              autoFocus
+            />
+            <FormInput<LoginFormValues>
+              className={styles.input}
+              name="password"
+              placeholder="비밀번호"
+              required
+              type="password"
+            />
 
-          <button type="button" className={styles.forgotLink}>
-            아이디를 잊으셨나요?
-          </button>
+            <button type="button" className={styles.forgotLink}>
+              아이디를 잊으셨나요?
+            </button>
 
-          <p className={styles.guestText}>
-            내 컴퓨터가 아닌가요?{' '}
-            <button type="button" className={styles.guestLink}>
-              게스트 모드 사용 방법 자세히 알아보기
-            </button>
-          </p>
+            <p className={styles.guestText}>
+              내 컴퓨터가 아닌가요?{' '}
+              <button type="button" className={styles.guestLink}>
+                게스트 모드 사용 방법 자세히 알아보기
+              </button>
+            </p>
 
-          <div className={styles.actions}>
-            <button type="button" className={styles.createBtn}>
-              계정 만들기
-            </button>
-            <button type="button" className={styles.nextBtn} onClick={handleSubmit}>
-              다음
-            </button>
-          </div>
+            <div className={styles.actions}>
+              <button type="button" className={styles.createBtn}>
+                계정 만들기
+              </button>
+              <FormSubmitButton className={styles.nextBtn} loadingLabel="처리 중">
+                다음
+              </FormSubmitButton>
+            </div>
+          </Form>
         </div>
       </div>
 

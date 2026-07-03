@@ -52,7 +52,7 @@ describe('HttpService auth interceptor setup', () => {
     expect(JSON.parse(String(capturedConfig?.data))).toEqual({});
   });
 
-  it('does not attach access tokens to auth endpoints', async () => {
+  it('does not attach access tokens to login requests', async () => {
     const service = new HttpService();
     let capturedConfig: InternalAxiosRequestConfig | undefined;
 
@@ -77,5 +77,32 @@ describe('HttpService auth interceptor setup', () => {
     await service.post('/auth/login', { usrId: 'user', usrPwd: 'password' });
 
     expect(capturedConfig?.headers.Authorization).toBeUndefined();
+  });
+
+  it('attaches access tokens to logout requests', async () => {
+    const service = new HttpService();
+    let capturedConfig: InternalAxiosRequestConfig | undefined;
+
+    service.init({
+      auth: {
+        getAccessToken: () => 'access-token',
+        refreshToken: async () => null,
+        onAuthFail: () => undefined,
+      },
+    });
+    (service as any).httpClient.defaults.adapter = async (config: InternalAxiosRequestConfig) => {
+      capturedConfig = config;
+      return {
+        config,
+        data: { success: true, code: '0', msg: 'success', payload: null },
+        headers: {},
+        status: 200,
+        statusText: 'OK',
+      };
+    };
+
+    await service.post('/auth/logout');
+
+    expect(capturedConfig?.headers.Authorization).toBe('Bearer access-token');
   });
 });

@@ -1,19 +1,29 @@
 import { useNavigate } from '@tanstack/react-router';
 import { LogOut, User } from 'lucide-react';
 
-import { DialogDescription, DialogHeader, DialogTitle, useAuthStore, useModal } from '@bx/shared';
+import {
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  useAuthStore,
+  useLogout,
+  useModal,
+} from '@bx/shared';
 import type { ModalConfig } from '@bx/shared';
 
 export function SettingModal(_props: ModalConfig) {
   const navigate = useNavigate();
   const { closeAll } = useModal();
-  const logout = useAuthStore((s) => s.logout);
   const user = useAuthStore((s) => s.user);
+  const { mutate: logout, isPending } = useLogout({
+    onSettled: () => {
+      closeAll();
+      navigate({ to: '/login' });
+    },
+  });
 
   const handleLogout = () => {
     logout();
-    closeAll();
-    navigate({ to: '/login' });
   };
 
   return (
@@ -40,6 +50,7 @@ export function SettingModal(_props: ModalConfig) {
       <button
         type="button"
         onClick={handleLogout}
+        disabled={isPending}
         className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left text-red-400 transition-colors hover:bg-[#2d2e30]"
       >
         <LogOut size={16} />
