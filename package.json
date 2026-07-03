@@ -28,7 +28,7 @@
     "check:api-paths": "node scripts/check-api-paths.mjs",
     "wbs:sync": "node docs/wbs-sync.js",
     "wbs:force-sync": "node docs/wbs-force-sync.js",
-    "gen:api": "node scripts/gen-api.mjs",
+    "gen:api": "node scripts/gen-api.mjs && biome format --write packages/shared/src/shared/api",
     "gen:readme": "node scripts/gen-readme-html.mjs"
   },
   "dependencies": {
