@@ -103,16 +103,43 @@ export namespace product {
       };
       ProductListRequest: {
         /**
-         * @description 상품명
-         * @example 안정형 펀드
+         * @description 통합 검색어
+         * @example 검색어
          */
-        productNm?: string;
+        keyword?: string;
+        /**
+         * @description 검색 대상 구분
+         * @example productNm
+         */
+        searchType?: string;
         /**
          * @description 사용 여부 (Y/N)
          * @example Y
          * @enum {string}
          */
         useYn?: 'Y' | 'N';
+        /**
+         * Format: int32
+         * @description 페이지 번호
+         * @example 1
+         */
+        page?: number;
+        /**
+         * Format: int32
+         * @description 페이지 크기
+         * @example 20
+         */
+        size?: number;
+        /**
+         * @description 정렬 조건
+         * @example createdAt,desc
+         */
+        sort?: string;
+        /**
+         * @description 상품명
+         * @example 예정된 상품
+         */
+        productNm?: string;
       };
     };
     responses: never;

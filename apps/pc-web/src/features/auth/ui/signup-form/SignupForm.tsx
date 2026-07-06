@@ -1,28 +1,17 @@
-import { Form, FormInput, FormSelect, FormSubmitButton, useZodForm } from '@bx/shared';
-import { z } from 'zod';
+import { useForm } from 'react-hook-form';
 
-const REQUIRED_MESSAGE = '필수 입력 항목입니다.';
+import { Form, FormInput, FormSelect, FormSubmitButton, validators } from '@bx/shared';
 
-const signupSchema = z
-  .object({
-    userId: z.string().min(1, REQUIRED_MESSAGE).min(4, '4자 이상 입력해주세요.'),
-    name: z.string().min(1, REQUIRED_MESSAGE),
-    email: z
-      .string()
-      .min(1, REQUIRED_MESSAGE)
-      .pipe(z.email('올바른 이메일 형식으로 입력해주세요.')),
-    password: z.string().min(1, REQUIRED_MESSAGE).min(8, '8자 이상 입력해주세요.'),
-    passwordConfirm: z.string().min(1, REQUIRED_MESSAGE),
-    userType: z.string().min(1, REQUIRED_MESSAGE),
-  })
-  .refine((values) => values.password === values.passwordConfirm, {
-    path: ['passwordConfirm'],
-    message: '비밀번호가 일치하지 않습니다.',
-  })
-  .transform(({ passwordConfirm: _passwordConfirm, ...payload }) => payload);
+export interface SignupFormValues {
+  userId: string;
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  userType: string;
+}
 
-export type SignupFormValues = z.input<typeof signupSchema>;
-export type SignupPayload = z.output<typeof signupSchema>;
+export type SignupPayload = Omit<SignupFormValues, 'passwordConfirm'>;
 
 interface SignupFormProps {
   onSubmit: (payload: SignupPayload) => void | Promise<void>;
@@ -40,16 +29,20 @@ const defaultValues: SignupFormValues = {
 const controlClassName = 'border-[#3c4043] bg-[#202124] text-[#e3e3e3] placeholder:text-[#80868b]';
 
 export function SignupForm({ onSubmit }: SignupFormProps) {
-  const form = useZodForm(signupSchema, { defaultValues });
+  const form = useForm<SignupFormValues>({ defaultValues });
+
+  const handleSubmit = ({ passwordConfirm: _passwordConfirm, ...payload }: SignupFormValues) =>
+    onSubmit(payload);
 
   return (
-    <Form className="space-y-5" form={form} onSubmit={onSubmit}>
+    <Form className="space-y-5" form={form} onSubmit={handleSubmit}>
       <FormInput<SignupFormValues>
         className={controlClassName}
         label="아이디"
         name="userId"
         placeholder="tester01"
         required
+        minLength={4}
       />
       <FormInput<SignupFormValues>
         className={controlClassName}
@@ -64,6 +57,7 @@ export function SignupForm({ onSubmit }: SignupFormProps) {
         name="email"
         placeholder="tester@example.com"
         required
+        validate={validators.email}
       />
       <FormInput<SignupFormValues>
         className={controlClassName}
@@ -71,7 +65,9 @@ export function SignupForm({ onSubmit }: SignupFormProps) {
         name="password"
         placeholder="8자 이상"
         required
+        minLength={8}
         type="password"
+        deps={['passwordConfirm']}
       />
       <FormInput<SignupFormValues>
         className={controlClassName}
@@ -80,6 +76,7 @@ export function SignupForm({ onSubmit }: SignupFormProps) {
         placeholder="비밀번호 재입력"
         required
         type="password"
+        validate={(value, values) => value === values.password || '비밀번호가 일치하지 않습니다.'}
       />
       <FormSelect<SignupFormValues>
         className={controlClassName}

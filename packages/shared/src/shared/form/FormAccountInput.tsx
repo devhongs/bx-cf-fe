@@ -3,6 +3,7 @@ import { type FieldPath, type FieldValues, useController } from 'react-hook-form
 import { Input } from '../ui/input/Input';
 import { FormField } from './FormField';
 import type { FormInputProps } from './FormInput';
+import { buildFieldRules } from './rules';
 
 export const normalizeAccountNo = (value: string) => value.replace(/[^0-9]/g, '');
 
@@ -18,14 +19,40 @@ export function FormAccountInput<TValues extends FieldValues = FieldValues>({
   label,
   description,
   required,
+  minLength,
+  maxLength,
+  min,
+  max,
+  pattern,
+  validate,
+  deps,
+  rules,
   onChange,
   onBlur,
   ...props
 }: FormAccountInputProps<TValues>) {
-  const { field } = useController({ name });
+  const { field } = useController<TValues>({
+    name,
+    rules: buildFieldRules({
+      required,
+      minLength,
+      maxLength,
+      min,
+      max,
+      pattern,
+      validate,
+      deps,
+      rules,
+    }),
+  });
 
   return (
-    <FormField<TValues> name={name} label={label} description={description} required={required}>
+    <FormField<TValues>
+      name={name}
+      label={label}
+      description={description}
+      required={Boolean(required)}
+    >
       {(fieldProps) => (
         <Input
           {...props}

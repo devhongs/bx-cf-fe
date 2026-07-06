@@ -1,4 +1,4 @@
-import type { BankId } from '../../../entities/account/model/account.type';
+import type { BankId } from './account.type';
 
 /** 은행별 포맷 규칙 정의 */
 export interface BankFormatRule {

@@ -1,5 +1,5 @@
 import { useNavigate } from '@tanstack/react-router';
-import { z } from 'zod';
+import { useForm } from 'react-hook-form';
 
 import {
   Form,
@@ -9,32 +9,26 @@ import {
   local,
   sha256,
   useLogin,
-  useZodForm,
 } from '@bx/shared';
 
 import styles from './LoginForm.module.css';
 
-const REQUIRED_MESSAGE = '필수 입력 항목입니다.';
-
-const loginSchema = z.object({
-  usrId: z.string().trim().min(1, REQUIRED_MESSAGE),
-  password: z.string().min(1, REQUIRED_MESSAGE),
-});
-
-type LoginFormValues = z.input<typeof loginSchema>;
-type LoginPayload = z.output<typeof loginSchema>;
+interface LoginFormValues {
+  usrId: string;
+  password: string;
+}
 
 export function LoginForm() {
   const navigate = useNavigate();
   const loginMutation = useLogin();
-  const form = useZodForm(loginSchema, {
+  const form = useForm<LoginFormValues>({
     defaultValues: {
       usrId: local.get<string>(STORAGE_KEYS.RECENT_USER_ID) || '',
       password: local.get<string>(STORAGE_KEYS.RECENT_USER_PW) || '',
     },
   });
 
-  const handleSubmit = async ({ usrId, password }: LoginPayload) => {
+  const handleSubmit = async ({ usrId, password }: LoginFormValues) => {
     try {
       const usrPwd = await sha256(password);
       const response = await loginMutation.mutateAsync({ usrId, usrPwd });
@@ -94,9 +88,7 @@ export function LoginForm() {
               <button type="button" className={styles.createBtn}>
                 계정 만들기
               </button>
-              <FormSubmitButton className={styles.nextBtn} loadingLabel="처리 중">
-                다음
-              </FormSubmitButton>
+              <FormSubmitButton loadingLabel="처리 중">다음</FormSubmitButton>
             </div>
           </Form>
         </div>

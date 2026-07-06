@@ -121,9 +121,24 @@ const safeJsonStringify = <T = unknown>(value: T): string => {
   }
 };
 
+const getWebStorage = (
+  storageKey: 'localStorage' | 'sessionStorage',
+): globalThis.Storage | null => {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    return window[storageKey] ?? null;
+  } catch {
+    return null;
+  }
+};
+
 // Web Storage 기반 구현 (sessionStorage, localStorage)
-const createWebStorage = (storage: globalThis.Storage): Storage => ({
+const createWebStorage = (storageKey: 'localStorage' | 'sessionStorage'): Storage => ({
   get<T = unknown>(key: string): T | null {
+    const storage = getWebStorage(storageKey);
+    if (!storage) return null;
+
     try {
       const value = storage.getItem(key);
       return safeJsonParse<T>(value);
@@ -134,6 +149,9 @@ const createWebStorage = (storage: globalThis.Storage): Storage => ({
   },
 
   set<T = unknown>(key: string, value: T): void {
+    const storage = getWebStorage(storageKey);
+    if (!storage) return;
+
     try {
       const stringValue = safeJsonStringify(value);
       storage.setItem(key, stringValue);
@@ -147,6 +165,9 @@ const createWebStorage = (storage: globalThis.Storage): Storage => ({
   },
 
   remove(key: string): void {
+    const storage = getWebStorage(storageKey);
+    if (!storage) return;
+
     try {
       storage.removeItem(key);
     } catch (error) {
@@ -155,6 +176,9 @@ const createWebStorage = (storage: globalThis.Storage): Storage => ({
   },
 
   clear(): void {
+    const storage = getWebStorage(storageKey);
+    if (!storage) return;
+
     try {
       storage.clear();
     } catch (error) {
@@ -163,6 +187,9 @@ const createWebStorage = (storage: globalThis.Storage): Storage => ({
   },
 
   has(key: string): boolean {
+    const storage = getWebStorage(storageKey);
+    if (!storage) return false;
+
     try {
       return storage.getItem(key) !== null;
     } catch (error) {
@@ -172,6 +199,9 @@ const createWebStorage = (storage: globalThis.Storage): Storage => ({
   },
 
   keys(): Array<string> {
+    const storage = getWebStorage(storageKey);
+    if (!storage) return [];
+
     try {
       return Object.keys(storage);
     } catch (error) {
@@ -255,8 +285,8 @@ const createIndexedDBStorage = (): AsyncStorage => ({
 });
 
 // 통합 스토리지 export
-export const session = createWebStorage(sessionStorage);
-export const local = createWebStorage(localStorage);
+export const session = createWebStorage('sessionStorage');
+export const local = createWebStorage('localStorage');
 export const db = createIndexedDBStorage();
 
 // 타입 export

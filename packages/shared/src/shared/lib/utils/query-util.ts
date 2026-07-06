@@ -4,26 +4,26 @@ import type {
   UseQueryOptions,
 } from '@tanstack/react-query';
 import { skipToken } from '@tanstack/react-query';
-import endsWith from 'lodash-es/endsWith';
-import isEmpty from 'lodash-es/isEmpty';
-import startsWith from 'lodash-es/startsWith';
 
-export function decodeQueryString(qs: string = window.location.search.substr(1)) {
-  // expects qs to not have a ?
-  // return if empty qs
-  if (qs === '') return {};
-  return qs.split('&').reduce((acc: any, pair: any) => {
-    // skip no param at all a=1&b=2&
-    if (pair.length === 0) return acc;
-    const parts = pair.split('=');
-    // fix params without value
-    if (parts.length === 1) parts[1] = '';
-    // for value handle multiple unencoded = signs
-    const key = decodeURIComponent(parts[0]);
-    const value = decodeURIComponent(parts.slice(1).join('='));
-    acc[key] = value;
-    return acc;
-  }, {});
+type QueryValue = string | number | boolean | null | undefined;
+type QueryParamValue = QueryValue | Array<QueryValue>;
+type QueryParams = Record<string, QueryParamValue>;
+
+const getCurrentQueryString = () => {
+  if (typeof window === 'undefined') return '';
+  return window.location.search.slice(1);
+};
+
+export function decodeQueryString(qs: string = getCurrentQueryString()): Record<string, string> {
+  const queryString = qs.startsWith('?') ? qs.slice(1) : qs;
+  if (queryString === '') return {};
+
+  const params = new URLSearchParams(queryString);
+  const result: Record<string, string> = {};
+  params.forEach((value, key) => {
+    result[key] = value;
+  });
+  return result;
 }
 
 /**
@@ -35,22 +35,9 @@ export function decodeQueryString(qs: string = window.location.search.substr(1))
  */
 export function encodeQueryString(url: string): string {
   const { api, search } = parseUrl(url);
-  let queryString: string | undefined;
-  if (search) {
-    queryString = `&${search}`
-      // eslint-disable-next-line no-useless-escape
-      .split(/(\&[\w.]+\=)/g)
-      .map((str: any) => {
-        if ((startsWith(str, '&') && endsWith(str, '=')) || isEmpty(str)) {
-          return str;
-        }
-        return encodeURIComponent(str);
-      })
-      .join('')
-      // eslint-disable-next-line no-useless-escape
-      .split(/^\&/)[1];
-  }
+  if (!search) return api;
 
+  const queryString = new URLSearchParams(search).toString();
   return queryString ? `${api}?${queryString}` : api;
 }
 
@@ -60,11 +47,16 @@ export function encodeQueryString(url: string): string {
  * @param url url
  * @returns {api: 'gv/api/assets', search: 'locationId=catalog_asset_01&name=\&'}
  */
-export function parseUrl(url: string): any {
-  const list: Array<string> = url.split('?');
-  const api = list[0];
-  const search = list.length > 1 ? list[1] : '';
-  return { api, search };
+export function parseUrl(url: string): { api: string; search: string } {
+  const queryIndex = url.indexOf('?');
+  if (queryIndex < 0) {
+    return { api: url, search: '' };
+  }
+
+  return {
+    api: url.slice(0, queryIndex),
+    search: url.slice(queryIndex + 1),
+  };
 }
 
 export function getQuerySkipToken<T>() {
@@ -77,39 +69,39 @@ export function getQuerySkipToken<T>() {
     | UndefinedInitialDataOptions<T, unknown, T>;
 }
 
-export function objectToQueryString(originUrl: string, conditions: any = {}) {
-  let url = originUrl;
-  const paramList = [] as Array<string>;
-  if (conditions && !isEmpty(conditions)) {
-    Object.keys(conditions).map((key: string) => {
-      const value = conditions[key];
-      if (!isNullOrUndefined(value)) {
-        paramList.push(`${key}=${value}`);
-      }
-    });
-  }
-  url += !isEmpty(paramList) ? `?${paramList.join('&')}` : '';
-  return url;
+export function objectToQueryString(originUrl: string, conditions: QueryParams = {}) {
+  const queryString = toQueryParams(conditions);
+  if (!queryString) return originUrl;
+
+  const separator = originUrl.includes('?')
+    ? originUrl.endsWith('?') || originUrl.endsWith('&')
+      ? ''
+      : '&'
+    : '?';
+  return `${originUrl}${separator}${queryString}`;
 }
 
 export function isNullOrUndefined<T>(obj: T | null | undefined): boolean {
   return typeof obj === 'undefined' || obj === null;
 }
 
-export function toQueryParams(obj: any) {
+export function toQueryParams(obj: QueryParams) {
   const params = new URLSearchParams();
-  for (const key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      const value = obj[key];
-      // 배열 처리
-      if (Array.isArray(value)) {
-        for (const val of value) {
-          params.append(key, val);
+
+  for (const [key, value] of Object.entries(obj)) {
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        if (!isNullOrUndefined(item)) {
+          params.append(key, String(item));
         }
-      } else if (value !== undefined && value !== null) {
-        params.append(key, value);
       }
+      continue;
+    }
+
+    if (!isNullOrUndefined(value)) {
+      params.append(key, String(value));
     }
   }
-  return params.toString(); // query string 반환
+
+  return params.toString();
 }

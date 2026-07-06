@@ -71,130 +71,598 @@
   <body>
     <main class="md">
 <h1>BX-CF-BE</h1>
-<h2>서비스 실행순서</h2>
-<ul>
-<li>discovery -&gt; auth -&gt; gateway</li>
-</ul>
-<h2>테스트 및 접속 url</h2>
-<ul>
-<li>유레카 : <a href="http://localhost:18761/">http://localhost:18761/</a></li>
-<li>h2 DB 콘솔 : <a href="http://localhost:18082/auth/h2-console">http://localhost:18082/auth/h2-console</a>
-         JDBC URL : jdbc:h2:mem:auth-db</li>
-<li>login : <a href="http://localhost:18081/channel/backend/api/v1/auth/login">http://localhost:18081/channel/backend/api/v1/auth/login</a></li>
-<li>성공여부 테스트 : <a href="http://localhost:18081/te/home">http://localhost:18081/te/home</a></li>
-<li>Refresh 요청 : <a href="http://localhost:18081/channel/backend/api/v1/auth/refresh-token">http://localhost:18081/channel/backend/api/v1/auth/refresh-token</a></li>
-</ul>
-<h2>프로젝트 구조, 인증/인가 프로세스 설명은 다음 문서에 있음</h2>
-<ul>
-<li><input disabled="" type="checkbox"> 웹앱 프레임워크_구축 v0.5 2025.09.19.pptx</li>
-</ul>
-<h2>로컬에서 postman 테스트용 collection</h2>
-<ul>
-<li><input disabled="" type="checkbox"> BX-CF-BE-LCL.postman_collection</li>
-</ul>
-<h2>로그인 및 토큰발급 테스트 시나리오</h2>
+<p>BWG 채널 백엔드 프레임워크 프로젝트. Java 21, Spring Boot 3.3.4, Spring Cloud Gateway, Eureka Discovery, Gradle 멀티모듈 기반. 인증, 상품, 기준정보 서비스를 관심사별로 분리.</p>
+<h2>현재 구조</h2>
+<pre><code class="language-text">bx-cf-be/
+├─ libs/
+│  ├─ common/                  공통 응답, 예외, AOP, OpenAPI TypeBridge, JPA/MyBatis 기반 설정
+│  ├─ business-common/         업무 공통 검증, 업무 예외, 업무 값 객체
+│  ├─ security-common/         JWT 발급/검증, 인증 필터, 인증 에러 코드, 내부 인증 헤더
+│  └─ session-context-common/  Redis/Valkey 기반 세션 컨텍스트 모델과 저장소
+├─ infra/
+│  ├─ discovery-svc/           Eureka Server
+│  └─ api-gateway/             Spring Cloud Gateway, JWT 검증, 서비스 라우팅
+├─ services/
+│  ├─ auth-svc/                로그인, 토큰 발급/재발급, 로그아웃, Redis 세션 저장
+│  ├─ product-svc/             상품 조회
+│  └─ system-svc/              메뉴, 역할별 메뉴, 공통코드 관리
+└─ src/main/resources/config/  모듈별 공통 설정과 profile별 설정
+</code></pre>
+<p><code>settings.gradle</code> 기준 포함 모듈.</p>
+<pre><code class="language-gradle">libs:common
+libs:business-common
+libs:security-common
+libs:session-context-common
+infra:api-gateway
+infra:discovery-svc
+services:auth-svc
+services:product-svc
+services:system-svc
+</code></pre>
+<h2>모듈 의존성</h2>
+<table>
+<thead>
+<tr>
+<th>모듈</th>
+<th>주요 의존성</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>infra:api-gateway</code></td>
+<td><code>common</code>, <code>security-common</code>, <code>session-context-common</code></td>
+<td>외부 요청 진입점, JWT 검증, 내부 인증 헤더 생성, Eureka 기반 라우팅</td>
+</tr>
+<tr>
+<td><code>infra:discovery-svc</code></td>
+<td>-</td>
+<td>서비스 인스턴스 등록/탐색용 Eureka 서버</td>
+</tr>
+<tr>
+<td><code>services:auth-svc</code></td>
+<td><code>common</code>, <code>business-common</code>, <code>security-common</code>, <code>session-context-common</code></td>
+<td>사용자 인증, access/refresh token 발급, Redis 세션 컨텍스트 저장/삭제</td>
+</tr>
+<tr>
+<td><code>services:product-svc</code></td>
+<td><code>common</code>, <code>business-common</code>, <code>session-context-common</code></td>
+<td>상품 API, 필요 시 내부 인증 헤더/sessionId 기반 세션 문맥 조회</td>
+</tr>
+<tr>
+<td><code>services:system-svc</code></td>
+<td><code>common</code>, <code>business-common</code>, <code>session-context-common</code></td>
+<td>메뉴/공통코드 API, 필요 시 내부 인증 헤더/sessionId 기반 세션 문맥 조회</td>
+</tr>
+<tr>
+<td><code>libs:security-common</code></td>
+<td><code>common</code>, Spring Security, JJWT</td>
+<td>JWT와 인증 실패 응답 공통화</td>
+</tr>
+<tr>
+<td><code>libs:session-context-common</code></td>
+<td><code>common</code>, Spring Data Redis</td>
+<td><code>session:{sessionId}</code> 규칙의 Redis 세션 문맥 공통화</td>
+</tr>
+</tbody></table>
+<h2>실행 순서</h2>
+<p>로컬에서 여러 서비스를 직접 실행할 때 권장 순서.</p>
 <ol>
-<li><a href="http://localhost:18081/channel/backend/api/v1/auth/login">http://localhost:18081/channel/backend/api/v1/auth/login</a> (로그인)</li>
+<li><code>infra:discovery-svc</code></li>
+<li><code>services:auth-svc</code></li>
+<li><code>services:product-svc</code></li>
+<li><code>services:system-svc</code></li>
+<li><code>infra:api-gateway</code></li>
 </ol>
-<pre><code>request body
-{
-      &quot;usrId&quot; : &quot;아이디&quot;
-      ,&quot;usrPwd: &quot;패스워드(sha-256)&quot;
-}
-</code></pre>
-<pre><code>response body (예)
--- success/code/msg(공통부), payload(데이터부)로 구성
--- payload 확인
-{
-     &quot;success&quot;: true,            -- 성공/실패 true:false
-      &quot;code&quot;: &quot;0&quot;,               -- 성공일 경우 0, 에러일경우 - (음수)
-      &quot;msg&quot;: &quot;success&quot;,          -- 성공/실패 메시지
-      &quot;payload&quot;: {
-         &quot;usrId&quot;: &quot;yongbeom.yoo&quot;,
-         &quot;usrNm&quot;: &quot;유용범&quot;,
-         &quot;positDivName&quot;: &quot;수석프로&quot;,
-         &quot;deptName&quot;: &quot;Channel Unit&quot;,
-         &quot;usrPwd&quot;: null,
-         &quot;accessToken&quot;: &quot;eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25nYmVvbS55b28iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTc1ODg3MTQ5MSwiZXhwIjoxNzU4ODcxNTUxfQ.yoZpG2ZxgvulHqG6YuUArTtbmXmv8shNEnVGX1CIL4A&quot;,
-         &quot;accessTokenExpiresAt&quot;: &quot;20250926162551&quot;,
-         &quot;refreshToken&quot;: &quot;eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25nYmVvbS55b28iLCJpYXQiOjE3NTg4NzE0OTEsImV4cCI6MTc1OTQ3NjI5MX0.yny3OPFFk6L1aChbBC5Zja7XaAylv9wVK3BAoWP1_jA&quot;,
-         &quot;refreshTokenExpiresAt&quot;: &quot;20251003162451&quot;,
-         &quot;roles&quot;: [
-            &quot;ROLE_USER&quot;,
-            &quot;ROLE_ADMIN&quot;
-         ]
-}
-</code></pre>
-<ol start="2">
-<li><a href="http://localhost:18081/te/home">http://localhost:18081/te/home</a> (로그인성공했는지 체크)</li>
-</ol>
-<pre><code>request header
-{
-   &#39;Authorization&#39;: &#39;Bearer &#39; + 발급받은토큰,               -- 반드시 Bearer 패턴 쓸것
-    ,&#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded&#39;    -- 테스트 요청응답이 html로 되어있어 지정함
-}
-request body
-{
-
-}
-</code></pre>
-<pre><code>response body (html)
-&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-
-&lt;head&gt;
-	&lt;meta charset=&quot;UTF-8&quot;&gt;
-	&lt;title&gt;Login Success&lt;/title&gt;
-&lt;/head&gt;
-
-&lt;body&gt;
-	&lt;h2&gt;로그인 성공&lt;/h2&gt;
-&lt;/body&gt;
-
-&lt;/html&gt;
-</code></pre>
-<ol start="3">
-<li><a href="http://localhost:18081/channel/backend/api/v1/auth/refresh-token">http://localhost:18081/channel/backend/api/v1/auth/refresh-token</a> (리프레쉬)</li>
-</ol>
-<pre><code>{
-    &quot;refreshToken&quot;: 리프레쉬 토큰
-}
-</code></pre>
-<pre><code>response body (예)
--- 성공할경우 1번과 같은 형식으로 옴
-{
-     &quot;success&quot;: true,            -- 성공/실패 true:false
-      &quot;code&quot;: &quot;0&quot;,               -- 성공일 경우 0, 에러일경우 - (음수)
-      &quot;msg&quot;: &quot;success&quot;,          -- 성공/실패 메시지
-      &quot;payload&quot;: {
-         &quot;usrId&quot;: &quot;yongbeom.yoo&quot;,
-         &quot;usrNm&quot;: &quot;유용범&quot;,
-         &quot;positDivName&quot;: &quot;수석프로&quot;,
-         &quot;deptName&quot;: &quot;Channel Unit&quot;,
-         &quot;usrPwd&quot;: null,
-         &quot;accessToken&quot;: &quot;eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25nYmVvbS55b28iLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTc1ODg3MTQ5MSwiZXhwIjoxNzU4ODcxNTUxfQ.yoZpG2ZxgvulHqG6YuUArTtbmXmv8shNEnVGX1CIL4A&quot;,
-         &quot;accessTokenExpiresAt&quot;: &quot;20250926162551&quot;,
-         &quot;refreshToken&quot;: &quot;eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25nYmVvbS55b28iLCJpYXQiOjE3NTg4NzE0OTEsImV4cCI6MTc1OTQ3NjI5MX0.yny3OPFFk6L1aChbBC5Zja7XaAylv9wVK3BAoWP1_jA&quot;,
-         &quot;refreshTokenExpiresAt&quot;: &quot;20251003162451&quot;,
-         &quot;roles&quot;: [
-            &quot;ROLE_USER&quot;,
-            &quot;ROLE_ADMIN&quot;
-         ]
-}
-</code></pre>
-<h2>JAR 실행 예)</h2>
-<ul>
-<li>java -jar -Dspring.profiles.active=local -Dfile.encoding=UTF-8 discovery-svc-0.0.1-SNAPSHOT.jar</li>
-</ul>
-<h2>front에서의 인증/인가 요청 흐름</h2>
+<p>Gateway는 Eureka에 등록된 서비스 이름으로 <code>lb://...</code> 라우팅. Gateway보다 하위 서비스와 Discovery를 먼저 기동하는 흐름이 이해하기 쉬움.</p>
+<h2>포트와 경로</h2>
+<table>
+<thead>
+<tr>
+<th>모듈</th>
+<th align="right">포트</th>
+<th>내부 context-path</th>
+<th>Gateway 외부 경로</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>discovery-svc</td>
+<td align="right">18761</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>api-gateway</td>
+<td align="right">18081</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>auth-svc</td>
+<td align="right">18082</td>
+<td><code>/auth</code></td>
+<td><code>/channel/backend/api/v1/auth/**</code></td>
+</tr>
+<tr>
+<td>product-svc</td>
+<td align="right">18083</td>
+<td><code>/product</code></td>
+<td><code>/channel/backend/api/v1/product/**</code></td>
+</tr>
+<tr>
+<td>system-svc</td>
+<td align="right">18084</td>
+<td><code>/system</code></td>
+<td><code>/channel/backend/api/v1/system/**</code></td>
+</tr>
+</tbody></table>
+<p>환경별 주요 접속 정보.</p>
+<table>
+<thead>
+<tr>
+<th>환경</th>
+<th>Eureka</th>
+<th>Swagger UI</th>
+<th>DB</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>local</td>
+<td><code>http://localhost:18761</code></td>
+<td><code>http://localhost:18081/swagger-ui.html</code></td>
+<td><code>jdbc:postgresql://192.168.110.217:5432/bxcfdb</code></td>
+</tr>
+<tr>
+<td>dev</td>
+<td><code>http://192.168.110.217:18761</code></td>
+<td><code>http://192.168.110.217:18081/swagger-ui.html</code></td>
+<td><code>jdbc:postgresql://192.168.110.217:5432/bxcfdb</code></td>
+</tr>
+</tbody></table>
+<h2>Gateway 라우팅</h2>
+<p>Gateway 라우팅 설정 위치: <code>src/main/resources/config/api-gateway/application.yml</code></p>
+<table>
+<thead>
+<tr>
+<th>route id</th>
+<th>대상 서비스</th>
+<th>조건</th>
+<th>처리</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>auth-svc</code></td>
+<td><code>lb://BWG-CHANNEL-BACKEND-AUTH-SVC</code></td>
+<td><code>/channel/backend/api/v1/auth/**</code></td>
+<td><code>StripPrefix=4</code> 후 auth-svc로 전달</td>
+</tr>
+<tr>
+<td><code>product-svc</code></td>
+<td><code>lb://BWG-CHANNEL-BACKEND-PRODUCT-SVC</code></td>
+<td><code>/channel/backend/api/v1/product/**</code></td>
+<td><code>StripPrefix=4</code> 후 product-svc로 전달</td>
+</tr>
+<tr>
+<td><code>system-svc</code></td>
+<td><code>lb://BWG-CHANNEL-BACKEND-SYSTEM-SVC</code></td>
+<td><code>/channel/backend/api/v1/system/**</code></td>
+<td><code>StripPrefix=4</code> 후 system-svc로 전달</td>
+</tr>
+<tr>
+<td><code>*-api-docs</code></td>
+<td>각 서비스</td>
+<td><code>/{service}/v3/api-docs</code></td>
+<td>각 서비스 context-path 기준 <code>/v3/api-docs</code>로 변환</td>
+</tr>
+</tbody></table>
+<p><code>lb://</code> 라우팅은 Eureka에 등록된 인스턴스 목록 기준으로 Spring Cloud LoadBalancer가 대상 인스턴스를 선택. 같은 서비스가 여러 포트나 여러 서버에 떠 있어도 Eureka 등록과 네트워크 접근이 가능하면 Gateway에서 분산 호출 가능.</p>
+<h2>인증과 세션 흐름</h2>
+<p>현재 인증 흐름 핵심.</p>
 <ol>
-<li>클라이언트는 API 요청 시 항상 Access Token을 사용</li>
-<li>필터가 Access Token을 검증</li>
-<li>만약 Access Token이 만료되었다면, 서버는 &quot;토큰이 만료되었다&quot;는 특정 에러 코드를 클라이언트에게 반환</li>
-<li>클라이언트는 이 특정 에러 코드를 받으면, 가지고 있던 Refresh Token으로 토큰 재발급을 요청하는 API(예: POST /auth/refresh)를 호출</li>
-<li>서버는 Refresh Token을 검증하고, 유효하다면 새로운 Access Token(과 새로운 Refresh Token)을 발급하여 클라이언트에게 전달</li>
-<li>클라이언트는 새로 받은 토큰으로 기존에 실패했던 API 요청을 다시 시도</li>
+<li>클라이언트가 <code>auth-svc</code> 로그인 API 호출</li>
+<li><code>auth-svc</code>에서 사용자 정보 조회</li>
+<li><code>auth-svc</code>에서 <code>sessionId</code> 생성</li>
+<li>access token에 <code>subject</code>, <code>roles</code>, <code>sessionId</code> claim 포함</li>
+<li>refresh token은 DB 저장, 응답 본문 대신 HttpOnly 쿠키 전달</li>
+<li><code>auth-svc</code>에서 Redis/Valkey에 <code>session:{sessionId}</code> key로 <code>SessionContext</code> 저장</li>
+<li>Gateway에서 이후 요청 access token 검증 후 내부 서비스로 인증 헤더 전달</li>
 </ol>
+<pre><code class="language-text">X-Auth-User
+X-Auth-Roles
+X-Auth-Session-Id
+</code></pre>
+<p>내부 서비스는 이 헤더로 JWT 재파싱 없이 사용자 ID, 권한, 세션 ID 확인 가능. 외부 사용자의 헤더 변조 방지는 product-svc/system-svc 같은 내부 서비스를 Gateway 뒤에 두고 직접 외부 접근을 차단하는 구성이 전제.</p>
+<h3>Refresh Token Cookie</h3>
+<p>refresh token은 JavaScript에서 읽을 수 없도록 HttpOnly 쿠키로만 전달.</p>
+<pre><code class="language-js">await fetch(&quot;/channel/backend/api/v1/auth/refresh-token&quot;, {
+  method: &quot;POST&quot;,
+  credentials: &quot;include&quot;
+});
+</code></pre>
+<p>쿠키 설정 위치: <code>src/main/resources/config/auth-svc/{profile}/application-{profile}.yml</code>의 <code>app.auth.refresh-cookie</code></p>
+<table>
+<thead>
+<tr>
+<th>옵션</th>
+<th>현재 기본값</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name</code></td>
+<td><code>refreshToken</code></td>
+<td>refresh token 쿠키 이름</td>
+</tr>
+<tr>
+<td><code>path</code></td>
+<td><code>/channel/backend/api/v1/auth</code></td>
+<td>Gateway 기준 auth API 쿠키 path</td>
+</tr>
+<tr>
+<td><code>same-site</code></td>
+<td><code>Lax</code></td>
+<td>SameSite 정책</td>
+</tr>
+<tr>
+<td><code>secure</code></td>
+<td><code>false</code></td>
+<td>local/dev 기준 false, HTTPS 운영환경에서는 true 권장</td>
+</tr>
+<tr>
+<td><code>max-age-seconds</code></td>
+<td><code>604800</code></td>
+<td>7일</td>
+</tr>
+</tbody></table>
+<h3>Redis/Valkey 세션 컨텍스트</h3>
+<p><code>session-context-common</code> 공통 세션 문맥.</p>
+<table>
+<thead>
+<tr>
+<th>필드</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sessionId</code></td>
+<td>access token의 <code>sessionId</code> claim과 같은 값</td>
+</tr>
+<tr>
+<td><code>userId</code></td>
+<td>JWT subject와 내부 사용자 식별 기준</td>
+</tr>
+<tr>
+<td><code>roles</code></td>
+<td>권한 판단에 사용할 권한 목록</td>
+</tr>
+<tr>
+<td><code>authLevel</code></td>
+<td>MFA 등 추가 인증 수준 확장용 값</td>
+</tr>
+<tr>
+<td><code>loginTime</code></td>
+<td>세션 생성 시각</td>
+</tr>
+<tr>
+<td><code>lastAccessTime</code></td>
+<td>마지막 접근/갱신 시각</td>
+</tr>
+</tbody></table>
+<p>현재 Redis 연결 설정 위치: auth-svc profile 설정</p>
+<pre><code class="language-yaml">spring:
+  data:
+    redis:
+      host: 192.168.110.217
+      port: 6379
+      timeout: 2s
+</code></pre>
+<p>Redis 서버는 개발 서버 podman으로 구축되어 있음</p>
+<h2>인증 제외 경로</h2>
+<p>Gateway <code>SecurityConfig</code>의 <code>PERMIT_URL_ARRAY</code> 기준. JWT 없이 접근 가능한 경로만 명시.</p>
+<p>대표 경로.</p>
+<pre><code class="language-text">/channel/backend/api/v1/auth/login
+/channel/backend/api/v1/auth/erp-login
+/channel/backend/api/v1/auth/refresh-token
+/channel/backend/api/v1/auth/signup
+/channel/backend/api/v1/auth/password/find
+/channel/backend/api/v1/auth/password/reset-request
+/channel/backend/api/v1/auth/password/reset
+/swagger-ui/**
+/v3/api-docs/**
+/actuator/health
+/actuator/info
+</code></pre>
+<p><code>/logout</code>은 인증된 access token 필요. Gateway가 검증한 내부 헤더의 <code>userId</code>, <code>sessionId</code> 기준으로 DB refresh token과 Redis 세션 삭제.</p>
+<h2>API 목록</h2>
+<p>Gateway 기준 대표 API.</p>
+<h3>Auth</h3>
+<pre><code class="language-text">POST /channel/backend/api/v1/auth/login
+POST /channel/backend/api/v1/auth/erp-login
+POST /channel/backend/api/v1/auth/refresh-token
+POST /channel/backend/api/v1/auth/logout
+</code></pre>
+<p>로그인 요청 예.</p>
+<pre><code class="language-json">{
+  &quot;usrId&quot;: &quot;hong.gildong&quot;,
+  &quot;usrPwd&quot;: &quot;password&quot;
+}
+</code></pre>
+<p>로그인 응답의 <code>payload.accessToken</code>은 클라이언트가 이후 요청에 사용. refresh token은 HttpOnly 쿠키로 전달되고 JSON 응답에서는 제외.</p>
+<pre><code class="language-text">Authorization: Bearer &lt;accessToken&gt;
+</code></pre>
+<h3>Product</h3>
+<pre><code class="language-text">POST /channel/backend/api/v1/product/list
+POST /channel/backend/api/v1/product/detail/{productId}
+</code></pre>
+<h3>System - Menu</h3>
+<pre><code class="language-text">POST /channel/backend/api/v1/system/menus/list
+POST /channel/backend/api/v1/system/menus/create
+POST /channel/backend/api/v1/system/menus/{menuId}/update
+POST /channel/backend/api/v1/system/menus/{menuId}/actions/list
+POST /channel/backend/api/v1/system/menus/roles/{roleId}/list
+POST /channel/backend/api/v1/system/menus/roles/{roleId}/save
+</code></pre>
+<h3>System - Common Code</h3>
+<pre><code class="language-text">POST /channel/backend/api/v1/system/common-codes/groups/list
+POST /channel/backend/api/v1/system/common-codes/groups/create
+POST /channel/backend/api/v1/system/common-codes/groups/{groupCd}/update
+POST /channel/backend/api/v1/system/common-codes/groups/{groupCd}/codes/list
+POST /channel/backend/api/v1/system/common-codes/groups/{groupCd}/codes/create
+POST /channel/backend/api/v1/system/common-codes/groups/{groupCd}/codes/{code}/update
+</code></pre>
+<h2>Swagger</h2>
+<p>Gateway에서 각 서비스 OpenAPI 문서를 모아서 제공.</p>
+<pre><code class="language-text">http://localhost:18081/swagger-ui.html
+</code></pre>
+<p>Swagger UI definition 목록.</p>
+<table>
+<thead>
+<tr>
+<th>이름</th>
+<th>api-docs</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>auth-svc</td>
+<td><code>/auth-svc/v3/api-docs</code></td>
+</tr>
+<tr>
+<td>product-svc</td>
+<td><code>/product-svc/v3/api-docs</code></td>
+</tr>
+<tr>
+<td>system-svc</td>
+<td><code>/system-svc/v3/api-docs</code></td>
+</tr>
+</tbody></table>
+<p>Swagger에서 인증 API 호출 순서.</p>
+<ol>
+<li><code>auth-svc</code> definition에서 로그인 API 호출</li>
+<li>응답의 <code>payload.accessToken</code> 복사</li>
+<li>Swagger UI 상단 <code>Authorize</code>에 access token 입력</li>
+<li><code>product-svc</code> 또는 <code>system-svc</code> API 호출</li>
+</ol>
+<h3>Swagger에서 로그아웃 테스트</h3>
+<p>Gateway Swagger(<code>http://localhost:18081/swagger-ui.html</code>)에서 테스트하는 것이 권장 흐름.</p>
+<ol>
+<li><code>auth-svc</code> definition에서 <code>login</code> API 호출</li>
+<li>응답의 <code>payload.accessToken</code> 복사</li>
+<li>Swagger UI 상단 <code>Authorize</code>에 <code>Bearer &lt;accessToken&gt;</code> 형식으로 입력</li>
+<li><code>auth-svc</code> definition에서 <code>logout</code> API 호출</li>
+</ol>
+<p>Gateway를 통해 호출하면 Gateway의 JWT 필터가 access token을 검증한 뒤 내부 요청에 아래 헤더를 자동 주입한다.</p>
+<pre><code class="language-text">X-Auth-User
+X-Auth-Roles
+X-Auth-Session-Id
+</code></pre>
+<p>따라서 Gateway Swagger에서는 <code>X-Auth-User</code>, <code>X-Auth-Session-Id</code>를 직접 찾거나 입력하지 않고 <code>Authorization</code>만 넣는 흐름이 정상이다.</p>
+<p>auth-svc를 직접 호출해 테스트해야 한다면 내부 인증 헤더를 수동으로 넣어야 한다.</p>
+<pre><code class="language-text">X-Auth-User: &lt;로그인 사용자 ID&gt;
+X-Auth-Session-Id: &lt;access token의 sessionId claim&gt;
+</code></pre>
+<p><code>X-Auth-Session-Id</code>는 서버 로그에서 찾기보다 access token의 JWT payload에서 확인한다. JWT는 <code>header.payload.signature</code> 구조이므로 가운데 <code>payload</code> 부분만 Base64URL 디코딩하면 <code>sessionId</code> claim을 볼 수 있다. 실제 access token 전체를 외부 AI, 공개 웹 디코더, 채팅 도구에 붙여 넣지 않는다. 필요하면 로컬 도구나 브라우저 개발자 도구 콘솔에서 payload만 확인한다.</p>
+<p>브라우저 콘솔 예시.</p>
+<pre><code class="language-js">const token = &quot;&lt;accessToken&gt;&quot;;
+JSON.parse(atob(token.split(&quot;.&quot;)[1].replace(/-/g, &quot;+&quot;).replace(/_/g, &quot;/&quot;)));
+</code></pre>
+<p>출력 JSON의 <code>sub</code>가 <code>X-Auth-User</code>, <code>sessionId</code>가 <code>X-Auth-Session-Id</code>에 해당한다.</p>
+<h2>공통 응답</h2>
+<p>기본 응답 구조: <code>ApiResponse&lt;T&gt;</code></p>
+<pre><code class="language-json">{
+  &quot;success&quot;: true,
+  &quot;code&quot;: &quot;0&quot;,
+  &quot;msg&quot;: &quot;success&quot;,
+  &quot;payload&quot;: {}
+}
+</code></pre>
+<h2>에러 코드 범위</h2>
+<table>
+<thead>
+<tr>
+<th>영역</th>
+<th>코드 범위</th>
+<th>예</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Auth</td>
+<td><code>-1001</code> ~ <code>-1005</code>, <code>-2003</code>, <code>-2004</code>, <code>-4001</code>, <code>-4002</code>, <code>-9999</code></td>
+<td>필수값 누락, 토큰 오류, 인증 실패, DB 오류</td>
+</tr>
+<tr>
+<td>Business Common</td>
+<td><code>-3001</code> ~ <code>-3999</code></td>
+<td>업무 검증 오류, 업무 데이터 없음</td>
+</tr>
+<tr>
+<td>Product</td>
+<td><code>-5001</code> ~ <code>-5999</code></td>
+<td>상품 입력값 오류, 상품 없음, 상품 저장 오류</td>
+</tr>
+<tr>
+<td>Gateway</td>
+<td><code>-9999</code></td>
+<td>Gateway 내부 오류</td>
+</tr>
+</tbody></table>
+<h2>OpenAPI TypeBridge</h2>
+<p>TypeBridge 관련 코드 위치: <code>libs/common/src/main/java/com/bwg/channel/backend/common/openapi/typebridge</code></p>
+<p>주요 어노테이션.</p>
+<table>
+<thead>
+<tr>
+<th>어노테이션</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@ApiDto</code></td>
+<td>요청/응답 DTO 방향과 endpoint 목록 정의</td>
+</tr>
+<tr>
+<td><code>@ApiField</code></td>
+<td>필드 설명, 예시, 필수/선택/제외 endpoint 정의</td>
+</tr>
+<tr>
+<td><code>@ApiType</code></td>
+<td><code>REQUEST</code>, <code>RESPONSE</code>, <code>LEGACY</code> 방향 구분</td>
+</tr>
+</tbody></table>
+<p>예.</p>
+<pre><code class="language-java">@ApiDto(type = ApiType.REQUEST, name = &quot;Auth&quot;, endpoints = {&quot;login&quot;, &quot;erp-login&quot;})
+public class LoginReqDto {
+
+    @ApiField(description = &quot;사용자 ID&quot;, example = &quot;hong.gildong&quot;, required = {&quot;login&quot;, &quot;erp-login&quot;})
+    private String usrId;
+
+    @ApiField(description = &quot;비밀번호&quot;, format = &quot;password&quot;, required = {&quot;login&quot;})
+    private String usrPwd;
+}
+</code></pre>
+<h2>설정 파일 구조</h2>
+<p>설정 파일은 루트의 <code>src/main/resources/config</code> 아래에 모음. Gradle <code>processResources</code>에서 선택된 profile 파일만 각 모듈 jar에 포함.</p>
+<pre><code class="language-text">src/main/resources/config/
+├─ api-gateway/
+│  ├─ application.yml
+│  ├─ local/application-local.yml
+│  └─ dev/application-dev.yml
+├─ auth-svc/
+├─ product-svc/
+├─ system-svc/
+├─ discovery-svc/
+└─ security-common/
+   ├─ local/application-local.yml
+   └─ dev/application-dev.yml
+</code></pre>
+<p>profile 기본값: <code>local</code></p>
+<pre><code class="language-bash">./gradlew :services:auth-svc:bootJar -Pprofile=dev
+</code></pre>
+<p><code>security-common</code> 설정은 auth-svc와 api-gateway에서 <code>spring.config.import</code>로 참조.</p>
+<h2>빌드</h2>
+<p>전체 주요 서비스 bootJar.</p>
+<pre><code class="language-bash">./gradlew :infra:discovery-svc:bootJar :infra:api-gateway:bootJar :services:auth-svc:bootJar :services:product-svc:bootJar :services:system-svc:bootJar -Pprofile=local
+</code></pre>
+<p>빌드 결과.</p>
+<pre><code class="language-text">build/dist/bx-cf-be/*.jar
+</code></pre>
+<p>개별 빌드 예.</p>
+<pre><code class="language-bash">./gradlew :services:auth-svc:bootJar -Pprofile=local
+./gradlew :infra:api-gateway:bootJar -Pprofile=local
+</code></pre>
+<h2>실행</h2>
+<p>jar 직접 실행 예.</p>
+<pre><code class="language-bash">java -Dfile.encoding=UTF-8 -Duser.timezone=Asia/Seoul \
+     -Dspring.profiles.active=local \
+     -jar build/dist/bx-cf-be/auth-svc-0.0.1-SNAPSHOT.jar
+</code></pre>
+<p>Gradle bootRun 사용 예.</p>
+<pre><code class="language-bash">./gradlew :infra:discovery-svc:bootRun -Pprofile=local
+./gradlew :services:auth-svc:bootRun -Pprofile=local
+./gradlew :services:product-svc:bootRun -Pprofile=local
+./gradlew :services:system-svc:bootRun -Pprofile=local
+./gradlew :infra:api-gateway:bootRun -Pprofile=local
+</code></pre>
+<h2>테스트</h2>
+<p>인증/세션/Gateway 관련 테스트.</p>
+<pre><code class="language-bash">./gradlew :services:auth-svc:test
+./gradlew :libs:security-common:test
+./gradlew :libs:session-context-common:test
+./gradlew :infra:api-gateway:test
+</code></pre>
+<p>전체 테스트.</p>
+<pre><code class="language-bash">./gradlew test
+</code></pre>
+<h2>개발 환경</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>버전/기준</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Java</td>
+<td>21</td>
+</tr>
+<tr>
+<td>Gradle Wrapper</td>
+<td>8.14.3</td>
+</tr>
+<tr>
+<td>Spring Boot</td>
+<td>3.3.4</td>
+</tr>
+<tr>
+<td>Spring Cloud</td>
+<td>2023.0.1</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>16 계열</td>
+</tr>
+<tr>
+<td>Redis/Valkey</td>
+<td>외부 서버 필요</td>
+</tr>
+</tbody></table>
+<p>문자 인코딩.</p>
+<ul>
+<li><code>.editorconfig</code>의 <code>charset = utf-8</code></li>
+<li><code>gradle.properties</code>의 <code>-Dfile.encoding=UTF-8</code></li>
+<li>Java compile encoding <code>UTF-8</code></li>
+</ul>
+<h2>배포 참고</h2>
+<p><code>.github/workflows/deploy-dev.yml</code>은 <code>develop</code> push 시 변경 경로 기준으로 필요한 서비스만 빌드/배포.</p>
+<table>
+<thead>
+<tr>
+<th>변경 경로</th>
+<th>배포 대상</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>services/auth-svc/**</code></td>
+<td>auth-svc</td>
+</tr>
+<tr>
+<td><code>services/product-svc/**</code></td>
+<td>product-svc</td>
+</tr>
+<tr>
+<td><code>services/system-svc/**</code>, <code>src/main/resources/config/system-svc/**</code></td>
+<td>system-svc</td>
+</tr>
+<tr>
+<td><code>libs/**</code>, <code>infra/**</code>, <code>scripts/**</code>, <code>.github/workflows/**</code></td>
+<td>전체 서비스</td>
+</tr>
+</tbody></table>
+<h2>GitHub Project</h2>
+<ul>
+<li>Issues: <code>https://github.com/yooyongbeom/bx-cf-be/issues</code></li>
+<li>Project board: <code>https://github.com/users/yooyongbeom/projects/2</code></li>
+</ul>
+<h2>참고 자료</h2>
+<p><code>reffile/</code> 아래 프로젝트 참고 문서와 Postman collection 위치.</p>
 
     </main>
   </body>

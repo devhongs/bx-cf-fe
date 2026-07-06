@@ -1,6 +1,6 @@
-import { formatAccountNumberByBank } from '../../../../shared/lib/utils';
 import type { BaseProps } from '../../../../shared/types';
 
+import { formatAccountNumberByBank } from '../../model/account-format';
 import type { BankId } from '../../model/account.type';
 
 import styles from './index.module.css';

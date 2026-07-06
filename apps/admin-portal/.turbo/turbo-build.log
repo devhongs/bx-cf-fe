@@ -1,9 +1,9 @@
-$ vite build
+$ vite build --sourcemap --minify false
 vite v8.1.0 building client environment for production...
 [2Ktransforming...✓ 14 modules transformed.
 rendering chunks...
 computing gzip size...
 dist/index.html                  0.33 kB │ gzip:  0.24 kB
-dist/assets/index-BmEawwVF.js  191.19 kB │ gzip: 60.41 kB
+dist/assets/index-CrWGvZJ5.js  489.11 kB │ gzip: 93.86 kB │ map: 850.24 kB
 
-✓ built in 170ms
+✓ built in 158ms

@@ -8,5 +8,4 @@ export * from './common.format';
 export * from './common.i18n';
 export * from './component-util';
 export * from './query-util';
-export * from './accountFormat';
 export * from './storage-util';

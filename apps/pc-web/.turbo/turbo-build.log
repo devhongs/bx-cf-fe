@@ -1,13 +1,4 @@
-$ vite build
-Warning: Route file "/Users/yuhongsig/project/bx-cf/bx-cf-fe/apps/pc-web/src/routes/(modal)/transfer/index.tsx" does not export a Route. This file will not be included in the route tree.
-
-If this file is not intended to be a route, you can exclude it using one of these options:
-  1. Rename the file to "/Users/yuhongsig/project/bx-cf/bx-cf-fe/apps/pc-web/src/routes/(modal)/transfer/-index.tsx" (prefix with "-")
-  2. Use 'routeFileIgnorePattern' in your config to match this file
-
-Current configuration:
-  routeFileIgnorePrefix: "-"
-  routeFileIgnorePattern: undefined
+$ vite build --sourcemap --minify false
 Warning: Route file "/Users/yuhongsig/project/bx-cf/bx-cf-fe/apps/pc-web/src/routes/(modal)/account-detail/index.tsx" does not export a Route. This file will not be included in the route tree.
 
 If this file is not intended to be a route, you can exclude it using one of these options:
@@ -35,6 +26,15 @@ If this file is not intended to be a route, you can exclude it using one of thes
 Current configuration:
   routeFileIgnorePrefix: "-"
   routeFileIgnorePattern: undefined
+Warning: Route file "/Users/yuhongsig/project/bx-cf/bx-cf-fe/apps/pc-web/src/routes/(modal)/transfer/index.tsx" does not export a Route. This file will not be included in the route tree.
+
+If this file is not intended to be a route, you can exclude it using one of these options:
+  1. Rename the file to "/Users/yuhongsig/project/bx-cf/bx-cf-fe/apps/pc-web/src/routes/(modal)/transfer/-index.tsx" (prefix with "-")
+  2. Use 'routeFileIgnorePattern' in your config to match this file
+
+Current configuration:
+  routeFileIgnorePrefix: "-"
+  routeFileIgnorePattern: undefined
 Warning: Route file "/Users/yuhongsig/project/bx-cf/bx-cf-fe/apps/pc-web/src/routes/(modal)/user-info/index.tsx" does not export a Route. This file will not be included in the route tree.
 
 If this file is not intended to be a route, you can exclude it using one of these options:
@@ -45,36 +45,36 @@ Current configuration:
   routeFileIgnorePrefix: "-"
   routeFileIgnorePattern: undefined
 vite v8.1.0 building client environment for production...
-[2Ktransforming...✓ 2471 modules transformed.
+[2Ktransforming...✓ 2187 modules transformed.
 rendering chunks...
 computing gzip size...
-dist/index.html                               0.65 kB │ gzip:   0.35 kB
-dist/assets/_page-BJl-NgFb.css                2.43 kB │ gzip:   0.87 kB
-dist/assets/_auth-BVvH-gef.css                2.73 kB │ gzip:   0.89 kB
-dist/assets/_page-DGU9XzSo.css                7.67 kB │ gzip:   1.94 kB
-dist/assets/index-NHmPsY2G.css               34.24 kB │ gzip:   5.83 kB
-dist/assets/_auth--BMlz5Q1.js                 0.14 kB │ gzip:   0.13 kB
-dist/assets/routes-kQ2dWyyG.js                0.17 kB │ gzip:   0.16 kB
-dist/assets/_page.alarm-CkjFwP8E.js           0.35 kB │ gzip:   0.28 kB
-dist/assets/_page.asset-Ch6O-IA1.js           0.35 kB │ gzip:   0.28 kB
-dist/assets/_page.playground-DZkhWARf.js      0.36 kB │ gzip:   0.28 kB
-dist/assets/alarm-list-DLY_8_hi.js            0.54 kB │ gzip:   0.35 kB
-dist/assets/useRouter-CKMkExke.js             0.71 kB │ gzip:   0.41 kB
-dist/assets/account-detail-CpSqJfAC.js        0.84 kB │ gzip:   0.45 kB
-dist/assets/user-info-CU3jpXzZ.js             0.96 kB │ gzip:   0.48 kB
-dist/assets/_page.product-BNP5_IYg.js         1.05 kB │ gzip:   0.59 kB
-dist/assets/jsx-runtime-DUAcabCT.js           1.06 kB │ gzip:   0.60 kB
-dist/assets/setting-Bw0dSMct.js               1.25 kB │ gzip:   0.63 kB
-dist/assets/transfer-DdTYer70.js              1.88 kB │ gzip:   0.75 kB
-dist/assets/_page.main-DVI5q-9X.js            2.99 kB │ gzip:   1.38 kB
-dist/assets/_auth.login-CzyVPCyV.js           3.07 kB │ gzip:   1.27 kB
-dist/assets/react-DbyrFoBd.js                 7.52 kB │ gzip:   2.87 kB
-dist/assets/_page-8Ee37jDL.js                 9.98 kB │ gzip:   3.34 kB
-dist/assets/index-lbWddUg_.js             1,182.90 kB │ gzip: 336.86 kB
+dist/index.html                               0.65 kB │ gzip:   0.34 kB
+dist/assets/_page-DJVTzpIr.css                3.04 kB │ gzip:   0.93 kB
+dist/assets/_auth-CgI56Qrl.css                3.21 kB │ gzip:   1.01 kB
+dist/assets/_page-C_eoVbnM.css                9.76 kB │ gzip:   2.31 kB
+dist/assets/index-Cvnuhtou.css               79.16 kB │ gzip:  10.46 kB
+dist/assets/_auth-D8p--B3u.js                 0.40 kB │ gzip:   0.27 kB │ map:     0.41 kB
+dist/assets/routes-C-2gI9Dl.js                0.48 kB │ gzip:   0.30 kB │ map:     0.56 kB
+dist/assets/_page.alarm-DL69E7pI.js           0.79 kB │ gzip:   0.46 kB │ map:     0.95 kB
+dist/assets/_page.asset-CM81nJRQ.js           0.79 kB │ gzip:   0.46 kB │ map:     0.95 kB
+dist/assets/alarm-list-BWL117fD.js            1.08 kB │ gzip:   0.52 kB │ map:     1.23 kB
+dist/assets/account-detail-D8qMCTAt.js        1.62 kB │ gzip:   0.65 kB │ map:     2.01 kB
+dist/assets/user-info-CJQ7lNhR.js             1.85 kB │ gzip:   0.71 kB │ map:     2.06 kB
+dist/assets/_page.components-n8G4YJtc.js      1.97 kB │ gzip:   0.73 kB │ map:     2.36 kB
+dist/assets/_page.product-RRuFOtfT.js         2.03 kB │ gzip:   0.83 kB │ map:     2.69 kB
+dist/assets/setting-C4uTGtcd.js               2.49 kB │ gzip:   0.96 kB │ map:     3.13 kB
+dist/assets/jsx-runtime-Uhd2exbN.js           2.86 kB │ gzip:   1.22 kB │ map:     2.05 kB
+dist/assets/transfer-9c1oFNln.js              3.29 kB │ gzip:   1.05 kB │ map:     3.99 kB
+dist/assets/useRouter-uhEvj4zS.js             3.80 kB │ gzip:   1.46 kB │ map:     5.24 kB
+dist/assets/_page.form-DfoQwZ4D.js            5.08 kB │ gzip:   1.64 kB │ map:     6.06 kB
+dist/assets/_auth.login-B0NHI8m8.js           5.81 kB │ gzip:   1.65 kB │ map:     9.83 kB
+dist/assets/_page.main-BnKoG-QB.js            5.96 kB │ gzip:   1.93 kB │ map:    10.03 kB
+dist/assets/react-BB2b2elG.js                15.71 kB │ gzip:   4.33 kB │ map:    27.43 kB
+dist/assets/_page-DkPcMCCL.js                21.97 kB │ gzip:   5.27 kB │ map:    38.91 kB
+dist/assets/index-tVuA-UBK.js             2,626.66 kB │ gzip: 500.02 kB │ map: 4,667.17 kB
 
-✓ built in 1.12s
-[plugin builtin:vite-reporter] 
-(!) Some chunks are larger than 500 kB after minification. Consider:
-- Using dynamic import() to code-split the application
-- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
-- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+✓ built in 1.54s

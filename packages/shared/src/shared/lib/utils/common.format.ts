@@ -1,4 +1,4 @@
-import { format, parseISO } from 'date-fns';
+import { normalizeDateFormat, parseDateInput } from './common.date-helper';
 
 /**
  * 일자 포멧팅
@@ -10,9 +10,12 @@ const dateFormat = (data: any, returnFormat = 'yyyy-MM-dd') => {
     return data;
   }
 
-  const parseDate = parseISO(data);
+  const parseDate = parseDateInput(data);
+  if (!parseDate.isValid()) {
+    throw new RangeError('Invalid time value');
+  }
   // console.log("parseDate :: ", parseDate)
-  return format(parseDate, returnFormat);
+  return parseDate.format(normalizeDateFormat(returnFormat));
 };
 
 /**

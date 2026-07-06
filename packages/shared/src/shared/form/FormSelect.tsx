@@ -3,29 +3,42 @@ import { type FieldPath, type FieldValues, useController } from 'react-hook-form
 
 import { Select, type SelectProps } from '../ui/select/Select';
 import { FormField } from './FormField';
+import { type FieldRuleProps, buildFieldRules } from './rules';
 
 export type FormSelectProps<TValues extends FieldValues = FieldValues> = Omit<
   SelectProps,
-  'name' | 'defaultValue' | 'value'
-> & {
-  name: FieldPath<TValues>;
-  label?: React.ReactNode;
-  description?: React.ReactNode;
-};
+  'name' | 'defaultValue' | 'value' | 'required'
+> &
+  FieldRuleProps<TValues> & {
+    name: FieldPath<TValues>;
+    label?: React.ReactNode;
+    description?: React.ReactNode;
+  };
 
 export function FormSelect<TValues extends FieldValues = FieldValues>({
   name,
   label,
   description,
   required,
+  validate,
+  deps,
+  rules,
   onChange,
   onBlur,
   ...props
 }: FormSelectProps<TValues>) {
-  const { field } = useController({ name });
+  const { field } = useController<TValues>({
+    name,
+    rules: buildFieldRules({ required, validate, deps, rules }),
+  });
 
   return (
-    <FormField<TValues> name={name} label={label} description={description} required={required}>
+    <FormField<TValues>
+      name={name}
+      label={label}
+      description={description}
+      required={Boolean(required)}
+    >
       {(fieldProps) => (
         <Select
           {...props}

@@ -1,36 +1,23 @@
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { useForm } from 'react-hook-form';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { z } from 'zod';
 
 import { Form } from './Form';
 import { FormAccountInput } from './FormAccountInput';
 import { FormInput } from './FormInput';
 import { FormSelect } from './FormSelect';
 import { FormSubmitButton } from './FormSubmitButton';
-import { useZodForm } from './useZodForm';
+import { VALIDATION_MESSAGES } from './messages';
+import { validators } from './rules';
 
-const REQUIRED_MESSAGE = '필수 입력 항목입니다.';
-
-const signupSchema = z
-  .object({
-    userId: z.string().min(1, REQUIRED_MESSAGE).min(4, '4자 이상 입력해주세요.'),
-    email: z
-      .string()
-      .min(1, REQUIRED_MESSAGE)
-      .pipe(z.email('올바른 이메일 형식으로 입력해주세요.')),
-    password: z.string().min(1, REQUIRED_MESSAGE).min(8, '8자 이상 입력해주세요.'),
-    passwordConfirm: z.string().min(1, REQUIRED_MESSAGE),
-    userType: z.string().min(1, REQUIRED_MESSAGE),
-    accountNo: z.string(),
-  })
-  .refine((values) => values.password === values.passwordConfirm, {
-    path: ['passwordConfirm'],
-    message: '비밀번호가 일치하지 않습니다.',
-  })
-  .transform(({ password: _password, passwordConfirm: _passwordConfirm, ...payload }) => payload);
-
-type SignupValues = z.input<typeof signupSchema>;
-type SignupPayload = z.output<typeof signupSchema>;
+interface SignupValues {
+  userId: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  userType: string;
+  accountNo: string;
+}
 
 const defaultValues: SignupValues = {
   userId: '',
@@ -41,19 +28,27 @@ const defaultValues: SignupValues = {
   accountNo: '',
 };
 
-function TestSignupForm({ onSubmit }: { onSubmit: (payload: SignupPayload) => void }) {
-  const form = useZodForm(signupSchema, { defaultValues });
+function TestSignupForm({ onSubmit }: { onSubmit: (values: SignupValues) => void }) {
+  const form = useForm<SignupValues>({ defaultValues });
 
   return (
     <Form form={form} onSubmit={onSubmit}>
-      <FormInput<SignupValues> name="userId" label="아이디" required />
-      <FormInput<SignupValues> name="email" label="이메일" required />
-      <FormInput<SignupValues> name="password" label="비밀번호" type="password" required />
+      <FormInput<SignupValues> name="userId" label="아이디" required minLength={4} />
+      <FormInput<SignupValues> name="email" label="이메일" required validate={validators.email} />
+      <FormInput<SignupValues>
+        name="password"
+        label="비밀번호"
+        type="password"
+        required
+        minLength={8}
+        deps={['passwordConfirm']}
+      />
       <FormInput<SignupValues>
         name="passwordConfirm"
         label="비밀번호 확인"
         type="password"
         required
+        validate={(value, values) => value === values.password || '비밀번호가 일치하지 않습니다.'}
       />
       <FormSelect<SignupValues>
         name="userType"
@@ -71,41 +66,46 @@ function TestSignupForm({ onSubmit }: { onSubmit: (payload: SignupPayload) => vo
   );
 }
 
+const getFormElement = () =>
+  screen.getByRole('button', { name: '가입하기' }).closest('form') as HTMLFormElement;
+
 afterEach(cleanup);
 
-describe('Form components', () => {
-  it('shows inline field errors and submits transformed payload after validation passes', async () => {
+describe('Form components (rules mode)', () => {
+  it('uses the submit button variant by default', () => {
+    render(<TestSignupForm onSubmit={vi.fn()} />);
+
+    const submitButton = screen.getByRole('button', { name: '가입하기' });
+
+    expect(submitButton.className).toContain('bg-blue-600');
+    expect(submitButton.className).not.toContain('bg-red-600');
+  });
+
+  it('shows required errors on submit and submits values after validation passes', async () => {
     const handleSubmit = vi.fn();
 
     render(<TestSignupForm onSubmit={handleSubmit} />);
 
-    const formElement = screen
-      .getByRole('button', { name: '가입하기' })
-      .closest('form') as HTMLFormElement;
+    fireEvent.submit(getFormElement());
 
-    fireEvent.submit(formElement);
-
-    expect(await screen.findAllByText(REQUIRED_MESSAGE)).toHaveLength(5);
+    expect(await screen.findAllByText(VALIDATION_MESSAGES.required)).toHaveLength(5);
     expect(handleSubmit).not.toHaveBeenCalled();
 
     fireEvent.change(screen.getByLabelText(/아이디/), { target: { value: 'tester' } });
     fireEvent.change(screen.getByLabelText(/이메일/), { target: { value: 'tester@example.com' } });
     fireEvent.change(screen.getByLabelText(/^비밀번호\*/), { target: { value: 'password1' } });
-    fireEvent.change(screen.getByLabelText(/비밀번호 확인/), { target: { value: 'password2' } });
+    fireEvent.change(screen.getByLabelText(/비밀번호 확인/), { target: { value: 'password1' } });
     fireEvent.change(screen.getByLabelText(/가입 유형/), { target: { value: 'business' } });
     fireEvent.change(screen.getByLabelText('계좌번호'), { target: { value: '123-456' } });
-    fireEvent.submit(formElement);
-
-    expect(await screen.findByText('비밀번호가 일치하지 않습니다.')).toBeTruthy();
-
-    fireEvent.change(screen.getByLabelText(/비밀번호 확인/), { target: { value: 'password1' } });
-    fireEvent.submit(formElement);
+    fireEvent.submit(getFormElement());
 
     await waitFor(() => {
       expect(handleSubmit).toHaveBeenCalledWith(
         {
           userId: 'tester',
           email: 'tester@example.com',
+          password: 'password1',
+          passwordConfirm: 'password1',
           userType: 'business',
           accountNo: '123456',
         },
@@ -114,19 +114,32 @@ describe('Form components', () => {
     });
   });
 
-  it('shows field-level format errors from the schema', async () => {
+  it('shows field-level rule errors (minLength, email)', async () => {
     render(<TestSignupForm onSubmit={vi.fn()} />);
-
-    const formElement = screen
-      .getByRole('button', { name: '가입하기' })
-      .closest('form') as HTMLFormElement;
 
     fireEvent.change(screen.getByLabelText(/아이디/), { target: { value: 'abc' } });
     fireEvent.change(screen.getByLabelText(/이메일/), { target: { value: 'not-an-email' } });
-    fireEvent.submit(formElement);
+    fireEvent.submit(getFormElement());
 
-    expect(await screen.findByText('4자 이상 입력해주세요.')).toBeTruthy();
-    expect(screen.getByText('올바른 이메일 형식으로 입력해주세요.')).toBeTruthy();
+    expect(await screen.findByText(VALIDATION_MESSAGES.minLength(4))).toBeTruthy();
+    expect(screen.getByText(VALIDATION_MESSAGES.email)).toBeTruthy();
+  });
+
+  it('revalidates passwordConfirm when password changes (deps)', async () => {
+    render(<TestSignupForm onSubmit={vi.fn()} />);
+
+    fireEvent.change(screen.getByLabelText(/^비밀번호\*/), { target: { value: 'password1' } });
+    fireEvent.change(screen.getByLabelText(/비밀번호 확인/), { target: { value: 'password2' } });
+    fireEvent.submit(getFormElement());
+
+    expect(await screen.findByText('비밀번호가 일치하지 않습니다.')).toBeTruthy();
+
+    // passwordConfirm이 아니라 password를 고쳐서 일치시킴 → deps로 재검증되어 에러가 사라져야 함
+    fireEvent.change(screen.getByLabelText(/^비밀번호\*/), { target: { value: 'password2' } });
+
+    await waitFor(() => {
+      expect(screen.queryByText('비밀번호가 일치하지 않습니다.')).toBeNull();
+    });
   });
 
   it('normalizes account input to digits only', async () => {

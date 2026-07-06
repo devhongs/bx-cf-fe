@@ -1,4 +1,4 @@
-$ vite build
+$ vite build --sourcemap --minify false
 vite v8.1.0 building client environment for production...
 
 ../images/common/bxui_logo.png referenced in ../images/common/bxui_logo.png didn't resolve at build time, it will remain unchanged to be resolved at runtime
@@ -322,51 +322,82 @@ vite v8.1.0 building client environment for production...
 /assets/images/icons/avail-insurance.svg referenced in /assets/images/icons/avail-insurance.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
 
 /assets/images/icons/view-insurance.svg referenced in /assets/images/icons/view-insurance.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
-[2Ktransforming...✓ 2479 modules transformed.
+[2Ktransforming...✓ 2190 modules transformed.
 rendering chunks...
 computing gzip size...
-dist/index.html                               1.10 kB │ gzip:   0.52 kB
-dist/assets/_auth-BXqgwuHZ.css                4.59 kB │ gzip:   1.48 kB
-dist/assets/_page-BlR1ljsf.css               27.79 kB │ gzip:   5.55 kB
-dist/assets/alarm-list-GXAYwV4C.css          27.79 kB │ gzip:   5.55 kB
-dist/assets/_page-DijCMzUy.css               27.79 kB │ gzip:   5.55 kB
-dist/assets/user-info-Bqy1Y8kI.css           28.61 kB │ gzip:   5.72 kB
-dist/assets/transfer-list-DPGYr-XK.css       30.93 kB │ gzip:   6.00 kB
-dist/assets/transfer-amount-C_MOFrlk.css     32.33 kB │ gzip:   6.19 kB
-dist/assets/_page-CVVAQjD_.css               99.25 kB │ gzip:  10.94 kB
-dist/assets/index-CgJkWGgd.css              295.74 kB │ gzip:  39.69 kB
-dist/assets/_auth-BNqRBV-a.js                 0.25 kB │ gzip:   0.21 kB
-dist/assets/_page.setting-BM92W7jW.js         0.25 kB │ gzip:   0.22 kB
-dist/assets/routes-DjgO_Pm1.js                0.25 kB │ gzip:   0.22 kB
-dist/assets/accout-detail-C7S76Fv9.js         0.36 kB │ gzip:   0.28 kB
-dist/assets/setting-DdASKTdn.js               0.69 kB │ gzip:   0.48 kB
-dist/assets/utils-ZHVhc9lP.js                 0.70 kB │ gzip:   0.40 kB
-dist/assets/alarm-detail-psr1gQP7.js          1.11 kB │ gzip:   0.63 kB
-dist/assets/_page.asset-C84V5ePB.js           1.37 kB │ gzip:   0.79 kB
-dist/assets/_page.main-Cx_lDDzW.js            1.62 kB │ gzip:   0.91 kB
-dist/assets/_auth.login-D1ZhpIKK.js           3.74 kB │ gzip:   1.62 kB
-dist/assets/web-vitals-T56GecVW.js            5.62 kB │ gzip:   2.35 kB
-dist/assets/_page.product-f-K78ADc.js         7.87 kB │ gzip:   2.24 kB
-dist/assets/_page.menu-CiNxg-2g.js            8.00 kB │ gzip:   2.33 kB
-dist/assets/alarm-list-DepcTUY6.js            8.20 kB │ gzip:   2.45 kB
-dist/assets/compiler-runtime--XPNi5ZU.js      8.70 kB │ gzip:   3.29 kB
-dist/assets/user-info-Cp1NkiBK.js             9.11 kB │ gzip:   2.54 kB
-dist/assets/transfer-amount-C5kJn3UP.js      10.64 kB │ gzip:   3.32 kB
-dist/assets/transfer-list-BKatFa3P.js        10.68 kB │ gzip:   3.42 kB
-dist/assets/_page-BunUW0bQ.js                39.97 kB │ gzip:   7.55 kB
-dist/assets/index-RmWrndbK.js             1,245.52 kB │ gzip: 352.24 kB
+dist/index.html                               1.10 kB │ gzip:   0.53 kB
+dist/assets/_auth-CY-4rcKW.css                5.88 kB │ gzip:   1.71 kB
+dist/assets/_page-DWZBoAPu.css               35.06 kB │ gzip:   6.52 kB
+dist/assets/alarm-list-CgISGUPC.css          35.06 kB │ gzip:   6.52 kB
+dist/assets/_page-DTlv-6QX.css               35.06 kB │ gzip:   6.52 kB
+dist/assets/user-info-D8s3GuWd.css           36.04 kB │ gzip:   6.73 kB
+dist/assets/transfer-list-D_41fukH.css       38.67 kB │ gzip:   7.01 kB
+dist/assets/transfer-amount-D1n-wCrQ.css     40.24 kB │ gzip:   7.23 kB
+dist/assets/_page-BvtgDerE.css              179.20 kB │ gzip:  31.21 kB
+dist/assets/index-BkZeUGXF.css              484.95 kB │ gzip:  80.87 kB
+dist/assets/_auth-BNduuskl.js                 0.66 kB │ gzip:   0.38 kB │ map:     0.62 kB
+dist/assets/_page.setting-DL74npDH.js         0.67 kB │ gzip:   0.39 kB │ map:     0.66 kB
+dist/assets/routes-CrJ8YD9F.js                0.68 kB │ gzip:   0.39 kB │ map:     0.60 kB
+dist/assets/accout-detail-DHkh_yWm.js         0.85 kB │ gzip:   0.45 kB │ map:     0.92 kB
+dist/assets/setting-s9hu7TYy.js               1.83 kB │ gzip:   0.80 kB │ map:     2.68 kB
+dist/assets/alarm-detail-AGGfcLQC.js          2.49 kB │ gzip:   0.88 kB │ map:     3.53 kB
+dist/assets/_page.main-BTFeHwnH.js            2.89 kB │ gzip:   1.23 kB │ map:     3.79 kB
+dist/assets/_page.asset-C4G3zygG.js           3.34 kB │ gzip:   1.24 kB │ map:     5.40 kB
+dist/assets/utils-6H7UF9Ko.js                 3.76 kB │ gzip:   1.44 kB │ map:     5.23 kB
+dist/assets/_auth.login-B0-NDkU1.js           6.91 kB │ gzip:   2.16 kB │ map:    14.63 kB
+dist/assets/web-vitals-B0YNZpvD.js            7.74 kB │ gzip:   2.86 kB │ map:    13.72 kB
+dist/assets/_page.product-D5wpl-gl.js        10.29 kB │ gzip:   3.14 kB │ map:     3.06 kB
+dist/assets/_page.menu-DaRlksNw.js           10.55 kB │ gzip:   3.26 kB │ map:     3.65 kB
+dist/assets/alarm-list-Bz_myZ_X.js           11.06 kB │ gzip:   3.37 kB │ map:     4.02 kB
+dist/assets/user-info-DDTaD8Xi.js            12.51 kB │ gzip:   3.45 kB │ map:     4.88 kB
+dist/assets/transfer-amount-CyRmpDF8.js      15.68 kB │ gzip:   4.43 kB │ map:     9.84 kB
+dist/assets/transfer-list-GJ3jn7pu.js        15.87 kB │ gzip:   4.64 kB │ map:    10.60 kB
+dist/assets/compiler-runtime-DnrWg_9d.js     19.59 kB │ gzip:   5.07 kB │ map:    30.62 kB
+dist/assets/_page-DTnJJz9w.js                52.14 kB │ gzip:  10.15 kB │ map:    16.79 kB
+dist/assets/index-Djl0w8cS.js             2,600.61 kB │ gzip: 492.56 kB │ map: 4,508.11 kB
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
+
+[plugin @tailwindcss/vite:generate:build] [33m[SOURCEMAP_BROKEN] [0mSourcemap is likely to be incorrect: a plugin (@tailwindcss/vite:generate:build) was used to transform files, but didn't generate a sourcemap for the transformation. Consult the plugin documentation for help: https://rolldown.rs/guide/troubleshooting#warning-sourcemap-is-likely-to-be-incorrect
 
 [33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugins. Here is a breakdown:
-  - @rolldown/plugin-babel (36%)
-  - @tailwindcss/vite:generate:build (27%)
+  - @rolldown/plugin-babel (42%)
+  - @tailwindcss/vite:generate:build (24%)
   - vite:css (15%)
-  - tanstack-router:code-splitter:compile-reference-file (12%)
+  - tanstack-router:code-splitter:compile-reference-file (10%)
   - vite:css-post (6%)
 See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
 
-[plugin builtin:vite-reporter] 
-(!) Some chunks are larger than 500 kB after minification. Consider:
-- Using dynamic import() to code-split the application
-- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
-- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
-✓ built in 3.53s
+✓ built in 3.66s

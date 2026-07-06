@@ -222,6 +222,28 @@ export namespace system {
       };
       CommonCodeListResponse: {
         /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
+        /**
+         * Format: date-time
+         * @description 생성 일시
+         * @example 2026-01-01T09:00:00
+         */
+        createdAt?: string;
+        /**
+         * Format: date-time
+         * @description 수정 일시
+         * @example 2026-01-01T10:00:00
+         */
+        updatedAt?: string;
+        /**
          * Format: int64
          * @description 공통코드 ID
          */
@@ -279,18 +301,13 @@ export namespace system {
          * @example {}
          */
         extraData?: string;
+      };
+      CommonCodeGroupCreateRequest: {
         /**
          * @description 생성자 ID
          * @example admin
          */
         createdBy?: string;
-        /**
-         * @description 수정자 ID
-         * @example admin
-         */
-        updatedBy?: string;
-      };
-      CommonCodeGroupCreateRequest: {
         /**
          * @description 공통코드 그룹 코드
          * @example USE_YN
@@ -321,13 +338,13 @@ export namespace system {
          * @example 1
          */
         sortSeq?: number;
-        /**
-         * @description 생성자 ID
-         * @example admin
-         */
-        createdBy?: string;
       };
       CommonCodeGroupUpdateRequest: {
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
         /**
          * @description 공통코드 그룹명
          * @example 사용 여부
@@ -353,13 +370,30 @@ export namespace system {
          * @example 1
          */
         sortSeq?: number;
+      };
+      MenuActionListResponse: {
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
         /**
          * @description 수정자 ID
          * @example admin
          */
         updatedBy?: string;
-      };
-      MenuActionListResponse: {
+        /**
+         * Format: date-time
+         * @description 생성 일시
+         * @example 2026-01-01T09:00:00
+         */
+        createdAt?: string;
+        /**
+         * Format: date-time
+         * @description 수정 일시
+         * @example 2026-01-01T10:00:00
+         */
+        updatedAt?: string;
         /**
          * Format: int64
          * @description 메뉴 기능 ID
@@ -402,12 +436,30 @@ export namespace system {
          * @enum {string}
          */
         useYn?: 'Y' | 'N';
-        /** @description 생성자 ID */
-        createdBy?: string;
-        /** @description 수정자 ID */
-        updatedBy?: string;
       };
       MenuListResponse: {
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
+        /**
+         * Format: date-time
+         * @description 생성 일시
+         * @example 2026-01-01T09:00:00
+         */
+        createdAt?: string;
+        /**
+         * Format: date-time
+         * @description 수정 일시
+         * @example 2026-01-01T10:00:00
+         */
+        updatedAt?: string;
         /**
          * Format: int64
          * @description 메뉴 ID
@@ -474,27 +526,22 @@ export namespace system {
         useYn?: 'Y' | 'N';
         /** @description 비고 */
         remark?: string;
-        /**
-         * @description 생성자 ID
-         * @example admin
-         */
-        createdBy?: string;
-        /**
-         * @description 수정자 ID
-         * @example admin
-         */
-        updatedBy?: string;
       };
       RoleMenuSaveSaveRequest: {
-        /** @description 역할에 부여할 메뉴 ID 목록 */
-        menuIds: number[];
         /**
          * @description 생성자 ID
          * @example admin
          */
         createdBy?: string;
+        /** @description 역할에 부여할 메뉴 ID 목록 */
+        menuIds: number[];
       };
       MenuCreateRequest: {
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
         /**
          * Format: int64
          * @description 상위 메뉴 ID
@@ -556,13 +603,13 @@ export namespace system {
         useYn?: 'Y' | 'N';
         /** @description 비고 */
         remark?: string;
-        /**
-         * @description 생성자 ID
-         * @example admin
-         */
-        createdBy?: string;
       };
       MenuUpdateRequest: {
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
         /**
          * Format: int64
          * @description 상위 메뉴 ID
@@ -619,13 +666,13 @@ export namespace system {
         useYn?: 'Y' | 'N';
         /** @description 비고 */
         remark?: string;
-        /**
-         * @description 수정자 ID
-         * @example admin
-         */
-        updatedBy?: string;
       };
       CommonCodeCreateRequest: {
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
         /**
          * @description 공통코드
          * @example Y
@@ -672,13 +719,13 @@ export namespace system {
          * @example {}
          */
         extraData?: string;
-        /**
-         * @description 생성자 ID
-         * @example admin
-         */
-        createdBy?: string;
       };
       CommonCodeUpdateRequest: {
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
         /**
          * @description 공통코드명
          * @example 사용
@@ -720,13 +767,30 @@ export namespace system {
          * @example {}
          */
         extraData?: string;
+      };
+      CommonCodeGroupListResponse: {
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
         /**
          * @description 수정자 ID
          * @example admin
          */
         updatedBy?: string;
-      };
-      CommonCodeGroupListResponse: {
+        /**
+         * Format: date-time
+         * @description 생성 일시
+         * @example 2026-01-01T09:00:00
+         */
+        createdAt?: string;
+        /**
+         * Format: date-time
+         * @description 수정 일시
+         * @example 2026-01-01T10:00:00
+         */
+        updatedAt?: string;
         /**
          * Format: int64
          * @description 공통코드 그룹 ID
@@ -762,16 +826,6 @@ export namespace system {
          * @example 1
          */
         sortSeq?: number;
-        /**
-         * @description 생성자 ID
-         * @example admin
-         */
-        createdBy?: string;
-        /**
-         * @description 수정자 ID
-         * @example admin
-         */
-        updatedBy?: string;
       };
     };
     responses: never;

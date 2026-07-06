@@ -10,13 +10,14 @@ export interface FormSubmitButtonProps extends Omit<ButtonProps, 'type'> {
 export function FormSubmitButton({
   children,
   disabled,
+  variant = 'submit',
   loadingLabel,
   ...props
 }: FormSubmitButtonProps) {
   const { isSubmitting } = useFormState();
 
   return (
-    <Button {...props} disabled={disabled || isSubmitting} type="submit">
+    <Button {...props} variant={variant} disabled={disabled || isSubmitting} type="submit">
       {isSubmitting && loadingLabel ? loadingLabel : children}
     </Button>
   );
