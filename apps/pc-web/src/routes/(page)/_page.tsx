@@ -11,6 +11,8 @@ const ROUTE_TITLES: Record<string, string> = {
   '/product': '상품',
   '/asset': '자산',
   '/alarm': '알림',
+  '/form': 'Form',
+  '/components': 'Components',
   '/setting': '설정',
 };
 
@@ -38,7 +40,7 @@ function PageLayoutContent() {
   const location = useLocation();
   const { navSidebarOpen, toggleNavSidebar, settingsPanelOpen, toggleSettingsPanel } = useLayout();
 
-  const title = ROUTE_TITLES[location.pathname] || 'Playground';
+  const title = ROUTE_TITLES[location.pathname] || '대시보드';
 
   return (
     <div className="relative flex h-screen w-screen overflow-hidden bg-[#131314]">

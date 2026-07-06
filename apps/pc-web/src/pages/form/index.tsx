@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { SignupForm, type SignupPayload } from '@/features/auth/ui/signup-form';
 
-export function PlaygroundPage() {
+export function FormPage() {
   const [payload, setPayload] = useState<SignupPayload | null>(null);
   const handleSubmit = (nextPayload: SignupPayload) => {
     setPayload(nextPayload);
@@ -12,8 +12,8 @@ export function PlaygroundPage() {
     <div className="h-full overflow-y-auto bg-[#131314] p-8 text-[#e3e3e3]">
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
         <div>
-          <h1 className="text-2xl font-semibold">Playground</h1>
-          <p className="mt-2 text-sm text-[#9aa0a6]">회원가입 폼 샘플</p>
+          <h1 className="text-2xl font-semibold">Form</h1>
+          <p className="mt-2 text-sm text-[#9aa0a6]">폼 샘플</p>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,560px)_minmax(360px,1fr)]">

@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from '@tanstack/react-router';
-import { Bell, FlaskConical, LayoutDashboard, ShoppingBag, Wallet } from 'lucide-react';
+import { Bell, Blocks, FileText, LayoutDashboard, ShoppingBag, Wallet } from 'lucide-react';
+import type { ReactNode } from 'react';
 
 import type { ProductRouteState } from '@/routes/(page)/_page.product';
 import { useLayout } from '@/shared/context/LayoutContext';
@@ -7,14 +8,24 @@ import { useLayout } from '@/shared/context/LayoutContext';
 import { AccountMenu } from './AccountMenu';
 import styles from './NavSidebar.module.css';
 
-const navItems = [
+type NavItem = {
+  label: string;
+  path: string;
+  icon: ReactNode;
+  state?: ProductRouteState;
+};
+
+type NavGroup = {
+  label: string;
+  type: 'TITLE';
+  children: NavItem[];
+};
+
+const navItems: NavGroup[] = [
   {
     label: 'MANAGE',
     type: 'TITLE',
-    children: [
-      { label: '대시보드', path: '/main', icon: <LayoutDashboard size={16} /> },
-      { label: 'Playground', path: '/playground', icon: <FlaskConical size={16} /> },
-    ],
+    children: [{ label: '대시보드', path: '/main', icon: <LayoutDashboard size={16} /> }],
   },
   {
     label: 'BANKING',
@@ -30,12 +41,44 @@ const navItems = [
       { label: '알림', path: '/alarm', icon: <Bell size={16} /> },
     ],
   },
+  {
+    label: 'PLAYGROUND',
+    type: 'TITLE',
+    children: [
+      {
+        label: 'Form',
+        path: '/form',
+        icon: <FileText size={16} />,
+      },
+      {
+        label: 'Components',
+        path: '/components',
+        icon: <Blocks size={16} />,
+      },
+    ],
+  },
 ];
 
 export function NavSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { navSidebarOpen } = useLayout();
+
+  const isActive = (item: NavItem) => {
+    return location.pathname === item.path;
+  };
+
+  const handleNavigate = (item: NavItem) => {
+    const options: any = {
+      to: item.path as any,
+    };
+
+    if (item.state) {
+      options.state = (prev: unknown) => ({ ...(prev as object), ...item.state });
+    }
+
+    navigate(options);
+  };
 
   return (
     <aside className={`${styles.sidebar} ${!navSidebarOpen ? styles.collapsed : ''}`}>
@@ -70,15 +113,10 @@ export function NavSidebar() {
             <div className={styles.navGroupChildren}>
               {group.children?.map((item) => (
                 <button
-                  key={item.path}
+                  key={`${item.path}:${item.label}`}
                   type="button"
-                  className={`${styles.navItem} ${location.pathname === item.path ? styles.active : ''}`}
-                  onClick={() =>
-                    navigate({
-                      to: item.path as any,
-                      state: item.state ? (prev) => ({ ...prev, ...item.state }) : undefined,
-                    })
-                  }
+                  className={`${styles.navItem} ${isActive(item) ? styles.active : ''}`}
+                  onClick={() => handleNavigate(item)}
                 >
                   <span className={styles.navIcon}>{item.icon}</span>
                   <span className={styles.navLabel}>{item.label}</span>
