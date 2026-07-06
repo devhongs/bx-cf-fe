@@ -1,8 +1,8 @@
 .content {
   z-index: 50;
   min-width: 220px;
-  background-color: #2a2a2c;
-  border: 1px solid #3a3a3c;
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border);
   border-radius: 14px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   padding: 12px;
@@ -33,7 +33,7 @@
 .headerTitle {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #e3e3e3;
+  color: var(--foreground);
 }
 
 .closeBtn {
@@ -42,7 +42,7 @@
   justify-content: center;
   background: none;
   border: none;
-  color: #9aa0a6;
+  color: var(--muted);
   cursor: pointer;
   padding: 4px;
   border-radius: 6px;
@@ -50,6 +50,6 @@
 }
 
 .closeBtn:hover {
-  background-color: #35363a;
-  color: #e3e3e3;
+  background-color: var(--surface-hover);
+  color: var(--foreground);
 }

@@ -29,20 +29,18 @@ export function SettingModal(_props: ModalConfig) {
   return (
     <div className="flex flex-col gap-6">
       <DialogHeader>
-        <DialogTitle className="text-[#e3e3e3]">설정</DialogTitle>
-        <DialogDescription className="text-[#9aa0a6]">
-          계정 및 앱 설정을 관리합니다.
-        </DialogDescription>
+        <DialogTitle className="text-foreground">설정</DialogTitle>
+        <DialogDescription className="text-muted">계정 및 앱 설정을 관리합니다.</DialogDescription>
       </DialogHeader>
 
       {/* 계정 정보 */}
-      <div className="flex items-center gap-3 rounded-lg bg-[#2d2e30] p-4">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#35363a]">
-          <User size={18} className="text-[#8ab4f8]" />
+      <div className="flex items-center gap-3 rounded-lg bg-surface-raised p-4">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-surface-hover">
+          <User size={18} className="text-accent" />
         </div>
         <div>
-          <p className="text-sm font-medium text-[#e3e3e3]">{user?.usrNm ?? '사용자'}</p>
-          <p className="text-xs text-[#9aa0a6]">{user?.usrId ?? ''}</p>
+          <p className="text-sm font-medium text-foreground">{user?.usrNm ?? '사용자'}</p>
+          <p className="text-xs text-muted">{user?.usrId ?? ''}</p>
         </div>
       </div>
 
@@ -51,7 +49,7 @@ export function SettingModal(_props: ModalConfig) {
         type="button"
         onClick={handleLogout}
         disabled={isPending}
-        className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left text-red-400 transition-colors hover:bg-[#2d2e30]"
+        className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left text-red-400 transition-colors hover:bg-surface-raised"
       >
         <LogOut size={16} />
         <span className="text-sm font-medium">로그아웃</span>

@@ -94,7 +94,7 @@ export function NavSidebar() {
           <text
             x="0"
             y="18"
-            fill="#FFFFFF"
+            fill="var(--foreground)"
             fontFamily="'Product Sans', 'Google Sans', 'Outfit', 'Inter', system-ui, sans-serif"
             fontSize="18"
             fontWeight="500"

@@ -48,7 +48,7 @@ const DialogContent = React.forwardRef<
         // 크기
         'w-full max-w-lg',
         // 모양
-        'rounded-xl border border-white/10 bg-white shadow-xl',
+        'rounded-xl border border-border bg-surface-elevated shadow-xl',
         // 애니메이션
         'transition-all duration-200',
         'data-[state=open]:opacity-100 data-[state=open]:scale-100',
@@ -106,7 +106,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn('text-sm text-gray-500', className)}
+    className={cn('text-sm text-muted', className)}
     {...props}
   />
 ));

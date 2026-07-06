@@ -35,7 +35,7 @@ const Body: FC<{ children: ReactNode; className?: string }> = ({ children, class
   <div className={cn('flex-1 overflow-y-auto p-4', className)}>{children}</div>
 );
 const Footer: FC<{ children: ReactNode; className?: string }> = ({ children, className }) => (
-  <div className={cn('border-t border-gray-100 p-4', className)}>{children}</div>
+  <div className={cn('border-t border-border p-4', className)}>{children}</div>
 );
 
 /* ── 메인 컴포넌트 ── */
@@ -55,7 +55,7 @@ const ModalComponent: React.FC<ModalProps> = ({
   return (
     <div className={cn('flex h-full w-full flex-col', className)}>
       {/* 헤더 */}
-      <div className="flex h-14 shrink-0 items-center border-b border-gray-100 px-2">
+      <div className="flex h-14 shrink-0 items-center border-b border-border px-2">
         <div className="flex w-10 items-center justify-start">
           <IconButton
             icon={closeButtonType === 'back' ? ArrowLeft : X}
@@ -69,7 +69,7 @@ const ModalComponent: React.FC<ModalProps> = ({
       </div>
 
       {/* 설명 */}
-      {DescSlot && <div className="shrink-0 px-4 py-2 text-sm text-gray-500">{DescSlot}</div>}
+      {DescSlot && <div className="shrink-0 px-4 py-2 text-sm text-muted">{DescSlot}</div>}
 
       {/* 바디 */}
       <div className="flex-1 overflow-y-auto">{BodySlot}</div>

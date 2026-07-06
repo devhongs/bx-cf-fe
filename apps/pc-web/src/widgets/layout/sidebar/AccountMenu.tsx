@@ -1,17 +1,24 @@
 import { useNavigate } from '@tanstack/react-router';
-import { User } from 'lucide-react';
+import { Moon, Sun, User } from 'lucide-react';
 
-import { Popover, PopoverClose, PopoverTrigger, useAuthStore } from '@bx/shared';
+import { Popover, PopoverClose, PopoverTrigger, useAuthStore, useTheme } from '@bx/shared';
 
 import { LogoutButton } from '@/features/auth/ui/logout-button';
 import { PopoverPanel } from '@/shared/ui/popover-panel/PopoverPanel';
 
 import styles from './AccountMenu.module.css';
 
-/** 사이드바 하단 프로필 — 클릭 시 계정 팝오버(설정 / 로그아웃) */
+const THEME_META = {
+  light: { label: '라이트', icon: Sun, next: 'dark' },
+  dark: { label: '다크', icon: Moon, next: 'light' },
+} as const;
+
+/** 사이드바 하단 프로필 — 클릭 시 계정 팝오버(설정 / 로그아웃 / 테마) */
 export function AccountMenu() {
   const navigate = useNavigate();
   const user = useAuthStore((s) => s.user);
+  const { theme, setTheme } = useTheme();
+  const { label: themeLabel, icon: ThemeIcon, next: nextTheme } = THEME_META[theme];
 
   return (
     <Popover>
@@ -39,6 +46,17 @@ export function AccountMenu() {
           </button>
         </PopoverClose>
         <LogoutButton />
+
+        {/* 테마 — 클릭 시 라이트 → 다크 → 시스템 순환 */}
+        <button
+          type="button"
+          className={styles.menuItem}
+          aria-label={`테마 변경 (현재: ${themeLabel})`}
+          onClick={() => setTheme(nextTheme)}
+        >
+          <ThemeIcon size={13} />
+          <span>테마: {themeLabel}</span>
+        </button>
 
         {/* 약관 / 정책 */}
         <div className={styles.footer}>

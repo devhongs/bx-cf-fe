@@ -2,19 +2,19 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background-color: #1e1f20;
-  border: 1px solid #3c3c3e;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 10px 16px;
   transition: border-color 0.2s;
 }
 
 .bar:focus-within {
-  border-color: #8ab4f8;
+  border-color: var(--accent);
 }
 
 .searchIcon {
-  color: #5f6368;
+  color: var(--faint);
   flex-shrink: 0;
 }
 
@@ -23,12 +23,12 @@
   background: transparent;
   border: none;
   outline: none;
-  color: #e3e3e3;
+  color: var(--foreground);
   font-size: 0.9rem;
 }
 
 .input::placeholder {
-  color: #5f6368;
+  color: var(--faint);
 }
 
 .sendBtn {
@@ -37,15 +37,15 @@
   justify-content: center;
   width: 30px;
   height: 30px;
-  background-color: #8ab4f8;
+  background-color: var(--accent);
   border: none;
   border-radius: 6px;
-  color: #202124;
+  color: var(--accent-foreground);
   cursor: pointer;
   transition: background-color 0.15s;
   flex-shrink: 0;
 }
 
 .sendBtn:hover {
-  background-color: #aecbfa;
+  background-color: var(--accent-hover);
 }

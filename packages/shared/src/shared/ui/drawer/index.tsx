@@ -54,7 +54,7 @@ const DrawerContent = React.forwardRef<
       <DrawerPrimitive.Content
         ref={ref}
         className={cn(
-          'fixed inset-x-0 bottom-0 z-50 flex flex-col bg-white',
+          'fixed inset-x-0 bottom-0 z-50 flex flex-col bg-surface-elevated',
           fullscreen ? 'h-[100dvh] rounded-none' : 'max-h-[90dvh] rounded-t-2xl',
           className,
         )}
@@ -62,7 +62,7 @@ const DrawerContent = React.forwardRef<
       >
         {/* 드래그 핸들 */}
         {!hideHandle && !fullscreen && (
-          <div className="mx-auto mt-3 h-1.5 w-12 rounded-full bg-gray-300" />
+          <div className="mx-auto mt-3 h-1.5 w-12 rounded-full bg-border" />
         )}
         {/* X 버튼 (풀스크린일 때만 기본 표시) */}
         {!hideClose && fullscreen && (
@@ -112,7 +112,7 @@ const DrawerDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Description
     ref={ref}
-    className={cn('text-sm text-gray-500', className)}
+    className={cn('text-sm text-muted', className)}
     {...props}
   />
 ));

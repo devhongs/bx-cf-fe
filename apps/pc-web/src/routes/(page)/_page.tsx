@@ -43,28 +43,28 @@ function PageLayoutContent() {
   const title = ROUTE_TITLES[location.pathname] || '대시보드';
 
   return (
-    <div className="relative flex h-screen w-screen overflow-hidden bg-[#131314]">
+    <div className="relative flex h-screen w-screen overflow-hidden bg-background">
       <NavSidebar />
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
         {/* Global Header */}
-        <header className="flex items-center justify-between h-14 px-6 border-b border-[#2a2a2c] bg-[#131314] shrink-0">
+        <header className="flex items-center justify-between h-14 px-6 border-b border-border bg-background shrink-0">
           <div className="flex items-center gap-3">
             <button
               type="button"
-              className="flex items-center justify-center w-8 h-8 rounded-lg border-none bg-[#2a2a2d] text-[#c4c7c5] hover:bg-[#3c3d40] hover:text-[#e3e3e3] cursor-pointer transition-colors duration-200"
+              className="flex items-center justify-center w-8 h-8 rounded-lg border-none bg-surface-raised text-muted hover:bg-surface-hover hover:text-foreground cursor-pointer transition-colors duration-200"
               onClick={toggleNavSidebar}
               title={navSidebarOpen ? '사이드바 접기' : '사이드바 펴기'}
             >
               {navSidebarOpen ? <FoldIcon size={18} /> : <Menu size={18} />}
             </button>
-            <span className="text-sm font-medium text-[#e3e3e3]">{title}</span>
+            <span className="text-sm font-medium text-foreground">{title}</span>
           </div>
 
           <div>
             {!settingsPanelOpen && (
               <button
                 type="button"
-                className="flex items-center justify-center w-8 h-8 rounded-lg border-none bg-[#2a2a2d] text-[#c4c7c5] hover:bg-[#3c3d40] hover:text-[#e3e3e3] cursor-pointer transition-colors duration-200"
+                className="flex items-center justify-center w-8 h-8 rounded-lg border-none bg-surface-raised text-muted hover:bg-surface-hover hover:text-foreground cursor-pointer transition-colors duration-200"
                 onClick={toggleSettingsPanel}
                 title="우측 패널 펴기"
               >
@@ -75,7 +75,7 @@ function PageLayoutContent() {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto bg-[#131314]">
+        <main className="flex-1 overflow-y-auto bg-background">
           <Outlet />
         </main>
       </div>

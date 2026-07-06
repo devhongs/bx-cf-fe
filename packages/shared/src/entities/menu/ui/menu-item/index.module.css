@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 .layout {
-  @apply flex flex-col gap-5 text-gray-700;
+  @apply flex flex-col gap-5;
+  color: var(--foreground);
 
   .name {
     @apply text-lg font-extrabold;

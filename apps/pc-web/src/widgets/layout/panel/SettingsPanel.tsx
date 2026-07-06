@@ -1,3 +1,4 @@
+import { useTheme } from '@bx/shared';
 import { ChevronDown, X } from 'lucide-react';
 import { useState } from 'react';
 
@@ -6,6 +7,10 @@ import styles from './SettingsPanel.module.css';
 
 const ACCOUNT_TYPES = ['전체 계좌', '입출금', '적금', '카드'];
 const DATE_RANGES = ['오늘', '1주일', '1개월', '3개월'];
+const THEMES = [
+  { value: 'light', label: '라이트' },
+  { value: 'dark', label: '다크' },
+] as const;
 
 export function SettingsPanel() {
   const { settingsPanelOpen, toggleSettingsPanel } = useLayout();
@@ -14,6 +19,7 @@ export function SettingsPanel() {
   const [transferAmount, setTransferAmount] = useState('');
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [alertEnabled, setAlertEnabled] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   return (
     <aside className={`${styles.panel} ${!settingsPanelOpen ? styles.collapsed : ''}`}>
@@ -61,6 +67,23 @@ export function SettingsPanel() {
                 onClick={() => setDateRange(d)}
               >
                 {d}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* 테마 */}
+        <div className={styles.section}>
+          <label className={styles.label}>테마</label>
+          <div className={styles.chipGroup}>
+            {THEMES.map(({ value, label }) => (
+              <button
+                key={value}
+                type="button"
+                className={`${styles.chip} ${theme === value ? styles.chipActive : ''}`}
+                onClick={() => setTheme(value)}
+              >
+                {label}
               </button>
             ))}
           </div>

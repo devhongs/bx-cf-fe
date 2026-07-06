@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #202124;
+  background-color: var(--surface);
   padding: 20px;
   gap: 0;
 }
@@ -15,7 +15,7 @@
   flex-direction: row;
   width: 100%;
   max-width: 860px;
-  background-color: #2d2e30;
+  background-color: var(--surface-raised);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
@@ -52,13 +52,13 @@
 .title {
   font-size: 2rem;
   font-weight: 400;
-  color: #e3e3e3;
+  color: var(--foreground);
   margin: 0;
 }
 
 .subtitle {
   font-size: 1rem;
-  color: #9aa0a6;
+  color: var(--muted);
   margin: 0;
 }
 
@@ -82,28 +82,28 @@
   width: 100%;
   height: 52px;
   background-color: transparent;
-  border: 1px solid #5f6368;
+  border: 1px solid var(--faint);
   border-radius: 4px;
   padding: 0 16px;
   font-size: 1rem;
-  color: #e3e3e3;
+  color: var(--foreground);
   outline: none;
   transition: border-color 0.2s;
 }
 
 .input::placeholder {
-  color: #9aa0a6;
+  color: var(--muted);
 }
 
 .input:focus {
-  border-color: #8ab4f8;
-  box-shadow: inset 0 0 0 1px #8ab4f8;
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
 }
 
 .forgotLink {
   background: none;
   border: none;
-  color: #8ab4f8;
+  color: var(--accent);
   font-size: 0.875rem;
   cursor: pointer;
   padding: 0;
@@ -117,7 +117,7 @@
 
 .guestText {
   font-size: 0.8rem;
-  color: #9aa0a6;
+  color: var(--muted);
   margin: 4px 0;
   line-height: 1.5;
 }
@@ -125,7 +125,7 @@
 .guestLink {
   background: none;
   border: none;
-  color: #8ab4f8;
+  color: var(--accent);
   font-size: 0.8rem;
   cursor: pointer;
   padding: 0;
@@ -146,7 +146,7 @@
 .createBtn {
   background: none;
   border: none;
-  color: #8ab4f8;
+  color: var(--accent);
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
@@ -156,7 +156,7 @@
 }
 
 .createBtn:hover {
-  background-color: rgba(138, 180, 248, 0.08);
+  background-color: color-mix(in srgb, var(--accent) 8%, transparent);
 }
 
 /* 푸터 */
@@ -180,7 +180,7 @@
 .footerBtn {
   background: none;
   border: none;
-  color: #9aa0a6;
+  color: var(--muted);
   font-size: 0.8rem;
   cursor: pointer;
   padding: 4px 8px;
@@ -189,5 +189,5 @@
 }
 
 .footerBtn:hover {
-  color: #e3e3e3;
+  color: var(--foreground);
 }

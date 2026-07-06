@@ -26,7 +26,7 @@ const defaultValues: SignupFormValues = {
   userType: '',
 };
 
-const controlClassName = 'border-[#3c4043] bg-[#202124] text-[#e3e3e3] placeholder:text-[#80868b]';
+const controlClassName = 'border-border bg-surface text-foreground placeholder:text-faint';
 
 export function SignupForm({ onSubmit }: SignupFormProps) {
   const form = useForm<SignupFormValues>({ defaultValues });

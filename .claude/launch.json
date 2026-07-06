@@ -3,8 +3,11 @@
   "configurations": [
     {
       "name": "pc-web",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["--filter", "pc-web", "exec", "vite", "--port", "3100"],
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "export PATH=\"$HOME/.nvm/versions/node/v22.23.1/bin:$PATH\" && pnpm --filter pc-web exec vite --port 3100"
+      ],
       "port": 3100,
       "autoPort": false
     }

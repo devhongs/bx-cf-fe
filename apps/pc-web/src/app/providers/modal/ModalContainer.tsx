@@ -61,13 +61,13 @@ export function ModalContainer({ index = 0, ...config }: ModalContainerProps) {
     <Dialog open onOpenChange={handleOpenChange}>
       <DialogContent
         /* pc-web 다크 테마 */
-        className="border-[#2a2a2c] bg-[#1e1f21] text-[#e3e3e3] max-w-xl"
+        className="border-border bg-surface text-foreground max-w-xl"
         style={{ zIndex: 200 + index }}
         hideClose
       >
         <Suspense
           fallback={
-            <div className="flex h-40 items-center justify-center text-sm text-gray-400">
+            <div className="flex h-40 items-center justify-center text-sm text-faint">
               로딩 중...
             </div>
           }

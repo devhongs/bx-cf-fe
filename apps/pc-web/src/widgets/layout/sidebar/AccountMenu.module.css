@@ -7,16 +7,16 @@
   margin: 12px 10px 0;
   padding: 5px 12px;
   border-radius: 12px;
-  border: 1px solid #2d2d30;
-  background-color: #2f3033;
+  border: 1px solid var(--border);
+  background-color: var(--surface-raised);
   cursor: pointer;
   text-align: left;
   transition: background-color 0.15s, border-color 0.15s;
 }
 
 .bottomArea:hover {
-  background-color: #3b3b3d;
-  border-color: #3a3a3d;
+  background-color: var(--surface-hover);
+  border-color: var(--border);
 }
 
 .profile {
@@ -30,11 +30,11 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: #35363a;
+  background-color: var(--surface-hover);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #9aa0a6;
+  color: var(--muted);
   flex-shrink: 0;
 }
 
@@ -47,7 +47,7 @@
 .profileName {
   font-size: 0.8rem;
   font-weight: 500;
-  color: #e3e3e3;
+  color: var(--foreground);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -55,7 +55,7 @@
 
 .profileId {
   font-size: 0.7rem;
-  color: #9aa0a6;
+  color: var(--muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -70,9 +70,9 @@
   width: 100%;
   padding: 7px 16px;
   border-radius: 18px;
-  border: 1px solid #3a3a3c;
+  border: 1px solid var(--border);
   background: transparent;
-  color: #e8eaed;
+  color: var(--foreground);
   font-size: 0.74rem;
   font-weight: 500;
   cursor: pointer;
@@ -80,7 +80,7 @@
 }
 
 .menuItem:hover {
-  background-color: #3a3a3c;
+  background-color: var(--surface-hover);
 }
 
 /* 하단 푸터 (약관/정책) */
@@ -96,17 +96,17 @@
   background: none;
   border: none;
   padding: 0;
-  color: #80868b;
+  color: var(--faint);
   font-size: 0.72rem;
   cursor: pointer;
   transition: color 0.15s;
 }
 
 .footerLink:hover {
-  color: #b0b4b9;
+  color: var(--muted);
 }
 
 .footerDot {
-  color: #5f6368;
+  color: var(--faint);
   font-size: 0.72rem;
 }

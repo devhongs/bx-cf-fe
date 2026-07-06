@@ -4,10 +4,10 @@ export function ProductPage() {
   const { data: products, isLoading, isError, error } = useFetchProductList();
 
   return (
-    <div className="h-full overflow-y-auto bg-[#131314] p-8 text-[#e3e3e3]">
+    <div className="h-full overflow-y-auto bg-background p-8 text-foreground">
       <h1 className="mb-6 text-2xl font-semibold">상품</h1>
 
-      {isLoading && <p className="text-[#9aa0a6]">불러오는 중...</p>}
+      {isLoading && <p className="text-muted">불러오는 중...</p>}
 
       {isError && (
         <p className="text-red-400">
@@ -20,11 +20,11 @@ export function ProductPage() {
           {products?.map((product) => (
             <li
               key={product.productId}
-              className="rounded-lg border border-[#2a2a2c] bg-[#1e1f21] px-4 py-3"
+              className="rounded-lg border border-border bg-surface px-4 py-3"
             >
-              <p className="text-sm font-medium text-[#e3e3e3]">{product.productNm}</p>
+              <p className="text-sm font-medium text-foreground">{product.productNm}</p>
               {product.productDesc && (
-                <p className="mt-1 text-xs text-[#9aa0a6]">{product.productDesc}</p>
+                <p className="mt-1 text-xs text-muted">{product.productDesc}</p>
               )}
             </li>
           ))}
@@ -32,7 +32,7 @@ export function ProductPage() {
       )}
 
       {!isLoading && !isError && (products?.length ?? 0) === 0 && (
-        <p className="text-[#9aa0a6]">등록된 상품이 없습니다.</p>
+        <p className="text-muted">등록된 상품이 없습니다.</p>
       )}
     </div>
   );

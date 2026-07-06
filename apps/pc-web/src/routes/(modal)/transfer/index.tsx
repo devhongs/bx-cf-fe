@@ -17,18 +17,16 @@ export function TransferModal(_props: ModalConfig) {
   return (
     <div className="flex flex-col gap-6">
       <DialogHeader>
-        <DialogTitle className="text-[#e3e3e3]">이체</DialogTitle>
-        <DialogDescription className="text-[#9aa0a6]">
-          빠르고 안전하게 송금하세요.
-        </DialogDescription>
+        <DialogTitle className="text-foreground">이체</DialogTitle>
+        <DialogDescription className="text-muted">빠르고 안전하게 송금하세요.</DialogDescription>
       </DialogHeader>
 
       <div className="flex flex-col gap-3">
         <div className="flex flex-col gap-1">
-          <label className="text-xs text-[#9aa0a6]">계좌번호</label>
+          <label className="text-xs text-muted">계좌번호</label>
           <input
             type="text"
-            className="w-full rounded-lg bg-[#2d2e30] px-4 py-3 text-sm text-[#e3e3e3] placeholder:text-[#9aa0a6] focus:outline-none focus:ring-1 focus:ring-[#8ab4f8]"
+            className="w-full rounded-lg bg-surface-raised px-4 py-3 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-1 focus:ring-accent"
             placeholder="받는 분 계좌번호"
             value={accountNo}
             onChange={(e) => setAccountNo(e.target.value)}
@@ -36,11 +34,11 @@ export function TransferModal(_props: ModalConfig) {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-xs text-[#9aa0a6]">이체 금액</label>
+          <label className="text-xs text-muted">이체 금액</label>
           <input
             type="text"
             inputMode="numeric"
-            className="w-full rounded-lg bg-[#2d2e30] px-4 py-3 text-sm text-[#e3e3e3] placeholder:text-[#9aa0a6] focus:outline-none focus:ring-1 focus:ring-[#8ab4f8]"
+            className="w-full rounded-lg bg-surface-raised px-4 py-3 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-1 focus:ring-accent"
             placeholder="0"
             value={amount}
             onChange={(e) => setAmount(e.target.value.replace(/[^0-9]/g, ''))}
@@ -52,7 +50,7 @@ export function TransferModal(_props: ModalConfig) {
         <button
           type="button"
           onClick={() => close()}
-          className="flex-1 rounded-lg bg-[#2d2e30] py-3 text-sm font-medium text-[#9aa0a6] transition-colors hover:bg-[#35363a]"
+          className="flex-1 rounded-lg bg-surface-raised py-3 text-sm font-medium text-muted transition-colors hover:bg-surface-hover"
         >
           취소
         </button>
@@ -60,7 +58,7 @@ export function TransferModal(_props: ModalConfig) {
           type="button"
           onClick={handleSubmit}
           disabled={!amount || !accountNo}
-          className="flex-1 rounded-lg bg-[#8ab4f8] py-3 text-sm font-medium text-[#131314] transition-opacity disabled:opacity-40"
+          className="flex-1 rounded-lg bg-accent py-3 text-sm font-medium text-accent-foreground transition-opacity disabled:opacity-40"
         >
           이체하기
         </button>

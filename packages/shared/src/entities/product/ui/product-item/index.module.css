@@ -70,10 +70,19 @@
   text-align: left;
 }
 
+:global(.dark) .card {
+  background: rgba(30, 31, 33, 0.82);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+:global(.dark) .card:hover {
+  background: rgba(30, 31, 33, 0.92);
+}
+
 .name {
   font-size: 16.5px;
   font-weight: 800;
-  color: #1e293b; /* Slate-800: sharp readable black/grey */
+  color: var(--foreground);
   margin: 0;
   line-height: 1.3;
   letter-spacing: -0.01em;
@@ -82,7 +91,7 @@
 .description {
   font-size: 13px;
   font-weight: 500;
-  color: #64748b; /* Slate-500: elegant grey */
+  color: var(--muted);
   margin: 0;
   line-height: 1.4;
   letter-spacing: -0.01em;
@@ -94,7 +103,7 @@
 .rate {
   font-size: 13px;
   font-weight: 700;
-  color: #2563eb; /* Vibrant brand blue rate text */
+  color: var(--accent);
   margin: 0;
   line-height: 1.4;
   letter-spacing: -0.01em;

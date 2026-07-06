@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #1a1a1c;
-  border-right: 1px solid #2a2a2c;
+  background-color: var(--surface);
+  border-right: 1px solid var(--border);
   padding: 0 0 16px 0;
   overflow: hidden;
   width: 240px;
@@ -26,7 +26,7 @@
   align-items: center;
   height: 56px;
   padding: 0 24px;
-  border-bottom: 1px solid #2a2a2c;
+  border-bottom: 1px solid var(--border);
   margin-bottom: 8px;
   box-sizing: border-box;
 }
@@ -34,7 +34,7 @@
 .logoLabel {
   font-size: 1.1rem;
   font-weight: 500;
-  color: #fff;
+  color: var(--foreground);
   letter-spacing: -0.2px;
 }
 
@@ -56,7 +56,7 @@
   border-radius: 14px;
   border: none;
   background: transparent;
-  color: #9aa0a6;
+  color: var(--muted);
   font-size: 0.7rem;
   font-weight: 400;
   cursor: pointer;
@@ -66,13 +66,13 @@
 }
 
 .navItem:hover {
-  background-color: #2a2a2c;
-  color: #e3e3e3;
+  background-color: var(--surface-raised);
+  color: var(--foreground);
 }
 
 .navItem.active {
-  background-color: #2f3032;
-  color: #ffffff;
+  background-color: var(--surface-raised);
+  color: var(--foreground);
   font-weight: 500;
 }
 
@@ -107,7 +107,7 @@
 .navGroupTitle {
   font-size: 0.65rem;
   font-weight: 600;
-  color: #70757a;
+  color: var(--faint);
   padding: 0 12px 6px;
   letter-spacing: 0.8px;
   text-transform: uppercase;

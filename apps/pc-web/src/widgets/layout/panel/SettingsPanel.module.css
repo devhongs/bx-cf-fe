@@ -5,8 +5,8 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #1a1a1c;
-  border-left: 1px solid #2a2a2c;
+  background-color: var(--surface);
+  border-left: 1px solid var(--border);
   overflow-y: auto;
   width: 280px;
   z-index: 50;
@@ -28,10 +28,10 @@
   justify-content: space-between;
   height: 56px;
   padding: 0 20px;
-  border-bottom: 1px solid #2a2a2c;
+  border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
-  background-color: #1a1a1c;
+  background-color: var(--surface);
   z-index: 1;
   box-sizing: border-box;
 }
@@ -45,20 +45,20 @@
   border-radius: 6px;
   border: none;
   background: transparent;
-  color: #9aa0a6;
+  color: var(--muted);
   cursor: pointer;
   transition: background-color 0.15s, color 0.15s;
 }
 
 .closeBtn:hover {
-  background-color: #2a2a2c;
-  color: #e3e3e3;
+  background-color: var(--surface-raised);
+  color: var(--foreground);
 }
 
 .headerTitle {
   font-size: 0.95rem;
   font-weight: 500;
-  color: #fff;
+  color: var(--foreground);
   letter-spacing: -0.2px;
 }
 
@@ -79,7 +79,7 @@
 .label {
   font-size: 0.8rem;
   font-weight: 500;
-  color: #9aa0a6;
+  color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -92,10 +92,10 @@
 .select {
   width: 100%;
   appearance: none;
-  background-color: #2a2a2c;
-  border: 1px solid #3c3c3e;
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  color: #e3e3e3;
+  color: var(--foreground);
   font-size: 0.875rem;
   padding: 10px 36px 10px 12px;
   cursor: pointer;
@@ -104,7 +104,7 @@
 }
 
 .select:focus {
-  border-color: #8ab4f8;
+  border-color: var(--accent);
 }
 
 .selectIcon {
@@ -112,7 +112,7 @@
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: #9aa0a6;
+  color: var(--muted);
   pointer-events: none;
 }
 
@@ -126,32 +126,32 @@
 .chip {
   padding: 6px 12px;
   border-radius: 16px;
-  border: 1px solid #3c3c3e;
+  border: 1px solid var(--border);
   background: transparent;
-  color: #9aa0a6;
+  color: var(--muted);
   font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.15s;
 }
 
 .chip:hover {
-  border-color: #8ab4f8;
-  color: #8ab4f8;
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .chipActive {
-  background-color: #1e3a5f;
-  border-color: #8ab4f8;
-  color: #8ab4f8;
+  background-color: color-mix(in srgb, var(--accent) 24%, var(--background));
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 /* Input */
 .input {
   width: 100%;
-  background-color: #2a2a2c;
-  border: 1px solid #3c3c3e;
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  color: #e3e3e3;
+  color: var(--foreground);
   font-size: 0.875rem;
   padding: 10px 12px;
   outline: none;
@@ -159,20 +159,20 @@
 }
 
 .input::placeholder {
-  color: #5f6368;
+  color: var(--faint);
 }
 
 .input:focus {
-  border-color: #8ab4f8;
+  border-color: var(--accent);
 }
 
 .transferBtn {
   width: 100%;
   padding: 10px;
-  background-color: #8ab4f8;
+  background-color: var(--accent);
   border: none;
   border-radius: 8px;
-  color: #202124;
+  color: var(--accent-foreground);
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
@@ -180,13 +180,13 @@
 }
 
 .transferBtn:hover {
-  background-color: #aecbfa;
+  background-color: var(--accent-hover);
 }
 
 /* Divider */
 .divider {
   height: 1px;
-  background-color: #2a2a2c;
+  background-color: var(--surface-raised);
 }
 
 /* Toggle */
@@ -199,13 +199,13 @@
 
 .toggleLabel {
   font-size: 0.875rem;
-  color: #e3e3e3;
+  color: var(--foreground);
   margin: 0;
 }
 
 .toggleDesc {
   font-size: 0.75rem;
-  color: #5f6368;
+  color: var(--faint);
   margin: 2px 0 0;
 }
 
@@ -214,7 +214,7 @@
   height: 22px;
   border-radius: 11px;
   border: none;
-  background-color: #3c3c3e;
+  background-color: var(--surface-hover);
   cursor: pointer;
   position: relative;
   transition: background-color 0.2s;
@@ -227,17 +227,17 @@
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background-color: #9aa0a6;
+  background-color: var(--muted);
   top: 3px;
   left: 3px;
   transition: transform 0.2s, background-color 0.2s;
 }
 
 .toggleOn {
-  background-color: #1e3a5f;
+  background-color: color-mix(in srgb, var(--accent) 24%, var(--background));
 }
 
 .toggleOn::after {
   transform: translateX(18px);
-  background-color: #8ab4f8;
+  background-color: var(--accent);
 }

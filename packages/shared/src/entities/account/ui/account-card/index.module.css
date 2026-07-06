@@ -1,7 +1,9 @@
 @import "tailwindcss";
 
 .card {
-  @apply rounded-lg border border-[#E3E3E3] bg-[#ffffff] mb-8 p-5;
+  @apply rounded-lg mb-8 p-5;
+  border: 1px solid var(--border);
+  background: var(--surface-elevated);
 }
 
 .accountWrapper {
@@ -35,5 +37,7 @@
   @apply mt-5 grid grid-cols-2 gap-3;
 }
 .button {
-  @apply h-10 rounded-lg border border-1 border-black bg-white font-medium hover:opacity-90 transition;
+  @apply h-10 rounded-lg border border-1 font-medium hover:opacity-90 transition;
+  border-color: var(--foreground);
+  background: var(--surface-elevated);
 }

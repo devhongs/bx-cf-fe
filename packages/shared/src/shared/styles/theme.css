@@ -1,0 +1,60 @@
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+
+  --background: #f6f7f8;
+  --background-deep: #eef2f5;
+  --surface: #ffffff;
+  --surface-raised: #eef1f4;
+  --surface-hover: #e3e8ed;
+  --surface-elevated: #ffffff;
+  --foreground: #151a23;
+  --muted: #5f6b7a;
+  --faint: #727f8e;
+  --border: #d7dde3;
+  --accent: #9a6639;
+  --accent-hover: #835329;
+  --accent-foreground: #ffffff;
+  --accent-subtle: #6f4a2c;
+  --scrollbar-thumb: rgba(0, 0, 0, 0.2);
+  --scrollbar-thumb-hover: rgba(0, 0, 0, 0.35);
+}
+
+.dark {
+  color-scheme: dark;
+
+  --background: #131314;
+  --background-deep: #101113;
+  --surface: #1e1f21;
+  --surface-raised: #2d2e30;
+  --surface-hover: #35363a;
+  --surface-elevated: #1e1f21;
+  --foreground: #e3e3e3;
+  --muted: #9aa0a6;
+  --faint: #80868b;
+  --border: #2f3033;
+  --accent: #8ab4f8;
+  --accent-hover: #aecbfa;
+  --accent-foreground: #131314;
+  --accent-subtle: #c4d7ff;
+  --scrollbar-thumb: rgba(255, 255, 255, 0.14);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.28);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-background-deep: var(--background-deep);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-subtle: var(--accent-subtle);
+}

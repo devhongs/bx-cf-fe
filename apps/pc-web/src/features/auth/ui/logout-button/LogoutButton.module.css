@@ -6,9 +6,9 @@
   width: 100%;
   padding: 7px 16px;
   border-radius: 18px;
-  border: 1px solid #3a3a3c;
+  border: 1px solid var(--border);
   background: transparent;
-  color: #e8eaed;
+  color: var(--foreground);
   font-size: 0.74rem;
   font-weight: 500;
   cursor: pointer;
@@ -16,5 +16,5 @@
 }
 
 .button:hover {
-  background-color: #3a3a3c;
+  background-color: var(--surface-hover);
 }

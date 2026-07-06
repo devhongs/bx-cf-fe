@@ -5,7 +5,9 @@
   @apply inline-flex items-center;
 
   &.circle {
-    @apply bg-zinc-100 border border-gray-300 rounded-full flex items-center justify-center p-2;
+    @apply border rounded-full flex items-center justify-center p-2;
+    background: var(--surface-raised);
+    border-color: var(--border);
   }
 
   .icon {

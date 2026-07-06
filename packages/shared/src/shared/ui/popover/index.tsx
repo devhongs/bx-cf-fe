@@ -22,7 +22,7 @@ const PopoverContent = React.forwardRef<
         // 크기
         'z-50 w-72',
         // 모양
-        'rounded-xl border border-white/10 bg-white shadow-xl',
+        'rounded-xl border border-border bg-surface-elevated shadow-xl',
         'p-4',
         // 애니메이션 (Dialog와 동일 패턴)
         'transition-all duration-200',
