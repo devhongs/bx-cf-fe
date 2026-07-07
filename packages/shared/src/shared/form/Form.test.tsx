@@ -9,6 +9,7 @@ import { FormSelect } from './FormSelect';
 import { FormSubmitButton } from './FormSubmitButton';
 import { VALIDATION_MESSAGES } from './messages';
 import { validators } from './rules';
+import { useAppForm } from './useAppForm';
 
 interface SignupValues {
   userId: string;
@@ -66,6 +67,19 @@ function TestSignupForm({ onSubmit }: { onSubmit: (values: SignupValues) => void
   );
 }
 
+function TestResettableForm({ defaultValues }: { defaultValues: SignupValues }) {
+  const { form, resetToDefaultValues } = useAppForm<SignupValues>({ defaultValues });
+
+  return (
+    <Form form={form} onSubmit={vi.fn()}>
+      <FormInput<SignupValues> name="userId" label="아이디" />
+      <button type="button" onClick={resetToDefaultValues}>
+        초기화
+      </button>
+    </Form>
+  );
+}
+
 const getFormElement = () =>
   screen.getByRole('button', { name: '가입하기' }).closest('form') as HTMLFormElement;
 
@@ -77,7 +91,7 @@ describe('Form components (rules mode)', () => {
 
     const submitButton = screen.getByRole('button', { name: '가입하기' });
 
-    expect(submitButton.className).toContain('bg-blue-600');
+    expect(submitButton.className).toContain('bg-accent');
     expect(submitButton.className).not.toContain('bg-red-600');
   });
 
@@ -151,6 +165,24 @@ describe('Form components (rules mode)', () => {
 
     await waitFor(() => {
       expect(accountInput.value).toBe('110123456789');
+    });
+  });
+
+  it('resets changed values back to defaultValues', async () => {
+    render(<TestResettableForm defaultValues={{ ...defaultValues, userId: 'server-user' }} />);
+
+    const userIdInput = screen.getByLabelText('아이디') as HTMLInputElement;
+
+    expect(userIdInput.value).toBe('server-user');
+
+    fireEvent.change(userIdInput, { target: { value: 'draft-user' } });
+
+    expect(userIdInput.value).toBe('draft-user');
+
+    fireEvent.click(screen.getByRole('button', { name: '초기화' }));
+
+    await waitFor(() => {
+      expect(userIdInput.value).toBe('server-user');
     });
   });
 });

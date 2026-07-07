@@ -6,3 +6,4 @@ export * from './FormSelect';
 export * from './FormSubmitButton';
 export * from './messages';
 export * from './rules';
+export * from './useAppForm';

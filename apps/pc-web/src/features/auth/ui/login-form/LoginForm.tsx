@@ -1,46 +1,30 @@
-import { useNavigate } from '@tanstack/react-router';
-import { useForm } from 'react-hook-form';
-
-import {
-  Form,
-  FormInput,
-  FormSubmitButton,
-  STORAGE_KEYS,
-  local,
-  sha256,
-  useLogin,
-} from '@bx/shared';
+import { Form, FormInput, FormSubmitButton, useAppForm } from '@bx/shared';
 
 import styles from './LoginForm.module.css';
 
-interface LoginFormValues {
+export interface LoginFormValues {
   usrId: string;
   password: string;
 }
 
-export function LoginForm() {
-  const navigate = useNavigate();
-  const loginMutation = useLogin();
-  const form = useForm<LoginFormValues>({
-    defaultValues: {
-      usrId: local.get<string>(STORAGE_KEYS.RECENT_USER_ID) || '',
-      password: local.get<string>(STORAGE_KEYS.RECENT_USER_PW) || '',
-    },
+export type LoginPayload = LoginFormValues;
+
+interface LoginFormProps {
+  defaultValues?: LoginFormValues;
+  onSubmit: (payload: LoginPayload) => void | Promise<void>;
+}
+
+const emptyDefaultValues: LoginFormValues = {
+  usrId: '',
+  password: '',
+};
+
+export function LoginForm({ defaultValues = emptyDefaultValues, onSubmit }: LoginFormProps) {
+  const { form } = useAppForm<LoginFormValues>({
+    defaultValues,
   });
 
-  const handleSubmit = async ({ usrId, password }: LoginFormValues) => {
-    try {
-      const usrPwd = await sha256(password);
-      const response = await loginMutation.mutateAsync({ usrId, usrPwd });
-      // 다음 로그인 자동입력을 위해 아이디·비밀번호 저장 (개발 편의 — 운영 반영 전 제거 권장)
-      local.set(STORAGE_KEYS.RECENT_USER_ID, response.usrId);
-      local.set(STORAGE_KEYS.RECENT_USER_PW, password);
-      navigate({ to: '/main' });
-    } catch (error) {
-      alert('로그인에 실패했습니다. 아이디 또는 비밀번호를 확인해주세요.');
-      console.error(error);
-    }
-  };
+  const LoginInput = FormInput<LoginFormValues>;
 
   return (
     <div className={styles.page}>
@@ -57,15 +41,15 @@ export function LoginForm() {
 
         {/* 우측 영역 */}
         <div className={styles.right}>
-          <Form className={styles.form} form={form} onSubmit={handleSubmit}>
-            <FormInput<LoginFormValues>
+          <Form className={styles.form} form={form} onSubmit={onSubmit}>
+            <LoginInput
               className={styles.input}
               name="usrId"
               placeholder="이메일 또는 아이디"
               required
               autoFocus
             />
-            <FormInput<LoginFormValues>
+            <LoginInput
               className={styles.input}
               name="password"
               placeholder="비밀번호"

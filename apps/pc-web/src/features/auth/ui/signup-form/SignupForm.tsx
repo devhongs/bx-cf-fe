@@ -1,6 +1,4 @@
-import { useForm } from 'react-hook-form';
-
-import { Form, FormInput, FormSelect, FormSubmitButton, validators } from '@bx/shared';
+import { Form, FormInput, FormSelect, FormSubmitButton, useAppForm, validators } from '@bx/shared';
 
 export interface SignupFormValues {
   userId: string;
@@ -14,10 +12,11 @@ export interface SignupFormValues {
 export type SignupPayload = Omit<SignupFormValues, 'passwordConfirm'>;
 
 interface SignupFormProps {
+  defaultValues?: SignupFormValues;
   onSubmit: (payload: SignupPayload) => void | Promise<void>;
 }
 
-const defaultValues: SignupFormValues = {
+const emptyDefaultValues: SignupFormValues = {
   userId: '',
   name: '',
   email: '',
@@ -28,8 +27,8 @@ const defaultValues: SignupFormValues = {
 
 const controlClassName = 'border-border bg-surface text-foreground placeholder:text-faint';
 
-export function SignupForm({ onSubmit }: SignupFormProps) {
-  const form = useForm<SignupFormValues>({ defaultValues });
+export function SignupForm({ defaultValues = emptyDefaultValues, onSubmit }: SignupFormProps) {
+  const { form } = useAppForm<SignupFormValues>({ defaultValues });
 
   const handleSubmit = ({ passwordConfirm: _passwordConfirm, ...payload }: SignupFormValues) =>
     onSubmit(payload);
