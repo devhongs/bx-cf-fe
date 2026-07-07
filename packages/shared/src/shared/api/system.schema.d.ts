@@ -124,6 +124,23 @@ export namespace system {
       patch?: never;
       trace?: never;
     };
+    '/common-codes/groups/{groupCd}/detail': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      get?: never;
+      put?: never;
+      /** 공통코드 그룹 상세 조회 */
+      post: operations['getCommonCodeGroupDetail'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
     '/common-codes/groups/{groupCd}/codes/{code}/update': {
       parameters: {
         query?: never;
@@ -213,187 +230,116 @@ export namespace system {
   export type webhooks = Record<string, never>;
   export interface components {
     schemas: {
+      ApiRequestMenuReqDto: {
+        pagination?: components['schemas']['PaginationReqDto'];
+        filter?: components['schemas']['FilterReqDto'];
+        sort?: components['schemas']['SortReqDto'];
+        data?: components['schemas']['MenuReqDto'];
+      };
+      FilterReqDto: {
+        keyword?: string;
+        searchType?: string;
+        useYn?: string;
+      };
+      MenuReqDto: {
+        /** Format: int64 */
+        menuId?: number;
+        /** Format: int64 */
+        parentMenuId?: number;
+        menuCd?: string;
+        menuNm?: string;
+        menuType?: string;
+        path?: string;
+        component?: string;
+        icon?: string;
+        /** Format: int32 */
+        depth?: number;
+        /** Format: int32 */
+        sortSeq?: number;
+        visibleYn?: string;
+        useYn?: string;
+        remark?: string;
+        createdBy?: string;
+      };
+      PaginationReqDto: {
+        /** Format: int32 */
+        page?: number;
+        /** Format: int32 */
+        size?: number;
+        /** Format: int32 */
+        offset?: number;
+      };
+      SortReqDto: {
+        sort?: string;
+      };
       ApiResponseVoid: {
         success?: boolean;
         code?: string;
         msg?: string;
         payload?: Record<string, never>;
         requestId?: string;
+        pagination?: components['schemas']['PaginationResDto'];
       };
-      CommonCodeListResponse: {
-        /**
-         * @description 생성자 ID
-         * @example admin
-         */
+      PaginationResDto: {
+        /** Format: int32 */
+        page?: number;
+        /** Format: int32 */
+        size?: number;
+        /** Format: int64 */
+        totalCount?: number;
+        /** Format: int32 */
+        totalPages?: number;
+      };
+      ApiRequestRoleMenuSaveReqDto: {
+        pagination?: components['schemas']['PaginationReqDto'];
+        filter?: components['schemas']['FilterReqDto'];
+        sort?: components['schemas']['SortReqDto'];
+        data?: components['schemas']['RoleMenuSaveReqDto'];
+      };
+      RoleMenuSaveReqDto: {
+        menuIds?: number[];
         createdBy?: string;
-        /**
-         * @description 수정자 ID
-         * @example admin
-         */
-        updatedBy?: string;
-        /**
-         * Format: date-time
-         * @description 생성 일시
-         * @example 2026-01-01T09:00:00
-         */
-        createdAt?: string;
-        /**
-         * Format: date-time
-         * @description 수정 일시
-         * @example 2026-01-01T10:00:00
-         */
-        updatedAt?: string;
-        /**
-         * Format: int64
-         * @description 공통코드 ID
-         */
-        codeId?: number;
-        /**
-         * Format: int64
-         * @description 공통코드 그룹 ID
-         */
-        groupId?: number;
-        /** @description 공통코드 그룹 코드 */
+      };
+      ApiRequestCommonCodeGroupReqDto: {
+        pagination?: components['schemas']['PaginationReqDto'];
+        filter?: components['schemas']['FilterReqDto'];
+        sort?: components['schemas']['SortReqDto'];
+        data?: components['schemas']['CommonCodeGroupReqDto'];
+      };
+      CommonCodeGroupReqDto: {
         groupCd?: string;
-        /**
-         * @description 공통코드
-         * @example Y
-         */
-        code?: string;
-        /**
-         * @description 공통코드명
-         * @example 사용
-         */
-        codeNm?: string;
-        /** @description 공통코드 설명 */
-        codeDesc?: string;
-        /**
-         * Format: int64
-         * @description 상위 공통코드 ID
-         */
-        parentCodeId?: number;
-        /**
-         * Format: int32
-         * @description 정렬 순서
-         * @example 1
-         */
+        groupNm?: string;
+        groupDesc?: string;
+        systemYn?: string;
+        useYn?: string;
+        /** Format: int32 */
         sortSeq?: number;
-        /**
-         * @description 사용 여부
-         * @example Y
-         * @enum {string}
-         */
-        useYn?: 'Y' | 'N';
-        /**
-         * Format: date
-         * @description 유효 시작일
-         * @example 2026-01-01
-         */
-        validFrom?: string;
-        /**
-         * Format: date
-         * @description 유효 종료일
-         * @example 2026-12-31
-         */
-        validTo?: string;
-        /**
-         * @description 추가 데이터(JSON 문자열)
-         * @example {}
-         */
-        extraData?: string;
-      };
-      CommonCodeGroupCreateRequest: {
-        /**
-         * @description 생성자 ID
-         * @example admin
-         */
         createdBy?: string;
-        /**
-         * @description 공통코드 그룹 코드
-         * @example USE_YN
-         */
-        groupCd: string;
-        /**
-         * @description 공통코드 그룹명
-         * @example 사용 여부
-         */
-        groupNm: string;
-        /** @description 공통코드 그룹 설명 */
-        groupDesc?: string;
-        /**
-         * @description 시스템 코드 여부
-         * @example N
-         * @enum {string}
-         */
-        systemYn?: 'Y' | 'N';
-        /**
-         * @description 사용 여부
-         * @example Y
-         * @enum {string}
-         */
-        useYn?: 'Y' | 'N';
-        /**
-         * Format: int32
-         * @description 정렬 순서
-         * @example 1
-         */
-        sortSeq?: number;
       };
-      CommonCodeGroupUpdateRequest: {
-        /**
-         * @description 수정자 ID
-         * @example admin
-         */
-        updatedBy?: string;
-        /**
-         * @description 공통코드 그룹명
-         * @example 사용 여부
-         */
-        groupNm: string;
-        /** @description 공통코드 그룹 설명 */
-        groupDesc?: string;
-        /**
-         * @description 시스템 코드 여부
-         * @example N
-         * @enum {string}
-         */
-        systemYn?: 'Y' | 'N';
-        /**
-         * @description 사용 여부
-         * @example Y
-         * @enum {string}
-         */
-        useYn?: 'Y' | 'N';
-        /**
-         * Format: int32
-         * @description 정렬 순서
-         * @example 1
-         */
+      ApiRequestCommonCodeReqDto: {
+        pagination?: components['schemas']['PaginationReqDto'];
+        filter?: components['schemas']['FilterReqDto'];
+        sort?: components['schemas']['SortReqDto'];
+        data?: components['schemas']['CommonCodeReqDto'];
+      };
+      CommonCodeReqDto: {
+        groupCd?: string;
+        code?: string;
+        codeNm?: string;
+        codeDesc?: string;
+        /** Format: int64 */
+        parentCodeId?: number;
+        /** Format: int32 */
         sortSeq?: number;
+        useYn?: string;
+        /** Format: date */
+        validFrom?: string;
+        /** Format: date */
+        validTo?: string;
+        extraData?: string;
+        createdBy?: string;
       };
       MenuActionListResponse: {
-        /**
-         * @description 생성자 ID
-         * @example admin
-         */
-        createdBy?: string;
-        /**
-         * @description 수정자 ID
-         * @example admin
-         */
-        updatedBy?: string;
-        /**
-         * Format: date-time
-         * @description 생성 일시
-         * @example 2026-01-01T09:00:00
-         */
-        createdAt?: string;
-        /**
-         * Format: date-time
-         * @description 수정 일시
-         * @example 2026-01-01T10:00:00
-         */
-        updatedAt?: string;
         /**
          * Format: int64
          * @description 메뉴 기능 ID
@@ -436,8 +382,6 @@ export namespace system {
          * @enum {string}
          */
         useYn?: 'Y' | 'N';
-      };
-      MenuListResponse: {
         /**
          * @description 생성자 ID
          * @example admin
@@ -460,6 +404,8 @@ export namespace system {
          * @example 2026-01-01T10:00:00
          */
         updatedAt?: string;
+      };
+      MenuListResponse: {
         /**
          * Format: int64
          * @description 메뉴 ID
@@ -526,22 +472,39 @@ export namespace system {
         useYn?: 'Y' | 'N';
         /** @description 비고 */
         remark?: string;
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
+        /**
+         * Format: date-time
+         * @description 생성 일시
+         * @example 2026-01-01T09:00:00
+         */
+        createdAt?: string;
+        /**
+         * Format: date-time
+         * @description 수정 일시
+         * @example 2026-01-01T10:00:00
+         */
+        updatedAt?: string;
       };
       RoleMenuSaveSaveRequest: {
-        /**
-         * @description 생성자 ID
-         * @example admin
-         */
-        createdBy?: string;
         /** @description 역할에 부여할 메뉴 ID 목록 */
         menuIds: number[];
-      };
-      MenuCreateRequest: {
         /**
-         * @description 생성자 ID
+         * @description 요청자 ID
          * @example admin
          */
         createdBy?: string;
+      };
+      MenuCreateRequest: {
         /**
          * Format: int64
          * @description 상위 메뉴 ID
@@ -603,13 +566,13 @@ export namespace system {
         useYn?: 'Y' | 'N';
         /** @description 비고 */
         remark?: string;
-      };
-      MenuUpdateRequest: {
         /**
-         * @description 수정자 ID
+         * @description 요청자 ID
          * @example admin
          */
-        updatedBy?: string;
+        createdBy?: string;
+      };
+      MenuUpdateRequest: {
         /**
          * Format: int64
          * @description 상위 메뉴 ID
@@ -666,13 +629,220 @@ export namespace system {
         useYn?: 'Y' | 'N';
         /** @description 비고 */
         remark?: string;
+        /**
+         * @description 요청자 ID
+         * @example admin
+         */
+        createdBy?: string;
       };
-      CommonCodeCreateRequest: {
+      CommonCodeListResponse: {
+        /**
+         * Format: int64
+         * @description 공통코드 ID
+         */
+        codeId?: number;
+        /**
+         * Format: int64
+         * @description 공통코드 그룹 ID
+         */
+        groupId?: number;
+        /** @description 공통코드 그룹 코드 */
+        groupCd?: string;
+        /**
+         * @description 공통코드
+         * @example Y
+         */
+        code?: string;
+        /**
+         * @description 공통코드명
+         * @example 사용
+         */
+        codeNm?: string;
+        /** @description 공통코드 설명 */
+        codeDesc?: string;
+        /**
+         * Format: int64
+         * @description 상위 공통코드 ID
+         */
+        parentCodeId?: number;
+        /**
+         * Format: int32
+         * @description 정렬 순서
+         * @example 1
+         */
+        sortSeq?: number;
+        /**
+         * @description 사용 여부
+         * @example Y
+         * @enum {string}
+         */
+        useYn?: 'Y' | 'N';
+        /**
+         * Format: date
+         * @description 유효 시작일
+         * @example 2026-01-01
+         */
+        validFrom?: string;
+        /**
+         * Format: date
+         * @description 유효 종료일
+         * @example 2026-12-31
+         */
+        validTo?: string;
+        /**
+         * @description 추가 데이터 JSON 문자열
+         * @example {}
+         */
+        extraData?: string;
         /**
          * @description 생성자 ID
          * @example admin
          */
         createdBy?: string;
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
+        /**
+         * Format: date-time
+         * @description 생성 일시
+         * @example 2026-01-01T09:00:00
+         */
+        createdAt?: string;
+        /**
+         * Format: date-time
+         * @description 수정 일시
+         * @example 2026-01-01T10:00:00
+         */
+        updatedAt?: string;
+      };
+      CommonCodeDetailResponse: {
+        /** @description 공통코드 그룹 코드 */
+        groupCd?: string;
+        /**
+         * @description 공통코드
+         * @example Y
+         */
+        code?: string;
+        /**
+         * @description 공통코드명
+         * @example 사용
+         */
+        codeNm?: string;
+        /** @description 공통코드 설명 */
+        codeDesc?: string;
+        /**
+         * Format: int32
+         * @description 정렬 순서
+         * @example 1
+         */
+        sortSeq?: number;
+        /**
+         * @description 사용 여부
+         * @example Y
+         * @enum {string}
+         */
+        useYn?: 'Y' | 'N';
+      };
+      CommonCodeGroupCreateRequest: {
+        /**
+         * @description 공통코드 그룹 코드
+         * @example USE_YN
+         */
+        groupCd: string;
+        /**
+         * @description 공통코드 그룹명
+         * @example 사용 여부
+         */
+        groupNm: string;
+        /** @description 공통코드 그룹 설명 */
+        groupDesc?: string;
+        /**
+         * @description 시스템 코드 여부
+         * @example N
+         * @enum {string}
+         */
+        systemYn?: 'Y' | 'N';
+        /**
+         * @description 사용 여부
+         * @example Y
+         * @enum {string}
+         */
+        useYn?: 'Y' | 'N';
+        /**
+         * Format: int32
+         * @description 정렬 순서
+         * @example 1
+         */
+        sortSeq?: number;
+        /**
+         * @description 요청자 ID
+         * @example admin
+         */
+        createdBy?: string;
+      };
+      CommonCodeGroupUpdateRequest: {
+        /**
+         * @description 공통코드 그룹명
+         * @example 사용 여부
+         */
+        groupNm: string;
+        /** @description 공통코드 그룹 설명 */
+        groupDesc?: string;
+        /**
+         * @description 시스템 코드 여부
+         * @example N
+         * @enum {string}
+         */
+        systemYn?: 'Y' | 'N';
+        /**
+         * @description 사용 여부
+         * @example Y
+         * @enum {string}
+         */
+        useYn?: 'Y' | 'N';
+        /**
+         * Format: int32
+         * @description 정렬 순서
+         * @example 1
+         */
+        sortSeq?: number;
+        /**
+         * @description 요청자 ID
+         * @example admin
+         */
+        createdBy?: string;
+      };
+      CommonCodeGroupDetailDetailResponse: {
+        /**
+         * @description 공통코드 그룹 코드
+         * @example USE_YN
+         */
+        groupCd?: string;
+        /**
+         * @description 공통코드 그룹명
+         * @example 사용 여부
+         */
+        groupNm?: string;
+        /** @description 공통코드 그룹 설명 */
+        groupDesc?: string;
+        /**
+         * @description 시스템 코드 여부
+         * @example Y
+         * @enum {string}
+         */
+        systemYn?: 'Y' | 'N';
+        /**
+         * @description 사용 여부
+         * @example Y
+         * @enum {string}
+         */
+        useYn?: 'Y' | 'N';
+        /** @description 공통코드 목록 */
+        codes?: string[];
+      };
+      CommonCodeCreateRequest: {
         /**
          * @description 공통코드
          * @example Y
@@ -715,17 +885,17 @@ export namespace system {
          */
         validTo?: string;
         /**
-         * @description 추가 데이터(JSON 문자열)
+         * @description 추가 데이터 JSON 문자열
          * @example {}
          */
         extraData?: string;
-      };
-      CommonCodeUpdateRequest: {
         /**
-         * @description 수정자 ID
+         * @description 요청자 ID
          * @example admin
          */
-        updatedBy?: string;
+        createdBy?: string;
+      };
+      CommonCodeUpdateRequest: {
         /**
          * @description 공통코드명
          * @example 사용
@@ -763,34 +933,17 @@ export namespace system {
          */
         validTo?: string;
         /**
-         * @description 추가 데이터(JSON 문자열)
+         * @description 추가 데이터 JSON 문자열
          * @example {}
          */
         extraData?: string;
-      };
-      CommonCodeGroupListResponse: {
         /**
-         * @description 생성자 ID
+         * @description 요청자 ID
          * @example admin
          */
         createdBy?: string;
-        /**
-         * @description 수정자 ID
-         * @example admin
-         */
-        updatedBy?: string;
-        /**
-         * Format: date-time
-         * @description 생성 일시
-         * @example 2026-01-01T09:00:00
-         */
-        createdAt?: string;
-        /**
-         * Format: date-time
-         * @description 수정 일시
-         * @example 2026-01-01T10:00:00
-         */
-        updatedAt?: string;
+      };
+      CommonCodeGroupListResponse: {
         /**
          * Format: int64
          * @description 공통코드 그룹 ID
@@ -826,6 +979,28 @@ export namespace system {
          * @example 1
          */
         sortSeq?: number;
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
+        /**
+         * Format: date-time
+         * @description 생성 일시
+         * @example 2026-01-01T09:00:00
+         */
+        createdAt?: string;
+        /**
+         * Format: date-time
+         * @description 수정 일시
+         * @example 2026-01-01T10:00:00
+         */
+        updatedAt?: string;
       };
     };
     responses: never;
@@ -847,7 +1022,7 @@ export namespace system {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['MenuUpdateRequest'];
+          'application/json': components['schemas']['ApiRequestMenuReqDto'];
         };
       };
       responses: {
@@ -915,7 +1090,7 @@ export namespace system {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['RoleMenuSaveSaveRequest'];
+          'application/json': components['schemas']['ApiRequestRoleMenuSaveReqDto'];
         };
       };
       responses: {
@@ -1011,7 +1186,7 @@ export namespace system {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['MenuCreateRequest'];
+          'application/json': components['schemas']['ApiRequestMenuReqDto'];
         };
       };
       responses: {
@@ -1047,7 +1222,7 @@ export namespace system {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['CommonCodeGroupUpdateRequest'];
+          'application/json': components['schemas']['ApiRequestCommonCodeGroupReqDto'];
         };
       };
       responses: {
@@ -1072,6 +1247,38 @@ export namespace system {
         };
       };
     };
+    getCommonCodeGroupDetail: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          groupCd: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: components['schemas']['CommonCodeGroupDetailDetailResponse'];
+            };
+          };
+        };
+      };
+    };
     updateCommonCode: {
       parameters: {
         query?: never;
@@ -1084,7 +1291,7 @@ export namespace system {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['CommonCodeUpdateRequest'];
+          'application/json': components['schemas']['ApiRequestCommonCodeReqDto'];
         };
       };
       responses: {
@@ -1152,7 +1359,7 @@ export namespace system {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['CommonCodeCreateRequest'];
+          'application/json': components['schemas']['ApiRequestCommonCodeReqDto'];
         };
       };
       responses: {
@@ -1216,7 +1423,7 @@ export namespace system {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['CommonCodeGroupCreateRequest'];
+          'application/json': components['schemas']['ApiRequestCommonCodeGroupReqDto'];
         };
       };
       responses: {

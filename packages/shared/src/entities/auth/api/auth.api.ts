@@ -3,14 +3,16 @@ import axios from 'axios';
 import { httpService } from '../../../shared/ajax/http.service';
 import { API_CONFIG, API_URL } from '../../../shared/constants';
 
-import type { LoginRequest, LoginResponse } from '../model/auth.type';
+import type { LoginApiRequest, LoginRequest, LoginResponse } from '../model/auth.type';
 
 /**
  * 로그인 — usrId + SHA-256 해시된 비밀번호로 인증.
  * 성공 시 사용자 정보 + accessToken을 반환한다. refreshToken은 HttpOnly Cookie로 관리한다.
  */
-export const login = (body: LoginRequest): Promise<LoginResponse> =>
-  httpService.post<LoginResponse>('/auth/login', body);
+export const login = (body: LoginRequest): Promise<LoginResponse> => {
+  const payload: LoginApiRequest = { data: body };
+  return httpService.post<LoginResponse>('/auth/login', payload);
+};
 
 /**
  * 로그아웃.

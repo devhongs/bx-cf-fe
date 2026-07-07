@@ -25,6 +25,27 @@ describe('product api', () => {
     expect(result).toEqual(products);
   });
 
+  it('wraps product list params in the OpenAPI ApiRequest envelope', async () => {
+    const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue([]);
+
+    await fetchProductList({
+      page: 1,
+      size: 20,
+      keyword: 'fund',
+      searchType: 'productNm',
+      useYn: 'Y',
+      sort: 'createdAt,desc',
+      productNm: 'KB',
+    });
+
+    expect(postSpy).toHaveBeenCalledWith('/product/list', {
+      pagination: { page: 1, size: 20 },
+      filter: { keyword: 'fund', searchType: 'productNm', useYn: 'Y' },
+      sort: { sort: 'createdAt,desc' },
+      data: { productNm: 'KB' },
+    });
+  });
+
   it('fetches the Spring product detail endpoint and returns generated product fields', async () => {
     const product = {
       productId: 1,

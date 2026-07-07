@@ -11,15 +11,17 @@ import type { auth } from '../../../shared/api';
 
 type AuthLoginResponse = auth.components['schemas']['AuthLoginResponse'];
 type AuthRefreshTokenResponse = auth.components['schemas']['AuthRefreshTokenResponse'];
+type LoginReqDto = auth.components['schemas']['LoginReqDto'];
 /** 백엔드 응답 payload DTO (자동 생성 — 응답 전용) */
 type AuthResponse = AuthLoginResponse | AuthRefreshTokenResponse;
 
 /**
  * 로그인 요청 바디 (usrPwd는 SHA-256 해시).
- * 백엔드가 요청 DTO를 분리하고 usrId/usrPwd를 required로 지정해
- * 별도 보정 없이 생성 타입을 그대로 사용한다.
+ * 백엔드 요청 바디는 ApiRequest 래퍼로 감싸지만, 화면/훅에서는
+ * 실제 로그인 입력값만 다루도록 유지한다.
  */
-export type LoginRequest = auth.components['schemas']['AuthLoginRequest'];
+export type LoginRequest = Required<Pick<LoginReqDto, 'usrId' | 'usrPwd'>>;
+export type LoginApiRequest = auth.components['schemas']['ApiRequestLoginReqDto'];
 
 /** 인증된 사용자 정보 */
 export type AuthUser = Pick<

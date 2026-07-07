@@ -89,12 +89,49 @@ export namespace auth {
   export type webhooks = Record<string, never>;
   export interface components {
     schemas: {
+      PaginationResDto: {
+        /** Format: int32 */
+        page?: number;
+        /** Format: int32 */
+        size?: number;
+        /** Format: int64 */
+        totalCount?: number;
+        /** Format: int32 */
+        totalPages?: number;
+      };
       ApiResponseVoid: {
         success?: boolean;
         code?: string;
         msg?: string;
         payload?: Record<string, never>;
         requestId?: string;
+        pagination?: components['schemas']['PaginationResDto'];
+      };
+      ApiRequestLoginReqDto: {
+        pagination?: components['schemas']['PaginationReqDto'];
+        filter?: components['schemas']['FilterReqDto'];
+        sort?: components['schemas']['SortReqDto'];
+        data?: components['schemas']['LoginReqDto'];
+      };
+      FilterReqDto: {
+        keyword?: string;
+        searchType?: string;
+        useYn?: string;
+      };
+      LoginReqDto: {
+        usrId?: string;
+        usrPwd?: string;
+      };
+      PaginationReqDto: {
+        /** Format: int32 */
+        page?: number;
+        /** Format: int32 */
+        size?: number;
+        /** Format: int32 */
+        offset?: number;
+      };
+      SortReqDto: {
+        sort?: string;
       };
       AuthLoginRequest: {
         /**
@@ -280,7 +317,7 @@ export namespace auth {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['AuthLoginRequest'];
+          'application/json': components['schemas']['ApiRequestLoginReqDto'];
         };
       };
       responses: {
@@ -314,7 +351,7 @@ export namespace auth {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['AuthErpLoginRequest'];
+          'application/json': components['schemas']['ApiRequestLoginReqDto'];
         };
       };
       responses: {

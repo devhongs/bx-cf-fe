@@ -49,6 +49,31 @@ export namespace product {
   export type webhooks = Record<string, never>;
   export interface components {
     schemas: {
+      ApiRequestProductReqDto: {
+        pagination?: components['schemas']['PaginationReqDto'];
+        filter?: components['schemas']['FilterReqDto'];
+        sort?: components['schemas']['SortReqDto'];
+        data?: components['schemas']['ProductReqDto'];
+      };
+      FilterReqDto: {
+        keyword?: string;
+        searchType?: string;
+        useYn?: string;
+      };
+      PaginationReqDto: {
+        /** Format: int32 */
+        page?: number;
+        /** Format: int32 */
+        size?: number;
+        /** Format: int32 */
+        offset?: number;
+      };
+      ProductReqDto: {
+        productNm?: string;
+      };
+      SortReqDto: {
+        sort?: string;
+      };
       ProductListResponse: {
         /**
          * Format: int64
@@ -103,41 +128,8 @@ export namespace product {
       };
       ProductListRequest: {
         /**
-         * @description 통합 검색어
-         * @example 검색어
-         */
-        keyword?: string;
-        /**
-         * @description 검색 대상 구분
-         * @example productNm
-         */
-        searchType?: string;
-        /**
-         * @description 사용 여부 (Y/N)
-         * @example Y
-         * @enum {string}
-         */
-        useYn?: 'Y' | 'N';
-        /**
-         * Format: int32
-         * @description 페이지 번호
-         * @example 1
-         */
-        page?: number;
-        /**
-         * Format: int32
-         * @description 페이지 크기
-         * @example 20
-         */
-        size?: number;
-        /**
-         * @description 정렬 조건
-         * @example createdAt,desc
-         */
-        sort?: string;
-        /**
          * @description 상품명
-         * @example 예정된 상품
+         * @example KB 적립식 펀드
          */
         productNm?: string;
       };
@@ -159,7 +151,7 @@ export namespace product {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['ProductListRequest'];
+          'application/json': components['schemas']['ApiRequestProductReqDto'];
         };
       };
       responses: {
