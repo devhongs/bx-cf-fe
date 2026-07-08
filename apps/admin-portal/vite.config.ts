@@ -1,4 +1,10 @@
+import { resolve } from 'node:path';
+
+import babel from '@rolldown/plugin-babel';
+import tailwindcss from '@tailwindcss/vite';
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import viteReact from '@vitejs/plugin-react';
+import { reactCompilerPreset } from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
 export default defineConfig(({ command }) => ({
@@ -6,8 +12,42 @@ export default defineConfig(({ command }) => ({
   // dev 서버는 루트(/)로 유지한다.
   base: command === 'build' ? '/admin/' : '/',
   publicDir: '../../public',
-  plugins: [viteReact()],
+  plugins: [
+    TanStackRouterVite({
+      autoCodeSplitting: true,
+    }),
+    viteReact(),
+    babel({
+      presets: [reactCompilerPreset()],
+    }),
+    tailwindcss(),
+  ],
   server: {
     port: 3002,
+    proxy: {
+      '/channel': {
+        target: 'http://192.168.110.217',
+        changeOrigin: true,
+        configure: (proxy) => {
+          proxy.on('proxyReq', (proxyReq) => {
+            proxyReq.removeHeader('origin');
+          });
+        },
+      },
+    },
+  },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './src'),
+      react: resolve(__dirname, 'node_modules/react'),
+      'react-dom': resolve(__dirname, 'node_modules/react-dom'),
+    },
+    dedupe: ['react', 'react-dom'],
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
+  },
+  define: {
+    'process.env': {},
   },
 }));

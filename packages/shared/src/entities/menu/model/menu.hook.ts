@@ -9,8 +9,9 @@ import {
   fetchMenuListQuery,
   fetchMenuQuery,
   menuQueryKeys,
+  updateMenuMutation,
 } from './menu.queries';
-import type { Menu, MenuQueryParams } from './menu.type';
+import type { Menu, MenuPayload, MenuQueryParams } from './menu.type';
 
 /**
  * 모든 메뉴 목록을 가져오는 쿼리 훅.
@@ -40,11 +41,30 @@ export const useFetchMenu = <T extends Menu = Menu>(
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */
 export const useCreateMenu = (
-  options?: UseMutationOptions<Menu, Error, Menu, unknown>,
-): UseMutationResult<Menu, Error, Menu, unknown> => {
+  options?: UseMutationOptions<void, Error, MenuPayload, unknown>,
+): UseMutationResult<void, Error, MenuPayload, unknown> => {
   const queryClient = useQueryClient();
   return useMutation({
     ...createMenuMutation(),
+    ...options,
+    onSuccess: async (data, variables, onMutateResult, context) => {
+      await queryClient.invalidateQueries({ queryKey: menuQueryKeys.all });
+      options?.onSuccess?.(data, variables, onMutateResult, context);
+    },
+  });
+};
+
+export const useUpdateMenu = (
+  options?: UseMutationOptions<
+    void,
+    Error,
+    { menuId: number; payload: MenuPayload },
+    unknown
+  >,
+): UseMutationResult<void, Error, { menuId: number; payload: MenuPayload }, unknown> => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    ...updateMenuMutation(),
     ...options,
     onSuccess: async (data, variables, onMutateResult, context) => {
       await queryClient.invalidateQueries({ queryKey: menuQueryKeys.all });

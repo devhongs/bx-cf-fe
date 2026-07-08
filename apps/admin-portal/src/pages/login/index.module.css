@@ -1,0 +1,130 @@
+.page {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 440px);
+  min-height: 100vh;
+  background:
+    linear-gradient(120deg, rgba(70, 208, 191, 0.14), transparent 36%),
+    var(--background);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(28px, 7vw, 72px);
+  border-right: 1px solid var(--border);
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 42%),
+    var(--surface);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--foreground);
+  font-weight: 900;
+}
+
+.brandMark {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.panel h1 {
+  margin: 34px 0 12px;
+  color: var(--foreground);
+  font-size: clamp(2rem, 5vw, 4.2rem);
+  line-height: 1.04;
+}
+
+.panel p {
+  max-width: 520px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.form {
+  align-self: center;
+  justify-self: center;
+  display: flex;
+  width: min(100% - 40px, 380px);
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--admin-panel-shadow);
+}
+
+.formTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--foreground);
+  font-size: 1rem;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.form input {
+  height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background-deep);
+  color: var(--foreground);
+  outline: 0;
+  padding: 0 12px;
+}
+
+.form button {
+  height: 42px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--accent-foreground);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.form button:disabled {
+  cursor: progress;
+  opacity: 0.72;
+}
+
+.error {
+  margin: -4px 0 0;
+  color: var(--admin-danger);
+  font-size: 0.78rem;
+}
+
+@media (max-width: 840px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    min-height: 38vh;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .form {
+    margin: 24px 0;
+  }
+}

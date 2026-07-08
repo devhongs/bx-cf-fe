@@ -11,10 +11,14 @@
   },
   "dependencies": {
     "@bx/shared": "workspace:*",
+    "@tanstack/react-query": "^5.100.11",
+    "@tanstack/react-router": "^1.130.2",
+    "lucide-react": "^1.16.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.60.0"
+    "@playwright/test": "^1.60.0",
+    "@tanstack/router-plugin": "^1.121.2"
   }
 }

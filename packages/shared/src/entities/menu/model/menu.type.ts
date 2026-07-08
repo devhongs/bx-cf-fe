@@ -1,22 +1,27 @@
-export interface MenuQueryParams {
-  /**
-   * 아이디
-   */
-  userId?: string;
-}
+import type { system as systemApi } from '../../../shared/api';
 
-/**
- * 메뉴
- */
-export interface Menu {
-  /** 메뉴 번호 */
-  id: number;
-  /** 메뉴명 */
-  name: string;
-  /** 아이콘 */
-  iconType: string;
-  /** 하위 메뉴 목록 */
-  children?: Array<Menu>;
-  /** 메뉴 계층 레벨 */
-  level: number;
-}
+type SystemSchemas = systemApi.components['schemas'];
+
+type LegacyMenuFields = {
+  /** Legacy mobile menu id. Prefer menuId for new code. */
+  id?: number;
+  /** Legacy mobile menu name. Prefer menuNm for new code. */
+  name?: string;
+  /** Legacy mobile icon name. Prefer icon for new code. */
+  iconType?: string;
+  /** Legacy mobile depth. Prefer depth for new code. */
+  level?: number;
+};
+
+export type MenuListItem = SystemSchemas['MenuListResponse'];
+export type MenuPayload = SystemSchemas['MenuReqDto'] & Partial<LegacyMenuFields>;
+export type MenuListApiRequest = SystemSchemas['ApiRequestMenuReqDto'];
+export type MenuQueryParams = MenuPayload &
+  SystemSchemas['FilterReqDto'] &
+  SystemSchemas['PaginationReqDto'] &
+  SystemSchemas['SortReqDto'];
+
+export type Menu = MenuListItem &
+  LegacyMenuFields & {
+    children?: Array<Menu>;
+  };

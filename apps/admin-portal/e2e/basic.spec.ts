@@ -1,11 +1,10 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('admin-portal basic checks', () => {
-  test('should load the homepage and check title/h1', async ({ page }) => {
-    // Navigate to the base URL
+  test('loads the admin login entrypoint', async ({ page }) => {
     await page.goto('/');
 
-    // Verify page loads by checking elements or title
     await expect(page).toHaveTitle(/.+/);
+    await expect(page.getByRole('heading', { name: '관리자 로그인' })).toBeVisible();
   });
 });

@@ -1,0 +1,221 @@
+.page {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  gap: 16px;
+  padding: 22px;
+}
+
+.pageHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pageHeader h2 {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.pageHeader p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+  gap: 16px;
+  min-height: 0;
+  flex: 1;
+}
+
+.listPane {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldFull {
+  grid-column: 1 / -1;
+}
+
+.field label {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background-deep);
+  color: var(--foreground);
+  font-size: 0.82rem;
+  outline: 0;
+}
+
+.field input,
+.field select {
+  height: 38px;
+  padding: 0 11px;
+}
+
+.field textarea {
+  min-height: 78px;
+  resize: vertical;
+  padding: 10px 11px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  height: 24px;
+  padding: 0 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.badgeSuccess {
+  border-color: color-mix(in srgb, var(--admin-success) 42%, var(--border));
+  color: var(--admin-success);
+}
+
+.badgeWarning {
+  border-color: color-mix(in srgb, var(--admin-warning) 42%, var(--border));
+  color: var(--admin-warning);
+}
+
+.button,
+.dangerButton,
+.ghostButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 72px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.button {
+  border: 0;
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.dangerButton {
+  border: 1px solid color-mix(in srgb, var(--admin-danger) 40%, var(--border));
+  background: transparent;
+  color: var(--admin-danger);
+}
+
+.ghostButton {
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  color: var(--foreground);
+}
+
+.fieldSelect {
+  height: 38px;
+  padding: 0 32px 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background-deep);
+  color: var(--foreground);
+  font-size: 0.82rem;
+}
+
+.metricGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.metricCard,
+.section {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.metricCard {
+  padding: 16px;
+}
+
+.metricCard span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.metricCard strong {
+  display: block;
+  margin-top: 10px;
+  color: var(--foreground);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.section {
+  padding: 16px;
+}
+
+.section h3 {
+  margin: 0 0 12px;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 1120px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .metricGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 14px;
+  }
+
+  .fieldGrid,
+  .metricGrid {
+    grid-template-columns: 1fr;
+  }
+}

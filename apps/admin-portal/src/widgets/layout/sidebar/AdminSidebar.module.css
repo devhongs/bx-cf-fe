@@ -1,0 +1,160 @@
+.sidebar {
+  display: flex;
+  min-width: 0;
+  height: 100vh;
+  flex-direction: column;
+  gap: 18px;
+  padding: 18px 14px;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+}
+
+.logoArea {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 2px 6px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.logoMark {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--accent-foreground);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.logoText {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.logoText strong {
+  color: var(--foreground);
+  font-size: 0.9rem;
+  line-height: 1.1;
+}
+
+.logoText span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.1;
+}
+
+.nav {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 18px;
+  overflow-y: auto;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.groupLabel {
+  padding: 0 10px;
+  color: var(--faint);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: left;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.navItem:hover {
+  border-color: var(--border);
+  background: var(--surface-raised);
+  color: var(--foreground);
+}
+
+.navItem.active {
+  border-color: color-mix(in srgb, var(--accent) 44%, var(--border));
+  background: color-mix(in srgb, var(--accent) 13%, var(--surface-raised));
+  color: var(--foreground);
+}
+
+.icon {
+  display: inline-flex;
+  flex: 0 0 18px;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--admin-success);
+}
+
+@media (max-width: 860px) {
+  .sidebar {
+    padding: 14px 10px;
+  }
+
+  .logoArea {
+    justify-content: center;
+    padding-inline: 0;
+  }
+
+  .logoText,
+  .groupLabel,
+  .label,
+  .status span:last-child {
+    display: none;
+  }
+
+  .navItem {
+    justify-content: center;
+    padding: 0;
+  }
+}

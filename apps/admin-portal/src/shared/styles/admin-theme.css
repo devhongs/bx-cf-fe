@@ -1,0 +1,75 @@
+:root {
+  color-scheme: light;
+
+  --admin-bg: #f4f7f9;
+  --admin-bg-deep: #e8eef2;
+  --admin-surface: #ffffff;
+  --admin-surface-raised: #edf3f5;
+  --admin-surface-hover: #e1ebee;
+  --admin-surface-elevated: #ffffff;
+  --admin-foreground: #142026;
+  --admin-muted: #61717a;
+  --admin-faint: #7d8b93;
+  --admin-border: #d3dde2;
+  --admin-accent: #0f8f82;
+  --admin-accent-hover: #0b7369;
+  --admin-accent-foreground: #ffffff;
+  --admin-warning: #a05d00;
+  --admin-danger: #bc2f43;
+  --admin-success: #087c51;
+  --admin-panel-shadow: 0 18px 48px rgba(17, 32, 37, 0.12);
+
+  --background: var(--admin-bg);
+  --background-deep: var(--admin-bg-deep);
+  --surface: var(--admin-surface);
+  --surface-raised: var(--admin-surface-raised);
+  --surface-hover: var(--admin-surface-hover);
+  --surface-elevated: var(--admin-surface-elevated);
+  --foreground: var(--admin-foreground);
+  --muted: var(--admin-muted);
+  --faint: var(--admin-faint);
+  --border: var(--admin-border);
+  --accent: var(--admin-accent);
+  --accent-hover: var(--admin-accent-hover);
+  --accent-foreground: var(--admin-accent-foreground);
+  --scrollbar-thumb: rgba(20, 32, 38, 0.24);
+  --scrollbar-thumb-hover: rgba(20, 32, 38, 0.38);
+}
+
+:root[data-admin-theme="dark"] {
+  color-scheme: dark;
+
+  --admin-bg: #10171b;
+  --admin-bg-deep: #0b1115;
+  --admin-surface: #151f24;
+  --admin-surface-raised: #1d2a30;
+  --admin-surface-hover: #26363d;
+  --admin-surface-elevated: #19252b;
+  --admin-foreground: #eef6f7;
+  --admin-muted: #a0b0b6;
+  --admin-faint: #74868e;
+  --admin-border: #28383f;
+  --admin-accent: #46d0bf;
+  --admin-accent-hover: #70ded1;
+  --admin-accent-foreground: #071315;
+  --admin-warning: #f5b24a;
+  --admin-danger: #ff6b7a;
+  --admin-success: #51d18b;
+  --admin-panel-shadow: 0 18px 60px rgba(0, 0, 0, 0.32);
+
+  --background: var(--admin-bg);
+  --background-deep: var(--admin-bg-deep);
+  --surface: var(--admin-surface);
+  --surface-raised: var(--admin-surface-raised);
+  --surface-hover: var(--admin-surface-hover);
+  --surface-elevated: var(--admin-surface-elevated);
+  --foreground: var(--admin-foreground);
+  --muted: var(--admin-muted);
+  --faint: var(--admin-faint);
+  --border: var(--admin-border);
+  --accent: var(--admin-accent);
+  --accent-hover: var(--admin-accent-hover);
+  --accent-foreground: var(--admin-accent-foreground);
+  --scrollbar-thumb: rgba(238, 246, 247, 0.18);
+  --scrollbar-thumb-hover: rgba(238, 246, 247, 0.32);
+}
