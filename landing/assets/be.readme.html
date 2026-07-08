@@ -126,12 +126,12 @@ services:system-svc
 <tr>
 <td><code>services:product-svc</code></td>
 <td><code>common</code>, <code>business-common</code>, <code>session-context-common</code></td>
-<td>상품 API, 필요 시 내부 인증 헤더/sessionId 기반 세션 문맥 조회</td>
+<td>상품 API, 필요 시 내부 인증 헤더/sessionId 기반 세션 컨텍스트 조회</td>
 </tr>
 <tr>
 <td><code>services:system-svc</code></td>
 <td><code>common</code>, <code>business-common</code>, <code>session-context-common</code></td>
-<td>메뉴/공통코드 API, 필요 시 내부 인증 헤더/sessionId 기반 세션 문맥 조회</td>
+<td>메뉴/공통코드 API, 필요 시 내부 인증 헤더/sessionId 기반 세션 컨텍스트 조회</td>
 </tr>
 <tr>
 <td><code>libs:security-common</code></td>
@@ -141,7 +141,7 @@ services:system-svc
 <tr>
 <td><code>libs:session-context-common</code></td>
 <td><code>common</code>, Spring Data Redis</td>
-<td><code>session:{sessionId}</code> 규칙의 Redis 세션 문맥 공통화</td>
+<td><code>session:{sessionId}</code> 규칙의 Redis 세션 컨텍스트 공통화</td>
 </tr>
 </tbody></table>
 <h2>실행 순서</h2>
@@ -314,7 +314,7 @@ X-Auth-Session-Id
 </tr>
 </tbody></table>
 <h3>Redis/Valkey 세션 컨텍스트</h3>
-<p><code>session-context-common</code> 공통 세션 문맥.</p>
+<p><code>session-context-common</code> 공통 세션 컨텍스트.</p>
 <table>
 <thead>
 <tr>

@@ -14,7 +14,7 @@ pnpm install
 ```
 
 ### 2. 개발 서버 실행
-가장 권장하는 방식은 모든 앱과 Mock API 서버를 한 번에 띄우는 것입니다.
+전체 앱을 한 번에 확인할 때는 `dev:all`을 사용합니다. 이 명령은 Mock API 서버도 함께 띄우지만, 앱이 mock을 사용하려면 각 앱 `.env`의 `VITE_API_URL`을 `http://localhost:3333`으로 전환해야 합니다.
 
 ```bash
 pnpm dev:all
@@ -36,25 +36,29 @@ pnpm dev:server    # Mock API 서버 (3333)
 
 ---
 
-## 🌐 백엔드 연결 (Mock ↔ Spring)
+## 🌐 백엔드 연결 (Vite Proxy ↔ Mock ↔ Spring)
 
-본 프로젝트는 **두 종류의 백엔드**를 지원하며, 앱별 `.env`의 `VITE_API_URL` **값만 바꿔** 전환합니다. 코드 수정은 필요 없습니다.
+개발 기본값은 앱별 `.env`의 `VITE_API_URL=/channel/backend/api/v1`입니다. 브라우저는 같은 origin의 dev server로 요청하고, Vite proxy가 Spring 서버로 전달해 CORS/크로스도메인 쿠키 문제를 피합니다.
 
-| 백엔드 | URL | 비고 |
+| 연결 방식 | URL / Target | 비고 |
 | :--- | :--- | :--- |
-| **Mock** (`mock/server.js`) | `http://localhost:3333` | 프로토타이핑·UI 개발용 |
-| **실서버** (Spring) | `http://localhost:18081/channel/backend/api/v1` | 인증·실데이터 연동 |
+| **개발 기본** (Vite proxy) | `VITE_API_URL=/channel/backend/api/v1` → `http://192.168.110.217` | PC/Mobile 개발 기본값 |
+| **운영** (Nginx same-origin) | `VITE_API_URL=/channel/backend/api/v1` | 빌드/배포 기본값 |
+| **Mock** (`mock/server.js`) | `http://localhost:3333` | 프로토타이핑·UI 개발용, 필요 시 env 전환 |
+| **로컬 Spring 직접 연결** | `http://localhost:18081/channel/backend/api/v1` | 로컬 백엔드 직접 기동 시 |
 
 > **핵심**: Mock 서버([mock/server.js](mock/server.js))는 Spring과 **동일한 계약**(공통 envelope + JWT 인증)을 흉내냅니다. 따라서 앱은 **단일 코드패스**로 동작하며, mock에서 검증한 인증·통신 로직이 Spring 연동 시 그대로 유지됩니다. (`pnpm dev:server`로 구동, Node 내장 모듈만 사용해 의존성 없음)
 
 ```bash
 # apps/pc-web/.env  ·  apps/mobile-web/.env
-VITE_API_URL=http://localhost:18081/channel/backend/api/v1   # Spring (기본)
-#VITE_API_URL=http://localhost:3333                          # Mock 사용 시 주석 교체
+VITE_API_URL=/channel/backend/api/v1                         # 개발 기본: Vite proxy → Spring
+#VITE_API_URL=http://localhost:3333                          # Mock 사용 시
+#VITE_API_URL=http://localhost:18081/channel/backend/api/v1   # 로컬 Spring 직접 연결 시
 ```
 
 * `.env`는 **각 앱 디렉토리**에 위치해야 합니다(Vite는 앱별로 로드). 루트 `.env`는 Vite 앱이 읽지 않습니다.
 * `.env.production`은 `pnpm build` 시 적용됩니다.
+* `VITE_API_URL`을 상대경로로 두면 앱의 `vite.config.ts` proxy 설정을 타고, 절대 URL로 두면 브라우저가 해당 서버로 직접 요청합니다.
 * Mock 서버는 `db.json`을 그대로 서빙하되 모든 응답을 envelope로 감싸고, `/auth/*` 엔드포인트는 Spring 형태의 가짜 토큰(먼 미래 만료)을 발급합니다. (`db.json` 변경 시 mock 서버 재시작 필요)
 
 ### 공통 응답 규격 (envelope)
@@ -92,8 +96,7 @@ Spring 백엔드 연동 시 **JWT 기반 인증**이 동작합니다. 토큰 부
 httpService.init({
   baseURL: API_URL,
   timeout: API_CONFIG.TIMEOUT,
-  interceptors: IS_MOCK_API ? { response: mockApiResponseInterceptor } : undefined,
-  auth: IS_MOCK_API ? undefined : createHttpAuthConfig(),
+  auth: createHttpAuthConfig(),
 });
 ```
 
@@ -113,7 +116,33 @@ httpService.init({
 * **응답 (`-1005`)**: 인가(권한) 오류 → 로그아웃하지 않고 에러 그대로 전달
 
 ### 라우트 가드
-보호 라우트(`(page)/_page`)는 `beforeLoad: requireAuth`로 진입 시 인증 세션을 확인합니다. `ensureValidAuthSession()`은 `accessTokenExpiresAt`이 유효하면 바로 통과하고, 만료됐거나 accessToken이 없으면 refresh 쿠키로 accessToken 재발급을 시도한 뒤 페이지 진입 여부를 결정합니다.
+보호 라우트(`(page)/_page`)는 `beforeLoad`에서 `requireAuth`를 먼저 수행합니다. `ensureValidAuthSession()`은 `accessTokenExpiresAt`이 유효하면 바로 통과하고, 만료됐거나 accessToken이 없으면 refresh 쿠키로 accessToken 재발급을 시도한 뒤 페이지 진입 여부를 결정합니다.
+
+인증 통과 후 PC 웹은 `ensureBaseInfoBootstrapped(queryClient, { menuCacheScope: usrId })`를 호출해 기준정보 준비가 끝난 뒤 화면을 로딩합니다.
+
+---
+
+## 🧭 기준정보 부트스트랩 (PC Web)
+
+PC 보호 화면 최초 진입 시 코드/메뉴 기준정보를 준비합니다. 실행 중 에러가 나도 화면 진입은 막지 않고, 가능한 경우 기존 localStorage 캐시를 재사용합니다.
+
+### 처리 흐름
+1. `POST /system/reference-data/versions/latest`로 기준정보 버전을 조회합니다. (`refType/versionNo` → `type/version`으로 정규화)
+2. 타입별 localStorage 캐시가 `serverVersion + schemaVersion` 기준으로 최신인지 확인합니다.
+3. 최신 캐시가 있으면 API를 호출하지 않고 캐시를 sessionStorage에 주입합니다.
+4. 최신 캐시가 없으면 해당 타입만 재조회합니다.
+   * 메뉴: `POST /system/menus/list`
+   * 코드: `POST /system/common-codes/groups/list` 후 그룹별 `POST /system/common-codes/groups/{groupCd}/codes/list`
+5. 조회 결과를 localStorage에 저장하고, 화면에서 쓰는 `CONFIG.SESSION.CODE` / `CONFIG.SESSION.MENU_LIST`에 주입합니다.
+
+### 캐시 역할
+| 레이어 | 역할 |
+| :--- | :--- |
+| React Query | 앱 실행 세션에서 `ensureQueryData` 중복 실행 방지 (`baseInfoQueryKeys.bootstrap(menuCacheScope)`) |
+| localStorage | 새로고침/재접속 후에도 기준정보 재사용 (`base-info:CODE`, `base-info:MENU:<usrId>`) |
+| sessionStorage | 기존 화면 로직이 참조하는 런타임 세션 데이터 (`CONFIG.SESSION.CODE`, `CONFIG.SESSION.MENU_LIST`) |
+
+`schemaVersion`은 FE 내부 캐시 구조 버전입니다. 서버 버전이 그대로여도 FE 저장 구조가 바뀌면 schemaVersion을 올려 강제로 재조회하게 합니다. 현재 CODE는 그룹+children 구조를 반영해 `2`, MENU는 `1`입니다.
 
 ---
 
@@ -131,8 +160,10 @@ httpService.init({
 | 명령 | 설명 |
 | :--- | :--- |
 | `pnpm check` | 전체 타입 검사 (`turbo check` → 각 앱 `tsc --noEmit`) |
+| `pnpm test` | 전체 단위 테스트 (`turbo test`) |
 | `pnpm lint` | Biome 린트 |
 | `pnpm format` | Biome 일괄 포맷팅 |
+| `pnpm check:api-paths` | `httpService` 경로가 generated OpenAPI 경로와 맞는지 검사 |
 | `pnpm build` | 프로덕션 통합 빌드 (Turborepo 캐싱) |
 
 ### E2E (Playwright)
@@ -145,6 +176,7 @@ httpService.init({
 | 명령 | 설명 |
 | :--- | :--- |
 | `pnpm gen:api` | 여러 백엔드 OpenAPI 스펙 → 서비스별 TS 타입 생성 (`scripts/gen-api.mjs` → `packages/shared/src/shared/api/*.schema.d.ts`). 스펙 목록은 `API_DOCS_URLS` 환경변수로 덮어쓰기 |
+| `pnpm gen:readme` | `README.md` → `landing/assets/fe.readme.html` 생성 |
 | `pnpm wbs:sync` | `docs/wbs.md` → GitHub Projects 동기화 (`docs/wbs-sync.js`) |
 | `pnpm wbs:force-sync` | WBS 강제 재동기화 (`docs/wbs-force-sync.js`) |
 
@@ -177,15 +209,17 @@ httpService.init({
 1. `pnpm install --frozen-lockfile`
 2. `pnpm gen:api`로 백엔드 OpenAPI 스펙 기준 타입 재생성
 3. `git diff --exit-code -- packages/shared/src/shared/api`로 generated 타입 커밋 누락 여부 확인
-4. `pnpm build:debug`(전체 앱 빌드, `VITE_API_URL` 주입) → `pnpm check` → `pnpm lint`
-5. `pnpm gen:readme`로 `landing/assets/fe.readme.html` 재생성
-6. 각 앱 `dist/*`와 `landing/*`를 Nginx 서빙 폴더로 복사 (배포 완료 후 Jandi 알림)
+4. `pnpm check:api-paths`로 FE API 호출 경로와 generated OpenAPI 경로 정합성 확인
+5. `pnpm build:debug`(전체 앱 빌드, `VITE_API_URL` 주입) → `pnpm check` → `pnpm lint`
+6. `pnpm gen:readme`로 `landing/assets/fe.readme.html` 재생성
+7. 각 앱 `dist/*`와 `landing/*`를 Nginx 서빙 폴더로 복사 (배포 완료 후 Jandi 알림)
 
 ### OpenAPI 스펙 정합성 체크
 CI는 빌드 성공 여부뿐 아니라 **백엔드 스펙과 FE generated 타입의 동기화 여부**도 확인합니다.
 
 * `pnpm gen:api`는 `scripts/gen-api.mjs`의 기본 내부망 Swagger URL 또는 `API_DOCS_URLS` 환경변수로 지정한 URL에서 스펙을 받아 `packages/shared/src/shared/api/*.schema.d.ts`를 재생성합니다.
 * 재생성 후 `packages/shared/src/shared/api`에 diff가 있으면, 백엔드 스펙 변경이 FE 타입 파일에 반영되지 않은 상태이므로 CI를 실패시킵니다.
+* `pnpm check:api-paths`는 `packages/shared/src/entities`의 `httpService.get/post/...` 호출 경로가 generated OpenAPI 경로에 존재하는지 확인합니다. 아직 스펙에 없는 legacy 경로는 `scripts/check-api-paths.mjs`의 allowlist에 사유와 함께 관리합니다.
 * 개발자 로컬에서도 Swagger URL에 접근 가능하면 PR 전에 같은 검사를 미리 수행할 수 있습니다: `pnpm gen:api && git diff --exit-code -- packages/shared/src/shared/api`.
 * self-hosted CI 러너도 Swagger URL에 접근 가능해야 합니다. 접근이 어렵다면 Swagger JSON snapshot을 repo에 저장하거나, 백엔드 릴리즈 산출물로 OpenAPI JSON을 제공받는 방식으로 전환합니다.
 * `gen-api` 실행 중 missing schema patch 경고가 발생하면 백엔드 OpenAPI 문서가 불완전하다는 신호입니다. 로컬 개발에서는 warning으로 볼 수 있지만, 배포용 CI에서는 백엔드 스펙 보완 또는 allowlist 정책을 먼저 검토합니다.
@@ -225,7 +259,9 @@ bx-cf-fe/
 ├── landing/                     # 안내 페이지 (Nginx 루트 context, 앱 비종속)
 │   └── index.html
 ├── scripts/
-│   └── gen-api.mjs              # OpenAPI → TS 타입 생성
+│   ├── gen-api.mjs              # OpenAPI → TS 타입 생성
+│   ├── check-api-paths.mjs      # FE API 호출 경로 ↔ OpenAPI 경로 정합성 체크
+│   └── gen-readme-html.mjs      # README → landing HTML 생성
 ├── .github/workflows/ci.yml     # develop push 시 빌드·검증·Nginx 배포
 ├── docs/                        # 프로젝트 문서 & 도구
 │   ├── order.md / todo.md / wbs.md
@@ -235,9 +271,9 @@ bx-cf-fe/
 ├── packages/
 │   └── shared/                  # 공유 패키지 (@bx/shared)
 │       └── src/
-│           ├── entities/        # 도메인: account, alarm, auth, menu, product, user
+│           ├── entities/        # 도메인: account, alarm, auth, base-info, menu, product, user
 │           │   └── <entity>/    #   ├ api/    (HTTP 호출)
-│           │                    #   ├ model/  (타입·hook·queries·store)
+│           │                    #   ├ model/  (타입·hook·queries·store·storage)
 │           │                    #   └ ui/     (도메인 컴포넌트)
 │           ├── shared/          # 공통: ui, hooks, model, lib, types, constants, ajax
 │           │   ├── ajax/        #   http.service (envelope·인터셉터·JWT)
@@ -256,6 +292,7 @@ bx-cf-fe/
     │       ├── pages/           #   페이지 컴포넌트
     │       ├── features/        #   기능 단위 (auth, dashboard ...)
     │       ├── widgets/         #   레이아웃 위젯 (sidebar 등)
+    │       ├── queryClient.ts   #   앱 공용 TanStack QueryClient
     │       └── shared/          #   앱 로컬 공통 (guards 등)
     │
     ├── mobile-web/              # 모바일 웹 (3001) — FSD 앱 (구조 동일, 풀스크린 모달)
@@ -278,12 +315,25 @@ ESLint/Prettier 대신 Rust 기반 **Biome**으로 품질·스타일을 관리�
 * 엔티티·훅·UI는 디렉토리의 `index.ts`로 묶어 노출합니다.
 * **순환 참조 금지**: `@bx/shared` **내부** 모듈끼리는 반드시 **로컬 상대 경로**로 임포트합니다. (패키지 명칭 `@bx/shared`로 자기 자신을 호출하면 순환 의존성 발생)
 
-### 3. HTTP 통신 (`httpService`)
+### 3. 도메인 파일 배치 컨벤션
+새 파일/기능을 추가하기 전에는 같은 도메인의 기존 구조를 먼저 확인하고, `entities` 하위의 기존 패턴을 우선합니다.
+
+| 종류 | 위치 |
+| :--- | :--- |
+| API 호출 | `api/*.api.ts` |
+| 타입 | `model/*.type.ts` |
+| TanStack Query | `model/*.queries.ts` |
+| storage/cache | `model/*.storage.ts` |
+| hook/store/bootstrap 등 모델 로직 | `model/*.hook.ts`, `model/*.store.ts`, `model/*.bootstrap.ts` 등 기존 패턴에 맞춤 |
+
+TanStack Query key는 `xxxQueryKeys = { all, list, detail, ... }` 객체 패턴을 사용합니다. 기존 컨벤션과 다르게 갈 필요가 있으면 구현 전에 이유를 먼저 설명합니다.
+
+### 4. HTTP 통신 (`httpService`)
 * 모든 API 호출은 `@bx/shared`의 `httpService.get/post/put/patch/delete`를 사용합니다.
 * baseURL은 `httpService.init()`에서 1회 설정하므로, 각 API 함수는 **상대 경로**만 사용합니다. (예: `httpService.get('/product/list')`)
 * `execute()`가 envelope의 `payload`를 언래핑하여 반환하고, `success: false`는 에러로 throw합니다.
 
-### 4. 공통 상수 (`@bx/shared/.../constants`)
+### 5. 공통 상수 (`@bx/shared/.../constants`)
 | 모듈 | 내용 |
 | :--- | :--- |
 | `api.ts` | `API_URL`(env 주입), `IS_MOCK_API`, `API_CONFIG`(타임아웃·재시도) |

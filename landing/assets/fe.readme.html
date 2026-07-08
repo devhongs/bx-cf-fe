@@ -79,7 +79,7 @@
 <pre><code class="language-bash">pnpm install
 </code></pre>
 <h3>2. 개발 서버 실행</h3>
-<p>가장 권장하는 방식은 모든 앱과 Mock API 서버를 한 번에 띄우는 것입니다.</p>
+<p>전체 앱을 한 번에 확인할 때는 <code>dev:all</code>을 사용합니다. 이 명령은 Mock API 서버도 함께 띄우지만, 앱이 mock을 사용하려면 각 앱 <code>.env</code>의 <code>VITE_API_URL</code>을 <code>http://localhost:3333</code>으로 전환해야 합니다.</p>
 <pre><code class="language-bash">pnpm dev:all
 </code></pre>
 <blockquote>
@@ -98,37 +98,49 @@ pnpm dev:admin     # 관리자 포탈 (3002)
 pnpm dev:server    # Mock API 서버 (3333)
 </code></pre>
 <hr>
-<h2>🌐 백엔드 연결 (Mock ↔ Spring)</h2>
-<p>본 프로젝트는 <strong>두 종류의 백엔드</strong>를 지원하며, 앱별 <code>.env</code>의 <code>VITE_API_URL</code> <strong>값만 바꿔</strong> 전환합니다. 코드 수정은 필요 없습니다.</p>
+<h2>🌐 백엔드 연결 (Vite Proxy ↔ Mock ↔ Spring)</h2>
+<p>개발 기본값은 앱별 <code>.env</code>의 <code>VITE_API_URL=/channel/backend/api/v1</code>입니다. 브라우저는 같은 origin의 dev server로 요청하고, Vite proxy가 Spring 서버로 전달해 CORS/크로스도메인 쿠키 문제를 피합니다.</p>
 <table>
 <thead>
 <tr>
-<th align="left">백엔드</th>
-<th align="left">URL</th>
+<th align="left">연결 방식</th>
+<th align="left">URL / Target</th>
 <th align="left">비고</th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><strong>Mock</strong> (<code>mock/server.js</code>)</td>
-<td align="left"><code>http://localhost:3333</code></td>
-<td align="left">프로토타이핑·UI 개발용</td>
+<td align="left"><strong>개발 기본</strong> (Vite proxy)</td>
+<td align="left"><code>VITE_API_URL=/channel/backend/api/v1</code> → <code>http://192.168.110.217</code></td>
+<td align="left">PC/Mobile 개발 기본값</td>
 </tr>
 <tr>
-<td align="left"><strong>실서버</strong> (Spring)</td>
+<td align="left"><strong>운영</strong> (Nginx same-origin)</td>
+<td align="left"><code>VITE_API_URL=/channel/backend/api/v1</code></td>
+<td align="left">빌드/배포 기본값</td>
+</tr>
+<tr>
+<td align="left"><strong>Mock</strong> (<code>mock/server.js</code>)</td>
+<td align="left"><code>http://localhost:3333</code></td>
+<td align="left">프로토타이핑·UI 개발용, 필요 시 env 전환</td>
+</tr>
+<tr>
+<td align="left"><strong>로컬 Spring 직접 연결</strong></td>
 <td align="left"><code>http://localhost:18081/channel/backend/api/v1</code></td>
-<td align="left">인증·실데이터 연동</td>
+<td align="left">로컬 백엔드 직접 기동 시</td>
 </tr>
 </tbody></table>
 <blockquote>
 <p><strong>핵심</strong>: Mock 서버(<a href="mock/server.js">mock/server.js</a>)는 Spring과 <strong>동일한 계약</strong>(공통 envelope + JWT 인증)을 흉내냅니다. 따라서 앱은 <strong>단일 코드패스</strong>로 동작하며, mock에서 검증한 인증·통신 로직이 Spring 연동 시 그대로 유지됩니다. (<code>pnpm dev:server</code>로 구동, Node 내장 모듈만 사용해 의존성 없음)</p>
 </blockquote>
 <pre><code class="language-bash"># apps/pc-web/.env  ·  apps/mobile-web/.env
-VITE_API_URL=http://localhost:18081/channel/backend/api/v1   # Spring (기본)
-#VITE_API_URL=http://localhost:3333                          # Mock 사용 시 주석 교체
+VITE_API_URL=/channel/backend/api/v1                         # 개발 기본: Vite proxy → Spring
+#VITE_API_URL=http://localhost:3333                          # Mock 사용 시
+#VITE_API_URL=http://localhost:18081/channel/backend/api/v1   # 로컬 Spring 직접 연결 시
 </code></pre>
 <ul>
 <li><code>.env</code>는 <strong>각 앱 디렉토리</strong>에 위치해야 합니다(Vite는 앱별로 로드). 루트 <code>.env</code>는 Vite 앱이 읽지 않습니다.</li>
 <li><code>.env.production</code>은 <code>pnpm build</code> 시 적용됩니다.</li>
+<li><code>VITE_API_URL</code>을 상대경로로 두면 앱의 <code>vite.config.ts</code> proxy 설정을 타고, 절대 URL로 두면 브라우저가 해당 서버로 직접 요청합니다.</li>
 <li>Mock 서버는 <code>db.json</code>을 그대로 서빙하되 모든 응답을 envelope로 감싸고, <code>/auth/*</code> 엔드포인트는 Spring 형태의 가짜 토큰(먼 미래 만료)을 발급합니다. (<code>db.json</code> 변경 시 mock 서버 재시작 필요)</li>
 </ul>
 <h3>공통 응답 규격 (envelope)</h3>
@@ -197,8 +209,7 @@ VITE_API_URL=http://localhost:18081/channel/backend/api/v1   # Spring (기본)
 httpService.init({
   baseURL: API_URL,
   timeout: API_CONFIG.TIMEOUT,
-  interceptors: IS_MOCK_API ? { response: mockApiResponseInterceptor } : undefined,
-  auth: IS_MOCK_API ? undefined : createHttpAuthConfig(),
+  auth: createHttpAuthConfig(),
 });
 </code></pre>
 <h3>로그인 흐름</h3>
@@ -221,7 +232,45 @@ httpService.init({
 <li><strong>응답 (<code>-1005</code>)</strong>: 인가(권한) 오류 → 로그아웃하지 않고 에러 그대로 전달</li>
 </ul>
 <h3>라우트 가드</h3>
-<p>보호 라우트(<code>(page)/_page</code>)는 <code>beforeLoad: requireAuth</code>로 진입 시 인증 세션을 확인합니다. <code>ensureValidAuthSession()</code>은 <code>accessTokenExpiresAt</code>이 유효하면 바로 통과하고, 만료됐거나 accessToken이 없으면 refresh 쿠키로 accessToken 재발급을 시도한 뒤 페이지 진입 여부를 결정합니다.</p>
+<p>보호 라우트(<code>(page)/_page</code>)는 <code>beforeLoad</code>에서 <code>requireAuth</code>를 먼저 수행합니다. <code>ensureValidAuthSession()</code>은 <code>accessTokenExpiresAt</code>이 유효하면 바로 통과하고, 만료됐거나 accessToken이 없으면 refresh 쿠키로 accessToken 재발급을 시도한 뒤 페이지 진입 여부를 결정합니다.</p>
+<p>인증 통과 후 PC 웹은 <code>ensureBaseInfoBootstrapped(queryClient, { menuCacheScope: usrId })</code>를 호출해 기준정보 준비가 끝난 뒤 화면을 로딩합니다.</p>
+<hr>
+<h2>🧭 기준정보 부트스트랩 (PC Web)</h2>
+<p>PC 보호 화면 최초 진입 시 코드/메뉴 기준정보를 준비합니다. 실행 중 에러가 나도 화면 진입은 막지 않고, 가능한 경우 기존 localStorage 캐시를 재사용합니다.</p>
+<h3>처리 흐름</h3>
+<ol>
+<li><code>POST /system/reference-data/versions/latest</code>로 기준정보 버전을 조회합니다. (<code>refType/versionNo</code> → <code>type/version</code>으로 정규화)</li>
+<li>타입별 localStorage 캐시가 <code>serverVersion + schemaVersion</code> 기준으로 최신인지 확인합니다.</li>
+<li>최신 캐시가 있으면 API를 호출하지 않고 캐시를 sessionStorage에 주입합니다.</li>
+<li>최신 캐시가 없으면 해당 타입만 재조회합니다.<ul>
+<li>메뉴: <code>POST /system/menus/list</code></li>
+<li>코드: <code>POST /system/common-codes/groups/list</code> 후 그룹별 <code>POST /system/common-codes/groups/{groupCd}/codes/list</code></li>
+</ul>
+</li>
+<li>조회 결과를 localStorage에 저장하고, 화면에서 쓰는 <code>CONFIG.SESSION.CODE</code> / <code>CONFIG.SESSION.MENU_LIST</code>에 주입합니다.</li>
+</ol>
+<h3>캐시 역할</h3>
+<table>
+<thead>
+<tr>
+<th align="left">레이어</th>
+<th align="left">역할</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">React Query</td>
+<td align="left">앱 실행 세션에서 <code>ensureQueryData</code> 중복 실행 방지 (<code>baseInfoQueryKeys.bootstrap(menuCacheScope)</code>)</td>
+</tr>
+<tr>
+<td align="left">localStorage</td>
+<td align="left">새로고침/재접속 후에도 기준정보 재사용 (<code>base-info:CODE</code>, <code>base-info:MENU:&lt;usrId&gt;</code>)</td>
+</tr>
+<tr>
+<td align="left">sessionStorage</td>
+<td align="left">기존 화면 로직이 참조하는 런타임 세션 데이터 (<code>CONFIG.SESSION.CODE</code>, <code>CONFIG.SESSION.MENU_LIST</code>)</td>
+</tr>
+</tbody></table>
+<p><code>schemaVersion</code>은 FE 내부 캐시 구조 버전입니다. 서버 버전이 그대로여도 FE 저장 구조가 바뀌면 schemaVersion을 올려 강제로 재조회하게 합니다. 현재 CODE는 그룹+children 구조를 반영해 <code>2</code>, MENU는 <code>1</code>입니다.</p>
 <hr>
 <h2>📜 실행 스크립트 (Scripts)</h2>
 <h3>개발 서버</h3>
@@ -262,12 +311,20 @@ httpService.init({
 <td align="left">전체 타입 검사 (<code>turbo check</code> → 각 앱 <code>tsc --noEmit</code>)</td>
 </tr>
 <tr>
+<td align="left"><code>pnpm test</code></td>
+<td align="left">전체 단위 테스트 (<code>turbo test</code>)</td>
+</tr>
+<tr>
 <td align="left"><code>pnpm lint</code></td>
 <td align="left">Biome 린트</td>
 </tr>
 <tr>
 <td align="left"><code>pnpm format</code></td>
 <td align="left">Biome 일괄 포맷팅</td>
+</tr>
+<tr>
+<td align="left"><code>pnpm check:api-paths</code></td>
+<td align="left"><code>httpService</code> 경로가 generated OpenAPI 경로와 맞는지 검사</td>
 </tr>
 <tr>
 <td align="left"><code>pnpm build</code></td>
@@ -302,6 +359,10 @@ httpService.init({
 <tbody><tr>
 <td align="left"><code>pnpm gen:api</code></td>
 <td align="left">여러 백엔드 OpenAPI 스펙 → 서비스별 TS 타입 생성 (<code>scripts/gen-api.mjs</code> → <code>packages/shared/src/shared/api/*.schema.d.ts</code>). 스펙 목록은 <code>API_DOCS_URLS</code> 환경변수로 덮어쓰기</td>
+</tr>
+<tr>
+<td align="left"><code>pnpm gen:readme</code></td>
+<td align="left"><code>README.md</code> → <code>landing/assets/fe.readme.html</code> 생성</td>
 </tr>
 <tr>
 <td align="left"><code>pnpm wbs:sync</code></td>
@@ -381,6 +442,7 @@ httpService.init({
 <li><code>pnpm install --frozen-lockfile</code></li>
 <li><code>pnpm gen:api</code>로 백엔드 OpenAPI 스펙 기준 타입 재생성</li>
 <li><code>git diff --exit-code -- packages/shared/src/shared/api</code>로 generated 타입 커밋 누락 여부 확인</li>
+<li><code>pnpm check:api-paths</code>로 FE API 호출 경로와 generated OpenAPI 경로 정합성 확인</li>
 <li><code>pnpm build:debug</code>(전체 앱 빌드, <code>VITE_API_URL</code> 주입) → <code>pnpm check</code> → <code>pnpm lint</code></li>
 <li><code>pnpm gen:readme</code>로 <code>landing/assets/fe.readme.html</code> 재생성</li>
 <li>각 앱 <code>dist/*</code>와 <code>landing/*</code>를 Nginx 서빙 폴더로 복사 (배포 완료 후 Jandi 알림)</li>
@@ -390,6 +452,7 @@ httpService.init({
 <ul>
 <li><code>pnpm gen:api</code>는 <code>scripts/gen-api.mjs</code>의 기본 내부망 Swagger URL 또는 <code>API_DOCS_URLS</code> 환경변수로 지정한 URL에서 스펙을 받아 <code>packages/shared/src/shared/api/*.schema.d.ts</code>를 재생성합니다.</li>
 <li>재생성 후 <code>packages/shared/src/shared/api</code>에 diff가 있으면, 백엔드 스펙 변경이 FE 타입 파일에 반영되지 않은 상태이므로 CI를 실패시킵니다.</li>
+<li><code>pnpm check:api-paths</code>는 <code>packages/shared/src/entities</code>의 <code>httpService.get/post/...</code> 호출 경로가 generated OpenAPI 경로에 존재하는지 확인합니다. 아직 스펙에 없는 legacy 경로는 <code>scripts/check-api-paths.mjs</code>의 allowlist에 사유와 함께 관리합니다.</li>
 <li>개발자 로컬에서도 Swagger URL에 접근 가능하면 PR 전에 같은 검사를 미리 수행할 수 있습니다: <code>pnpm gen:api &amp;&amp; git diff --exit-code -- packages/shared/src/shared/api</code>.</li>
 <li>self-hosted CI 러너도 Swagger URL에 접근 가능해야 합니다. 접근이 어렵다면 Swagger JSON snapshot을 repo에 저장하거나, 백엔드 릴리즈 산출물로 OpenAPI JSON을 제공받는 방식으로 전환합니다.</li>
 <li><code>gen-api</code> 실행 중 missing schema patch 경고가 발생하면 백엔드 OpenAPI 문서가 불완전하다는 신호입니다. 로컬 개발에서는 warning으로 볼 수 있지만, 배포용 CI에서는 백엔드 스펙 보완 또는 allowlist 정책을 먼저 검토합니다.</li>
@@ -443,7 +506,9 @@ httpService.init({
 ├── landing/                     # 안내 페이지 (Nginx 루트 context, 앱 비종속)
 │   └── index.html
 ├── scripts/
-│   └── gen-api.mjs              # OpenAPI → TS 타입 생성
+│   ├── gen-api.mjs              # OpenAPI → TS 타입 생성
+│   ├── check-api-paths.mjs      # FE API 호출 경로 ↔ OpenAPI 경로 정합성 체크
+│   └── gen-readme-html.mjs      # README → landing HTML 생성
 ├── .github/workflows/ci.yml     # develop push 시 빌드·검증·Nginx 배포
 ├── docs/                        # 프로젝트 문서 &amp; 도구
 │   ├── order.md / todo.md / wbs.md
@@ -453,9 +518,9 @@ httpService.init({
 ├── packages/
 │   └── shared/                  # 공유 패키지 (@bx/shared)
 │       └── src/
-│           ├── entities/        # 도메인: account, alarm, auth, menu, product, user
+│           ├── entities/        # 도메인: account, alarm, auth, base-info, menu, product, user
 │           │   └── &lt;entity&gt;/    #   ├ api/    (HTTP 호출)
-│           │                    #   ├ model/  (타입·hook·queries·store)
+│           │                    #   ├ model/  (타입·hook·queries·store·storage)
 │           │                    #   └ ui/     (도메인 컴포넌트)
 │           ├── shared/          # 공통: ui, hooks, model, lib, types, constants, ajax
 │           │   ├── ajax/        #   http.service (envelope·인터셉터·JWT)
@@ -474,6 +539,7 @@ httpService.init({
     │       ├── pages/           #   페이지 컴포넌트
     │       ├── features/        #   기능 단위 (auth, dashboard ...)
     │       ├── widgets/         #   레이아웃 위젯 (sidebar 등)
+    │       ├── queryClient.ts   #   앱 공용 TanStack QueryClient
     │       └── shared/          #   앱 로컬 공통 (guards 등)
     │
     ├── mobile-web/              # 모바일 웹 (3001) — FSD 앱 (구조 동일, 풀스크린 모달)
@@ -496,13 +562,44 @@ httpService.init({
 <li>엔티티·훅·UI는 디렉토리의 <code>index.ts</code>로 묶어 노출합니다.</li>
 <li><strong>순환 참조 금지</strong>: <code>@bx/shared</code> <strong>내부</strong> 모듈끼리는 반드시 <strong>로컬 상대 경로</strong>로 임포트합니다. (패키지 명칭 <code>@bx/shared</code>로 자기 자신을 호출하면 순환 의존성 발생)</li>
 </ul>
-<h3>3. HTTP 통신 (<code>httpService</code>)</h3>
+<h3>3. 도메인 파일 배치 컨벤션</h3>
+<p>새 파일/기능을 추가하기 전에는 같은 도메인의 기존 구조를 먼저 확인하고, <code>entities</code> 하위의 기존 패턴을 우선합니다.</p>
+<table>
+<thead>
+<tr>
+<th align="left">종류</th>
+<th align="left">위치</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">API 호출</td>
+<td align="left"><code>api/*.api.ts</code></td>
+</tr>
+<tr>
+<td align="left">타입</td>
+<td align="left"><code>model/*.type.ts</code></td>
+</tr>
+<tr>
+<td align="left">TanStack Query</td>
+<td align="left"><code>model/*.queries.ts</code></td>
+</tr>
+<tr>
+<td align="left">storage/cache</td>
+<td align="left"><code>model/*.storage.ts</code></td>
+</tr>
+<tr>
+<td align="left">hook/store/bootstrap 등 모델 로직</td>
+<td align="left"><code>model/*.hook.ts</code>, <code>model/*.store.ts</code>, <code>model/*.bootstrap.ts</code> 등 기존 패턴에 맞춤</td>
+</tr>
+</tbody></table>
+<p>TanStack Query key는 <code>xxxQueryKeys = { all, list, detail, ... }</code> 객체 패턴을 사용합니다. 기존 컨벤션과 다르게 갈 필요가 있으면 구현 전에 이유를 먼저 설명합니다.</p>
+<h3>4. HTTP 통신 (<code>httpService</code>)</h3>
 <ul>
 <li>모든 API 호출은 <code>@bx/shared</code>의 <code>httpService.get/post/put/patch/delete</code>를 사용합니다.</li>
 <li>baseURL은 <code>httpService.init()</code>에서 1회 설정하므로, 각 API 함수는 <strong>상대 경로</strong>만 사용합니다. (예: <code>httpService.get(&#39;/product/list&#39;)</code>)</li>
 <li><code>execute()</code>가 envelope의 <code>payload</code>를 언래핑하여 반환하고, <code>success: false</code>는 에러로 throw합니다.</li>
 </ul>
-<h3>4. 공통 상수 (<code>@bx/shared/.../constants</code>)</h3>
+<h3>5. 공통 상수 (<code>@bx/shared/.../constants</code>)</h3>
 <table>
 <thead>
 <tr>
