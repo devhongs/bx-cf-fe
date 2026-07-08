@@ -33,7 +33,7 @@ function addHeaderAndFooter(slide, titleText, leadText, pageNum) {
   });
   
   // Footer left
-  slide.addText("Google Cloud | 채널 프레임워크 개발 기획서", {
+  slide.addText("Google Cloud | 채널 파운데이션 개발 기획서", {
     x: 0.6, y: 7.0, w: 6.0, h: 0.3,
     fontFace: FONT_FAMILY, fontSize: 9, color: '94A3B8',
     valign: 'middle'
@@ -68,7 +68,7 @@ function addHeaderAndFooter(slide, titleText, leadText, pageNum) {
   });
   
   // Main Title
-  slide.addText("google 채널 프레임워크 개발 기획", {
+  slide.addText("google 채널 파운데이션 개발 기획", {
     x: 0.8, y: 2.4, w: 11.5, h: 1.2,
     fontFace: FONT_FAMILY, fontSize: 34, bold: true, color: 'FFFFFF',
     valign: 'middle'
@@ -134,7 +134,7 @@ function addHeaderAndFooter(slide, titleText, leadText, pageNum) {
 }
 
 // ==========================================
-// SLIDE 3: 채널 프레임워크 정의 및 목적 (Light Theme)
+// SLIDE 3: 채널 파운데이션 정의 및 목적 (Light Theme)
 // ==========================================
 {
   let slide = pptx.addSlide();
@@ -142,7 +142,7 @@ function addHeaderAndFooter(slide, titleText, leadText, pageNum) {
   
   addHeaderAndFooter(
     slide,
-    "02. 채널 프레임워크 정의 및 개발 목적",
+    "02. 채널 파운데이션 정의 및 개발 목적",
     "신규 채널 프로젝트에 즉각 투입 가능한 경량 Boilerplate 세트와 MVP 데모 자산 구축",
     3
   );
@@ -220,7 +220,7 @@ function addHeaderAndFooter(slide, titleText, leadText, pageNum) {
     [
       { text: "구분", options: headerOptions },
       { text: "BXUI (기제품)", options: headerOptions },
-      { text: "채널 프레임워크 (신규)", options: headerOptions }
+      { text: "채널 파운데이션 (신규)", options: headerOptions }
     ],
     // Row 1
     [
@@ -288,7 +288,7 @@ function addHeaderAndFooter(slide, titleText, leadText, pageNum) {
   // Summary Callout Box at the bottom
   slide.addText([
     { text: "💡 이원화 전략: ", options: { bold: true, color: "1E40AF" } },
-    { text: "본사 주도의 대형 표준 사업은 완성형 제품인 'BXUI'가 주도하고, 비용과 실시간 커스터마이징이 핵심인 애자일 현장형 사업에는 오픈 뼈대인 '채널 프레임워크'를 선제적으로 매핑하여 프로젝트 리스크를 분산합니다.", options: { color: "1E40AF" } }
+    { text: "본사 주도의 대형 표준 사업은 완성형 제품인 'BXUI'가 주도하고, 비용과 실시간 커스터마이징이 핵심인 애자일 현장형 사업에는 오픈 뼈대인 '채널 파운데이션'를 선제적으로 매핑하여 프로젝트 리스크를 분산합니다.", options: { color: "1E40AF" } }
   ], {
     x: 0.6, y: 5.7, w: 12.13, h: 0.9,
     fill: { color: "EFF6FF" }, // light blue
@@ -422,7 +422,7 @@ function addHeaderAndFooter(slide, titleText, leadText, pageNum) {
 }
 
 // Save the Presentation
-const OUTPUT_FILE = 'google_채널_프레임워크_개발_기획.pptx';
+const OUTPUT_FILE = 'google_채널_파운데이션_개발_기획.pptx';
 pptx.writeFile({ fileName: OUTPUT_FILE })
   .then(name => {
     console.log(`Success: PowerPoint presentation generated as: ${name}`);

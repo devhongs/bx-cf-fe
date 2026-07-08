@@ -43,7 +43,7 @@ async function icon(IconComponent, color, size = 256) {
 const pres = new pptxgen();
 pres.layout = "LAYOUT_WIDE"; // 13.33 x 7.5
 pres.author = "채널유닛";
-pres.title = "채널 프레임워크 구축 제안";
+pres.title = "채널 파운데이션 구축 제안";
 const W = 13.33, H = 7.5;
 
 const sh = () => ({ type: "outer", color: "26305E", blur: 13, offset: 4, angle: 135, opacity: 0.14 });
@@ -52,7 +52,7 @@ function header(slide, kicker, title, pageNo) {
   slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.7, y: 0.64, w: 0.17, h: 0.58, fill: { color: BRAND }, rectRadius: 0.07, line: { type: "none" } });
   slide.addText(kicker, { x: 1.0, y: 0.58, w: 9, h: 0.3, fontFace: BODY, fontSize: 12, bold: true, color: MINTD, charSpacing: 2, margin: 0 });
   slide.addText(title, { x: 0.98, y: 0.83, w: 11.4, h: 0.56, fontFace: HEAD, fontSize: 27, bold: true, color: INK, margin: 0 });
-  slide.addText([{ text: "채널 프레임워크 (Channel Framework)", options: { color: GRAY } }, { text: "   ·   ", options: { color: LINE } }, { text: String(pageNo).padStart(2, "0"), options: { color: MINTD, bold: true } }],
+  slide.addText([{ text: "채널 파운데이션 (Channel Foundation)", options: { color: GRAY } }, { text: "   ·   ", options: { color: LINE } }, { text: String(pageNo).padStart(2, "0"), options: { color: MINTD, bold: true } }],
     { x: 0.7, y: 7.04, w: 12, h: 0.3, fontFace: BODY, fontSize: 9.5, align: "left", margin: 0 });
 }
 
@@ -99,8 +99,8 @@ function header(slide, kicker, title, pageNo) {
   s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.7, y: 1.55, w: 0.8, h: 0.16, fill: { color: MINT }, rectRadius: 0.08, line: { type: "none" } });
 
   s.addText("PROPOSAL   ·   CHANNEL UNIT", { x: 0.72, y: 1.85, w: 9, h: 0.35, fontFace: BODY, fontSize: 13, bold: true, color: MINT, charSpacing: 3, margin: 0 });
-  s.addText("채널 프레임워크", { x: 0.67, y: 2.3, w: 11, h: 1.2, fontFace: HEAD, fontSize: 60, bold: true, color: "FFFFFF", margin: 0 });
-  s.addText("Channel Framework", { x: 0.7, y: 3.5, w: 11, h: 0.6, fontFace: HEAD, fontSize: 25, color: ICE, margin: 0 });
+  s.addText("채널 파운데이션", { x: 0.67, y: 2.3, w: 11, h: 1.2, fontFace: HEAD, fontSize: 60, bold: true, color: "FFFFFF", margin: 0 });
+  s.addText("Channel Foundation", { x: 0.7, y: 3.5, w: 11, h: 0.6, fontFace: HEAD, fontSize: 25, color: ICE, margin: 0 });
   s.addText("채널 프로젝트 수행을 위한 공통 기반(Backend · Frontend) 구축 제안", { x: 0.72, y: 4.35, w: 10.5, h: 0.5, fontFace: BODY, fontSize: 16, color: "AEBCEA", margin: 0 });
 
   const chips = [["기간", "3개월 · 1단계"], ["인원", "2명"], ["산출물", "스타터 키트 + MVP"]];
@@ -114,7 +114,7 @@ function header(slide, kicker, title, pageNo) {
 
   // ===================================================== SLIDE 2 — 배경
   s = pres.addSlide(); s.background = { color: LIGHT };
-  header(s, "WHY NOW  ·  추진 배경", "채널 프레임워크가 필요한 이유", 2);
+  header(s, "WHY NOW  ·  추진 배경", "채널 파운데이션이 필요한 이유", 2);
   const bg = [
     [ic.layers, "공통 기반이 없음", "신규 채널 프로젝트를 시작할 때마다 BE · FE 기초를 새로 잡는 탓에 초기 작업 시간이 매번 낭비됨"],
     [ic.hour, "지금이 적기", "차기(Next) 투입 일정이 비어 있는 지금, 가용 인력으로 두고두고 쓸 공통 자산을 확보해 둘 적기임"],
@@ -134,7 +134,7 @@ function header(slide, kicker, title, pageNo) {
   header(s, "DEFINITION  ·  무엇인가", "경량형 프로젝트 스타터 키트", 3);
   s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.7, y: 1.85, w: 4.5, h: 4.55, fill: { color: DARK }, rectRadius: 0.11, line: { type: "none" }, shadow: sh() });
   circleIcon(s, ic.toolbox, 1.1, 2.25, 1.1, MINT);
-  s.addText("채널 프레임워크란?", { x: 1.1, y: 3.5, w: 3.8, h: 0.4, fontFace: BODY, fontSize: 13, bold: true, color: MINT, margin: 0 });
+  s.addText("채널 파운데이션이란?", { x: 1.1, y: 3.5, w: 3.8, h: 0.4, fontFace: BODY, fontSize: 13, bold: true, color: MINT, margin: 0 });
   s.addText("신규 채널 프로젝트를 위한\nBackend · Frontend\n공통 뼈대", { x: 1.1, y: 3.78, w: 3.8, h: 1.2, fontFace: HEAD, fontSize: 19, bold: true, color: "FFFFFF", lineSpacingMultiple: 1.12, margin: 0 });
   s.addText("회사 기제품을 도입하기 어려운 상황에서도 채널 프로젝트를 성공적으로 수행하기 위한 스타터 키트 + MVP 세트", { x: 1.1, y: 5.05, w: 3.8, h: 1.1, fontFace: BODY, fontSize: 12.5, color: ICE, lineSpacingMultiple: 1.28, margin: 0 });
 
@@ -142,7 +142,7 @@ function header(slide, kicker, title, pageNo) {
   const isList = [
     [ic.toolbox, "공통 뼈대 & 표준", "즉시 투입 가능한 경량 스타터 키트와 개발 표준을 제공해 기초 작업 시간을 없앱니다."],
     [ic.target, "표준 제품의 사각지대 보완", "예산 · 일정이 빠듯해 표준 제품 도입이 어려운 소규모 · 커스텀 현장에 유연하게 선투입할 수 있습니다."],
-    [ic.chart, "영업적 부가가치", "MVP 수준의 프레임워크로 Pre-sales 단계에서 빠른 데모 · 즉시 커스터마이징이 가능해 수주 경쟁력을 강화합니다."],
+    [ic.chart, "영업적 부가가치", "MVP 수준의 파운데이션으로 Pre-sales 단계에서 빠른 데모 · 즉시 커스터마이징이 가능해 수주 경쟁력을 강화합니다."],
   ];
   isList.forEach(([data, t, d], i) => {
     const y = 1.95 + i * 1.52;
@@ -154,7 +154,7 @@ function header(slide, kicker, title, pageNo) {
 
   // ===================================================== SLIDE 4 — 구성도 (architecture)
   s = pres.addSlide(); s.background = { color: LIGHT };
-  header(s, "ARCHITECTURE  ·  구성", "채널 프레임워크 구성도", 4);
+  header(s, "ARCHITECTURE  ·  구성", "채널 파운데이션 구성도", 4);
 
   const pill = (x, y, w, h, text, fill, tc, fs, bold, ln) => {
     s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w, h, fill: { color: fill }, rectRadius: Math.min(0.09, h / 2), line: ln ? { color: ln, width: 1 } : { type: "none" } });
@@ -336,11 +336,11 @@ function header(slide, kicker, title, pageNo) {
   s.addText("토큰 · 컨텍스트", { x: 1.02, y: 2.7, w: 4, h: 0.7, fontFace: HEAD, fontSize: 30, bold: true, color: "FFFFFF", margin: 0 });
   s.addText("기능 차이가 아닌\n사용량(Capacity)의 차이", { x: 1.05, y: 3.45, w: 3.8, h: 0.9, fontFace: BODY, fontSize: 14, color: MINT, bold: true, lineSpacingMultiple: 1.15, margin: 0 });
   s.addShape(pres.shapes.LINE, { x: 1.05, y: 4.5, w: 3.0, h: 0, line: { color: DARK2, width: 1.5 } });
-  s.addText("무료 · 기본 요금제는 단발성 질의에 적합하나, 프레임워크 수준의 모노레포(PC · Mobile · Admin + 공유 패키지)를 한 번에 다루기엔 한계가 큽니다.", { x: 1.05, y: 4.65, w: 3.85, h: 1.6, fontFace: BODY, fontSize: 12.5, color: ICE, lineSpacingMultiple: 1.32, margin: 0 });
+  s.addText("무료 · 기본 요금제는 단발성 질의에 적합하나, 파운데이션 수준의 모노레포(PC · Mobile · Admin + 공유 패키지)를 한 번에 다루기엔 한계가 큽니다.", { x: 1.05, y: 4.65, w: 3.85, h: 1.6, fontFace: BODY, fontSize: 12.5, color: ICE, lineSpacingMultiple: 1.32, margin: 0 });
   const aiList = [
     [ic.memory, "대용량 컨텍스트 유지", "프로젝트 전체 소스의 의존성을 유지한 채 분석 → 아키텍처 정합성에 맞는 코드 생성과 정확한 오류 진단이 가능합니다."],
     [ic.bolt, "연속 작업 보장", "대규모 코드 생성 · 리팩토링 · 문서화가 토큰 한도에 끊기지 않고 이어져, 실질적인 개발 생산성을 확보합니다."],
-    [ic.coins, "목적에 부합", "단순 질의응답이 아닌 프레임워크 설계 · 구현이 목표이므로, 충분한 사용량이 보장되는 유료 요금제가 전제됩니다."],
+    [ic.coins, "목적에 부합", "단순 질의응답이 아닌 파운데이션 설계 · 구현이 목표이므로, 충분한 사용량이 보장되는 유료 요금제가 전제됩니다."],
   ];
   aiList.forEach(([data, t, d], i) => {
     const x = 5.5, y = 1.95 + i * 1.5, w = 7.1;
@@ -357,11 +357,11 @@ function header(slide, kicker, title, pageNo) {
   s.addShape(pres.shapes.OVAL, { x: 11.0, y: 4.6, w: 3.2, h: 3.2, fill: { color: MINT, transparency: 80 } });
   s.addImage({ data: ic.lightbulb, x: 0.72, y: 1.55, w: 0.95, h: 0.95 });
   s.addText("AI 기반 고효율 개발 프로세스 — 선제적 대응", { x: 0.72, y: 2.7, w: 11, h: 0.45, fontFace: BODY, fontSize: 16, bold: true, color: MINT, margin: 0 });
-  s.addText("단순한 프레임워크 하나를 넘어,\nAI 활용 개발 방식에 대한\n조직의 경험을 자산화합니다.", { x: 0.68, y: 3.15, w: 11.6, h: 1.7, fontFace: HEAD, fontSize: 31, bold: true, color: "FFFFFF", lineSpacingMultiple: 1.12, margin: 0 });
-  s.addText("MVP 수준의 채널 프레임워크 확보 → 영업 · 제안 단계의 데모 환경 구성 → 신규 사업 기회 발굴", { x: 0.72, y: 5.05, w: 11, h: 0.5, fontFace: BODY, fontSize: 15, color: ICE, margin: 0 });
+  s.addText("단순한 파운데이션 하나를 넘어,\nAI 활용 개발 방식에 대한\n조직의 경험을 자산화합니다.", { x: 0.68, y: 3.15, w: 11.6, h: 1.7, fontFace: HEAD, fontSize: 31, bold: true, color: "FFFFFF", lineSpacingMultiple: 1.12, margin: 0 });
+  s.addText("MVP 수준의 채널 파운데이션 확보 → 영업 · 제안 단계의 데모 환경 구성 → 신규 사업 기회 발굴", { x: 0.72, y: 5.05, w: 11, h: 0.5, fontFace: BODY, fontSize: 15, color: ICE, margin: 0 });
   s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.72, y: 5.85, w: 2.4, h: 0.08, fill: { color: MINT }, rectRadius: 0.04, line: { type: "none" } });
   s.addText("감사합니다.   |   채널유닛  ·  2026.06", { x: 0.72, y: 6.1, w: 10, h: 0.4, fontFace: BODY, fontSize: 14, color: ICE, margin: 0 });
 
-  await pres.writeFile({ fileName: "채널_프레임워크_제안_v2.pptx" });
+  await pres.writeFile({ fileName: "채널_파운데이션_제안_v2.pptx" });
   console.log("DONE");
 })();

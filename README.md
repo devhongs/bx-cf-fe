@@ -1,6 +1,14 @@
-# 📘 BX-CF Enterprise Frontend Framework (Monorepo)
+# 📘 BX-CF Frontend Foundation (Monorepo)
 
-본 프로젝트는 초고속 빌드 성능과 극대화된 DX(Developer Experience)를 지향하는 **React 19 + TypeScript + Vite** 기술 스택 기반의 엔터프라이즈급 금융/자산관리 웹 애플리케이션 프레임워크입니다.
+본 프로젝트는 **채널 파운데이션(Channel Foundation, CF)** 의 프론트엔드 레포지토리입니다. 특정 서비스가 아니라, 웹 프로젝트를 시작할 때 가져가 쓰는 **React 기반 프론트엔드 파운데이션(스타터킷)** 을 지향합니다.
+
+비즈니스 로직은 최소화하고, 다음 영역의 베스트 프랙티스를 제공하는 것이 목적입니다.
+
+- 라우팅, 서버 통신(HTTP/인증), 전역 상태 등 공통 기반 구성
+- 서버 OpenAPI 스펙 → 프론트 스펙(타입·쿼리·API 클라이언트) 자동화
+- 모노레포 폴더 구조와 **Feature-Sliced Design (FSD)** 설계 규격
+
+기술 스택은 초고속 빌드 성능과 극대화된 DX(Developer Experience)를 지향하는 **React 19 + TypeScript + Vite** 기반입니다.
 
 **pnpm Workspaces + Turborepo** 기반의 모노레포로 구성되며, **Feature-Sliced Design (FSD)** 설계 규격과 단일 공유 패키지(`@bx/shared`) 아키텍처를 따릅니다. PC·모바일 웹은 각각 독립된 FSD 애플리케이션이며, 도메인 로직·UI·HTTP 통신·인증을 `@bx/shared`에서 공유합니다.
 

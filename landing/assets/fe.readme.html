@@ -70,8 +70,15 @@
   </head>
   <body>
     <main class="md">
-<h1>📘 BX-CF Enterprise Frontend Framework (Monorepo)</h1>
-<p>본 프로젝트는 초고속 빌드 성능과 극대화된 DX(Developer Experience)를 지향하는 <strong>React 19 + TypeScript + Vite</strong> 기술 스택 기반의 엔터프라이즈급 금융/자산관리 웹 애플리케이션 프레임워크입니다.</p>
+<h1>📘 BX-CF Frontend Foundation (Monorepo)</h1>
+<p>본 프로젝트는 <strong>채널 파운데이션(Channel Foundation, CF)</strong> 의 프론트엔드 레포지토리입니다. 특정 서비스가 아니라, 웹 프로젝트를 시작할 때 가져가 쓰는 <strong>React 기반 프론트엔드 파운데이션(스타터킷)</strong> 을 지향합니다.</p>
+<p>비즈니스 로직은 최소화하고, 다음 영역의 베스트 프랙티스를 제공하는 것이 목적입니다.</p>
+<ul>
+<li>라우팅, 서버 통신(HTTP/인증), 전역 상태 등 공통 기반 구성</li>
+<li>서버 OpenAPI 스펙 → 프론트 스펙(타입·쿼리·API 클라이언트) 자동화</li>
+<li>모노레포 폴더 구조와 <strong>Feature-Sliced Design (FSD)</strong> 설계 규격</li>
+</ul>
+<p>기술 스택은 초고속 빌드 성능과 극대화된 DX(Developer Experience)를 지향하는 <strong>React 19 + TypeScript + Vite</strong> 기반입니다.</p>
 <p><strong>pnpm Workspaces + Turborepo</strong> 기반의 모노레포로 구성되며, <strong>Feature-Sliced Design (FSD)</strong> 설계 규격과 단일 공유 패키지(<code>@bx/shared</code>) 아키텍처를 따릅니다. PC·모바일 웹은 각각 독립된 FSD 애플리케이션이며, 도메인 로직·UI·HTTP 통신·인증을 <code>@bx/shared</code>에서 공유합니다.</p>
 <hr>
 <h2>🚀 시작하기 (Quick Start)</h2>
