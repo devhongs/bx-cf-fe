@@ -85,4 +85,60 @@ describe('check-api-paths', () => {
       expect.objectContaining({ rawPath: '/product/missing', normalizedPath: '/missing' }),
     ]);
   });
+
+  it('allows endpoints that are intentionally used before backend OpenAPI is ready', () => {
+    const result = checkApiReferences({
+      services: [
+        {
+          name: 'system',
+          sourcePrefix: '/system',
+          schemaPaths: [],
+        },
+      ],
+      references: [
+        {
+          method: 'delete',
+          rawPath: '/system/common-codes/groups/${encodeURIComponent(groupCd)}',
+          file: 'common-code.api.ts',
+          line: 1,
+        },
+        {
+          method: 'delete',
+          rawPath:
+            '/system/common-codes/groups/${encodeURIComponent(groupCd)}/codes/${encodeURIComponent(code)}',
+          file: 'common-code.api.ts',
+          line: 2,
+        },
+        {
+          method: 'delete',
+          rawPath: '/system/menus/${encodeURIComponent(menuId)}',
+          file: 'menu.api.ts',
+          line: 3,
+        },
+        { method: 'post', rawPath: '/users/list', file: 'user.api.ts', line: 4 },
+        {
+          method: 'post',
+          rawPath: '/users/detail/${encodeURIComponent(usrId)}',
+          file: 'user.api.ts',
+          line: 5,
+        },
+        { method: 'post', rawPath: '/users/create', file: 'user.api.ts', line: 6 },
+        {
+          method: 'post',
+          rawPath: '/users/${encodeURIComponent(usrId)}/update',
+          file: 'user.api.ts',
+          line: 7,
+        },
+        {
+          method: 'delete',
+          rawPath: '/users/${encodeURIComponent(usrId)}',
+          file: 'user.api.ts',
+          line: 8,
+        },
+      ],
+    });
+
+    expect(result.allowed).toHaveLength(8);
+    expect(result.missing).toHaveLength(0);
+  });
 });

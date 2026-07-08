@@ -30,6 +30,22 @@ const ALLOWLIST = [
     rawPathPrefix: '/menus',
     reason: 'legacy menu endpoints are not currently migrated to system OpenAPI routes',
   },
+  {
+    method: 'delete',
+    rawPathPrefix: '/system/common-codes/groups',
+    reason:
+      'temporary system common-code delete endpoints are used by FE before backend OpenAPI is ready',
+  },
+  {
+    method: 'delete',
+    rawPathPrefix: '/system/menus',
+    reason:
+      'temporary system menu delete endpoints are used by FE before backend OpenAPI is ready',
+  },
+  {
+    rawPathPrefix: '/users',
+    reason: 'temporary user management endpoints are used by FE before backend OpenAPI is ready',
+  },
 ];
 
 const HTTP_METHODS = ['get', 'post', 'put', 'patch', 'delete'];
