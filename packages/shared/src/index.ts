@@ -1,6 +1,7 @@
 export * from './entities/account';
 export * from './entities/alarm';
 export * from './entities/auth';
+export * from './entities/base-info';
 export * from './entities/menu';
 export * from './entities/product';
 export * from './entities/user';

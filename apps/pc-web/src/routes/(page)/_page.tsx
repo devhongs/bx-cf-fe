@@ -1,6 +1,9 @@
 import { Outlet, createFileRoute, useLocation } from '@tanstack/react-router';
 import { Menu, PanelRightOpen } from 'lucide-react';
 
+import { ensureBaseInfoBootstrapped, useAuthStore } from '@bx/shared';
+
+import { queryClient } from '@/queryClient';
 import { LayoutProvider, useLayout } from '@/shared/context/LayoutContext';
 import { requireAuth } from '@/shared/guards/requireAuth';
 import { SettingsPanel } from '@/widgets/layout/panel';
@@ -92,7 +95,16 @@ function PageLayout() {
   );
 }
 
+const loadAuthenticatedPage = async (args: any) => {
+  const context = await requireAuth(args);
+  const menuCacheScope = useAuthStore.getState().user?.usrId;
+
+  await ensureBaseInfoBootstrapped(queryClient, { menuCacheScope });
+
+  return context;
+};
+
 export const Route = createFileRoute('/(page)/_page')({
-  beforeLoad: requireAuth,
+  beforeLoad: loadAuthenticatedPage,
   component: PageLayout,
 });

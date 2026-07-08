@@ -5,6 +5,26 @@
 
 export namespace system {
   export interface paths {
+    '/reference-data/versions/latest': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      get?: never;
+      put?: never;
+      /**
+       * 기준정보 최신 버전 조회
+       * @description data.refType이 ALL이면 전체 기준정보 최신 버전을 조회하고, 그 외에는 해당 기준정보 유형만 조회한다.
+       */
+      post: operations['getLatestReferenceDataVersions'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
     '/menus/{menuId}/update': {
       parameters: {
         query?: never;
@@ -124,23 +144,6 @@ export namespace system {
       patch?: never;
       trace?: never;
     };
-    '/common-codes/groups/{groupCd}/detail': {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      get?: never;
-      put?: never;
-      /** 공통코드 그룹 상세 조회 */
-      post: operations['getCommonCodeGroupDetail'];
-      delete?: never;
-      options?: never;
-      head?: never;
-      patch?: never;
-      trace?: never;
-    };
     '/common-codes/groups/{groupCd}/codes/{code}/update': {
       parameters: {
         query?: never;
@@ -209,6 +212,26 @@ export namespace system {
       patch?: never;
       trace?: never;
     };
+    '/common-codes/groups/detail': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      get?: never;
+      put?: never;
+      /**
+       * 공통코드 그룹 상세 및 코드 목록 조회
+       * @description data.groupCd가 ALL이면 전체 그룹과 하위 공통코드 목록을 조회하고, 그 외에는 해당 그룹만 조회한다.
+       */
+      post: operations['getCommonCodeGroupDetails'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
     '/common-codes/groups/create': {
       parameters: {
         query?: never;
@@ -230,16 +253,46 @@ export namespace system {
   export type webhooks = Record<string, never>;
   export interface components {
     schemas: {
-      ApiRequestMenuReqDto: {
+      ApiRequestReferenceDataVersionReqDto: {
         pagination?: components['schemas']['PaginationReqDto'];
         filter?: components['schemas']['FilterReqDto'];
         sort?: components['schemas']['SortReqDto'];
-        data?: components['schemas']['MenuReqDto'];
+        data?: components['schemas']['ReferenceDataVersionReqDto'];
       };
       FilterReqDto: {
         keyword?: string;
         searchType?: string;
         useYn?: string;
+      };
+      PaginationReqDto: {
+        /** Format: int32 */
+        page?: number;
+        /** Format: int32 */
+        size?: number;
+        /** Format: int32 */
+        offset?: number;
+      };
+      ReferenceDataVersionReqDto: {
+        refType?: string;
+      };
+      SortReqDto: {
+        sort?: string;
+      };
+      PaginationResDto: {
+        /** Format: int32 */
+        page?: number;
+        /** Format: int32 */
+        size?: number;
+        /** Format: int64 */
+        totalCount?: number;
+        /** Format: int32 */
+        totalPages?: number;
+      };
+      ApiRequestMenuReqDto: {
+        pagination?: components['schemas']['PaginationReqDto'];
+        filter?: components['schemas']['FilterReqDto'];
+        sort?: components['schemas']['SortReqDto'];
+        data?: components['schemas']['MenuReqDto'];
       };
       MenuReqDto: {
         /** Format: int64 */
@@ -261,17 +314,6 @@ export namespace system {
         remark?: string;
         createdBy?: string;
       };
-      PaginationReqDto: {
-        /** Format: int32 */
-        page?: number;
-        /** Format: int32 */
-        size?: number;
-        /** Format: int32 */
-        offset?: number;
-      };
-      SortReqDto: {
-        sort?: string;
-      };
       ApiResponseVoid: {
         success?: boolean;
         code?: string;
@@ -279,16 +321,6 @@ export namespace system {
         payload?: Record<string, never>;
         requestId?: string;
         pagination?: components['schemas']['PaginationResDto'];
-      };
-      PaginationResDto: {
-        /** Format: int32 */
-        page?: number;
-        /** Format: int32 */
-        size?: number;
-        /** Format: int64 */
-        totalCount?: number;
-        /** Format: int32 */
-        totalPages?: number;
       };
       ApiRequestRoleMenuSaveReqDto: {
         pagination?: components['schemas']['PaginationReqDto'];
@@ -635,6 +667,47 @@ export namespace system {
          */
         createdBy?: string;
       };
+      ReferenceDataVersionLatestResponse: {
+        /**
+         * Format: int64
+         * @description 기준정보 버전 ID
+         * @example 1
+         */
+        versionId?: number;
+        /**
+         * @description 기준정보 유형
+         * @example MENU
+         */
+        refType?: string;
+        /**
+         * @description 버전 번호
+         * @example 0.0.1
+         */
+        versionNo?: string;
+        /**
+         * Format: date-time
+         * @description 최종 변경 일시
+         * @example 2026-06-25T16:04:14
+         */
+        lastChangedAt?: string;
+        /**
+         * @description 최종 변경자 ID
+         * @example system
+         */
+        lastChangedBy?: string;
+        /**
+         * @description 비고
+         * @example 메뉴 샘플 데이터 최초 버전
+         */
+        remark?: string;
+      };
+      ReferenceDataVersionLatestRequest: {
+        /**
+         * @description 기준정보 유형
+         * @example ALL
+         */
+        refType: string;
+      };
       CommonCodeListResponse: {
         /**
          * Format: int64
@@ -748,7 +821,7 @@ export namespace system {
       CommonCodeGroupCreateRequest: {
         /**
          * @description 공통코드 그룹 코드
-         * @example USE_YN
+         * @example ALL
          */
         groupCd: string;
         /**
@@ -813,6 +886,13 @@ export namespace system {
          * @example admin
          */
         createdBy?: string;
+      };
+      CommonCodeGroupDetailRequest: {
+        /**
+         * @description 공통코드 그룹 코드
+         * @example ALL
+         */
+        groupCd: string;
       };
       CommonCodeGroupDetailDetailResponse: {
         /**
@@ -1011,6 +1091,40 @@ export namespace system {
   }
   export type $defs = Record<string, never>;
   export interface operations {
+    getLatestReferenceDataVersions: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['ApiRequestReferenceDataVersionReqDto'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: components['schemas']['ReferenceDataVersionLatestResponse'][];
+            };
+          };
+        };
+      };
+    };
     updateMenu: {
       parameters: {
         query?: never;
@@ -1247,38 +1361,6 @@ export namespace system {
         };
       };
     };
-    getCommonCodeGroupDetail: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          groupCd: string;
-        };
-        cookie?: never;
-      };
-      requestBody?: never;
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            '*/*': {
-              /** @description 성공 여부 */
-              success?: boolean;
-              /** @description 응답 코드 */
-              code?: string;
-              /** @description 응답 메시지 */
-              msg?: string;
-              /** @description 요청 추적 ID */
-              requestId?: string;
-              payload?: components['schemas']['CommonCodeGroupDetailDetailResponse'];
-            };
-          };
-        };
-      };
-    };
     updateCommonCode: {
       parameters: {
         query?: never;
@@ -1409,6 +1491,40 @@ export namespace system {
               /** @description 요청 추적 ID */
               requestId?: string;
               payload?: components['schemas']['CommonCodeGroupListResponse'][];
+            };
+          };
+        };
+      };
+    };
+    getCommonCodeGroupDetails: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['ApiRequestCommonCodeGroupReqDto'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: components['schemas']['CommonCodeGroupDetailDetailResponse'][];
             };
           };
         };
