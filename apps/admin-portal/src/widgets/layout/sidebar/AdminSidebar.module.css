@@ -117,23 +117,96 @@
   white-space: nowrap;
 }
 
-.status {
+.accountArea {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.profileButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-raised);
+  color: var(--foreground);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.profileButton:hover {
+  border-color: color-mix(in srgb, var(--accent) 32%, var(--border));
+  background: var(--surface-hover);
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 16%, var(--surface-hover));
+  color: var(--accent);
+}
+
+.profileInfo {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profileName,
+.profileId {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profileName {
+  color: var(--foreground);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.profileId {
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.accountActions {
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 34px;
-  padding: 0 10px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--muted);
-  font-size: 0.76rem;
 }
 
-.statusDot {
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: var(--admin-success);
+.accountIconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.accountIconButton:hover {
+  border-color: color-mix(in srgb, var(--accent) 32%, var(--border));
+  background: var(--surface-hover);
+  color: var(--foreground);
 }
 
 @media (max-width: 860px) {
@@ -149,12 +222,30 @@
   .logoText,
   .groupLabel,
   .label,
-  .status span:last-child {
+  .profileInfo {
     display: none;
   }
 
   .navItem {
     justify-content: center;
     padding: 0;
+  }
+
+  .accountArea {
+    align-items: center;
+  }
+
+  .profileButton {
+    justify-content: center;
+    padding: 6px;
+  }
+
+  .accountActions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .accountIconButton {
+    width: 100%;
   }
 }

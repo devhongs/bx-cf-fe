@@ -1,12 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 
-import { commonCodeGroupListQuery } from '@bx/shared';
-import type { CommonCodeGroup } from '@bx/shared';
+import { DataTable, commonCodeGroupListQuery, commonCodeListQuery } from '@bx/shared';
+import type { CommonCode, CommonCodeGroup, DataTableColumn } from '@bx/shared';
 
-import type { AdminDataTableColumn } from '@/shared/ui/admin-data-table/AdminDataTable';
-import { AdminDataTable } from '@/shared/ui/admin-data-table/AdminDataTable';
-import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
+import { CodeGroupFormDrawer } from '@/features/code-group-form/ui/CodeGroupFormDrawer';
 import { AdminFilterBar } from '@/shared/ui/admin-filter-bar/AdminFilterBar';
 
 import styles from '../admin-page.module.css';
@@ -38,12 +36,28 @@ const fallbackGroups: CommonCodeGroup[] = [
   },
 ];
 
+const fallbackCodesByGroup: Record<string, CommonCode[]> = {
+  USE_YN: [
+    { groupCd: 'USE_YN', code: 'Y', codeNm: '사용', sortSeq: 1, useYn: 'Y' },
+    { groupCd: 'USE_YN', code: 'N', codeNm: '미사용', sortSeq: 2, useYn: 'Y' },
+  ],
+  USER_TYPE: [
+    { groupCd: 'USER_TYPE', code: 'ADMIN', codeNm: '관리자', sortSeq: 1, useYn: 'Y' },
+    { groupCd: 'USER_TYPE', code: 'SERVICE', codeNm: '서비스 사용자', sortSeq: 2, useYn: 'Y' },
+  ],
+  MENU_TYPE: [
+    { groupCd: 'MENU_TYPE', code: 'MENU', codeNm: '메뉴', sortSeq: 1, useYn: 'Y' },
+    { groupCd: 'MENU_TYPE', code: 'PAGE', codeNm: '화면', sortSeq: 2, useYn: 'Y' },
+  ],
+};
+
 export function CodesPage() {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('ALL');
   const { data } = useQuery({ ...commonCodeGroupListQuery(), retry: false });
   const groups = data?.length ? data : fallbackGroups;
-  const [selectedGroupCd, setSelectedGroupCd] = useState(groups[0]?.groupCd);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedGroupCd, setSelectedGroupCd] = useState<string | undefined>();
 
   const filteredGroups = useMemo(() => {
     return groups.filter((group) => {
@@ -54,9 +68,20 @@ export function CodesPage() {
     });
   }, [groups, search, status]);
 
-  const selected = groups.find((group) => group.groupCd === selectedGroupCd) || filteredGroups[0];
+  const selected = groups.find((group) => group.groupCd === selectedGroupCd);
+  const selectedGroupCdForQuery = selected?.groupCd || '';
+  const { data: codeData } = useQuery({
+    ...commonCodeListQuery(selectedGroupCdForQuery),
+    enabled: drawerOpen && Boolean(selectedGroupCdForQuery),
+    retry: false,
+  });
+  const selectedCodes = selectedGroupCdForQuery
+    ? codeData?.length
+      ? codeData
+      : (fallbackCodesByGroup[selectedGroupCdForQuery] ?? [])
+    : [];
 
-  const columns: Array<AdminDataTableColumn<CommonCodeGroup>> = [
+  const columns: Array<DataTableColumn<CommonCodeGroup>> = [
     { id: 'groupCd', header: '그룹코드', width: '150px', cell: (row) => row.groupCd },
     { id: 'groupNm', header: '그룹명', cell: (row) => row.groupNm },
     {
@@ -83,6 +108,33 @@ export function CodesPage() {
     },
   ];
 
+  const codeColumns: Array<DataTableColumn<CommonCode>> = [
+    { id: 'code', header: '코드', width: '132px', cell: (row) => row.code },
+    { id: 'codeNm', header: '코드명', cell: (row) => row.codeNm },
+    { id: 'sortSeq', header: '정렬', width: '72px', align: 'right', cell: (row) => row.sortSeq },
+    {
+      id: 'useYn',
+      header: '상태',
+      width: '86px',
+      align: 'center',
+      cell: (row) => (
+        <span className={`${styles.badge} ${row.useYn === 'Y' ? styles.badgeSuccess : ''}`}>
+          {row.useYn === 'Y' ? '사용' : '미사용'}
+        </span>
+      ),
+    },
+  ];
+
+  const openGroupDrawer = (groupCd?: string) => {
+    setSelectedGroupCd(groupCd);
+    setDrawerOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setDrawerOpen(false);
+    setSelectedGroupCd(undefined);
+  };
+
   return (
     <section className={styles.page}>
       <div className={styles.pageHeader}>
@@ -102,55 +154,40 @@ export function CodesPage() {
             searchPlaceholder="그룹코드, 그룹명 검색"
             onSearchChange={setSearch}
             onStatusChange={setStatus}
-            onPrimaryAction={() => setSelectedGroupCd(undefined)}
+            onPrimaryAction={() => openGroupDrawer()}
           />
-          <AdminDataTable
+          <DataTable
             columns={columns}
             rows={filteredGroups}
             getRowId={(row) => row.groupCd || row.groupId || ''}
             selectedId={selected?.groupCd}
-            onRowSelect={(row) => setSelectedGroupCd(row.groupCd)}
+            onRowSelect={(row) => openGroupDrawer(row.groupCd)}
           />
         </div>
 
-        <AdminDrawer
-          open={Boolean(selected)}
-          title={selected?.groupNm || '코드 그룹 등록'}
-          subtitle={selected?.groupCd}
-          onClose={() => setSelectedGroupCd(undefined)}
-          footer={
-            <>
-              <button type="button" className={styles.dangerButton}>
-                삭제
-              </button>
-              <button type="button" className={styles.button}>
-                저장
-              </button>
-            </>
-          }
+        <CodeGroupFormDrawer
+          open={drawerOpen}
+          groupCd={selectedGroupCd}
+          fallback={selected}
+          onClose={closeDrawer}
         >
-          <div className={styles.fieldGrid}>
-            <label className={styles.field}>
-              <span>그룹코드</span>
-              <input value={selected?.groupCd || ''} readOnly />
-            </label>
-            <label className={styles.field}>
-              <span>사용여부</span>
-              <select value={selected?.useYn || 'Y'} disabled>
-                <option value="Y">사용</option>
-                <option value="N">미사용</option>
-              </select>
-            </label>
-            <label className={`${styles.field} ${styles.fieldFull}`}>
-              <span>그룹명</span>
-              <input value={selected?.groupNm || ''} readOnly />
-            </label>
-            <label className={`${styles.field} ${styles.fieldFull}`}>
-              <span>설명</span>
-              <textarea value={selected?.groupDesc || ''} readOnly />
-            </label>
-          </div>
-        </AdminDrawer>
+          {selected && (
+            <section className={styles.detailBlock}>
+              <div className={styles.detailBlockHeader}>
+                <h3>코드 목록</h3>
+                <button type="button" className={styles.ghostButton}>
+                  코드 추가
+                </button>
+              </div>
+              <DataTable
+                columns={codeColumns}
+                rows={selectedCodes}
+                getRowId={(row) => row.code || row.sortSeq || ''}
+                emptyLabel="등록된 코드가 없습니다."
+              />
+            </section>
+          )}
+        </CodeGroupFormDrawer>
       </div>
     </section>
   );

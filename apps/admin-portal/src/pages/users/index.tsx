@@ -1,12 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 
-import { userListQuery } from '@bx/shared';
-import type { ManagedUser } from '@bx/shared';
+import { DataTable, userListQuery } from '@bx/shared';
+import type { DataTableColumn, ManagedUser } from '@bx/shared';
 
-import type { AdminDataTableColumn } from '@/shared/ui/admin-data-table/AdminDataTable';
-import { AdminDataTable } from '@/shared/ui/admin-data-table/AdminDataTable';
-import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
+import { UserFormDrawer } from '@/features/user-form/ui/UserFormDrawer';
 import { AdminFilterBar } from '@/shared/ui/admin-filter-bar/AdminFilterBar';
 
 import styles from '../admin-page.module.css';
@@ -44,7 +42,8 @@ export function UsersPage() {
   const [userType, setUserType] = useState('ALL');
   const { data } = useQuery({ ...userListQuery(), retry: false });
   const users = data?.length ? data : fallbackUsers;
-  const [selectedUsrId, setSelectedUsrId] = useState<string | undefined>(users[0]?.usrId);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedUsrId, setSelectedUsrId] = useState<string | undefined>();
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) => {
@@ -56,9 +55,9 @@ export function UsersPage() {
     });
   }, [users, search, status, userType]);
 
-  const selected = users.find((user) => user.usrId === selectedUsrId) || filteredUsers[0];
+  const selected = users.find((user) => user.usrId === selectedUsrId);
 
-  const columns: Array<AdminDataTableColumn<ManagedUser>> = [
+  const columns: Array<DataTableColumn<ManagedUser>> = [
     { id: 'usrId', header: '아이디', width: '140px', cell: (row) => row.usrId },
     { id: 'usrNm', header: '이름', cell: (row) => row.usrNm },
     { id: 'deptName', header: '부서', cell: (row) => row.deptName || '-' },
@@ -85,6 +84,16 @@ export function UsersPage() {
       ),
     },
   ];
+
+  const openUserDrawer = (usrId?: string) => {
+    setSelectedUsrId(usrId);
+    setDrawerOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setDrawerOpen(false);
+    setSelectedUsrId(undefined);
+  };
 
   return (
     <section className={styles.page}>
@@ -117,66 +126,23 @@ export function UsersPage() {
             }
             onSearchChange={setSearch}
             onStatusChange={setStatus}
-            onPrimaryAction={() => setSelectedUsrId(undefined)}
+            onPrimaryAction={() => openUserDrawer()}
           />
-          <AdminDataTable
+          <DataTable
             columns={columns}
             rows={filteredUsers}
             getRowId={(row) => row.usrId}
             selectedId={selected?.usrId}
-            onRowSelect={(row) => setSelectedUsrId(row.usrId)}
+            onRowSelect={(row) => openUserDrawer(row.usrId)}
           />
         </div>
 
-        <AdminDrawer
-          open={Boolean(selected)}
-          title={selected?.usrNm || '관리자 등록'}
-          subtitle={selected?.usrId}
-          onClose={() => setSelectedUsrId(undefined)}
-          footer={
-            <>
-              <button type="button" className={styles.dangerButton}>
-                삭제
-              </button>
-              <button type="button" className={styles.button}>
-                저장
-              </button>
-            </>
-          }
-        >
-          <div className={styles.fieldGrid}>
-            <label className={styles.field}>
-              <span>아이디</span>
-              <input value={selected?.usrId || ''} readOnly />
-            </label>
-            <label className={styles.field}>
-              <span>유형</span>
-              <select value={selected?.userType || 'ADMIN'} disabled>
-                <option value="ADMIN">관리자</option>
-                <option value="SERVICE">서비스 사용자</option>
-              </select>
-            </label>
-            <label className={styles.field}>
-              <span>이름</span>
-              <input value={selected?.usrNm || ''} readOnly />
-            </label>
-            <label className={styles.field}>
-              <span>사용여부</span>
-              <select value={selected?.useYn || 'Y'} disabled>
-                <option value="Y">사용</option>
-                <option value="N">중지</option>
-              </select>
-            </label>
-            <label className={styles.field}>
-              <span>부서</span>
-              <input value={selected?.deptName || ''} readOnly />
-            </label>
-            <label className={styles.field}>
-              <span>직책</span>
-              <input value={selected?.positDivName || ''} readOnly />
-            </label>
-          </div>
-        </AdminDrawer>
+        <UserFormDrawer
+          open={drawerOpen}
+          usrId={selectedUsrId}
+          fallback={selected}
+          onClose={closeDrawer}
+        />
       </div>
     </section>
   );

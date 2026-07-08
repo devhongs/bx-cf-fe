@@ -1,12 +1,68 @@
+.scrim {
+  position: fixed;
+  z-index: 40;
+  inset: 0;
+  background: color-mix(in srgb, var(--background-deep) 58%, transparent);
+  pointer-events: none;
+  animation: scrimEnter 0.16s ease-out;
+}
+
+.scrim[data-admin-state='closing'] {
+  animation: scrimExit 0.16s ease-in forwards;
+}
+
 .drawer {
+  position: fixed;
+  z-index: 41;
+  top: 0;
+  right: 0;
   display: flex;
-  min-width: 320px;
-  min-height: 360px;
+  width: min(var(--admin-drawer-width, 560px), calc(100vw - 56px));
+  height: 100vh;
   flex-direction: column;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border-left: 1px solid var(--border);
   background: var(--surface);
   box-shadow: var(--admin-panel-shadow);
+  outline: 0;
+  pointer-events: auto;
+  animation: drawerEnter 0.16s ease-out;
+}
+
+.drawer[data-admin-state='closing'] {
+  pointer-events: none;
+  animation: drawerExit 0.16s ease-in forwards;
+}
+
+.resizeHandle {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: -6px;
+  width: 12px;
+  border: 0;
+  background: transparent;
+  cursor: ew-resize;
+  outline: 0;
+  touch-action: none;
+}
+
+.resizeHandle::after {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  width: 2px;
+  height: 44px;
+  border-radius: 999px;
+  background: transparent;
+  content: '';
+  transform: translateY(-50%);
+  transition: background 0.14s ease;
+}
+
+.resizeHandle:hover::after,
+.resizeHandle:focus-visible::after {
+  background: var(--primary);
 }
 
 .header {
@@ -63,19 +119,65 @@
   border-top: 1px solid var(--border);
 }
 
-.placeholder {
-  display: grid;
-  min-height: 100%;
-  flex: 1;
-  place-items: center;
-  padding: 24px;
-  color: var(--muted);
-  font-size: 0.84rem;
-  text-align: center;
+@keyframes drawerEnter {
+  from {
+    transform: translateX(20px);
+    opacity: 0.82;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
-@media (max-width: 1120px) {
+@keyframes drawerExit {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+}
+
+@keyframes scrimEnter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scrimExit {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrim,
+  .scrim[data-admin-state='closing'],
+  .drawer,
+  .drawer[data-admin-state='closing'] {
+    animation-duration: 0.01ms;
+  }
+}
+
+@media (max-width: 640px) {
   .drawer {
-    min-width: 0;
+    width: 100vw;
+  }
+
+  .resizeHandle {
+    display: none;
   }
 }

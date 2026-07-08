@@ -10,6 +10,12 @@
 - Use generated schema types under `packages/shared/src/shared/api/*.schema.d.ts` as the first source of truth for API contracts.
 - If a change needs to diverge from the existing convention, explain why before implementing it.
 
+## UI components
+
+- When a UI component can be reused by any app, implement the base component under `packages/shared/src/shared/ui`.
+- When an app needs a customized component for app-specific behavior or styling, build it on top of the shared base component instead of duplicating the full implementation.
+- Keep app-specific wrappers, composition, and styling inside the app unless the behavior becomes broadly reusable.
+
 ## App bootstrap
 
 - PC protected routes run auth first, then base-info bootstrap.

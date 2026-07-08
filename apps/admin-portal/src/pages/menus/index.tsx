@@ -1,12 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 
-import { menuListQuery } from '@bx/shared';
-import type { Menu } from '@bx/shared';
+import { DataTable, menuListQuery } from '@bx/shared';
+import type { DataTableColumn, Menu } from '@bx/shared';
 
-import type { AdminDataTableColumn } from '@/shared/ui/admin-data-table/AdminDataTable';
-import { AdminDataTable } from '@/shared/ui/admin-data-table/AdminDataTable';
-import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
+import { MenuFormDrawer } from '@/features/menu-form/ui/MenuFormDrawer';
 import { AdminFilterBar } from '@/shared/ui/admin-filter-bar/AdminFilterBar';
 
 import styles from '../admin-page.module.css';
@@ -52,7 +50,8 @@ export function MenusPage() {
   const [status, setStatus] = useState('ALL');
   const { data } = useQuery({ ...menuListQuery(), retry: false });
   const menus = data?.length ? data : fallbackMenus;
-  const [selectedMenuId, setSelectedMenuId] = useState(menus[0]?.menuId);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedMenuId, setSelectedMenuId] = useState<number | undefined>();
 
   const filteredMenus = useMemo(() => {
     return menus.filter((menu) => {
@@ -63,9 +62,9 @@ export function MenusPage() {
     });
   }, [menus, search, status]);
 
-  const selected = menus.find((menu) => menu.menuId === selectedMenuId) || filteredMenus[0];
+  const selected = menus.find((menu) => menu.menuId === selectedMenuId);
 
-  const columns: Array<AdminDataTableColumn<Menu>> = [
+  const columns: Array<DataTableColumn<Menu>> = [
     { id: 'menuCd', header: '메뉴코드', width: '150px', cell: (row) => row.menuCd },
     { id: 'menuNm', header: '메뉴명', cell: (row) => row.menuNm },
     { id: 'path', header: '경로', cell: (row) => row.path },
@@ -82,6 +81,16 @@ export function MenusPage() {
       ),
     },
   ];
+
+  const openMenuDrawer = (menuId?: number) => {
+    setSelectedMenuId(menuId);
+    setDrawerOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setDrawerOpen(false);
+    setSelectedMenuId(undefined);
+  };
 
   return (
     <section className={styles.page}>
@@ -102,63 +111,23 @@ export function MenusPage() {
             searchPlaceholder="메뉴코드, 메뉴명, 경로 검색"
             onSearchChange={setSearch}
             onStatusChange={setStatus}
-            onPrimaryAction={() => setSelectedMenuId(undefined)}
+            onPrimaryAction={() => openMenuDrawer()}
           />
-          <AdminDataTable
+          <DataTable
             columns={columns}
             rows={filteredMenus}
             getRowId={(row) => row.menuId || row.menuCd || ''}
             selectedId={selected?.menuId}
-            onRowSelect={(row) => setSelectedMenuId(row.menuId)}
+            onRowSelect={(row) => openMenuDrawer(row.menuId)}
           />
         </div>
 
-        <AdminDrawer
-          open={Boolean(selected)}
-          title={selected?.menuNm || '메뉴 등록'}
-          subtitle={selected?.path}
-          onClose={() => setSelectedMenuId(undefined)}
-          footer={
-            <>
-              <button type="button" className={styles.dangerButton}>
-                삭제
-              </button>
-              <button type="button" className={styles.button}>
-                저장
-              </button>
-            </>
-          }
-        >
-          <div className={styles.fieldGrid}>
-            <label className={styles.field}>
-              <span>메뉴코드</span>
-              <input value={selected?.menuCd || ''} readOnly />
-            </label>
-            <label className={styles.field}>
-              <span>메뉴유형</span>
-              <input value={selected?.menuType || 'MENU'} readOnly />
-            </label>
-            <label className={`${styles.field} ${styles.fieldFull}`}>
-              <span>메뉴명</span>
-              <input value={selected?.menuNm || ''} readOnly />
-            </label>
-            <label className={`${styles.field} ${styles.fieldFull}`}>
-              <span>경로</span>
-              <input value={selected?.path || ''} readOnly />
-            </label>
-            <label className={styles.field}>
-              <span>정렬</span>
-              <input value={selected?.sortSeq ?? ''} readOnly />
-            </label>
-            <label className={styles.field}>
-              <span>노출여부</span>
-              <select value={selected?.visibleYn || 'Y'} disabled>
-                <option value="Y">노출</option>
-                <option value="N">숨김</option>
-              </select>
-            </label>
-          </div>
-        </AdminDrawer>
+        <MenuFormDrawer
+          open={drawerOpen}
+          menuId={selectedMenuId}
+          fallback={selected}
+          onClose={closeDrawer}
+        />
       </div>
     </section>
   );

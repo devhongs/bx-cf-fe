@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
-import { fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AdminSidebar } from './AdminSidebar';
 
@@ -15,6 +15,11 @@ vi.mock('@tanstack/react-router', () => ({
 describe('AdminSidebar', () => {
   beforeEach(() => {
     navigate.mockClear();
+    document.documentElement.dataset.adminTheme = 'dark';
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   it('navigates the admin core menus', () => {
@@ -27,5 +32,16 @@ describe('AdminSidebar', () => {
     expect(navigate).toHaveBeenNthCalledWith(1, expect.objectContaining({ to: '/codes' }));
     expect(navigate).toHaveBeenNthCalledWith(2, expect.objectContaining({ to: '/menus' }));
     expect(navigate).toHaveBeenNthCalledWith(3, expect.objectContaining({ to: '/users' }));
+  });
+
+  it('keeps account actions in the sidebar footer', () => {
+    render(<AdminSidebar />);
+
+    expect(screen.getByTitle('프로필')).toBeTruthy();
+    expect(screen.getByTitle('로그아웃')).toBeTruthy();
+
+    fireEvent.click(screen.getByTitle('라이트 테마'));
+
+    expect(document.documentElement.dataset.adminTheme).toBe('light');
   });
 });

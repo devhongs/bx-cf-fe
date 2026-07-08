@@ -7,10 +7,34 @@ import { cn } from '../lib/cn';
 /* ── Root ── */
 const Drawer = ({
   shouldScaleBackground = false,
+  modal,
+  open,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
-  <DrawerPrimitive.Root shouldScaleBackground={shouldScaleBackground} {...props} />
-);
+}: React.ComponentProps<typeof DrawerPrimitive.Root>) => {
+  React.useEffect(() => {
+    if (!open || modal !== false || typeof document === 'undefined') return undefined;
+
+    const enableOutsidePointerEvents = () => {
+      document.body.style.pointerEvents = 'auto';
+    };
+    const frame = window.requestAnimationFrame(enableOutsidePointerEvents);
+    enableOutsidePointerEvents();
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      document.body.style.pointerEvents = 'auto';
+    };
+  }, [modal, open]);
+
+  return (
+    <DrawerPrimitive.Root
+      shouldScaleBackground={shouldScaleBackground}
+      modal={modal}
+      open={open}
+      {...props}
+    />
+  );
+};
 Drawer.displayName = 'Drawer';
 
 const DrawerTrigger = DrawerPrimitive.Trigger;
@@ -37,8 +61,12 @@ export interface DrawerContentProps
   hideHandle?: boolean;
   /** X 버튼 숨기기 */
   hideClose?: boolean;
+  /** Overlay 숨기기 */
+  hideOverlay?: boolean;
   /** 풀스크린 (모바일 페이지 전환 스타일) */
   fullscreen?: boolean;
+  /** 기본 위치/크기 스타일 없이 className만 적용 */
+  unstyled?: boolean;
 }
 
 const DrawerContent = React.forwardRef<
@@ -46,16 +74,25 @@ const DrawerContent = React.forwardRef<
   DrawerContentProps
 >(
   (
-    { className, children, hideHandle = false, hideClose = false, fullscreen = false, ...props },
+    {
+      className,
+      children,
+      hideHandle = false,
+      hideClose = false,
+      hideOverlay = false,
+      fullscreen = false,
+      unstyled = false,
+      ...props
+    },
     ref,
   ) => (
     <DrawerPortal>
-      <DrawerOverlay />
+      {!hideOverlay && <DrawerOverlay />}
       <DrawerPrimitive.Content
         ref={ref}
         className={cn(
-          'fixed inset-x-0 bottom-0 z-50 flex flex-col bg-surface-elevated',
-          fullscreen ? 'h-[100dvh] rounded-none' : 'max-h-[90dvh] rounded-t-2xl',
+          !unstyled && 'fixed inset-x-0 bottom-0 z-50 flex flex-col bg-surface-elevated',
+          !unstyled && (fullscreen ? 'h-[100dvh] rounded-none' : 'max-h-[90dvh] rounded-t-2xl'),
           className,
         )}
         {...props}

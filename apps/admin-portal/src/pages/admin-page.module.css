@@ -29,15 +29,14 @@
 }
 
 .workspace {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
-  gap: 16px;
+  display: flex;
   min-height: 0;
   flex: 1;
 }
 
 .listPane {
   display: flex;
+  width: 100%;
   min-width: 0;
   flex-direction: column;
   gap: 12px;
@@ -158,6 +157,29 @@
   font-size: 0.82rem;
 }
 
+.detailBlock {
+  --data-table-min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.detailBlockHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.detailBlockHeader h3 {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
 .metricGrid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -200,10 +222,6 @@
 }
 
 @media (max-width: 1120px) {
-  .workspace {
-    grid-template-columns: 1fr;
-  }
-
   .metricGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
