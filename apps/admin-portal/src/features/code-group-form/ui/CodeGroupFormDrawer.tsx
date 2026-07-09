@@ -28,7 +28,7 @@ interface CodeGroupFormValues {
   groupCd: string;
   groupNm: string;
   groupDesc: string;
-  useYn: string;
+  useYn: 'Y' | 'N';
 }
 
 const toFormValues = (group?: CommonCodeGroup): CodeGroupFormValues => ({

@@ -59,10 +59,9 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
 
   const handleSubmit = async (payload: MenuFormPayload) => {
     setSubmitError('');
-    const nextPayload: MenuPayload = isEdit ? { ...payload, menuId } : payload;
 
     try {
-      await saveMutation.mutateAsync(nextPayload);
+      await saveMutation.mutateAsync(payload);
       await queryClient.invalidateQueries({ queryKey: menuQueryKeys.all });
       onClose();
     } catch (error) {

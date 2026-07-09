@@ -6,7 +6,7 @@ export interface MenuFormValues {
   menuType: string;
   path: string;
   sortSeq: string;
-  visibleYn: string;
+  visibleYn: 'Y' | 'N';
 }
 
 export type MenuFormPayload = MenuPayload;
