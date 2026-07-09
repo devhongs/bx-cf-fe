@@ -25,11 +25,11 @@ describe('common code api', () => {
 
     const result = await fetchCommonCodeGroups();
 
-    expect(postSpy).toHaveBeenCalledWith('/system/common-codes/groups/list', undefined);
+    expect(postSpy).toHaveBeenCalledWith('/system/common-codes/groups/list');
     expect(result).toEqual(groups);
   });
 
-  it('wraps group list params in the generated ApiRequest envelope', async () => {
+  it('ignores group list params because the generated list endpoint has no request body', async () => {
     const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue([]);
 
     await fetchCommonCodeGroups({
@@ -42,16 +42,20 @@ describe('common code api', () => {
       groupCd: 'USE_YN',
     });
 
-    expect(postSpy).toHaveBeenCalledWith('/system/common-codes/groups/list', {
-      pagination: { page: 1, size: 20 },
-      filter: { keyword: '사용', searchType: 'groupNm', useYn: 'Y' },
-      sort: { sort: 'sortSeq,asc' },
-      data: { groupCd: 'USE_YN' },
-    });
+    expect(postSpy).toHaveBeenCalledWith('/system/common-codes/groups/list');
   });
 
   it('fetches a common code group detail through the generated detail endpoint', async () => {
-    const group = [{ groupCd: 'USE_YN', groupNm: '사용 여부', codes: ['Y', 'N'] }];
+    const group = [
+      {
+        groupCd: 'USE_YN',
+        groupNm: '사용 여부',
+        codes: [
+          { groupCd: 'USE_YN', code: 'Y', codeNm: '사용' },
+          { groupCd: 'USE_YN', code: 'N', codeNm: '미사용' },
+        ],
+      },
+    ];
     const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue(group);
 
     const result = await fetchCommonCodeGroup('USE_YN');

@@ -49,31 +49,13 @@ export namespace product {
   export type webhooks = Record<string, never>;
   export interface components {
     schemas: {
-      ApiRequestProductReqDto: {
-        pagination?: components['schemas']['PaginationReqDto'];
-        filter?: components['schemas']['FilterReqDto'];
-        sort?: components['schemas']['SortReqDto'];
-        data?: components['schemas']['ProductReqDto'];
-      };
-      FilterReqDto: {
-        keyword?: string;
-        searchType?: string;
-        useYn?: string;
-      };
-      PaginationReqDto: {
-        /** Format: int32 */
-        page?: number;
-        /** Format: int32 */
-        size?: number;
-        /** Format: int32 */
-        offset?: number;
-      };
-      ProductReqDto: {
-        productNm?: string;
-      };
-      SortReqDto: {
-        sort?: string;
-      };
+      /**
+       * @example {
+       *       "productId": "1001",
+       *       "productNm": "안정형 펀드",
+       *       "price": "100000"
+       *     }
+       */
       ProductListResponse: {
         /**
          * Format: int64
@@ -93,6 +75,16 @@ export namespace product {
          */
         price?: number;
       };
+      /**
+       * @example {
+       *       "productId": "1001",
+       *       "productNm": "안정형 펀드",
+       *       "productDesc": "string",
+       *       "price": "100000",
+       *       "stockQty": "50",
+       *       "useYn": "Y"
+       *     }
+       */
       ProductDetailResponse: {
         /**
          * Format: int64
@@ -126,12 +118,98 @@ export namespace product {
          */
         useYn?: 'Y' | 'N';
       };
+      /**
+       * @example {
+       *       "pagination": {
+       *         "page": "1",
+       *         "size": "20"
+       *       },
+       *       "filter": {
+       *         "keyword": "검색어",
+       *         "searchType": "userNm",
+       *         "useYn": "Y"
+       *       },
+       *       "sort": {
+       *         "sort": "createdAt,desc"
+       *       },
+       *       "data": {
+       *         "productNm": "KB 적립식 펀드"
+       *       }
+       *     }
+       */
       ProductListRequest: {
         /**
-         * @description 상품명
-         * @example KB 적립식 펀드
+         * @description 페이징 정보
+         * @example {
+         *       "page": "1",
+         *       "size": "20"
+         *     }
          */
-        productNm?: string;
+        pagination?: {
+          /**
+           * Format: int32
+           * @description 페이지 번호
+           * @example 1
+           */
+          page?: number;
+          /**
+           * Format: int32
+           * @description 페이지 크기
+           * @example 20
+           */
+          size?: number;
+        };
+        /**
+         * @description 검색 조건
+         * @example {
+         *       "keyword": "검색어",
+         *       "searchType": "userNm",
+         *       "useYn": "Y"
+         *     }
+         */
+        filter?: {
+          /**
+           * @description 통합 검색어
+           * @example 검색어
+           */
+          keyword?: string;
+          /**
+           * @description 검색 대상 구분
+           * @example userNm
+           */
+          searchType?: string;
+          /**
+           * @description 사용 여부 (Y/N)
+           * @example Y
+           * @enum {string}
+           */
+          useYn?: 'Y' | 'N';
+        };
+        /**
+         * @description 정렬 조건
+         * @example {
+         *       "sort": "createdAt,desc"
+         *     }
+         */
+        sort?: {
+          /**
+           * @description 정렬 조건
+           * @example createdAt,desc
+           */
+          sort?: string;
+        };
+        /**
+         * @example {
+         *       "productNm": "KB 적립식 펀드"
+         *     }
+         */
+        data?: {
+          /**
+           * @description 상품명
+           * @example KB 적립식 펀드
+           */
+          productNm?: string;
+        };
       };
     };
     responses: never;
@@ -151,7 +229,14 @@ export namespace product {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['ApiRequestProductReqDto'];
+          /**
+           * @example {
+           *       "data": {
+           *         "productNm": "KB 적립식 펀드"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['ProductListRequest'];
         };
       };
       responses: {

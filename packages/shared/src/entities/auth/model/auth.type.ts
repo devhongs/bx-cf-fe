@@ -11,7 +11,7 @@ import type { auth } from '../../../shared/api';
 
 type AuthLoginResponse = auth.components['schemas']['AuthLoginResponse'];
 type AuthRefreshTokenResponse = auth.components['schemas']['AuthRefreshTokenResponse'];
-type LoginReqDto = auth.components['schemas']['LoginReqDto'];
+type AuthLoginRequest = auth.components['schemas']['AuthLoginRequest'];
 /** 백엔드 응답 payload DTO (자동 생성 — 응답 전용) */
 type AuthResponse = AuthLoginResponse | AuthRefreshTokenResponse;
 
@@ -20,8 +20,8 @@ type AuthResponse = AuthLoginResponse | AuthRefreshTokenResponse;
  * 백엔드 요청 바디는 ApiRequest 래퍼로 감싸지만, 화면/훅에서는
  * 실제 로그인 입력값만 다루도록 유지한다.
  */
-export type LoginRequest = Required<Pick<LoginReqDto, 'usrId' | 'usrPwd'>>;
-export type LoginApiRequest = auth.components['schemas']['ApiRequestLoginReqDto'];
+export type LoginRequest = AuthLoginRequest['data'];
+export type LoginApiRequest = AuthLoginRequest;
 
 /** 인증된 사용자 정보 */
 export type AuthUser = Pick<

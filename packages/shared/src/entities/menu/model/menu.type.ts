@@ -14,12 +14,18 @@ type LegacyMenuFields = {
 };
 
 export type MenuListItem = SystemSchemas['MenuListResponse'];
-export type MenuPayload = SystemSchemas['MenuReqDto'] & Partial<LegacyMenuFields>;
-export type MenuListApiRequest = SystemSchemas['ApiRequestMenuReqDto'];
-export type MenuQueryParams = MenuPayload &
-  SystemSchemas['FilterReqDto'] &
-  SystemSchemas['PaginationReqDto'] &
-  SystemSchemas['SortReqDto'];
+type MenuCreatePayload = SystemSchemas['MenuCreateRequest']['data'];
+type MenuUpdatePayload = SystemSchemas['MenuUpdateRequest']['data'];
+type LegacyListParams = {
+  page?: number;
+  size?: number;
+  keyword?: string;
+  searchType?: string;
+  sort?: string;
+};
+export type MenuPayload = Partial<MenuCreatePayload & MenuUpdatePayload> &
+  Partial<LegacyMenuFields>;
+export type MenuQueryParams = Partial<MenuListItem & MenuPayload & LegacyListParams>;
 
 export type Menu = MenuListItem &
   LegacyMenuFields & {

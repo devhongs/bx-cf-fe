@@ -5,7 +5,7 @@ type SystemSchemas = system.components['schemas'];
 export type BaseInfoType = 'CODE' | 'MENU';
 
 export type BaseInfoReferenceDataVersion = SystemSchemas['ReferenceDataVersionLatestResponse'];
-export type BaseInfoVersionApiRequest = SystemSchemas['ApiRequestReferenceDataVersionReqDto'];
+export type BaseInfoVersionApiRequest = SystemSchemas['ReferenceDataVersionLatestRequest'];
 
 export interface BaseInfoVersion {
   type: string;

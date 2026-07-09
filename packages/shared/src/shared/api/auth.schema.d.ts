@@ -89,69 +89,68 @@ export namespace auth {
   export type webhooks = Record<string, never>;
   export interface components {
     schemas: {
-      PaginationResDto: {
-        /** Format: int32 */
-        page?: number;
-        /** Format: int32 */
-        size?: number;
-        /** Format: int64 */
-        totalCount?: number;
-        /** Format: int32 */
-        totalPages?: number;
-      };
-      ApiResponseVoid: {
-        success?: boolean;
-        code?: string;
-        msg?: string;
-        payload?: Record<string, never>;
-        requestId?: string;
-        pagination?: components['schemas']['PaginationResDto'];
-      };
-      ApiRequestLoginReqDto: {
-        pagination?: components['schemas']['PaginationReqDto'];
-        filter?: components['schemas']['FilterReqDto'];
-        sort?: components['schemas']['SortReqDto'];
-        data?: components['schemas']['LoginReqDto'];
-      };
-      FilterReqDto: {
-        keyword?: string;
-        searchType?: string;
-        useYn?: string;
-      };
-      LoginReqDto: {
-        usrId?: string;
-        usrPwd?: string;
-      };
-      PaginationReqDto: {
-        /** Format: int32 */
-        page?: number;
-        /** Format: int32 */
-        size?: number;
-        /** Format: int32 */
-        offset?: number;
-      };
-      SortReqDto: {
-        sort?: string;
-      };
+      /**
+       * @example {
+       *       "data": {
+       *         "usrId": "hong.gildong",
+       *         "usrPwd": "string"
+       *       }
+       *     }
+       */
       AuthLoginRequest: {
         /**
-         * @description 사용자 ID
-         * @example hong.gildong
+         * @example {
+         *       "usrId": "hong.gildong",
+         *       "usrPwd": "string"
+         *     }
          */
-        usrId: string;
-        /**
-         * Format: password
-         * @description 비밀번호
-         */
-        usrPwd: string;
+        data: {
+          /**
+           * @description 사용자 ID
+           * @example hong.gildong
+           */
+          usrId: string;
+          /**
+           * Format: password
+           * @description 비밀번호
+           */
+          usrPwd: string;
+        };
       };
+      /**
+       * @example {
+       *       "data": {
+       *         "usrId": "hong.gildong"
+       *       }
+       *     }
+       */
       AuthErpLoginRequest: {
         /**
-         * @description 사용자 ID
-         * @example hong.gildong
+         * @example {
+         *       "usrId": "hong.gildong"
+         *     }
          */
-        usrId: string;
+        data: {
+          /**
+           * @description 사용자 ID
+           * @example hong.gildong
+           */
+          usrId: string;
+        };
       };
+      /**
+       * @example {
+       *       "usrId": "hong.gildong",
+       *       "usrNm": "홍길동",
+       *       "positDivName": "대리",
+       *       "deptName": "채널개발팀",
+       *       "accessToken": "string",
+       *       "accessTokenExpiresAt": "string",
+       *       "roles": [
+       *         "string"
+       *       ]
+       *     }
+       */
       AuthLoginResponse: {
         /**
          * @description 사용자 ID
@@ -180,6 +179,19 @@ export namespace auth {
         /** @description 권한 목록 */
         roles?: string[];
       };
+      /**
+       * @example {
+       *       "usrId": "hong.gildong",
+       *       "usrNm": "홍길동",
+       *       "positDivName": "대리",
+       *       "deptName": "채널개발팀",
+       *       "accessToken": "string",
+       *       "accessTokenExpiresAt": "string",
+       *       "roles": [
+       *         "string"
+       *       ]
+       *     }
+       */
       AuthErpLoginResponse: {
         /**
          * @description 사용자 ID
@@ -208,6 +220,19 @@ export namespace auth {
         /** @description 권한 목록 */
         roles?: string[];
       };
+      /**
+       * @example {
+       *       "usrId": "hong.gildong",
+       *       "usrNm": "홍길동",
+       *       "positDivName": "대리",
+       *       "deptName": "채널개발팀",
+       *       "accessToken": "string",
+       *       "accessTokenExpiresAt": "string",
+       *       "roles": [
+       *         "string"
+       *       ]
+       *     }
+       */
       AuthRefreshTokenResponse: {
         /**
          * @description 사용자 ID
@@ -317,7 +342,15 @@ export namespace auth {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['ApiRequestLoginReqDto'];
+          /**
+           * @example {
+           *       "data": {
+           *         "usrId": "hong.gildong",
+           *         "usrPwd": "string"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['AuthLoginRequest'];
         };
       };
       responses: {
@@ -351,7 +384,14 @@ export namespace auth {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['ApiRequestLoginReqDto'];
+          /**
+           * @example {
+           *       "data": {
+           *         "usrId": "hong.gildong"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['AuthErpLoginRequest'];
         };
       };
       responses: {

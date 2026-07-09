@@ -8,12 +8,14 @@ const compact = <T extends Record<string, unknown>>(value: T): Partial<T> | unde
   return Object.fromEntries(entries) as Partial<T>;
 };
 
-const toProductListApiRequest = (params?: ProductQueryParams): ProductListApiRequest | undefined => {
+const toProductListApiRequest = (
+  params?: ProductQueryParams,
+): ProductListApiRequest | undefined => {
   if (!params) return undefined;
 
-  const { page, size, offset, keyword, searchType, useYn, sort, productNm } = params;
+  const { page, size, keyword, searchType, useYn, sort, productNm } = params;
   const request = compact({
-    pagination: compact({ page, size, offset }),
+    pagination: compact({ page, size }),
     filter: compact({ keyword, searchType, useYn }),
     sort: compact({ sort }),
     data: compact({ productNm }),

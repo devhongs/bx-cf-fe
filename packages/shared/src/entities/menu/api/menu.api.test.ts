@@ -15,11 +15,11 @@ describe('menu api', () => {
 
     const result = await fetchMenuList();
 
-    expect(postSpy).toHaveBeenCalledWith('/system/menus/list', undefined);
+    expect(postSpy).toHaveBeenCalledWith('/system/menus/list');
     expect(result).toEqual(menus);
   });
 
-  it('wraps menu list params in the generated ApiRequest envelope', async () => {
+  it('ignores menu list params because the generated list endpoint has no request body', async () => {
     const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue([]);
 
     await fetchMenuList({
@@ -32,16 +32,11 @@ describe('menu api', () => {
       menuNm: '대시보드',
     });
 
-    expect(postSpy).toHaveBeenCalledWith('/system/menus/list', {
-      pagination: { page: 1, size: 20 },
-      filter: { keyword: '대시', searchType: 'menuNm', useYn: 'Y' },
-      sort: { sort: 'sortSeq,asc' },
-      data: { menuNm: '대시보드' },
-    });
+    expect(postSpy).toHaveBeenCalledWith('/system/menus/list');
   });
 
   it('creates and updates menus with generated action endpoints', async () => {
-    const payload = { menuCd: 'DASHBOARD', menuNm: '대시보드', useYn: 'Y' };
+    const payload = { menuCd: 'DASHBOARD', menuNm: '대시보드', useYn: 'Y' as const };
     const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue({});
 
     await createMenu(payload);

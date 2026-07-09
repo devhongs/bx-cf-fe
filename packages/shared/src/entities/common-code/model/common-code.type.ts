@@ -1,21 +1,28 @@
 import type { system as systemApi } from '../../../shared/api';
 
 type SystemSchemas = systemApi.components['schemas'];
+type LegacyListParams = {
+  page?: number;
+  size?: number;
+  keyword?: string;
+  searchType?: string;
+  sort?: string;
+};
 
 export type CommonCodeGroupListItem = SystemSchemas['CommonCodeGroupListResponse'];
 export type CommonCodeGroupDetail = SystemSchemas['CommonCodeGroupDetailDetailResponse'];
 export type CommonCodeGroup = CommonCodeGroupListItem & Partial<CommonCodeGroupDetail>;
-export type CommonCodeGroupPayload = SystemSchemas['CommonCodeGroupReqDto'];
-export type CommonCodeGroupListApiRequest = SystemSchemas['ApiRequestCommonCodeGroupReqDto'];
-export type CommonCodeGroupQueryParams = CommonCodeGroupPayload &
-  SystemSchemas['FilterReqDto'] &
-  SystemSchemas['PaginationReqDto'] &
-  SystemSchemas['SortReqDto'];
+type CommonCodeGroupCreatePayload = SystemSchemas['CommonCodeGroupCreateRequest']['data'];
+type CommonCodeGroupUpdatePayload = SystemSchemas['CommonCodeGroupUpdateRequest']['data'];
+export type CommonCodeGroupPayload = Partial<
+  CommonCodeGroupCreatePayload & CommonCodeGroupUpdatePayload
+>;
+export type CommonCodeGroupQueryParams = Partial<
+  CommonCodeGroupListItem & CommonCodeGroupPayload & LegacyListParams
+>;
 
 export type CommonCode = SystemSchemas['CommonCodeListResponse'];
-export type CommonCodePayload = SystemSchemas['CommonCodeReqDto'];
-export type CommonCodeListApiRequest = SystemSchemas['ApiRequestCommonCodeReqDto'];
-export type CommonCodeQueryParams = CommonCodePayload &
-  SystemSchemas['FilterReqDto'] &
-  SystemSchemas['PaginationReqDto'] &
-  SystemSchemas['SortReqDto'];
+type CommonCodeCreatePayload = SystemSchemas['CommonCodeCreateRequest']['data'];
+type CommonCodeUpdatePayload = SystemSchemas['CommonCodeUpdateRequest']['data'];
+export type CommonCodePayload = Partial<CommonCodeCreatePayload & CommonCodeUpdatePayload>;
+export type CommonCodeQueryParams = Partial<CommonCode & CommonCodePayload & LegacyListParams>;

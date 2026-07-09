@@ -253,124 +253,22 @@ export namespace system {
   export type webhooks = Record<string, never>;
   export interface components {
     schemas: {
-      ApiRequestReferenceDataVersionReqDto: {
-        pagination?: components['schemas']['PaginationReqDto'];
-        filter?: components['schemas']['FilterReqDto'];
-        sort?: components['schemas']['SortReqDto'];
-        data?: components['schemas']['ReferenceDataVersionReqDto'];
-      };
-      FilterReqDto: {
-        keyword?: string;
-        searchType?: string;
-        useYn?: string;
-      };
-      PaginationReqDto: {
-        /** Format: int32 */
-        page?: number;
-        /** Format: int32 */
-        size?: number;
-        /** Format: int32 */
-        offset?: number;
-      };
-      ReferenceDataVersionReqDto: {
-        refType?: string;
-      };
-      SortReqDto: {
-        sort?: string;
-      };
-      PaginationResDto: {
-        /** Format: int32 */
-        page?: number;
-        /** Format: int32 */
-        size?: number;
-        /** Format: int64 */
-        totalCount?: number;
-        /** Format: int32 */
-        totalPages?: number;
-      };
-      ApiRequestMenuReqDto: {
-        pagination?: components['schemas']['PaginationReqDto'];
-        filter?: components['schemas']['FilterReqDto'];
-        sort?: components['schemas']['SortReqDto'];
-        data?: components['schemas']['MenuReqDto'];
-      };
-      MenuReqDto: {
-        /** Format: int64 */
-        menuId?: number;
-        /** Format: int64 */
-        parentMenuId?: number;
-        menuCd?: string;
-        menuNm?: string;
-        menuType?: string;
-        path?: string;
-        component?: string;
-        icon?: string;
-        /** Format: int32 */
-        depth?: number;
-        /** Format: int32 */
-        sortSeq?: number;
-        visibleYn?: string;
-        useYn?: string;
-        remark?: string;
-        createdBy?: string;
-      };
-      ApiResponseVoid: {
-        success?: boolean;
-        code?: string;
-        msg?: string;
-        payload?: Record<string, never>;
-        requestId?: string;
-        pagination?: components['schemas']['PaginationResDto'];
-      };
-      ApiRequestRoleMenuSaveReqDto: {
-        pagination?: components['schemas']['PaginationReqDto'];
-        filter?: components['schemas']['FilterReqDto'];
-        sort?: components['schemas']['SortReqDto'];
-        data?: components['schemas']['RoleMenuSaveReqDto'];
-      };
-      RoleMenuSaveReqDto: {
-        menuIds?: number[];
-        createdBy?: string;
-      };
-      ApiRequestCommonCodeGroupReqDto: {
-        pagination?: components['schemas']['PaginationReqDto'];
-        filter?: components['schemas']['FilterReqDto'];
-        sort?: components['schemas']['SortReqDto'];
-        data?: components['schemas']['CommonCodeGroupReqDto'];
-      };
-      CommonCodeGroupReqDto: {
-        groupCd?: string;
-        groupNm?: string;
-        groupDesc?: string;
-        systemYn?: string;
-        useYn?: string;
-        /** Format: int32 */
-        sortSeq?: number;
-        createdBy?: string;
-      };
-      ApiRequestCommonCodeReqDto: {
-        pagination?: components['schemas']['PaginationReqDto'];
-        filter?: components['schemas']['FilterReqDto'];
-        sort?: components['schemas']['SortReqDto'];
-        data?: components['schemas']['CommonCodeReqDto'];
-      };
-      CommonCodeReqDto: {
-        groupCd?: string;
-        code?: string;
-        codeNm?: string;
-        codeDesc?: string;
-        /** Format: int64 */
-        parentCodeId?: number;
-        /** Format: int32 */
-        sortSeq?: number;
-        useYn?: string;
-        /** Format: date */
-        validFrom?: string;
-        /** Format: date */
-        validTo?: string;
-        extraData?: string;
-        createdBy?: string;
-      };
+      /**
+       * @example {
+       *       "actionId": 0,
+       *       "menuId": 0,
+       *       "actionCd": "READ",
+       *       "actionNm": "조회",
+       *       "httpMethod": "GET",
+       *       "apiPattern": "/channel/backend/api/v1/system/menus/**",
+       *       "sortSeq": "1",
+       *       "useYn": "Y",
+       *       "createdBy": "admin",
+       *       "updatedBy": "admin",
+       *       "createdAt": "2026-01-01T09:00:00",
+       *       "updatedAt": "2026-01-01T10:00:00"
+       *     }
+       */
       MenuActionListResponse: {
         /**
          * Format: int64
@@ -437,6 +335,27 @@ export namespace system {
          */
         updatedAt?: string;
       };
+      /**
+       * @example {
+       *       "menuId": 0,
+       *       "parentMenuId": 0,
+       *       "menuCd": "DASHBOARD",
+       *       "menuNm": "대시보드",
+       *       "menuType": "MENU",
+       *       "path": "/dashboard",
+       *       "component": "DashboardView",
+       *       "icon": "LayoutDashboard",
+       *       "depth": "1",
+       *       "sortSeq": "1",
+       *       "visibleYn": "Y",
+       *       "useYn": "Y",
+       *       "remark": "string",
+       *       "createdBy": "admin",
+       *       "updatedBy": "admin",
+       *       "createdAt": "2026-01-01T09:00:00",
+       *       "updatedAt": "2026-01-01T10:00:00"
+       *     }
+       */
       MenuListResponse: {
         /**
          * Format: int64
@@ -527,146 +446,250 @@ export namespace system {
          */
         updatedAt?: string;
       };
+      /**
+       * @example {
+       *       "data": {
+       *         "menuIds": [
+       *           0
+       *         ],
+       *         "createdBy": "admin"
+       *       }
+       *     }
+       */
       RoleMenuSaveSaveRequest: {
-        /** @description 역할에 부여할 메뉴 ID 목록 */
-        menuIds: number[];
         /**
-         * @description 요청자 ID
-         * @example admin
+         * @example {
+         *       "menuIds": [
+         *         0
+         *       ],
+         *       "createdBy": "admin"
+         *     }
          */
-        createdBy?: string;
+        data: {
+          /** @description 역할에 부여할 메뉴 ID 목록 */
+          menuIds: number[];
+          /**
+           * @description 요청자 ID
+           * @example admin
+           */
+          createdBy?: string;
+        };
       };
+      /**
+       * @example {
+       *       "data": {
+       *         "parentMenuId": 0,
+       *         "menuCd": "DASHBOARD",
+       *         "menuNm": "대시보드",
+       *         "menuType": "MENU",
+       *         "path": "/dashboard",
+       *         "component": "DashboardView",
+       *         "icon": "LayoutDashboard",
+       *         "depth": "1",
+       *         "sortSeq": "1",
+       *         "visibleYn": "Y",
+       *         "useYn": "Y",
+       *         "remark": "string",
+       *         "createdBy": "admin"
+       *       }
+       *     }
+       */
       MenuCreateRequest: {
         /**
-         * Format: int64
-         * @description 상위 메뉴 ID
+         * @example {
+         *       "parentMenuId": 0,
+         *       "menuCd": "DASHBOARD",
+         *       "menuNm": "대시보드",
+         *       "menuType": "MENU",
+         *       "path": "/dashboard",
+         *       "component": "DashboardView",
+         *       "icon": "LayoutDashboard",
+         *       "depth": "1",
+         *       "sortSeq": "1",
+         *       "visibleYn": "Y",
+         *       "useYn": "Y",
+         *       "remark": "string",
+         *       "createdBy": "admin"
+         *     }
          */
-        parentMenuId?: number;
-        /**
-         * @description 메뉴 코드
-         * @example DASHBOARD
-         */
-        menuCd: string;
-        /**
-         * @description 메뉴명
-         * @example 대시보드
-         */
-        menuNm: string;
-        /**
-         * @description 메뉴 유형
-         * @example MENU
-         */
-        menuType?: string;
-        /**
-         * @description 화면 경로
-         * @example /dashboard
-         */
-        path?: string;
-        /**
-         * @description 프론트엔드 컴포넌트 경로
-         * @example DashboardView
-         */
-        component?: string;
-        /**
-         * @description 아이콘명
-         * @example LayoutDashboard
-         */
-        icon?: string;
-        /**
-         * Format: int32
-         * @description 메뉴 깊이
-         * @example 1
-         */
-        depth?: number;
-        /**
-         * Format: int32
-         * @description 정렬 순서
-         * @example 1
-         */
-        sortSeq?: number;
-        /**
-         * @description 노출 여부
-         * @example Y
-         * @enum {string}
-         */
-        visibleYn?: 'Y' | 'N';
-        /**
-         * @description 사용 여부
-         * @example Y
-         * @enum {string}
-         */
-        useYn?: 'Y' | 'N';
-        /** @description 비고 */
-        remark?: string;
-        /**
-         * @description 요청자 ID
-         * @example admin
-         */
-        createdBy?: string;
+        data: {
+          /**
+           * Format: int64
+           * @description 상위 메뉴 ID
+           */
+          parentMenuId?: number;
+          /**
+           * @description 메뉴 코드
+           * @example DASHBOARD
+           */
+          menuCd: string;
+          /**
+           * @description 메뉴명
+           * @example 대시보드
+           */
+          menuNm: string;
+          /**
+           * @description 메뉴 유형
+           * @example MENU
+           */
+          menuType?: string;
+          /**
+           * @description 화면 경로
+           * @example /dashboard
+           */
+          path?: string;
+          /**
+           * @description 프론트엔드 컴포넌트 경로
+           * @example DashboardView
+           */
+          component?: string;
+          /**
+           * @description 아이콘명
+           * @example LayoutDashboard
+           */
+          icon?: string;
+          /**
+           * Format: int32
+           * @description 메뉴 깊이
+           * @example 1
+           */
+          depth?: number;
+          /**
+           * Format: int32
+           * @description 정렬 순서
+           * @example 1
+           */
+          sortSeq?: number;
+          /**
+           * @description 노출 여부
+           * @example Y
+           * @enum {string}
+           */
+          visibleYn?: 'Y' | 'N';
+          /**
+           * @description 사용 여부
+           * @example Y
+           * @enum {string}
+           */
+          useYn?: 'Y' | 'N';
+          /** @description 비고 */
+          remark?: string;
+          /**
+           * @description 요청자 ID
+           * @example admin
+           */
+          createdBy?: string;
+        };
       };
+      /**
+       * @example {
+       *       "data": {
+       *         "parentMenuId": 0,
+       *         "menuNm": "대시보드",
+       *         "menuType": "MENU",
+       *         "path": "/dashboard",
+       *         "component": "DashboardView",
+       *         "icon": "LayoutDashboard",
+       *         "depth": "1",
+       *         "sortSeq": "1",
+       *         "visibleYn": "Y",
+       *         "useYn": "Y",
+       *         "remark": "string",
+       *         "createdBy": "admin"
+       *       }
+       *     }
+       */
       MenuUpdateRequest: {
         /**
-         * Format: int64
-         * @description 상위 메뉴 ID
+         * @example {
+         *       "parentMenuId": 0,
+         *       "menuNm": "대시보드",
+         *       "menuType": "MENU",
+         *       "path": "/dashboard",
+         *       "component": "DashboardView",
+         *       "icon": "LayoutDashboard",
+         *       "depth": "1",
+         *       "sortSeq": "1",
+         *       "visibleYn": "Y",
+         *       "useYn": "Y",
+         *       "remark": "string",
+         *       "createdBy": "admin"
+         *     }
          */
-        parentMenuId?: number;
-        /**
-         * @description 메뉴명
-         * @example 대시보드
-         */
-        menuNm: string;
-        /**
-         * @description 메뉴 유형
-         * @example MENU
-         */
-        menuType?: string;
-        /**
-         * @description 화면 경로
-         * @example /dashboard
-         */
-        path?: string;
-        /**
-         * @description 프론트엔드 컴포넌트 경로
-         * @example DashboardView
-         */
-        component?: string;
-        /**
-         * @description 아이콘명
-         * @example LayoutDashboard
-         */
-        icon?: string;
-        /**
-         * Format: int32
-         * @description 메뉴 깊이
-         * @example 1
-         */
-        depth?: number;
-        /**
-         * Format: int32
-         * @description 정렬 순서
-         * @example 1
-         */
-        sortSeq?: number;
-        /**
-         * @description 노출 여부
-         * @example Y
-         * @enum {string}
-         */
-        visibleYn?: 'Y' | 'N';
-        /**
-         * @description 사용 여부
-         * @example Y
-         * @enum {string}
-         */
-        useYn?: 'Y' | 'N';
-        /** @description 비고 */
-        remark?: string;
-        /**
-         * @description 요청자 ID
-         * @example admin
-         */
-        createdBy?: string;
+        data: {
+          /**
+           * Format: int64
+           * @description 상위 메뉴 ID
+           */
+          parentMenuId?: number;
+          /**
+           * @description 메뉴명
+           * @example 대시보드
+           */
+          menuNm: string;
+          /**
+           * @description 메뉴 유형
+           * @example MENU
+           */
+          menuType?: string;
+          /**
+           * @description 화면 경로
+           * @example /dashboard
+           */
+          path?: string;
+          /**
+           * @description 프론트엔드 컴포넌트 경로
+           * @example DashboardView
+           */
+          component?: string;
+          /**
+           * @description 아이콘명
+           * @example LayoutDashboard
+           */
+          icon?: string;
+          /**
+           * Format: int32
+           * @description 메뉴 깊이
+           * @example 1
+           */
+          depth?: number;
+          /**
+           * Format: int32
+           * @description 정렬 순서
+           * @example 1
+           */
+          sortSeq?: number;
+          /**
+           * @description 노출 여부
+           * @example Y
+           * @enum {string}
+           */
+          visibleYn?: 'Y' | 'N';
+          /**
+           * @description 사용 여부
+           * @example Y
+           * @enum {string}
+           */
+          useYn?: 'Y' | 'N';
+          /** @description 비고 */
+          remark?: string;
+          /**
+           * @description 요청자 ID
+           * @example admin
+           */
+          createdBy?: string;
+        };
       };
+      /**
+       * @example {
+       *       "versionId": "1",
+       *       "refType": "MENU",
+       *       "versionNo": "0.0.1",
+       *       "lastChangedAt": "2026-06-25T16:04:14",
+       *       "lastChangedBy": "system",
+       *       "remark": "메뉴 샘플 데이터 최초 버전"
+       *     }
+       */
       ReferenceDataVersionLatestResponse: {
         /**
          * Format: int64
@@ -701,13 +724,47 @@ export namespace system {
          */
         remark?: string;
       };
+      /**
+       * @example {
+       *       "data": {
+       *         "refType": "ALL"
+       *       }
+       *     }
+       */
       ReferenceDataVersionLatestRequest: {
         /**
-         * @description 기준정보 유형
-         * @example ALL
+         * @example {
+         *       "refType": "ALL"
+         *     }
          */
-        refType: string;
+        data: {
+          /**
+           * @description 기준정보 유형
+           * @example ALL
+           */
+          refType: string;
+        };
       };
+      /**
+       * @example {
+       *       "codeId": 0,
+       *       "groupId": 0,
+       *       "groupCd": "string",
+       *       "code": "Y",
+       *       "codeNm": "사용",
+       *       "codeDesc": "string",
+       *       "parentCodeId": 0,
+       *       "sortSeq": "1",
+       *       "useYn": "Y",
+       *       "validFrom": "2026-01-01",
+       *       "validTo": "2026-12-31",
+       *       "extraData": "{}",
+       *       "createdBy": "admin",
+       *       "updatedBy": "admin",
+       *       "createdAt": "2026-01-01T09:00:00",
+       *       "updatedAt": "2026-01-01T10:00:00"
+       *     }
+       */
       CommonCodeListResponse: {
         /**
          * Format: int64
@@ -790,6 +847,16 @@ export namespace system {
          */
         updatedAt?: string;
       };
+      /**
+       * @example {
+       *       "groupCd": "string",
+       *       "code": "Y",
+       *       "codeNm": "사용",
+       *       "codeDesc": "string",
+       *       "sortSeq": "1",
+       *       "useYn": "Y"
+       *     }
+       */
       CommonCodeDetailResponse: {
         /** @description 공통코드 그룹 코드 */
         groupCd?: string;
@@ -818,82 +885,165 @@ export namespace system {
          */
         useYn?: 'Y' | 'N';
       };
+      /**
+       * @example {
+       *       "data": {
+       *         "groupCd": "ALL",
+       *         "groupNm": "사용 여부",
+       *         "groupDesc": "string",
+       *         "systemYn": "N",
+       *         "useYn": "Y",
+       *         "sortSeq": "1",
+       *         "createdBy": "admin"
+       *       }
+       *     }
+       */
       CommonCodeGroupCreateRequest: {
         /**
-         * @description 공통코드 그룹 코드
-         * @example ALL
+         * @example {
+         *       "groupCd": "ALL",
+         *       "groupNm": "사용 여부",
+         *       "groupDesc": "string",
+         *       "systemYn": "N",
+         *       "useYn": "Y",
+         *       "sortSeq": "1",
+         *       "createdBy": "admin"
+         *     }
          */
-        groupCd: string;
-        /**
-         * @description 공통코드 그룹명
-         * @example 사용 여부
-         */
-        groupNm: string;
-        /** @description 공통코드 그룹 설명 */
-        groupDesc?: string;
-        /**
-         * @description 시스템 코드 여부
-         * @example N
-         * @enum {string}
-         */
-        systemYn?: 'Y' | 'N';
-        /**
-         * @description 사용 여부
-         * @example Y
-         * @enum {string}
-         */
-        useYn?: 'Y' | 'N';
-        /**
-         * Format: int32
-         * @description 정렬 순서
-         * @example 1
-         */
-        sortSeq?: number;
-        /**
-         * @description 요청자 ID
-         * @example admin
-         */
-        createdBy?: string;
+        data: {
+          /**
+           * @description 공통코드 그룹 코드
+           * @example ALL
+           */
+          groupCd: string;
+          /**
+           * @description 공통코드 그룹명
+           * @example 사용 여부
+           */
+          groupNm: string;
+          /** @description 공통코드 그룹 설명 */
+          groupDesc?: string;
+          /**
+           * @description 시스템 코드 여부
+           * @example N
+           * @enum {string}
+           */
+          systemYn?: 'Y' | 'N';
+          /**
+           * @description 사용 여부
+           * @example Y
+           * @enum {string}
+           */
+          useYn?: 'Y' | 'N';
+          /**
+           * Format: int32
+           * @description 정렬 순서
+           * @example 1
+           */
+          sortSeq?: number;
+          /**
+           * @description 요청자 ID
+           * @example admin
+           */
+          createdBy?: string;
+        };
       };
+      /**
+       * @example {
+       *       "data": {
+       *         "groupNm": "사용 여부",
+       *         "groupDesc": "string",
+       *         "systemYn": "N",
+       *         "useYn": "Y",
+       *         "sortSeq": "1",
+       *         "createdBy": "admin"
+       *       }
+       *     }
+       */
       CommonCodeGroupUpdateRequest: {
         /**
-         * @description 공통코드 그룹명
-         * @example 사용 여부
+         * @example {
+         *       "groupNm": "사용 여부",
+         *       "groupDesc": "string",
+         *       "systemYn": "N",
+         *       "useYn": "Y",
+         *       "sortSeq": "1",
+         *       "createdBy": "admin"
+         *     }
          */
-        groupNm: string;
-        /** @description 공통코드 그룹 설명 */
-        groupDesc?: string;
-        /**
-         * @description 시스템 코드 여부
-         * @example N
-         * @enum {string}
-         */
-        systemYn?: 'Y' | 'N';
-        /**
-         * @description 사용 여부
-         * @example Y
-         * @enum {string}
-         */
-        useYn?: 'Y' | 'N';
-        /**
-         * Format: int32
-         * @description 정렬 순서
-         * @example 1
-         */
-        sortSeq?: number;
-        /**
-         * @description 요청자 ID
-         * @example admin
-         */
-        createdBy?: string;
+        data: {
+          /**
+           * @description 공통코드 그룹명
+           * @example 사용 여부
+           */
+          groupNm: string;
+          /** @description 공통코드 그룹 설명 */
+          groupDesc?: string;
+          /**
+           * @description 시스템 코드 여부
+           * @example N
+           * @enum {string}
+           */
+          systemYn?: 'Y' | 'N';
+          /**
+           * @description 사용 여부
+           * @example Y
+           * @enum {string}
+           */
+          useYn?: 'Y' | 'N';
+          /**
+           * Format: int32
+           * @description 정렬 순서
+           * @example 1
+           */
+          sortSeq?: number;
+          /**
+           * @description 요청자 ID
+           * @example admin
+           */
+          createdBy?: string;
+        };
       };
+      /**
+       * @example {
+       *       "data": {
+       *         "groupCd": "ALL"
+       *       }
+       *     }
+       */
       CommonCodeGroupDetailRequest: {
         /**
-         * @description 공통코드 그룹 코드
-         * @example ALL
+         * @example {
+         *       "groupCd": "ALL"
+         *     }
          */
-        groupCd: string;
+        data: {
+          /**
+           * @description 공통코드 그룹 코드
+           * @example ALL
+           */
+          groupCd: string;
+        };
       };
+      /**
+       * @example {
+       *       "groupCd": "USE_YN",
+       *       "groupNm": "사용 여부",
+       *       "groupDesc": "string",
+       *       "systemYn": "Y",
+       *       "useYn": "Y",
+       *       "codes": [
+       *         {
+       *           "groupCd": "string",
+       *           "code": "Y",
+       *           "codeNm": "사용",
+       *           "codeDesc": "string",
+       *           "sortSeq": "1",
+       *           "useYn": "Y"
+       *         }
+       *       ]
+       *     }
+       */
       CommonCodeGroupDetailDetailResponse: {
         /**
          * @description 공통코드 그룹 코드
@@ -920,109 +1070,213 @@ export namespace system {
          */
         useYn?: 'Y' | 'N';
         /** @description 공통코드 목록 */
-        codes?: string[];
+        codes?: {
+          /** @description 공통코드 그룹 코드 */
+          groupCd?: string;
+          /**
+           * @description 공통코드
+           * @example Y
+           */
+          code?: string;
+          /**
+           * @description 공통코드명
+           * @example 사용
+           */
+          codeNm?: string;
+          /** @description 공통코드 설명 */
+          codeDesc?: string;
+          /**
+           * Format: int32
+           * @description 정렬 순서
+           * @example 1
+           */
+          sortSeq?: number;
+          /**
+           * @description 사용 여부
+           * @example Y
+           * @enum {string}
+           */
+          useYn?: 'Y' | 'N';
+        }[];
       };
+      /**
+       * @example {
+       *       "data": {
+       *         "code": "Y",
+       *         "codeNm": "사용",
+       *         "codeDesc": "string",
+       *         "parentCodeId": 0,
+       *         "sortSeq": "1",
+       *         "useYn": "Y",
+       *         "validFrom": "2026-01-01",
+       *         "validTo": "2026-12-31",
+       *         "extraData": "{}",
+       *         "createdBy": "admin"
+       *       }
+       *     }
+       */
       CommonCodeCreateRequest: {
         /**
-         * @description 공통코드
-         * @example Y
+         * @example {
+         *       "code": "Y",
+         *       "codeNm": "사용",
+         *       "codeDesc": "string",
+         *       "parentCodeId": 0,
+         *       "sortSeq": "1",
+         *       "useYn": "Y",
+         *       "validFrom": "2026-01-01",
+         *       "validTo": "2026-12-31",
+         *       "extraData": "{}",
+         *       "createdBy": "admin"
+         *     }
          */
-        code: string;
-        /**
-         * @description 공통코드명
-         * @example 사용
-         */
-        codeNm: string;
-        /** @description 공통코드 설명 */
-        codeDesc?: string;
-        /**
-         * Format: int64
-         * @description 상위 공통코드 ID
-         */
-        parentCodeId?: number;
-        /**
-         * Format: int32
-         * @description 정렬 순서
-         * @example 1
-         */
-        sortSeq?: number;
-        /**
-         * @description 사용 여부
-         * @example Y
-         * @enum {string}
-         */
-        useYn?: 'Y' | 'N';
-        /**
-         * Format: date
-         * @description 유효 시작일
-         * @example 2026-01-01
-         */
-        validFrom?: string;
-        /**
-         * Format: date
-         * @description 유효 종료일
-         * @example 2026-12-31
-         */
-        validTo?: string;
-        /**
-         * @description 추가 데이터 JSON 문자열
-         * @example {}
-         */
-        extraData?: string;
-        /**
-         * @description 요청자 ID
-         * @example admin
-         */
-        createdBy?: string;
+        data: {
+          /**
+           * @description 공통코드
+           * @example Y
+           */
+          code: string;
+          /**
+           * @description 공통코드명
+           * @example 사용
+           */
+          codeNm: string;
+          /** @description 공통코드 설명 */
+          codeDesc?: string;
+          /**
+           * Format: int64
+           * @description 상위 공통코드 ID
+           */
+          parentCodeId?: number;
+          /**
+           * Format: int32
+           * @description 정렬 순서
+           * @example 1
+           */
+          sortSeq?: number;
+          /**
+           * @description 사용 여부
+           * @example Y
+           * @enum {string}
+           */
+          useYn?: 'Y' | 'N';
+          /**
+           * Format: date
+           * @description 유효 시작일
+           * @example 2026-01-01
+           */
+          validFrom?: string;
+          /**
+           * Format: date
+           * @description 유효 종료일
+           * @example 2026-12-31
+           */
+          validTo?: string;
+          /**
+           * @description 추가 데이터 JSON 문자열
+           * @example {}
+           */
+          extraData?: string;
+          /**
+           * @description 요청자 ID
+           * @example admin
+           */
+          createdBy?: string;
+        };
       };
+      /**
+       * @example {
+       *       "data": {
+       *         "codeNm": "사용",
+       *         "codeDesc": "string",
+       *         "parentCodeId": 0,
+       *         "sortSeq": "1",
+       *         "useYn": "Y",
+       *         "validFrom": "2026-01-01",
+       *         "validTo": "2026-12-31",
+       *         "extraData": "{}",
+       *         "createdBy": "admin"
+       *       }
+       *     }
+       */
       CommonCodeUpdateRequest: {
         /**
-         * @description 공통코드명
-         * @example 사용
+         * @example {
+         *       "codeNm": "사용",
+         *       "codeDesc": "string",
+         *       "parentCodeId": 0,
+         *       "sortSeq": "1",
+         *       "useYn": "Y",
+         *       "validFrom": "2026-01-01",
+         *       "validTo": "2026-12-31",
+         *       "extraData": "{}",
+         *       "createdBy": "admin"
+         *     }
          */
-        codeNm: string;
-        /** @description 공통코드 설명 */
-        codeDesc?: string;
-        /**
-         * Format: int64
-         * @description 상위 공통코드 ID
-         */
-        parentCodeId?: number;
-        /**
-         * Format: int32
-         * @description 정렬 순서
-         * @example 1
-         */
-        sortSeq?: number;
-        /**
-         * @description 사용 여부
-         * @example Y
-         * @enum {string}
-         */
-        useYn?: 'Y' | 'N';
-        /**
-         * Format: date
-         * @description 유효 시작일
-         * @example 2026-01-01
-         */
-        validFrom?: string;
-        /**
-         * Format: date
-         * @description 유효 종료일
-         * @example 2026-12-31
-         */
-        validTo?: string;
-        /**
-         * @description 추가 데이터 JSON 문자열
-         * @example {}
-         */
-        extraData?: string;
-        /**
-         * @description 요청자 ID
-         * @example admin
-         */
-        createdBy?: string;
+        data: {
+          /**
+           * @description 공통코드명
+           * @example 사용
+           */
+          codeNm: string;
+          /** @description 공통코드 설명 */
+          codeDesc?: string;
+          /**
+           * Format: int64
+           * @description 상위 공통코드 ID
+           */
+          parentCodeId?: number;
+          /**
+           * Format: int32
+           * @description 정렬 순서
+           * @example 1
+           */
+          sortSeq?: number;
+          /**
+           * @description 사용 여부
+           * @example Y
+           * @enum {string}
+           */
+          useYn?: 'Y' | 'N';
+          /**
+           * Format: date
+           * @description 유효 시작일
+           * @example 2026-01-01
+           */
+          validFrom?: string;
+          /**
+           * Format: date
+           * @description 유효 종료일
+           * @example 2026-12-31
+           */
+          validTo?: string;
+          /**
+           * @description 추가 데이터 JSON 문자열
+           * @example {}
+           */
+          extraData?: string;
+          /**
+           * @description 요청자 ID
+           * @example admin
+           */
+          createdBy?: string;
+        };
       };
+      /**
+       * @example {
+       *       "groupId": 0,
+       *       "groupCd": "USE_YN",
+       *       "groupNm": "사용 여부",
+       *       "groupDesc": "string",
+       *       "systemYn": "N",
+       *       "useYn": "Y",
+       *       "sortSeq": "1",
+       *       "createdBy": "admin",
+       *       "updatedBy": "admin",
+       *       "createdAt": "2026-01-01T09:00:00",
+       *       "updatedAt": "2026-01-01T10:00:00"
+       *     }
+       */
       CommonCodeGroupListResponse: {
         /**
          * Format: int64
@@ -1100,7 +1354,14 @@ export namespace system {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['ApiRequestReferenceDataVersionReqDto'];
+          /**
+           * @example {
+           *       "data": {
+           *         "refType": "ALL"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['ReferenceDataVersionLatestRequest'];
         };
       };
       responses: {
@@ -1136,7 +1397,25 @@ export namespace system {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['ApiRequestMenuReqDto'];
+          /**
+           * @example {
+           *       "data": {
+           *         "parentMenuId": 0,
+           *         "menuNm": "대시보드",
+           *         "menuType": "MENU",
+           *         "path": "/dashboard",
+           *         "component": "DashboardView",
+           *         "icon": "LayoutDashboard",
+           *         "depth": "1",
+           *         "sortSeq": "1",
+           *         "visibleYn": "Y",
+           *         "useYn": "Y",
+           *         "remark": "string",
+           *         "createdBy": "admin"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['MenuUpdateRequest'];
         };
       };
       responses: {
@@ -1204,7 +1483,15 @@ export namespace system {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['ApiRequestRoleMenuSaveReqDto'];
+          /**
+           * @example {
+           *       "data": {
+           *         "menuIds": "string",
+           *         "createdBy": "admin"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['RoleMenuSaveSaveRequest'];
         };
       };
       responses: {
@@ -1300,7 +1587,26 @@ export namespace system {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['ApiRequestMenuReqDto'];
+          /**
+           * @example {
+           *       "data": {
+           *         "parentMenuId": 0,
+           *         "menuCd": "DASHBOARD",
+           *         "menuNm": "대시보드",
+           *         "menuType": "MENU",
+           *         "path": "/dashboard",
+           *         "component": "DashboardView",
+           *         "icon": "LayoutDashboard",
+           *         "depth": "1",
+           *         "sortSeq": "1",
+           *         "visibleYn": "Y",
+           *         "useYn": "Y",
+           *         "remark": "string",
+           *         "createdBy": "admin"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['MenuCreateRequest'];
         };
       };
       responses: {
@@ -1336,7 +1642,19 @@ export namespace system {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['ApiRequestCommonCodeGroupReqDto'];
+          /**
+           * @example {
+           *       "data": {
+           *         "groupNm": "사용 여부",
+           *         "groupDesc": "string",
+           *         "systemYn": "N",
+           *         "useYn": "Y",
+           *         "sortSeq": "1",
+           *         "createdBy": "admin"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['CommonCodeGroupUpdateRequest'];
         };
       };
       responses: {
@@ -1373,7 +1691,22 @@ export namespace system {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['ApiRequestCommonCodeReqDto'];
+          /**
+           * @example {
+           *       "data": {
+           *         "codeNm": "사용",
+           *         "codeDesc": "string",
+           *         "parentCodeId": 0,
+           *         "sortSeq": "1",
+           *         "useYn": "Y",
+           *         "validFrom": "2026-01-01",
+           *         "validTo": "2026-12-31",
+           *         "extraData": "{}",
+           *         "createdBy": "admin"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['CommonCodeUpdateRequest'];
         };
       };
       responses: {
@@ -1441,7 +1774,23 @@ export namespace system {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['ApiRequestCommonCodeReqDto'];
+          /**
+           * @example {
+           *       "data": {
+           *         "code": "Y",
+           *         "codeNm": "사용",
+           *         "codeDesc": "string",
+           *         "parentCodeId": 0,
+           *         "sortSeq": "1",
+           *         "useYn": "Y",
+           *         "validFrom": "2026-01-01",
+           *         "validTo": "2026-12-31",
+           *         "extraData": "{}",
+           *         "createdBy": "admin"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['CommonCodeCreateRequest'];
         };
       };
       responses: {
@@ -1505,7 +1854,14 @@ export namespace system {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['ApiRequestCommonCodeGroupReqDto'];
+          /**
+           * @example {
+           *       "data": {
+           *         "groupCd": "ALL"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['CommonCodeGroupDetailRequest'];
         };
       };
       responses: {
@@ -1539,7 +1895,20 @@ export namespace system {
       };
       requestBody: {
         content: {
-          'application/json': components['schemas']['ApiRequestCommonCodeGroupReqDto'];
+          /**
+           * @example {
+           *       "data": {
+           *         "groupCd": "ALL",
+           *         "groupNm": "사용 여부",
+           *         "groupDesc": "string",
+           *         "systemYn": "N",
+           *         "useYn": "Y",
+           *         "sortSeq": "1",
+           *         "createdBy": "admin"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['CommonCodeGroupCreateRequest'];
         };
       };
       responses: {

@@ -55,12 +55,7 @@ export const useCreateMenu = (
 };
 
 export const useUpdateMenu = (
-  options?: UseMutationOptions<
-    void,
-    Error,
-    { menuId: number; payload: MenuPayload },
-    unknown
-  >,
+  options?: UseMutationOptions<void, Error, { menuId: number; payload: MenuPayload }, unknown>,
 ): UseMutationResult<void, Error, { menuId: number; payload: MenuPayload }, unknown> => {
   const queryClient = useQueryClient();
   return useMutation({
