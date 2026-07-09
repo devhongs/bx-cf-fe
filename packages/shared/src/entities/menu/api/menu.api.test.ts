@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { httpService } from '../../../shared/ajax/http.service';
 
-import { createMenu, deleteMenu, fetchMenuList, updateMenu } from './menu.api';
+import { createMenu, deleteMenu, fetchMenu, fetchMenuList, updateMenu } from './menu.api';
 
 describe('menu api', () => {
   afterEach(() => {
@@ -33,6 +33,16 @@ describe('menu api', () => {
     });
 
     expect(postSpy).toHaveBeenCalledWith('/system/menus/list');
+  });
+
+  it('fetches menu detail from the generated detail endpoint', async () => {
+    const menu = { menuId: 1, menuNm: '대시보드' };
+    const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue(menu);
+
+    const result = await fetchMenu(1);
+
+    expect(postSpy).toHaveBeenCalledWith('/system/menus/1/detail');
+    expect(result).toEqual(menu);
   });
 
   it('creates and updates menus with generated action endpoints', async () => {

@@ -6,14 +6,8 @@ export const fetchMenuList = <T extends Menu = Menu>(
   _params?: MenuQueryParams,
 ): Promise<Array<T>> => httpService.post<Array<T>>('/system/menus/list');
 
-export const fetchMenu = async <T extends Menu = Menu>(menuId: number): Promise<T> => {
-  const menus = await fetchMenuList<T>();
-  const menu = menus.find((item) => item.menuId === menuId);
-  if (!menu) {
-    throw new Error(`Menu not found: ${menuId}`);
-  }
-  return menu;
-};
+export const fetchMenu = <T extends Menu = Menu>(menuId: number): Promise<T> =>
+  httpService.post<T>(`/system/menus/${encodeURIComponent(menuId)}/detail`);
 
 export const createMenu = (payload: MenuPayload): Promise<void> =>
   httpService.post<void>('/system/menus/create', { data: payload });

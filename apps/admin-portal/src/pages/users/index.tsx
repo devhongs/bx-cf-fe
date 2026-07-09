@@ -1,7 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 
-import { DataTable, userListQuery } from '@bx/shared';
+import { DataTable, useFetchUserList } from '@bx/shared';
 import type { DataTableColumn, ManagedUser } from '@bx/shared';
 
 import { UserFormDrawer } from '@/features/user-form/ui/UserFormDrawer';
@@ -40,7 +39,7 @@ export function UsersPage() {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('ALL');
   const [userType, setUserType] = useState('ALL');
-  const { data } = useQuery({ ...userListQuery(), retry: false });
+  const { data } = useFetchUserList(undefined, { retry: false });
   const users = data?.length ? data : fallbackUsers;
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedUsrId, setSelectedUsrId] = useState<string | undefined>();

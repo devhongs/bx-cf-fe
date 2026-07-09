@@ -1,8 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 
-import { createMenu, deleteMenu, menuDetailQuery, menuQueryKeys, updateMenu } from '@bx/shared';
-import type { Menu, MenuPayload } from '@bx/shared';
+import { useCreateMenu, useDeleteMenu, useFetchMenu, useUpdateMenu } from '@bx/shared';
+import type { Menu } from '@bx/shared';
 
 import { getApiErrorMessage } from '@/shared/lib/getApiErrorMessage';
 import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
@@ -32,13 +31,11 @@ interface MenuFormDrawerProps {
 }
 
 export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDrawerProps) {
-  const isEdit = menuId != null;
-  const queryClient = useQueryClient();
+  const isUpdateMode = menuId != null;
   const [submitError, setSubmitError] = useState('');
 
-  const { data: detail } = useQuery({
-    ...menuDetailQuery(menuId ?? -1),
-    enabled: open && isEdit,
+  const { data: detail } = useFetchMenu(menuId ?? -1, {
+    enabled: open && isUpdateMode,
     retry: false,
   });
   const menu = detail ?? fallback;
@@ -50,19 +47,21 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
     setSubmitError('');
   }, [open]);
 
-  const saveMutation = useMutation({
-    mutationFn: (payload: MenuPayload) =>
-      isEdit ? updateMenu(menuId, payload) : createMenu(payload),
-  });
-  const deleteMutation = useMutation({ mutationFn: (id: number) => deleteMenu(id) });
-  const pending = saveMutation.isPending || deleteMutation.isPending;
+  const createMutation = useCreateMenu();
+  const updateMutation = useUpdateMenu();
+  const deleteMutation = useDeleteMenu();
+  const savePending = createMutation.isPending || updateMutation.isPending;
+  const pending = savePending || deleteMutation.isPending;
 
   const handleSubmit = async (payload: MenuFormPayload) => {
     setSubmitError('');
 
     try {
-      await saveMutation.mutateAsync(payload);
-      await queryClient.invalidateQueries({ queryKey: menuQueryKeys.all });
+      if (isUpdateMode) {
+        await updateMutation.mutateAsync({ menuId, payload });
+      } else {
+        await createMutation.mutateAsync(payload);
+      }
       onClose();
     } catch (error) {
       setSubmitError(getApiErrorMessage(error, '저장에 실패했습니다.'));
@@ -70,13 +69,12 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
   };
 
   const handleDelete = async () => {
-    if (!isEdit) return;
+    if (!isUpdateMode) return;
     if (!window.confirm(`'${menu?.menuNm ?? menuId}' 메뉴를 삭제하시겠습니까?`)) return;
 
     setSubmitError('');
     try {
       await deleteMutation.mutateAsync(menuId);
-      await queryClient.invalidateQueries({ queryKey: menuQueryKeys.all });
       onClose();
     } catch (error) {
       setSubmitError(getApiErrorMessage(error, '삭제에 실패했습니다.'));
@@ -86,13 +84,13 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
   return (
     <AdminDrawer
       open={open}
-      title={isEdit ? menu?.menuNm || '메뉴 수정' : '메뉴 등록'}
-      subtitle={isEdit ? menu?.path : undefined}
+      title={isUpdateMode ? menu?.menuNm || '메뉴 수정' : '메뉴 등록'}
+      subtitle={isUpdateMode ? menu?.path : undefined}
       storageKey="admin-drawer:menus"
       onClose={onClose}
       footer={
         <>
-          {isEdit && (
+          {isUpdateMode && (
             <button
               type="button"
               className={styles.dangerButton}
@@ -103,7 +101,7 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
             </button>
           )}
           <button type="submit" form={FORM_ID} className={styles.button} disabled={pending}>
-            {saveMutation.isPending ? '저장 중' : '저장'}
+            {savePending ? '저장 중' : '저장'}
           </button>
         </>
       }

@@ -14,6 +14,7 @@ type LegacyMenuFields = {
 };
 
 export type MenuListItem = SystemSchemas['MenuListResponse'];
+export type MenuDetail = SystemSchemas['MenuDetailResponse'];
 type MenuCreatePayload = SystemSchemas['MenuCreateRequest']['data'];
 type MenuUpdatePayload = SystemSchemas['MenuUpdateRequest']['data'];
 type LegacyListParams = {
@@ -27,7 +28,7 @@ export type MenuPayload = Partial<MenuCreatePayload & MenuUpdatePayload> &
   Partial<LegacyMenuFields>;
 export type MenuQueryParams = Partial<MenuListItem & MenuPayload & LegacyListParams>;
 
-export type Menu = MenuListItem &
+export type Menu = (MenuListItem | MenuDetail) &
   LegacyMenuFields & {
     children?: Array<Menu>;
   };

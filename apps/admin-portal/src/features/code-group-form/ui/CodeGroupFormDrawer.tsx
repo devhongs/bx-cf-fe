@@ -1,13 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 
 import {
-  commonCodeGroupDetailQuery,
-  commonCodeQueryKeys,
-  createCommonCodeGroup,
-  deleteCommonCodeGroup,
-  updateCommonCodeGroup,
+  useCreateCommonCodeGroup,
+  useDeleteCommonCodeGroup,
+  useFetchCommonCodeGroup,
+  useUpdateCommonCodeGroup,
 } from '@bx/shared';
 import type { CommonCodeGroup, CommonCodeGroupPayload } from '@bx/shared';
 
@@ -65,13 +63,11 @@ export function CodeGroupFormDrawer({
   children,
   onClose,
 }: CodeGroupFormDrawerProps) {
-  const isEdit = groupCd != null;
-  const queryClient = useQueryClient();
+  const isUpdateMode = groupCd != null;
   const [submitError, setSubmitError] = useState('');
 
-  const { data: detailData } = useQuery({
-    ...commonCodeGroupDetailQuery(groupCd ?? ''),
-    enabled: open && isEdit,
+  const { data: detailData } = useFetchCommonCodeGroup(groupCd ?? '', {
+    enabled: open && isUpdateMode,
     retry: false,
   });
   const group = detailData?.[0] ?? fallback;
@@ -86,22 +82,22 @@ export function CodeGroupFormDrawer({
     setSubmitError('');
   }, [open]);
 
-  const saveMutation = useMutation({
-    mutationFn: (payload: CommonCodeGroupPayload) =>
-      isEdit ? updateCommonCodeGroup(groupCd, payload) : createCommonCodeGroup(payload),
-  });
-  const deleteMutation = useMutation({
-    mutationFn: (cd: string) => deleteCommonCodeGroup(cd),
-  });
-  const pending = saveMutation.isPending || deleteMutation.isPending;
+  const createMutation = useCreateCommonCodeGroup();
+  const updateMutation = useUpdateCommonCodeGroup();
+  const deleteMutation = useDeleteCommonCodeGroup();
+  const savePending = createMutation.isPending || updateMutation.isPending;
+  const pending = savePending || deleteMutation.isPending;
 
   const handleSubmit = async (values: CodeGroupFormValues) => {
     setSubmitError('');
     const payload = toPayload(values);
 
     try {
-      await saveMutation.mutateAsync(payload);
-      await queryClient.invalidateQueries({ queryKey: commonCodeQueryKeys.all });
+      if (isUpdateMode) {
+        await updateMutation.mutateAsync({ groupCd, payload });
+      } else {
+        await createMutation.mutateAsync(payload);
+      }
       onClose();
     } catch (error) {
       setSubmitError(getApiErrorMessage(error, '저장에 실패했습니다.'));
@@ -109,13 +105,12 @@ export function CodeGroupFormDrawer({
   };
 
   const handleDelete = async () => {
-    if (!isEdit) return;
+    if (!isUpdateMode) return;
     if (!window.confirm(`'${group?.groupNm ?? groupCd}' 그룹을 삭제하시겠습니까?`)) return;
 
     setSubmitError('');
     try {
       await deleteMutation.mutateAsync(groupCd);
-      await queryClient.invalidateQueries({ queryKey: commonCodeQueryKeys.all });
       onClose();
     } catch (error) {
       setSubmitError(getApiErrorMessage(error, '삭제에 실패했습니다.'));
@@ -125,13 +120,13 @@ export function CodeGroupFormDrawer({
   return (
     <AdminDrawer
       open={open}
-      title={isEdit ? group?.groupNm || '코드 그룹 수정' : '코드 그룹 등록'}
-      subtitle={isEdit ? groupCd : undefined}
+      title={isUpdateMode ? group?.groupNm || '코드 그룹 수정' : '코드 그룹 등록'}
+      subtitle={isUpdateMode ? groupCd : undefined}
       storageKey="admin-drawer:codes"
       onClose={onClose}
       footer={
         <>
-          {isEdit && (
+          {isUpdateMode && (
             <button
               type="button"
               className={styles.dangerButton}
@@ -142,13 +137,13 @@ export function CodeGroupFormDrawer({
             </button>
           )}
           <button type="submit" form={FORM_ID} className={styles.button} disabled={pending}>
-            {saveMutation.isPending ? '저장 중' : '저장'}
+            {savePending ? '저장 중' : '저장'}
           </button>
         </>
       }
     >
       <AppForm id={FORM_ID} form={form} onSubmit={handleSubmit}>
-        <FormInput label="그룹코드" name="groupCd" readOnly={isEdit} required />
+        <FormInput label="그룹코드" name="groupCd" readOnly={isUpdateMode} required />
         <FormSelect label="사용여부" name="useYn" options={useYnOptions} />
         <FormInput label="그룹명" name="groupNm" required fieldClassName={fullFieldClassName} />
         <FormTextarea label="설명" name="groupDesc" fieldClassName={fullFieldClassName} />

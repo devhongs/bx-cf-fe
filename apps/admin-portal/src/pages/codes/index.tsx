@@ -1,7 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 
-import { DataTable, commonCodeGroupListQuery, commonCodeListQuery } from '@bx/shared';
+import { DataTable, useFetchCommonCodeGroupList, useFetchCommonCodeList } from '@bx/shared';
 import type { CommonCode, CommonCodeGroup, DataTableColumn } from '@bx/shared';
 
 import { CodeGroupFormDrawer } from '@/features/code-group-form/ui/CodeGroupFormDrawer';
@@ -54,7 +53,7 @@ const fallbackCodesByGroup: Record<string, CommonCode[]> = {
 export function CodesPage() {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('ALL');
-  const { data } = useQuery({ ...commonCodeGroupListQuery(), retry: false });
+  const { data } = useFetchCommonCodeGroupList(undefined, { retry: false });
   const groups = data?.length ? data : fallbackGroups;
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedGroupCd, setSelectedGroupCd] = useState<string | undefined>();
@@ -70,8 +69,7 @@ export function CodesPage() {
 
   const selected = groups.find((group) => group.groupCd === selectedGroupCd);
   const selectedGroupCdForQuery = selected?.groupCd || '';
-  const { data: codeData } = useQuery({
-    ...commonCodeListQuery(selectedGroupCdForQuery),
+  const { data: codeData } = useFetchCommonCodeList(selectedGroupCdForQuery, undefined, {
     enabled: drawerOpen && Boolean(selectedGroupCdForQuery),
     retry: false,
   });

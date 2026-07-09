@@ -1,7 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 
-import { createUser, deleteUser, updateUser, userDetailQuery, userQueryKeys } from '@bx/shared';
+import { useCreateUser, useDeleteUser, useFetchUser, useUpdateUser } from '@bx/shared';
 import type { ManagedUser, UseYn, UserPayload, UserType } from '@bx/shared';
 
 import { getApiErrorMessage } from '@/shared/lib/getApiErrorMessage';
@@ -59,13 +58,11 @@ interface UserFormDrawerProps {
 }
 
 export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawerProps) {
-  const isEdit = usrId != null;
-  const queryClient = useQueryClient();
+  const isUpdateMode = usrId != null;
   const [submitError, setSubmitError] = useState('');
 
-  const { data: detail } = useQuery({
-    ...userDetailQuery(usrId ?? ''),
-    enabled: open && isEdit,
+  const { data: detail } = useFetchUser(usrId ?? '', {
+    enabled: open && isUpdateMode,
     retry: false,
   });
   const user = detail ?? fallback;
@@ -78,20 +75,22 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
     setSubmitError('');
   }, [open]);
 
-  const saveMutation = useMutation({
-    mutationFn: (payload: UserPayload) =>
-      isEdit ? updateUser(usrId, payload) : createUser(payload),
-  });
-  const deleteMutation = useMutation({ mutationFn: (id: string) => deleteUser(id) });
-  const pending = saveMutation.isPending || deleteMutation.isPending;
+  const createMutation = useCreateUser();
+  const updateMutation = useUpdateUser();
+  const deleteMutation = useDeleteUser();
+  const savePending = createMutation.isPending || updateMutation.isPending;
+  const pending = savePending || deleteMutation.isPending;
 
   const handleSubmit = async (values: UserFormValues) => {
     setSubmitError('');
     const payload = toPayload(values);
 
     try {
-      await saveMutation.mutateAsync(payload);
-      await queryClient.invalidateQueries({ queryKey: userQueryKeys.all });
+      if (isUpdateMode) {
+        await updateMutation.mutateAsync({ usrId, payload });
+      } else {
+        await createMutation.mutateAsync(payload);
+      }
       onClose();
     } catch (error) {
       setSubmitError(getApiErrorMessage(error, '저장에 실패했습니다.'));
@@ -99,13 +98,12 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
   };
 
   const handleDelete = async () => {
-    if (!isEdit) return;
+    if (!isUpdateMode) return;
     if (!window.confirm(`'${user?.usrNm ?? usrId}' 사용자를 삭제하시겠습니까?`)) return;
 
     setSubmitError('');
     try {
       await deleteMutation.mutateAsync(usrId);
-      await queryClient.invalidateQueries({ queryKey: userQueryKeys.all });
       onClose();
     } catch (error) {
       setSubmitError(getApiErrorMessage(error, '삭제에 실패했습니다.'));
@@ -115,13 +113,13 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
   return (
     <AdminDrawer
       open={open}
-      title={isEdit ? user?.usrNm || '관리자 수정' : '관리자 등록'}
-      subtitle={isEdit ? usrId : undefined}
+      title={isUpdateMode ? user?.usrNm || '관리자 수정' : '관리자 등록'}
+      subtitle={isUpdateMode ? usrId : undefined}
       storageKey="admin-drawer:users"
       onClose={onClose}
       footer={
         <>
-          {isEdit && (
+          {isUpdateMode && (
             <button
               type="button"
               className={styles.dangerButton}
@@ -132,13 +130,13 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
             </button>
           )}
           <button type="submit" form={FORM_ID} className={styles.button} disabled={pending}>
-            {saveMutation.isPending ? '저장 중' : '저장'}
+            {savePending ? '저장 중' : '저장'}
           </button>
         </>
       }
     >
       <AppForm id={FORM_ID} form={form} onSubmit={handleSubmit}>
-        <FormInput label="아이디" name="usrId" readOnly={isEdit} required />
+        <FormInput label="아이디" name="usrId" readOnly={isUpdateMode} required />
         <FormSelect label="유형" name="userType" options={userTypeOptions} />
         <FormInput label="이름" name="usrNm" required />
         <FormSelect label="사용여부" name="useYn" options={useYnOptions} />

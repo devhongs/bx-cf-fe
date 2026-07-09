@@ -1,7 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 
-import { DataTable, menuListQuery } from '@bx/shared';
+import { DataTable, useFetchMenuList } from '@bx/shared';
 import type { DataTableColumn, Menu } from '@bx/shared';
 
 import { MenuFormDrawer } from '@/features/menu-form/ui/MenuFormDrawer';
@@ -48,7 +47,7 @@ const fallbackMenus: Menu[] = [
 export function MenusPage() {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('ALL');
-  const { data } = useQuery({ ...menuListQuery(), retry: false });
+  const { data } = useFetchMenuList(undefined, { retry: false });
   const menus = data?.length ? data : fallbackMenus;
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedMenuId, setSelectedMenuId] = useState<number | undefined>();

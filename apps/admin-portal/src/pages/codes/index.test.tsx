@@ -6,42 +6,59 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { CodesPage } from './index';
 
+const mockCommonCodeData = vi.hoisted(() => {
+  const useYnGroup = {
+    groupId: 1,
+    groupCd: 'USE_YN',
+    groupNm: '사용 여부',
+    groupDesc: '사용/미사용 상태 공통 코드',
+    systemYn: 'Y',
+    useYn: 'Y',
+  };
+  const userTypeGroup = {
+    groupId: 2,
+    groupCd: 'USER_TYPE',
+    groupNm: '사용자 유형',
+    groupDesc: '관리자와 서비스 사용자 구분',
+    systemYn: 'N',
+    useYn: 'Y',
+  };
+
+  return {
+    groups: [useYnGroup, userTypeGroup],
+    details: {
+      USE_YN: [useYnGroup],
+      USER_TYPE: [userTypeGroup],
+    },
+    codes: {
+      USE_YN: [
+        { groupCd: 'USE_YN', code: 'Y', codeNm: '사용', sortSeq: 1, useYn: 'Y' },
+        { groupCd: 'USE_YN', code: 'N', codeNm: '미사용', sortSeq: 2, useYn: 'Y' },
+      ],
+      USER_TYPE: [
+        { groupCd: 'USER_TYPE', code: 'ADMIN', codeNm: '관리자', sortSeq: 1, useYn: 'Y' },
+      ],
+    },
+  };
+});
+
 vi.mock('@bx/shared', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@bx/shared')>();
 
   return {
     ...actual,
-    commonCodeGroupListQuery: () => ({
-      queryKey: ['common-code', 'groups', 'list'],
-      queryFn: async () => [
-        {
-          groupId: 1,
-          groupCd: 'USE_YN',
-          groupNm: '사용 여부',
-          groupDesc: '사용/미사용 상태 공통 코드',
-          systemYn: 'Y',
-          useYn: 'Y',
-        },
-        {
-          groupId: 2,
-          groupCd: 'USER_TYPE',
-          groupNm: '사용자 유형',
-          groupDesc: '관리자와 서비스 사용자 구분',
-          systemYn: 'N',
-          useYn: 'Y',
-        },
-      ],
+    useFetchCommonCodeGroupList: () => ({
+      data: mockCommonCodeData.groups,
     }),
-    commonCodeListQuery: (groupCd: string) => ({
-      queryKey: ['common-code', 'codes', groupCd, 'list'],
-      queryFn: async () =>
-        groupCd === 'USE_YN'
-          ? [
-              { groupCd, code: 'Y', codeNm: '사용', sortSeq: 1, useYn: 'Y' },
-              { groupCd, code: 'N', codeNm: '미사용', sortSeq: 2, useYn: 'Y' },
-            ]
-          : [{ groupCd, code: 'ADMIN', codeNm: '관리자', sortSeq: 1, useYn: 'Y' }],
+    useFetchCommonCodeGroup: (groupCd: string) => ({
+      data: mockCommonCodeData.details[groupCd as keyof typeof mockCommonCodeData.details] ?? [],
     }),
+    useFetchCommonCodeList: (groupCd: string) => ({
+      data: mockCommonCodeData.codes[groupCd as keyof typeof mockCommonCodeData.codes] ?? [],
+    }),
+    useCreateCommonCodeGroup: () => ({ isPending: false, mutateAsync: vi.fn() }),
+    useUpdateCommonCodeGroup: () => ({ isPending: false, mutateAsync: vi.fn() }),
+    useDeleteCommonCodeGroup: () => ({ isPending: false, mutateAsync: vi.fn() }),
   };
 });
 
