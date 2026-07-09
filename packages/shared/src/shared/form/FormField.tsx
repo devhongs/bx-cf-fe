@@ -2,11 +2,17 @@ import { get } from 'lodash-es';
 import * as React from 'react';
 import { type FieldPath, type FieldValues, useFormState } from 'react-hook-form';
 
-interface FormFieldProps<TValues extends FieldValues> {
+import { cn } from '../ui/lib/cn';
+
+export interface FormFieldProps<TValues extends FieldValues> {
   name: FieldPath<TValues>;
   label?: React.ReactNode;
   description?: React.ReactNode;
   required?: boolean;
+  className?: string;
+  labelClassName?: string;
+  descriptionClassName?: string;
+  errorClassName?: string;
   children: (fieldProps: {
     id: string;
     'aria-invalid': boolean;
@@ -19,6 +25,10 @@ export function FormField<TValues extends FieldValues>({
   label,
   description,
   required,
+  className,
+  labelClassName,
+  descriptionClassName,
+  errorClassName,
   children,
 }: FormFieldProps<TValues>) {
   const id = React.useId();
@@ -29,11 +39,18 @@ export function FormField<TValues extends FieldValues>({
   const message = typeof error?.message === 'string' ? error.message : '';
 
   return (
-    <div className="space-y-1.5">
+    <div className={cn('space-y-1.5', className)}>
       {label && (
-        <label className="block text-sm font-medium text-current" htmlFor={id}>
+        <label
+          className={cn('block text-sm font-medium text-current', labelClassName)}
+          htmlFor={id}
+        >
           {label}
-          {required && <span className="ml-1 text-red-500">*</span>}
+          {required && (
+            <span aria-hidden="true" className="ml-1 text-red-500">
+              *
+            </span>
+          )}
         </label>
       )}
       {children({
@@ -44,12 +61,15 @@ export function FormField<TValues extends FieldValues>({
           undefined,
       })}
       {description && (
-        <p className="text-xs text-muted-foreground" id={descriptionId}>
+        <p
+          className={cn('text-xs text-muted-foreground', descriptionClassName)}
+          id={descriptionId}
+        >
           {description}
         </p>
       )}
       {message && (
-        <p className="text-xs text-red-500" id={errorId}>
+        <p className={cn('text-xs text-red-500', errorClassName)} id={errorId}>
           {message}
         </p>
       )}

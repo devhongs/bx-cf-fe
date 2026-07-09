@@ -1,20 +1,25 @@
+import type * as React from 'react';
 import { type FieldPath, type FieldValues, useController } from 'react-hook-form';
 
-import { Input } from '../ui/input/Input';
+import { Textarea, type TextareaProps } from '../ui/textarea/Textarea';
 import { FormField } from './FormField';
-import type { FormInputProps } from './FormInput';
-import { buildFieldRules } from './rules';
+import { type FieldRuleProps, buildFieldRules } from './rules';
 
-export const normalizeAccountNo = (value: string) => value.replace(/[^0-9]/g, '');
+export type FormTextareaProps<TValues extends FieldValues = FieldValues> = Omit<
+  TextareaProps,
+  'name' | 'defaultValue' | 'required' | 'minLength' | 'maxLength'
+> &
+  FieldRuleProps<TValues> & {
+    name: FieldPath<TValues>;
+    label?: React.ReactNode;
+    description?: React.ReactNode;
+    fieldClassName?: string;
+    labelClassName?: string;
+    descriptionClassName?: string;
+    errorClassName?: string;
+  };
 
-export type FormAccountInputProps<TValues extends FieldValues = FieldValues> = Omit<
-  FormInputProps<TValues>,
-  'inputMode' | 'type'
-> & {
-  name: FieldPath<TValues>;
-};
-
-export function FormAccountInput<TValues extends FieldValues = FieldValues>({
+export function FormTextarea<TValues extends FieldValues = FieldValues>({
   name,
   label,
   description,
@@ -25,25 +30,19 @@ export function FormAccountInput<TValues extends FieldValues = FieldValues>({
   required,
   minLength,
   maxLength,
-  min,
-  max,
-  pattern,
   validate,
   deps,
   rules,
   onChange,
   onBlur,
   ...props
-}: FormAccountInputProps<TValues>) {
+}: FormTextareaProps<TValues>) {
   const { field } = useController<TValues>({
     name,
     rules: buildFieldRules({
       required,
       minLength,
       maxLength,
-      min,
-      max,
-      pattern,
       validate,
       deps,
       rules,
@@ -62,10 +61,9 @@ export function FormAccountInput<TValues extends FieldValues = FieldValues>({
       errorClassName={errorClassName}
     >
       {(fieldProps) => (
-        <Input
+        <Textarea
           {...props}
           {...fieldProps}
-          inputMode="numeric"
           name={field.name}
           ref={field.ref}
           value={field.value ?? ''}
@@ -74,7 +72,7 @@ export function FormAccountInput<TValues extends FieldValues = FieldValues>({
             onBlur?.(event);
           }}
           onChange={(event) => {
-            field.onChange(normalizeAccountNo(event.target.value));
+            field.onChange(event);
             onChange?.(event);
           }}
         />

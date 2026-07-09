@@ -1,7 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-import { Form, createUser, deleteUser, updateUser, useAppForm, userDetailQuery, userQueryKeys } from '@bx/shared';
+import {
+  Form,
+  FormInput,
+  FormSelect,
+  createUser,
+  deleteUser,
+  updateUser,
+  useAppForm,
+  userDetailQuery,
+  userQueryKeys,
+} from '@bx/shared';
 import type { ManagedUser, UserPayload, UserType, UseYn } from '@bx/shared';
 
 import { getApiErrorMessage } from '@/shared/lib/getApiErrorMessage';
@@ -10,6 +20,16 @@ import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
 import styles from '@/shared/ui/admin-form/AdminForm.module.css';
 
 const FORM_ID = 'admin-user-form';
+
+const userTypeOptions = [
+  { value: 'ADMIN', label: '관리자' },
+  { value: 'SERVICE', label: '서비스 사용자' },
+];
+
+const useYnOptions = [
+  { value: 'Y', label: '사용' },
+  { value: 'N', label: '중지' },
+];
 
 interface UserFormValues {
   usrId: string;
@@ -28,6 +48,18 @@ const toFormValues = (user?: ManagedUser): UserFormValues => ({
   deptName: user?.deptName ?? '',
   positDivName: user?.positDivName ?? '',
 });
+
+const toPayload = (values: UserFormValues): UserPayload => ({
+  usrId: values.usrId.trim(),
+  usrNm: values.usrNm.trim(),
+  userType: values.userType,
+  useYn: values.useYn,
+  deptName: values.deptName.trim() || undefined,
+  positDivName: values.positDivName.trim() || undefined,
+});
+
+const fieldClassName = (full = false) =>
+  full ? `${styles.field} ${styles.fieldFull}` : styles.field;
 
 interface UserFormDrawerProps {
   open: boolean;
@@ -50,13 +82,16 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
   });
   const user = detail ?? fallback;
 
-  const { form } = useAppForm<UserFormValues>({ defaultValues: toFormValues(user) });
+  const defaultValues = useMemo(() => toFormValues(user), [user]);
+  const { form } = useAppForm<UserFormValues>({
+    defaultValues,
+    resetOnDefaultValuesChange: true,
+  });
 
   useEffect(() => {
     if (!open) return;
-    form.reset(toFormValues(user));
     setSubmitError('');
-  }, [open, user, form]);
+  }, [open, user]);
 
   const saveMutation = useMutation({
     mutationFn: (payload: UserPayload) =>
@@ -67,14 +102,7 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
 
   const handleSubmit = async (values: UserFormValues) => {
     setSubmitError('');
-    const payload: UserPayload = {
-      usrId: values.usrId.trim(),
-      usrNm: values.usrNm.trim(),
-      userType: values.userType,
-      useYn: values.useYn,
-      deptName: values.deptName.trim() || undefined,
-      positDivName: values.positDivName.trim() || undefined,
-    };
+    const payload = toPayload(values);
 
     try {
       await saveMutation.mutateAsync(payload);
@@ -98,6 +126,9 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
       setSubmitError(getApiErrorMessage(error, '삭제에 실패했습니다.'));
     }
   };
+
+  const UserInput = FormInput<UserFormValues>;
+  const UserSelect = FormSelect<UserFormValues>;
 
   return (
     <AdminDrawer
@@ -125,42 +156,47 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
       }
     >
       <Form id={FORM_ID} form={form} className={styles.form} onSubmit={handleSubmit}>
-        <label className={styles.field}>
-          <span>아이디</span>
-          <input {...form.register('usrId', { required: true })} readOnly={isEdit} />
-          {form.formState.errors.usrId && (
-            <em className={styles.fieldError}>아이디를 입력하세요.</em>
-          )}
-        </label>
-        <label className={styles.field}>
-          <span>유형</span>
-          <select {...form.register('userType')}>
-            <option value="ADMIN">관리자</option>
-            <option value="SERVICE">서비스 사용자</option>
-          </select>
-        </label>
-        <label className={styles.field}>
-          <span>이름</span>
-          <input {...form.register('usrNm', { required: true })} />
-          {form.formState.errors.usrNm && (
-            <em className={styles.fieldError}>이름을 입력하세요.</em>
-          )}
-        </label>
-        <label className={styles.field}>
-          <span>사용여부</span>
-          <select {...form.register('useYn')}>
-            <option value="Y">사용</option>
-            <option value="N">중지</option>
-          </select>
-        </label>
-        <label className={styles.field}>
-          <span>부서</span>
-          <input {...form.register('deptName')} />
-        </label>
-        <label className={styles.field}>
-          <span>직책</span>
-          <input {...form.register('positDivName')} />
-        </label>
+        <UserInput
+          errorClassName={styles.fieldError}
+          fieldClassName={fieldClassName()}
+          label="아이디"
+          name="usrId"
+          readOnly={isEdit}
+          required
+        />
+        <UserSelect
+          errorClassName={styles.fieldError}
+          fieldClassName={fieldClassName()}
+          label="유형"
+          name="userType"
+          options={userTypeOptions}
+        />
+        <UserInput
+          errorClassName={styles.fieldError}
+          fieldClassName={fieldClassName()}
+          label="이름"
+          name="usrNm"
+          required
+        />
+        <UserSelect
+          errorClassName={styles.fieldError}
+          fieldClassName={fieldClassName()}
+          label="사용여부"
+          name="useYn"
+          options={useYnOptions}
+        />
+        <UserInput
+          errorClassName={styles.fieldError}
+          fieldClassName={fieldClassName()}
+          label="부서"
+          name="deptName"
+        />
+        <UserInput
+          errorClassName={styles.fieldError}
+          fieldClassName={fieldClassName()}
+          label="직책"
+          name="positDivName"
+        />
         {submitError && <p className={styles.formError}>{submitError}</p>}
       </Form>
     </AdminDrawer>

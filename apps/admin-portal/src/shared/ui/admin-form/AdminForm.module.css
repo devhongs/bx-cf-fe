@@ -14,7 +14,8 @@
   grid-column: 1 / -1;
 }
 
-.field > span {
+.field > span,
+.field > label {
   color: var(--muted);
   font-size: 0.72rem;
   font-weight: 800;

@@ -13,12 +13,20 @@ export type FormInputProps<TValues extends FieldValues = FieldValues> = Omit<
     name: FieldPath<TValues>;
     label?: React.ReactNode;
     description?: React.ReactNode;
+    fieldClassName?: string;
+    labelClassName?: string;
+    descriptionClassName?: string;
+    errorClassName?: string;
   };
 
 export function FormInput<TValues extends FieldValues = FieldValues>({
   name,
   label,
   description,
+  fieldClassName,
+  labelClassName,
+  descriptionClassName,
+  errorClassName,
   required,
   minLength,
   maxLength,
@@ -53,6 +61,10 @@ export function FormInput<TValues extends FieldValues = FieldValues>({
       label={label}
       description={description}
       required={Boolean(required)}
+      className={fieldClassName}
+      labelClassName={labelClassName}
+      descriptionClassName={descriptionClassName}
+      errorClassName={errorClassName}
     >
       {(fieldProps) => (
         <Input

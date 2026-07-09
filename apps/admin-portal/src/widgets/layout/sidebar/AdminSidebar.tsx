@@ -12,7 +12,14 @@ import {
 import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 
-import { logout as requestLogout, useAuthStore } from '@bx/shared';
+import {
+  Popover,
+  PopoverClose,
+  PopoverPrimitive,
+  PopoverTrigger,
+  logout as requestLogout,
+  useAuthStore,
+} from '@bx/shared';
 
 import styles from './AdminSidebar.module.css';
 
@@ -101,41 +108,55 @@ export function AdminSidebar() {
         ))}
       </nav>
 
-      <div className={styles.accountArea}>
-        <button
-          type="button"
-          className={styles.profileButton}
-          onClick={() => navigate({ to: '/profile' })}
-          title="프로필"
-        >
-          <span className={styles.avatar}>
-            <UserRound size={16} />
-          </span>
-          <span className={styles.profileInfo}>
-            <span className={styles.profileName}>{user?.usrNm || '관리자'}</span>
-            <span className={styles.profileId}>{user?.usrId || 'admin'}</span>
-          </span>
-        </button>
-
-        <div className={styles.accountActions}>
-          <button
-            type="button"
-            className={styles.accountIconButton}
-            onClick={toggleTheme}
-            title={theme === 'dark' ? '라이트 테마' : '다크 테마'}
-          >
-            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-          </button>
-          <button
-            type="button"
-            className={styles.accountIconButton}
-            onClick={() => void handleLogout()}
-            title="로그아웃"
-          >
-            <LogOut size={16} />
-          </button>
+      <Popover>
+        <div className={styles.accountArea}>
+          <PopoverTrigger asChild>
+            <button type="button" className={styles.profileButton} aria-label="프로필" title="프로필">
+              <span className={styles.avatar}>
+                <UserRound size={16} />
+              </span>
+              <span className={styles.profileInfo}>
+                <span className={styles.profileName}>{user?.usrNm || '관리자'}</span>
+                <span className={styles.profileId}>{user?.usrId || 'admin'}</span>
+              </span>
+            </button>
+          </PopoverTrigger>
         </div>
-      </div>
+
+        <PopoverPrimitive.Portal>
+          <PopoverPrimitive.Content
+            side="top"
+            align="start"
+            sideOffset={12}
+            className={styles.accountPopover}
+          >
+            <PopoverClose asChild>
+              <button
+                type="button"
+                className={styles.accountMenuItem}
+                aria-label={theme === 'dark' ? '라이트 테마' : '다크 테마'}
+                onClick={toggleTheme}
+                title={theme === 'dark' ? '라이트 테마' : '다크 테마'}
+              >
+                {theme === 'dark' ? <Sun size={13} /> : <Moon size={13} />}
+                <span>{theme === 'dark' ? '라이트 테마' : '다크 테마'}</span>
+              </button>
+            </PopoverClose>
+            <PopoverClose asChild>
+              <button
+                type="button"
+                className={styles.accountMenuItem}
+                aria-label="로그아웃"
+                onClick={() => void handleLogout()}
+                title="로그아웃"
+              >
+                <LogOut size={13} />
+                <span>로그아웃</span>
+              </button>
+            </PopoverClose>
+          </PopoverPrimitive.Content>
+        </PopoverPrimitive.Portal>
+      </Popover>
     </aside>
   );
 }

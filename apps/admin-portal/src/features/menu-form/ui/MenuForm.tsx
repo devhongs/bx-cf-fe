@@ -1,56 +1,107 @@
-import { Form } from '@bx/shared';
-import type { UseAppFormReturn } from '@bx/shared';
+import { Form, FormInput, FormSelect, useAppForm } from '@bx/shared';
 
-import type { MenuFormValues } from '../model/menu-form.type';
+import type { MenuFormPayload, MenuFormValues } from '../model/menu-form.type';
 
 import styles from '@/shared/ui/admin-form/AdminForm.module.css';
 
+const emptyDefaultValues: MenuFormValues = {
+  menuCd: '',
+  menuNm: '',
+  menuType: 'MENU',
+  path: '',
+  sortSeq: '',
+  visibleYn: 'Y',
+};
+
 interface MenuFormProps {
   id: string;
-  form: UseAppFormReturn<MenuFormValues>['form'];
+  defaultValues?: MenuFormValues;
   submitError?: string;
-  onSubmit: (values: MenuFormValues) => void | Promise<void>;
+  onSubmit: (payload: MenuFormPayload) => void | Promise<void>;
 }
 
-export function MenuForm({ id, form, submitError, onSubmit }: MenuFormProps) {
+const menuTypeOptions = [
+  { value: 'MENU', label: '메뉴' },
+  { value: 'PAGE', label: '화면' },
+];
+
+const visibleOptions = [
+  { value: 'Y', label: '노출' },
+  { value: 'N', label: '숨김' },
+];
+
+const fieldClassName = (full = false) =>
+  full ? `${styles.field} ${styles.fieldFull}` : styles.field;
+
+const toPayload = (values: MenuFormValues): MenuFormPayload => ({
+  menuCd: values.menuCd.trim(),
+  menuNm: values.menuNm.trim(),
+  menuType: values.menuType,
+  path: values.path.trim() || undefined,
+  sortSeq: values.sortSeq === '' ? undefined : Number(values.sortSeq),
+  visibleYn: values.visibleYn,
+});
+
+export function MenuForm({
+  id,
+  defaultValues = emptyDefaultValues,
+  submitError,
+  onSubmit,
+}: MenuFormProps) {
+  const { form } = useAppForm<MenuFormValues>({
+    defaultValues,
+    resetOnDefaultValuesChange: true,
+  });
+
+  const MenuInput = FormInput<MenuFormValues>;
+  const MenuSelect = FormSelect<MenuFormValues>;
+
+  const handleSubmit = (values: MenuFormValues) => onSubmit(toPayload(values));
+
   return (
-    <Form id={id} form={form} className={styles.form} onSubmit={onSubmit}>
-      <label className={styles.field}>
-        <span>메뉴코드</span>
-        <input {...form.register('menuCd', { required: true })} />
-        {form.formState.errors.menuCd && (
-          <em className={styles.fieldError}>메뉴코드를 입력하세요.</em>
-        )}
-      </label>
-      <label className={styles.field}>
-        <span>메뉴유형</span>
-        <select {...form.register('menuType')}>
-          <option value="MENU">메뉴</option>
-          <option value="PAGE">화면</option>
-        </select>
-      </label>
-      <label className={`${styles.field} ${styles.fieldFull}`}>
-        <span>메뉴명</span>
-        <input {...form.register('menuNm', { required: true })} />
-        {form.formState.errors.menuNm && (
-          <em className={styles.fieldError}>메뉴명을 입력하세요.</em>
-        )}
-      </label>
-      <label className={`${styles.field} ${styles.fieldFull}`}>
-        <span>경로</span>
-        <input {...form.register('path')} placeholder="/example" />
-      </label>
-      <label className={styles.field}>
-        <span>정렬</span>
-        <input type="number" {...form.register('sortSeq')} />
-      </label>
-      <label className={styles.field}>
-        <span>노출여부</span>
-        <select {...form.register('visibleYn')}>
-          <option value="Y">노출</option>
-          <option value="N">숨김</option>
-        </select>
-      </label>
+    <Form id={id} form={form} className={styles.form} onSubmit={handleSubmit}>
+      <MenuInput
+        errorClassName={styles.fieldError}
+        fieldClassName={fieldClassName()}
+        label="메뉴코드"
+        name="menuCd"
+        required
+      />
+      <MenuSelect
+        errorClassName={styles.fieldError}
+        fieldClassName={fieldClassName()}
+        label="메뉴유형"
+        name="menuType"
+        options={menuTypeOptions}
+      />
+      <MenuInput
+        errorClassName={styles.fieldError}
+        fieldClassName={fieldClassName(true)}
+        label="메뉴명"
+        name="menuNm"
+        required
+      />
+      <MenuInput
+        errorClassName={styles.fieldError}
+        fieldClassName={fieldClassName(true)}
+        label="경로"
+        name="path"
+        placeholder="/example"
+      />
+      <MenuInput
+        errorClassName={styles.fieldError}
+        fieldClassName={fieldClassName()}
+        label="정렬"
+        name="sortSeq"
+        type="number"
+      />
+      <MenuSelect
+        errorClassName={styles.fieldError}
+        fieldClassName={fieldClassName()}
+        label="노출여부"
+        name="visibleYn"
+        options={visibleOptions}
+      />
       {submitError && <p className={styles.formError}>{submitError}</p>}
     </Form>
   );

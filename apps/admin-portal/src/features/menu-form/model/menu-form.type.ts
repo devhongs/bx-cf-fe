@@ -1,3 +1,5 @@
+import type { MenuPayload } from '@bx/shared';
+
 export interface MenuFormValues {
   menuCd: string;
   menuNm: string;
@@ -6,3 +8,5 @@ export interface MenuFormValues {
   sortSeq: string;
   visibleYn: string;
 }
+
+export type MenuFormPayload = MenuPayload;

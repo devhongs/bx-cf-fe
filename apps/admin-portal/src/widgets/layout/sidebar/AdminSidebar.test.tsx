@@ -34,13 +34,17 @@ describe('AdminSidebar', () => {
     expect(navigate).toHaveBeenNthCalledWith(3, expect.objectContaining({ to: '/users' }));
   });
 
-  it('keeps account actions in the sidebar footer', () => {
+  it('shows theme and logout actions in the profile popover', () => {
     render(<AdminSidebar />);
 
     expect(screen.getByTitle('프로필')).toBeTruthy();
-    expect(screen.getByTitle('로그아웃')).toBeTruthy();
+    expect(screen.queryByRole('button', { name: '로그아웃' })).toBeNull();
+    expect(screen.queryByRole('button', { name: '라이트 테마' })).toBeNull();
 
-    fireEvent.click(screen.getByTitle('라이트 테마'));
+    fireEvent.click(screen.getByRole('button', { name: '프로필' }));
+    expect(screen.getByRole('button', { name: '로그아웃' })).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: '라이트 테마' }));
 
     expect(document.documentElement.dataset.adminTheme).toBe('light');
   });

@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-import { createMenu, deleteMenu, menuDetailQuery, menuQueryKeys, updateMenu, useAppForm } from '@bx/shared';
+import { createMenu, deleteMenu, menuDetailQuery, menuQueryKeys, updateMenu } from '@bx/shared';
 import type { Menu, MenuPayload } from '@bx/shared';
 
 import { getApiErrorMessage } from '@/shared/lib/getApiErrorMessage';
 import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
-import type { MenuFormValues } from '../model/menu-form.type';
+import type { MenuFormPayload, MenuFormValues } from '../model/menu-form.type';
 import { MenuForm } from './MenuForm';
 
 import styles from '@/shared/ui/admin-form/AdminForm.module.css';
@@ -43,13 +43,12 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
   });
   const menu = detail ?? fallback;
 
-  const { form } = useAppForm<MenuFormValues>({ defaultValues: toFormValues(menu) });
+  const defaultValues = useMemo(() => toFormValues(menu), [menu]);
 
   useEffect(() => {
     if (!open) return;
-    form.reset(toFormValues(menu));
     setSubmitError('');
-  }, [open, menu, form]);
+  }, [open, menu]);
 
   const saveMutation = useMutation({
     mutationFn: (payload: MenuPayload) =>
@@ -58,20 +57,12 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
   const deleteMutation = useMutation({ mutationFn: (id: number) => deleteMenu(id) });
   const pending = saveMutation.isPending || deleteMutation.isPending;
 
-  const handleSubmit = async (values: MenuFormValues) => {
+  const handleSubmit = async (payload: MenuFormPayload) => {
     setSubmitError('');
-    const payload: MenuPayload = {
-      menuId: isEdit ? menuId : undefined,
-      menuCd: values.menuCd.trim(),
-      menuNm: values.menuNm.trim(),
-      menuType: values.menuType,
-      path: values.path.trim() || undefined,
-      sortSeq: values.sortSeq === '' ? undefined : Number(values.sortSeq),
-      visibleYn: values.visibleYn,
-    };
+    const nextPayload: MenuPayload = isEdit ? { ...payload, menuId } : payload;
 
     try {
-      await saveMutation.mutateAsync(payload);
+      await saveMutation.mutateAsync(nextPayload);
       await queryClient.invalidateQueries({ queryKey: menuQueryKeys.all });
       onClose();
     } catch (error) {
@@ -118,7 +109,12 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
         </>
       }
     >
-      <MenuForm id={FORM_ID} form={form} submitError={submitError} onSubmit={handleSubmit} />
+      <MenuForm
+        id={FORM_ID}
+        defaultValues={defaultValues}
+        submitError={submitError}
+        onSubmit={handleSubmit}
+      />
     </AdminDrawer>
   );
 }
