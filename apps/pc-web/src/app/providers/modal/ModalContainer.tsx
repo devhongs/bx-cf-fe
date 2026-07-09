@@ -64,7 +64,7 @@ export function ModalContainer({ index = 0, ...config }: ModalContainerProps) {
         className="border-border bg-surface text-foreground max-w-xl"
         style={{ zIndex: 200 + index }}
         hideClose
-      >
+      > 
         <Suspense
           fallback={
             <div className="flex h-40 items-center justify-center text-sm text-faint">
