@@ -3,21 +3,17 @@ import { useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 
 import {
-  Form,
-  FormInput,
-  FormSelect,
-  FormTextarea,
   commonCodeGroupDetailQuery,
   commonCodeQueryKeys,
   createCommonCodeGroup,
   deleteCommonCodeGroup,
   updateCommonCodeGroup,
-  useAppForm,
 } from '@bx/shared';
 import type { CommonCodeGroup, CommonCodeGroupPayload } from '@bx/shared';
 
 import { getApiErrorMessage } from '@/shared/lib/getApiErrorMessage';
 import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
+import { AppForm, useAppForm } from '@/shared/ui/admin-form';
 
 import styles from '@/shared/ui/admin-form/AdminForm.module.css';
 
@@ -49,8 +45,7 @@ const toPayload = (values: CodeGroupFormValues): CommonCodeGroupPayload => ({
   useYn: values.useYn,
 });
 
-const fieldClassName = (full = false) =>
-  full ? `${styles.field} ${styles.fieldFull}` : styles.field;
+const fullFieldClassName = `${styles.field} ${styles.fieldFull}`;
 
 interface CodeGroupFormDrawerProps {
   open: boolean;
@@ -82,9 +77,8 @@ export function CodeGroupFormDrawer({
   const group = detailData?.[0] ?? fallback;
 
   const defaultValues = useMemo(() => toFormValues(group), [group]);
-  const { form } = useAppForm<CodeGroupFormValues>({
+  const { form, FormInput, FormSelect, FormTextarea } = useAppForm<CodeGroupFormValues>({
     defaultValues,
-    resetOnDefaultValuesChange: true,
   });
 
   useEffect(() => {
@@ -128,10 +122,6 @@ export function CodeGroupFormDrawer({
     }
   };
 
-  const CodeGroupInput = FormInput<CodeGroupFormValues>;
-  const CodeGroupSelect = FormSelect<CodeGroupFormValues>;
-  const CodeGroupTextarea = FormTextarea<CodeGroupFormValues>;
-
   return (
     <AdminDrawer
       open={open}
@@ -157,37 +147,13 @@ export function CodeGroupFormDrawer({
         </>
       }
     >
-      <Form id={FORM_ID} form={form} className={styles.form} onSubmit={handleSubmit}>
-        <CodeGroupInput
-          errorClassName={styles.fieldError}
-          fieldClassName={fieldClassName()}
-          label="그룹코드"
-          name="groupCd"
-          readOnly={isEdit}
-          required
-        />
-        <CodeGroupSelect
-          errorClassName={styles.fieldError}
-          fieldClassName={fieldClassName()}
-          label="사용여부"
-          name="useYn"
-          options={useYnOptions}
-        />
-        <CodeGroupInput
-          errorClassName={styles.fieldError}
-          fieldClassName={fieldClassName(true)}
-          label="그룹명"
-          name="groupNm"
-          required
-        />
-        <CodeGroupTextarea
-          errorClassName={styles.fieldError}
-          fieldClassName={fieldClassName(true)}
-          label="설명"
-          name="groupDesc"
-        />
+      <AppForm id={FORM_ID} form={form} onSubmit={handleSubmit}>
+        <FormInput label="그룹코드" name="groupCd" readOnly={isEdit} required />
+        <FormSelect label="사용여부" name="useYn" options={useYnOptions} />
+        <FormInput label="그룹명" name="groupNm" required fieldClassName={fullFieldClassName} />
+        <FormTextarea label="설명" name="groupDesc" fieldClassName={fullFieldClassName} />
         {submitError && <p className={styles.formError}>{submitError}</p>}
-      </Form>
+      </AppForm>
       {children}
     </AdminDrawer>
   );

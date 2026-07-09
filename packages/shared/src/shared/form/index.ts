@@ -1,4 +1,5 @@
 export * from './Form';
+export * from './form-style-context';
 export * from './FormAccountInput';
 export * from './FormField';
 export * from './FormInput';
@@ -7,4 +8,4 @@ export * from './FormSubmitButton';
 export * from './FormTextarea';
 export * from './messages';
 export * from './rules';
-export * from './useAppForm';
+export * from './useBaseForm';

@@ -1,4 +1,6 @@
-import { Form, FormInput, FormSelect, FormSubmitButton, useAppForm, validators } from '@bx/shared';
+import { FormSubmitButton, validators } from '@bx/shared';
+
+import { AppForm, useAppForm } from '@/shared/ui/app-form';
 
 export interface SignupFormValues {
   userId: string;
@@ -25,41 +27,24 @@ const emptyDefaultValues: SignupFormValues = {
   userType: '',
 };
 
-const controlClassName = 'border-border bg-surface text-foreground placeholder:text-faint';
-
 export function SignupForm({ defaultValues = emptyDefaultValues, onSubmit }: SignupFormProps) {
-  const { form } = useAppForm<SignupFormValues>({ defaultValues });
+  const { form, FormInput, FormSelect } = useAppForm<SignupFormValues>({ defaultValues });
 
   const handleSubmit = ({ passwordConfirm: _passwordConfirm, ...payload }: SignupFormValues) =>
     onSubmit(payload);
 
   return (
-    <Form className="space-y-5" form={form} onSubmit={handleSubmit}>
-      <FormInput<SignupFormValues>
-        className={controlClassName}
-        label="아이디"
-        name="userId"
-        placeholder="tester01"
-        required
-        minLength={4}
-      />
-      <FormInput<SignupFormValues>
-        className={controlClassName}
-        label="이름"
-        name="name"
-        placeholder="홍길동"
-        required
-      />
-      <FormInput<SignupFormValues>
-        className={controlClassName}
+    <AppForm className="space-y-5" form={form} onSubmit={handleSubmit}>
+      <FormInput label="아이디" name="userId" placeholder="tester01" required minLength={4} />
+      <FormInput label="이름" name="name" placeholder="홍길동" required />
+      <FormInput
         label="이메일"
         name="email"
         placeholder="tester@example.com"
         required
         validate={validators.email}
       />
-      <FormInput<SignupFormValues>
-        className={controlClassName}
+      <FormInput
         label="비밀번호"
         name="password"
         placeholder="8자 이상"
@@ -68,8 +53,7 @@ export function SignupForm({ defaultValues = emptyDefaultValues, onSubmit }: Sig
         type="password"
         deps={['passwordConfirm']}
       />
-      <FormInput<SignupFormValues>
-        className={controlClassName}
+      <FormInput
         label="비밀번호 확인"
         name="passwordConfirm"
         placeholder="비밀번호 재입력"
@@ -77,8 +61,7 @@ export function SignupForm({ defaultValues = emptyDefaultValues, onSubmit }: Sig
         type="password"
         validate={(value, values) => value === values.password || '비밀번호가 일치하지 않습니다.'}
       />
-      <FormSelect<SignupFormValues>
-        className={controlClassName}
+      <FormSelect
         label="가입 유형"
         name="userType"
         options={[
@@ -94,6 +77,6 @@ export function SignupForm({ defaultValues = emptyDefaultValues, onSubmit }: Sig
           가입하기
         </FormSubmitButton>
       </div>
-    </Form>
+    </AppForm>
   );
 }

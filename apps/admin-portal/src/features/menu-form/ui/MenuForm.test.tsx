@@ -5,8 +5,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { VALIDATION_MESSAGES } from '@bx/shared';
 
-import { MenuForm } from './MenuForm';
 import type { MenuFormValues } from '../model/menu-form.type';
+import { MenuForm } from './MenuForm';
 
 const defaultValues: MenuFormValues = {
   menuCd: '',

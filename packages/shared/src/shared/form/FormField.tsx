@@ -61,10 +61,7 @@ export function FormField<TValues extends FieldValues>({
           undefined,
       })}
       {description && (
-        <p
-          className={cn('text-xs text-muted-foreground', descriptionClassName)}
-          id={descriptionId}
-        >
+        <p className={cn('text-xs text-muted-foreground', descriptionClassName)} id={descriptionId}>
           {description}
         </p>
       )}

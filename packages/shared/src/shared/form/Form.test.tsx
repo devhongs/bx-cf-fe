@@ -9,7 +9,7 @@ import { FormSelect } from './FormSelect';
 import { FormSubmitButton } from './FormSubmitButton';
 import { VALIDATION_MESSAGES } from './messages';
 import { validators } from './rules';
-import { useAppForm } from './useAppForm';
+import { useBaseForm } from './useBaseForm';
 
 interface SignupValues {
   userId: string;
@@ -68,7 +68,7 @@ function TestSignupForm({ onSubmit }: { onSubmit: (values: SignupValues) => void
 }
 
 function TestResettableForm({ defaultValues }: { defaultValues: SignupValues }) {
-  const { form, resetToDefaultValues } = useAppForm<SignupValues>({ defaultValues });
+  const { form, resetToDefaultValues } = useBaseForm<SignupValues>({ defaultValues });
 
   return (
     <Form form={form} onSubmit={vi.fn()}>

@@ -1,4 +1,4 @@
-import { Form, FormInput, FormSelect, useAppForm } from '@bx/shared';
+import { AppForm, useAppForm } from '@/shared/ui/admin-form';
 
 import type { MenuFormPayload, MenuFormValues } from '../model/menu-form.type';
 
@@ -30,8 +30,7 @@ const visibleOptions = [
   { value: 'N', label: '숨김' },
 ];
 
-const fieldClassName = (full = false) =>
-  full ? `${styles.field} ${styles.fieldFull}` : styles.field;
+const fullFieldClassName = `${styles.field} ${styles.fieldFull}`;
 
 const toPayload = (values: MenuFormValues): MenuFormPayload => ({
   menuCd: values.menuCd.trim(),
@@ -48,61 +47,24 @@ export function MenuForm({
   submitError,
   onSubmit,
 }: MenuFormProps) {
-  const { form } = useAppForm<MenuFormValues>({
-    defaultValues,
-    resetOnDefaultValuesChange: true,
-  });
-
-  const MenuInput = FormInput<MenuFormValues>;
-  const MenuSelect = FormSelect<MenuFormValues>;
+  const { form, FormInput, FormSelect } = useAppForm<MenuFormValues>({ defaultValues });
 
   const handleSubmit = (values: MenuFormValues) => onSubmit(toPayload(values));
 
   return (
-    <Form id={id} form={form} className={styles.form} onSubmit={handleSubmit}>
-      <MenuInput
-        errorClassName={styles.fieldError}
-        fieldClassName={fieldClassName()}
-        label="메뉴코드"
-        name="menuCd"
-        required
-      />
-      <MenuSelect
-        errorClassName={styles.fieldError}
-        fieldClassName={fieldClassName()}
-        label="메뉴유형"
-        name="menuType"
-        options={menuTypeOptions}
-      />
-      <MenuInput
-        errorClassName={styles.fieldError}
-        fieldClassName={fieldClassName(true)}
-        label="메뉴명"
-        name="menuNm"
-        required
-      />
-      <MenuInput
-        errorClassName={styles.fieldError}
-        fieldClassName={fieldClassName(true)}
+    <AppForm id={id} form={form} onSubmit={handleSubmit}>
+      <FormInput label="메뉴코드" name="menuCd" required />
+      <FormSelect label="메뉴유형" name="menuType" options={menuTypeOptions} />
+      <FormInput label="메뉴명" name="menuNm" required fieldClassName={fullFieldClassName} />
+      <FormInput
         label="경로"
         name="path"
         placeholder="/example"
+        fieldClassName={fullFieldClassName}
       />
-      <MenuInput
-        errorClassName={styles.fieldError}
-        fieldClassName={fieldClassName()}
-        label="정렬"
-        name="sortSeq"
-        type="number"
-      />
-      <MenuSelect
-        errorClassName={styles.fieldError}
-        fieldClassName={fieldClassName()}
-        label="노출여부"
-        name="visibleYn"
-        options={visibleOptions}
-      />
+      <FormInput label="정렬" name="sortSeq" type="number" />
+      <FormSelect label="노출여부" name="visibleYn" options={visibleOptions} />
       {submitError && <p className={styles.formError}>{submitError}</p>}
-    </Form>
+    </AppForm>
   );
 }

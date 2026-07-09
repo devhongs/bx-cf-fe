@@ -54,8 +54,20 @@ const managementCards = [
 
 const changeRows = [
   { type: '코드', target: 'USE_YN', actor: 'admin.ops', time: '오늘 09:40', status: '완료' },
-  { type: '메뉴', target: '관리자 메뉴 정렬', actor: 'hongsik.yoo', time: '어제 17:12', status: '완료' },
-  { type: '사용자', target: 'admin.ops', actor: 'system.admin', time: '어제 15:28', status: '완료' },
+  {
+    type: '메뉴',
+    target: '관리자 메뉴 정렬',
+    actor: 'hongsik.yoo',
+    time: '어제 17:12',
+    status: '완료',
+  },
+  {
+    type: '사용자',
+    target: 'admin.ops',
+    actor: 'system.admin',
+    time: '어제 15:28',
+    status: '완료',
+  },
   { type: '권한', target: 'ROLE_MANAGER', actor: 'admin.ops', time: '07-08 10:05', status: '검토' },
 ];
 
@@ -90,7 +102,12 @@ export function DashboardPage() {
               <span>최근 7일 변경 추이</span>
               <strong>+12</strong>
             </div>
-            <svg className={styles.dashboardSparkline} viewBox="0 0 220 82" role="img" aria-label="최근 7일 변경 추이">
+            <svg
+              className={styles.dashboardSparkline}
+              viewBox="0 0 220 82"
+              role="img"
+              aria-label="최근 7일 변경 추이"
+            >
               <path d="M10 63 L42 51 L74 55 L106 34 L138 40 L170 24 L210 18" />
               <circle cx="210" cy="18" r="4" />
             </svg>
@@ -134,7 +151,10 @@ export function DashboardPage() {
                   <strong>{card.value}</strong>
                   <span>{card.subValue}</span>
                 </div>
-                <div className={styles.dashboardProgress} aria-label={`${card.title} 진행률 ${card.progress}%`}>
+                <div
+                  className={styles.dashboardProgress}
+                  aria-label={`${card.title} 진행률 ${card.progress}%`}
+                >
                   <span style={{ width: `${card.progress}%` }} />
                 </div>
                 <ul className={styles.dashboardMiniList}>

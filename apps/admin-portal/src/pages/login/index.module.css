@@ -2,9 +2,7 @@
   display: grid;
   grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 440px);
   min-height: 100vh;
-  background:
-    linear-gradient(120deg, rgba(70, 208, 191, 0.14), transparent 36%),
-    var(--background);
+  background: linear-gradient(120deg, rgba(70, 208, 191, 0.14), transparent 36%), var(--background);
 }
 
 .panel {
@@ -13,9 +11,11 @@
   justify-content: center;
   padding: clamp(28px, 7vw, 72px);
   border-right: 1px solid var(--border);
-  background:
-    linear-gradient(160deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 42%),
-    var(--surface);
+  background: linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--accent) 12%, transparent),
+      transparent 42%
+    ), var(--surface);
 }
 
 .brand {

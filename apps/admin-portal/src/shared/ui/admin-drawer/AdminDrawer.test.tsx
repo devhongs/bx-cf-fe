@@ -149,9 +149,11 @@ describe('AdminDrawer', () => {
       </AdminDrawer>,
     );
 
-    expect(screen.getByRole('dialog', { name: '코드 상세' }).style.getPropertyValue('--admin-drawer-width')).toBe(
-      '640px',
-    );
+    expect(
+      screen
+        .getByRole('dialog', { name: '코드 상세' })
+        .style.getPropertyValue('--admin-drawer-width'),
+    ).toBe('640px');
   });
 
   it('does not leave a placeholder panel when closed', () => {

@@ -3,6 +3,7 @@ import { type FieldPath, type FieldValues, useController } from 'react-hook-form
 
 import { Input, type InputProps } from '../ui/input/Input';
 import { FormField } from './FormField';
+import { useFormFieldStyle } from './form-style-context';
 import { type FieldRuleProps, buildFieldRules } from './rules';
 
 export type FormInputProps<TValues extends FieldValues = FieldValues> = Omit<
@@ -23,6 +24,7 @@ export function FormInput<TValues extends FieldValues = FieldValues>({
   name,
   label,
   description,
+  className,
   fieldClassName,
   labelClassName,
   descriptionClassName,
@@ -40,6 +42,7 @@ export function FormInput<TValues extends FieldValues = FieldValues>({
   onBlur,
   ...props
 }: FormInputProps<TValues>) {
+  const style = useFormFieldStyle();
   const { field } = useController<TValues>({
     name,
     rules: buildFieldRules({
@@ -61,15 +64,16 @@ export function FormInput<TValues extends FieldValues = FieldValues>({
       label={label}
       description={description}
       required={Boolean(required)}
-      className={fieldClassName}
-      labelClassName={labelClassName}
-      descriptionClassName={descriptionClassName}
-      errorClassName={errorClassName}
+      className={fieldClassName ?? style.fieldClassName}
+      labelClassName={labelClassName ?? style.labelClassName}
+      descriptionClassName={descriptionClassName ?? style.descriptionClassName}
+      errorClassName={errorClassName ?? style.errorClassName}
     >
       {(fieldProps) => (
         <Input
           {...props}
           {...fieldProps}
+          className={className ?? style.controlClassName}
           name={field.name}
           ref={field.ref}
           value={field.value ?? ''}

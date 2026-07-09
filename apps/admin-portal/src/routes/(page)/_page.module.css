@@ -4,8 +4,7 @@
   height: 100vh;
   min-height: 100vh;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 18% 0%, rgba(70, 208, 191, 0.1), transparent 28%),
+  background: radial-gradient(circle at 18% 0%, rgba(70, 208, 191, 0.1), transparent 28%),
     linear-gradient(135deg, var(--background-deep), var(--background));
 }
 

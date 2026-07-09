@@ -1,21 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 
-import {
-  Form,
-  FormInput,
-  FormSelect,
-  createUser,
-  deleteUser,
-  updateUser,
-  useAppForm,
-  userDetailQuery,
-  userQueryKeys,
-} from '@bx/shared';
-import type { ManagedUser, UserPayload, UserType, UseYn } from '@bx/shared';
+import { createUser, deleteUser, updateUser, userDetailQuery, userQueryKeys } from '@bx/shared';
+import type { ManagedUser, UseYn, UserPayload, UserType } from '@bx/shared';
 
 import { getApiErrorMessage } from '@/shared/lib/getApiErrorMessage';
 import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
+import { AppForm, useAppForm } from '@/shared/ui/admin-form';
 
 import styles from '@/shared/ui/admin-form/AdminForm.module.css';
 
@@ -58,9 +49,6 @@ const toPayload = (values: UserFormValues): UserPayload => ({
   positDivName: values.positDivName.trim() || undefined,
 });
 
-const fieldClassName = (full = false) =>
-  full ? `${styles.field} ${styles.fieldFull}` : styles.field;
-
 interface UserFormDrawerProps {
   open: boolean;
   /** 수정 대상 사용자 id. 없으면 등록 모드 */
@@ -83,10 +71,7 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
   const user = detail ?? fallback;
 
   const defaultValues = useMemo(() => toFormValues(user), [user]);
-  const { form } = useAppForm<UserFormValues>({
-    defaultValues,
-    resetOnDefaultValuesChange: true,
-  });
+  const { form, FormInput, FormSelect } = useAppForm<UserFormValues>({ defaultValues });
 
   useEffect(() => {
     if (!open) return;
@@ -127,9 +112,6 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
     }
   };
 
-  const UserInput = FormInput<UserFormValues>;
-  const UserSelect = FormSelect<UserFormValues>;
-
   return (
     <AdminDrawer
       open={open}
@@ -155,50 +137,15 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
         </>
       }
     >
-      <Form id={FORM_ID} form={form} className={styles.form} onSubmit={handleSubmit}>
-        <UserInput
-          errorClassName={styles.fieldError}
-          fieldClassName={fieldClassName()}
-          label="아이디"
-          name="usrId"
-          readOnly={isEdit}
-          required
-        />
-        <UserSelect
-          errorClassName={styles.fieldError}
-          fieldClassName={fieldClassName()}
-          label="유형"
-          name="userType"
-          options={userTypeOptions}
-        />
-        <UserInput
-          errorClassName={styles.fieldError}
-          fieldClassName={fieldClassName()}
-          label="이름"
-          name="usrNm"
-          required
-        />
-        <UserSelect
-          errorClassName={styles.fieldError}
-          fieldClassName={fieldClassName()}
-          label="사용여부"
-          name="useYn"
-          options={useYnOptions}
-        />
-        <UserInput
-          errorClassName={styles.fieldError}
-          fieldClassName={fieldClassName()}
-          label="부서"
-          name="deptName"
-        />
-        <UserInput
-          errorClassName={styles.fieldError}
-          fieldClassName={fieldClassName()}
-          label="직책"
-          name="positDivName"
-        />
+      <AppForm id={FORM_ID} form={form} onSubmit={handleSubmit}>
+        <FormInput label="아이디" name="usrId" readOnly={isEdit} required />
+        <FormSelect label="유형" name="userType" options={userTypeOptions} />
+        <FormInput label="이름" name="usrNm" required />
+        <FormSelect label="사용여부" name="useYn" options={useYnOptions} />
+        <FormInput label="부서" name="deptName" />
+        <FormInput label="직책" name="positDivName" />
         {submitError && <p className={styles.formError}>{submitError}</p>}
-      </Form>
+      </AppForm>
     </AdminDrawer>
   );
 }

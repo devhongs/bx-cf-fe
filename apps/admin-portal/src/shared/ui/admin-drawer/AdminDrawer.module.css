@@ -7,7 +7,7 @@
   animation: scrimEnter 0.16s ease-out;
 }
 
-.scrim[data-admin-state='closing'] {
+.scrim[data-admin-state="closing"] {
   animation: scrimExit 0.16s ease-in forwards;
 }
 
@@ -28,7 +28,7 @@
   animation: drawerEnter 0.16s ease-out;
 }
 
-.drawer[data-admin-state='closing'] {
+.drawer[data-admin-state="closing"] {
   pointer-events: none;
   animation: drawerExit 0.16s ease-in forwards;
 }
@@ -55,7 +55,7 @@
   height: 44px;
   border-radius: 999px;
   background: transparent;
-  content: '';
+  content: "";
   transform: translateY(-50%);
   transition: background 0.14s ease;
 }
@@ -165,9 +165,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .scrim,
-  .scrim[data-admin-state='closing'],
+  .scrim[data-admin-state="closing"],
   .drawer,
-  .drawer[data-admin-state='closing'] {
+  .drawer[data-admin-state="closing"] {
     animation-duration: 0.01ms;
   }
 }

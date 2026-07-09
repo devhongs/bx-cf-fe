@@ -1,4 +1,6 @@
-import { Form, FormInput, FormSubmitButton, useAppForm } from '@bx/shared';
+import { FormSubmitButton } from '@bx/shared';
+
+import { AppForm, useAppForm } from '@/shared/ui/app-form';
 
 import styles from './LoginForm.module.css';
 
@@ -20,11 +22,9 @@ const emptyDefaultValues: LoginFormValues = {
 };
 
 export function LoginForm({ defaultValues = emptyDefaultValues, onSubmit }: LoginFormProps) {
-  const { form } = useAppForm<LoginFormValues>({
+  const { form, FormInput } = useAppForm<LoginFormValues>({
     defaultValues,
   });
-
-  const LoginInput = FormInput<LoginFormValues>;
 
   return (
     <div className={styles.page}>
@@ -41,15 +41,15 @@ export function LoginForm({ defaultValues = emptyDefaultValues, onSubmit }: Logi
 
         {/* 우측 영역 */}
         <div className={styles.right}>
-          <Form className={styles.form} form={form} onSubmit={onSubmit}>
-            <LoginInput
+          <AppForm className={styles.form} form={form} onSubmit={onSubmit}>
+            <FormInput
               className={styles.input}
               name="usrId"
               placeholder="이메일 또는 아이디"
               required
               autoFocus
             />
-            <LoginInput
+            <FormInput
               className={styles.input}
               name="password"
               placeholder="비밀번호"
@@ -74,7 +74,7 @@ export function LoginForm({ defaultValues = emptyDefaultValues, onSubmit }: Logi
               </button>
               <FormSubmitButton loadingLabel="처리 중">다음</FormSubmitButton>
             </div>
-          </Form>
+          </AppForm>
         </div>
       </div>
 

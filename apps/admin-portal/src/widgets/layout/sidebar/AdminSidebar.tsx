@@ -111,7 +111,12 @@ export function AdminSidebar() {
       <Popover>
         <div className={styles.accountArea}>
           <PopoverTrigger asChild>
-            <button type="button" className={styles.profileButton} aria-label="프로필" title="프로필">
+            <button
+              type="button"
+              className={styles.profileButton}
+              aria-label="프로필"
+              title="프로필"
+            >
               <span className={styles.avatar}>
                 <UserRound size={16} />
               </span>

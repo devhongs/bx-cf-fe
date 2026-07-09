@@ -202,12 +202,12 @@
   transition: opacity 0.15s, transform 0.15s;
 }
 
-.accountPopover[data-state='open'] {
+.accountPopover[data-state="open"] {
   opacity: 1;
   transform: scale(1);
 }
 
-.accountPopover[data-state='closed'] {
+.accountPopover[data-state="closed"] {
   opacity: 0;
   transform: scale(0.96);
 }

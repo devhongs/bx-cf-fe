@@ -1,4 +1,4 @@
-import type * as React from 'react';
+import * as React from 'react';
 import {
   type FieldValues,
   FormProvider,
@@ -7,9 +7,11 @@ import {
 } from 'react-hook-form';
 
 import { cn } from '../ui/lib/cn';
+import { type FormFieldStyle, FormFieldStyleProvider } from './form-style-context';
 
 export interface FormProps<TValues extends FieldValues, TPayload = TValues>
-  extends Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onSubmit'> {
+  extends Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onSubmit'>,
+    FormFieldStyle {
   form: UseFormReturn<TValues, unknown, TPayload>;
   onSubmit: SubmitHandler<TPayload>;
 }
@@ -19,18 +21,36 @@ export function Form<TValues extends FieldValues, TPayload = TValues>({
   onSubmit,
   className,
   children,
+  controlClassName,
+  fieldClassName,
+  labelClassName,
+  descriptionClassName,
+  errorClassName,
   ...props
 }: FormProps<TValues, TPayload>) {
+  const fieldStyle = React.useMemo<FormFieldStyle>(
+    () => ({
+      controlClassName,
+      fieldClassName,
+      labelClassName,
+      descriptionClassName,
+      errorClassName,
+    }),
+    [controlClassName, fieldClassName, labelClassName, descriptionClassName, errorClassName],
+  );
+
   return (
-    <FormProvider {...form}>
-      <form
-        className={cn('space-y-4', className)}
-        noValidate
-        onSubmit={form.handleSubmit(onSubmit)}
-        {...props}
-      >
-        {children}
-      </form>
-    </FormProvider>
+    <FormFieldStyleProvider value={fieldStyle}>
+      <FormProvider {...form}>
+        <form
+          className={cn('space-y-4', className)}
+          noValidate
+          onSubmit={form.handleSubmit(onSubmit)}
+          {...props}
+        >
+          {children}
+        </form>
+      </FormProvider>
+    </FormFieldStyleProvider>
   );
 }
