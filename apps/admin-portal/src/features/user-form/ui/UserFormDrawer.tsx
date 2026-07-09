@@ -91,7 +91,7 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
   useEffect(() => {
     if (!open) return;
     setSubmitError('');
-  }, [open, user]);
+  }, [open]);
 
   const saveMutation = useMutation({
     mutationFn: (payload: UserPayload) =>

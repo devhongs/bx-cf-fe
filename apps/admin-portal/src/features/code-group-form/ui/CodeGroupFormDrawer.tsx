@@ -90,7 +90,7 @@ export function CodeGroupFormDrawer({
   useEffect(() => {
     if (!open) return;
     setSubmitError('');
-  }, [open, group]);
+  }, [open]);
 
   const saveMutation = useMutation({
     mutationFn: (payload: CommonCodeGroupPayload) =>

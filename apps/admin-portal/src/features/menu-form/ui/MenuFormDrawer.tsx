@@ -48,7 +48,7 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
   useEffect(() => {
     if (!open) return;
     setSubmitError('');
-  }, [open, menu]);
+  }, [open]);
 
   const saveMutation = useMutation({
     mutationFn: (payload: MenuPayload) =>
