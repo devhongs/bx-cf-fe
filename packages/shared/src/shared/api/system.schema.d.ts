@@ -815,7 +815,11 @@ export namespace system {
        *       "versionNo": "0.0.1",
        *       "lastChangedAt": "2026-06-25T16:04:14+09:00",
        *       "lastChangedBy": "system",
-       *       "remark": "메뉴 샘플 데이터 최초 버전"
+       *       "remark": "메뉴 샘플 데이터 최초 버전",
+       *       "createdBy": "system",
+       *       "updatedBy": "system",
+       *       "createdAt": "2026-06-25T16:01:14+09:00",
+       *       "updatedAt": "2026-06-25T16:01:14+09:00"
        *     }
        */
       ReferenceDataVersionLatestResponse: {
@@ -851,6 +855,28 @@ export namespace system {
          * @example 메뉴 샘플 데이터 최초 버전
          */
         remark?: string;
+        /**
+         * @description 생성자 ID
+         * @example system
+         */
+        createdBy?: string;
+        /**
+         * @description 수정자 ID
+         * @example system
+         */
+        updatedBy?: string;
+        /**
+         * Format: date-time
+         * @description 생성 일시
+         * @example 2026-06-25T16:01:14+09:00
+         */
+        createdAt?: string;
+        /**
+         * Format: date-time
+         * @description 수정 일시
+         * @example 2026-06-25T16:01:14+09:00
+         */
+        updatedAt?: string;
       };
       /**
        * @example {
@@ -1160,6 +1186,10 @@ export namespace system {
        *       "groupDesc": "string",
        *       "systemYn": "Y",
        *       "useYn": "Y",
+       *       "createdBy": "system",
+       *       "updatedBy": "system",
+       *       "createdAt": "2026-06-25T16:01:14+09:00",
+       *       "updatedAt": "2026-06-25T16:01:14+09:00",
        *       "codes": [
        *         {
        *           "groupCd": "string",
@@ -1197,6 +1227,28 @@ export namespace system {
          * @enum {string}
          */
         useYn?: 'Y' | 'N';
+        /**
+         * @description 생성자 ID
+         * @example system
+         */
+        createdBy?: string;
+        /**
+         * @description 수정자 ID
+         * @example system
+         */
+        updatedBy?: string;
+        /**
+         * Format: date-time
+         * @description 생성 일시
+         * @example 2026-06-25T16:01:14+09:00
+         */
+        createdAt?: string;
+        /**
+         * Format: date-time
+         * @description 수정 일시
+         * @example 2026-06-25T16:01:14+09:00
+         */
+        updatedAt?: string;
         /** @description 공통코드 목록 */
         codes?: {
           /** @description 공통코드 그룹 코드 */

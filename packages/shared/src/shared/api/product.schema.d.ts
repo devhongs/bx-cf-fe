@@ -82,7 +82,11 @@ export namespace product {
        *       "productDesc": "string",
        *       "price": "100000",
        *       "stockQty": "50",
-       *       "useYn": "Y"
+       *       "useYn": "Y",
+       *       "createdBy": "system",
+       *       "updatedBy": "system",
+       *       "createdAt": "2026-06-25T16:01:14+09:00",
+       *       "updatedAt": "2026-06-25T16:01:14+09:00"
        *     }
        */
       ProductDetailResponse: {
@@ -117,6 +121,28 @@ export namespace product {
          * @enum {string}
          */
         useYn?: 'Y' | 'N';
+        /**
+         * @description 생성자 ID
+         * @example system
+         */
+        createdBy?: string;
+        /**
+         * @description 수정자 ID
+         * @example system
+         */
+        updatedBy?: string;
+        /**
+         * Format: date-time
+         * @description 생성 일시
+         * @example 2026-06-25T16:01:14+09:00
+         */
+        createdAt?: string;
+        /**
+         * Format: date-time
+         * @description 수정 일시
+         * @example 2026-06-25T16:01:14+09:00
+         */
+        updatedAt?: string;
       };
       /**
        * @example {
