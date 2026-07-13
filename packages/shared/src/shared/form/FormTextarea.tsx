@@ -1,10 +1,10 @@
 import type * as React from 'react';
-import { type FieldPath, type FieldValues, useController } from 'react-hook-form';
+import type { Control, FieldPath, FieldValues } from 'react-hook-form';
 
 import { Textarea, type TextareaProps } from '../ui/textarea/Textarea';
-import { FormField } from './FormField';
+import { FormItem } from './FormItem';
 import { useFormFieldStyle } from './form-style-context';
-import { type FieldRuleProps, buildFieldRules } from './rules';
+import type { FieldRuleProps } from './rules';
 
 export type FormTextareaProps<TValues extends FieldValues = FieldValues> = Omit<
   TextareaProps,
@@ -12,6 +12,7 @@ export type FormTextareaProps<TValues extends FieldValues = FieldValues> = Omit<
 > &
   FieldRuleProps<TValues> & {
     name: FieldPath<TValues>;
+    control?: Control<TValues>;
     label?: React.ReactNode;
     description?: React.ReactNode;
     fieldClassName?: string;
@@ -22,6 +23,7 @@ export type FormTextareaProps<TValues extends FieldValues = FieldValues> = Omit<
 
 export function FormTextarea<TValues extends FieldValues = FieldValues>({
   name,
+  control,
   label,
   description,
   className,
@@ -40,34 +42,31 @@ export function FormTextarea<TValues extends FieldValues = FieldValues>({
   ...props
 }: FormTextareaProps<TValues>) {
   const style = useFormFieldStyle();
-  const { field } = useController<TValues>({
-    name,
-    rules: buildFieldRules({
-      required,
-      minLength,
-      maxLength,
-      validate,
-      deps,
-      rules,
-    }),
-  });
 
   return (
-    <FormField<TValues>
+    <FormItem<TValues>
       name={name}
+      control={control}
       label={label}
       description={description}
-      required={Boolean(required)}
-      className={fieldClassName ?? style.fieldClassName}
-      labelClassName={labelClassName ?? style.labelClassName}
-      descriptionClassName={descriptionClassName ?? style.descriptionClassName}
-      errorClassName={errorClassName ?? style.errorClassName}
+      required={required}
+      minLength={minLength}
+      maxLength={maxLength}
+      validate={validate}
+      deps={deps}
+      rules={rules}
+      className={fieldClassName}
+      labelClassName={labelClassName}
+      descriptionClassName={descriptionClassName}
+      errorClassName={errorClassName}
     >
-      {(fieldProps) => (
+      {(field) => (
         <Textarea
           {...props}
-          {...fieldProps}
+          aria-describedby={field['aria-describedby']}
+          aria-invalid={field['aria-invalid']}
           className={className ?? style.controlClassName}
+          id={field.id}
           name={field.name}
           ref={field.ref}
           value={field.value ?? ''}
@@ -81,6 +80,6 @@ export function FormTextarea<TValues extends FieldValues = FieldValues>({
           }}
         />
       )}
-    </FormField>
+    </FormItem>
   );
 }

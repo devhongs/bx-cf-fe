@@ -116,38 +116,38 @@ jobs:
 
           echo "✨ Deployment Completed successfully!"
 
-      - name: Notify Jandi on Success
+      - name: Notify Discord on Success
         if: success()
         env:
           # 커밋 메시지는 env 로 전달해 셸/JSON 인젝션을 방지한다(여러 줄·따옴표 안전).
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WH }}
         run: |
           DESCRIPTION=$(printf '• 레포지토리: %s\n• 커밋 메시지: %s\n• 실행자: %s' \
             "${{ github.repository }}" "$COMMIT_MESSAGE" "${{ github.actor }}")
           PAYLOAD=$(jq -n \
-            --arg body "🟢 Develop 브랜치 CI/CD 성공" \
-            --arg color "#22C55E" \
+            --arg content "🟢 Develop 브랜치 CI/CD 성공" \
             --arg title "배포 및 검증 성공" \
             --arg desc "$DESCRIPTION" \
-            '{body: $body, connectColor: $color, connectInfo: [{title: $title, description: $desc}]}')
-          curl -X POST "${{ secrets.JANDI_WEBHOOK_URL }}" \
-            -H "Accept: application/vnd.tosslab.jandi-v2+json" \
+            --argjson color 2278750 \
+            '{content: $content, embeds: [{title: $title, description: $desc, color: $color}]}')
+          curl -X POST "$DISCORD_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
             -d "$PAYLOAD"
 
-      - name: Notify Jandi on Failure
+      - name: Notify Discord on Failure
         if: failure()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WH }}
         run: |
-          curl -X POST ${{ secrets.JANDI_WEBHOOK_URL }} \
-            -H "Accept: application/vnd.tosslab.jandi-v2+json" \
+          DESCRIPTION=$(printf '• 레포지토리: %s\n• 워크플로우 실행 실패 단계를 확인해 주세요.\n• 실행자: %s' \
+            "${{ github.repository }}" "${{ github.actor }}")
+          PAYLOAD=$(jq -n \
+            --arg content "🔴 Develop 브랜치 CI/CD 실패" \
+            --arg title "배포 및 검증 실패" \
+            --arg desc "$DESCRIPTION" \
+            --argjson color 15680580 \
+            '{content: $content, embeds: [{title: $title, description: $desc, color: $color}]}')
+          curl -X POST "$DISCORD_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
-            -d '{
-              "body": "🔴 Develop 브랜치 CI/CD 실패",
-              "connectColor": "#EF4444",
-              "connectInfo": [
-                {
-                  "title": "배포 및 검증 실패",
-                  "description": "• 레포지토리: ${{ github.repository }}\n• 워크플로우 실행 실패 단계를 확인해 주세요.\n• 실행자: ${{ github.actor }}"
-                }
-              ]
-            }'
+            -d "$PAYLOAD"

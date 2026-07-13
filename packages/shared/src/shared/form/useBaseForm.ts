@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash-es';
 import type { ReactElement } from 'react';
 import { useEffect, useRef } from 'react';
 import {
@@ -62,7 +63,7 @@ export function useBaseForm<TValues extends FieldValues>({
       return;
     }
 
-    if (previousDefaultValuesRef.current === defaultValues) return;
+    if (isEqual(previousDefaultValuesRef.current, defaultValues)) return;
 
     previousDefaultValuesRef.current = defaultValues;
     reset(defaultValues);

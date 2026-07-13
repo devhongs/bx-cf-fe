@@ -1,12 +1,15 @@
+// @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { useForm } from 'react-hook-form';
+import { type FieldPath, useForm } from 'react-hook-form';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { Form } from './Form';
 import { FormAccountInput } from './FormAccountInput';
 import { FormInput } from './FormInput';
+import { FormItem } from './FormItem';
 import { FormSelect } from './FormSelect';
 import { FormSubmitButton } from './FormSubmitButton';
+import { FormTextarea } from './FormTextarea';
 import { VALIDATION_MESSAGES } from './messages';
 import { validators } from './rules';
 import { useBaseForm } from './useBaseForm';
@@ -18,6 +21,10 @@ interface SignupValues {
   passwordConfirm: string;
   userType: string;
   accountNo: string;
+}
+
+interface ProfileValues {
+  introduction: string;
 }
 
 const defaultValues: SignupValues = {
@@ -76,6 +83,60 @@ function TestResettableForm({ defaultValues }: { defaultValues: SignupValues }) 
       <button type="button" onClick={resetToDefaultValues}>
         초기화
       </button>
+    </Form>
+  );
+}
+
+function TestDeepCompareResetForm({ defaultValues }: { defaultValues: SignupValues }) {
+  const { form } = useBaseForm<SignupValues>({ defaultValues, resetOnDefaultValuesChange: true });
+
+  return (
+    <Form form={form} onSubmit={vi.fn()}>
+      <FormInput<SignupValues> name="userId" label="아이디" />
+    </Form>
+  );
+}
+
+function TestExplicitControlForm() {
+  const { control } = useForm<SignupValues>({ defaultValues });
+  return <FormInput<SignupValues> name="userId" label="아이디" control={control} />;
+}
+
+function FormCustomInput({ name }: { name: FieldPath<SignupValues> }) {
+  return (
+    <FormItem<SignupValues> name={name} label="커스텀 입력" required>
+      {({ id, value, onChange, onBlur, ref, ...fieldProps }) => (
+        <input
+          {...fieldProps}
+          id={id}
+          ref={ref}
+          value={String(value ?? '')}
+          onBlur={onBlur}
+          onChange={onChange}
+        />
+      )}
+    </FormItem>
+  );
+}
+
+function TestCustomFieldForm({ onSubmit }: { onSubmit: (values: SignupValues) => void }) {
+  const form = useForm<SignupValues>({ defaultValues });
+
+  return (
+    <Form form={form} onSubmit={onSubmit}>
+      <FormCustomInput name="userId" />
+      <button type="submit">저장</button>
+    </Form>
+  );
+}
+
+function TestTextareaForm({ onSubmit }: { onSubmit: (values: ProfileValues) => void }) {
+  const form = useForm<ProfileValues>({ defaultValues: { introduction: '' } });
+
+  return (
+    <Form form={form} onSubmit={onSubmit}>
+      <FormTextarea<ProfileValues> name="introduction" label="소개" />
+      <button type="submit">소개 저장</button>
     </Form>
   );
 }
@@ -183,6 +244,82 @@ describe('Form components (rules mode)', () => {
 
     await waitFor(() => {
       expect(userIdInput.value).toBe('server-user');
+    });
+  });
+
+  it('does not reset form if defaultValues changes reference but is deeply equal', async () => {
+    const initialDefault = { ...defaultValues, userId: 'initial-user' };
+    const { rerender } = render(<TestDeepCompareResetForm defaultValues={initialDefault} />);
+
+    const userIdInput = screen.getByLabelText('아이디') as HTMLInputElement;
+    expect(userIdInput.value).toBe('initial-user');
+
+    fireEvent.change(userIdInput, { target: { value: 'user-input' } });
+    expect(userIdInput.value).toBe('user-input');
+
+    // Rerender with a NEW object reference but identical field values
+    const newDefaultRef = { ...defaultValues, userId: 'initial-user' };
+    rerender(<TestDeepCompareResetForm defaultValues={newDefaultRef} />);
+
+    // Value should NOT reset because fields are deeply equal
+    expect(userIdInput.value).toBe('user-input');
+
+    // Rerender with a different value
+    const differentDefault = { ...defaultValues, userId: 'new-server-user' };
+    rerender(<TestDeepCompareResetForm defaultValues={differentDefault} />);
+
+    // Value should reset to new default
+    await waitFor(() => {
+      expect(userIdInput.value).toBe('new-server-user');
+    });
+  });
+
+  it('supports passing explicit control prop to FormInput', async () => {
+    render(<TestExplicitControlForm />);
+    const userIdInput = screen.getByLabelText('아이디') as HTMLInputElement;
+    expect(userIdInput).toBeDefined();
+    fireEvent.change(userIdInput, { target: { value: 'explicit-control-value' } });
+    expect(userIdInput.value).toBe('explicit-control-value');
+  });
+
+  it('binds custom controls and validation through FormItem', async () => {
+    const handleSubmit = vi.fn();
+
+    render(<TestCustomFieldForm onSubmit={handleSubmit} />);
+
+    fireEvent.click(screen.getByRole('button', { name: '저장' }));
+
+    expect(await screen.findByText(VALIDATION_MESSAGES.required)).toBeTruthy();
+    expect(handleSubmit).not.toHaveBeenCalled();
+
+    fireEvent.change(screen.getByLabelText(/커스텀 입력/), {
+      target: { value: 'custom-value' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: '저장' }));
+
+    await waitFor(() => {
+      expect(handleSubmit).toHaveBeenCalledWith(
+        { ...defaultValues, userId: 'custom-value' },
+        expect.anything(),
+      );
+    });
+  });
+
+  it('binds textarea values through FormTextarea', async () => {
+    const handleSubmit = vi.fn();
+
+    render(<TestTextareaForm onSubmit={handleSubmit} />);
+
+    fireEvent.change(screen.getByLabelText('소개'), {
+      target: { value: '폼 컴포넌트 소개' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: '소개 저장' }));
+
+    await waitFor(() => {
+      expect(handleSubmit).toHaveBeenCalledWith(
+        { introduction: '폼 컴포넌트 소개' },
+        expect.anything(),
+      );
     });
   });
 });

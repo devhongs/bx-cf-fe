@@ -1,10 +1,9 @@
-import { type FieldPath, type FieldValues, useController } from 'react-hook-form';
+import type { FieldPath, FieldValues } from 'react-hook-form';
 
 import { Input } from '../ui/input/Input';
-import { FormField } from './FormField';
 import type { FormInputProps } from './FormInput';
+import { FormItem } from './FormItem';
 import { useFormFieldStyle } from './form-style-context';
-import { buildFieldRules } from './rules';
 
 export const normalizeAccountNo = (value: string) => value.replace(/[^0-9]/g, '');
 
@@ -17,6 +16,7 @@ export type FormAccountInputProps<TValues extends FieldValues = FieldValues> = O
 
 export function FormAccountInput<TValues extends FieldValues = FieldValues>({
   name,
+  control,
   label,
   description,
   className,
@@ -38,37 +38,34 @@ export function FormAccountInput<TValues extends FieldValues = FieldValues>({
   ...props
 }: FormAccountInputProps<TValues>) {
   const style = useFormFieldStyle();
-  const { field } = useController<TValues>({
-    name,
-    rules: buildFieldRules({
-      required,
-      minLength,
-      maxLength,
-      min,
-      max,
-      pattern,
-      validate,
-      deps,
-      rules,
-    }),
-  });
 
   return (
-    <FormField<TValues>
+    <FormItem<TValues>
       name={name}
+      control={control}
       label={label}
       description={description}
-      required={Boolean(required)}
-      className={fieldClassName ?? style.fieldClassName}
-      labelClassName={labelClassName ?? style.labelClassName}
-      descriptionClassName={descriptionClassName ?? style.descriptionClassName}
-      errorClassName={errorClassName ?? style.errorClassName}
+      required={required}
+      minLength={minLength}
+      maxLength={maxLength}
+      min={min}
+      max={max}
+      pattern={pattern}
+      validate={validate}
+      deps={deps}
+      rules={rules}
+      className={fieldClassName}
+      labelClassName={labelClassName}
+      descriptionClassName={descriptionClassName}
+      errorClassName={errorClassName}
     >
-      {(fieldProps) => (
+      {(field) => (
         <Input
           {...props}
-          {...fieldProps}
+          aria-describedby={field['aria-describedby']}
+          aria-invalid={field['aria-invalid']}
           className={className ?? style.controlClassName}
+          id={field.id}
           inputMode="numeric"
           name={field.name}
           ref={field.ref}
@@ -83,6 +80,6 @@ export function FormAccountInput<TValues extends FieldValues = FieldValues>({
           }}
         />
       )}
-    </FormField>
+    </FormItem>
   );
 }
