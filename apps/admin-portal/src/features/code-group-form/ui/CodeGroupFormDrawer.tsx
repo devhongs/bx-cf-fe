@@ -85,8 +85,7 @@ export function CodeGroupFormDrawer({
   const createMutation = useCreateCommonCodeGroup();
   const updateMutation = useUpdateCommonCodeGroup();
   const deleteMutation = useDeleteCommonCodeGroup();
-  const savePending = createMutation.isPending || updateMutation.isPending;
-  const pending = savePending || deleteMutation.isPending;
+  const pending = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending;
 
   const handleSubmit = async (values: CodeGroupFormValues) => {
     setSubmitError('');
@@ -137,7 +136,7 @@ export function CodeGroupFormDrawer({
             </button>
           )}
           <button type="submit" form={FORM_ID} className={styles.button} disabled={pending}>
-            {savePending ? '저장 중' : '저장'}
+            {pending ? '처리 중' : '저장'}
           </button>
         </>
       }

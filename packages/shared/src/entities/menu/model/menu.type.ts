@@ -13,10 +13,11 @@ type LegacyMenuFields = {
   level?: number;
 };
 
-export type MenuListItem = SystemSchemas['MenuListResponse'];
-export type MenuDetail = SystemSchemas['MenuDetailResponse'];
-type MenuCreatePayload = SystemSchemas['MenuCreateRequest']['data'];
-type MenuUpdatePayload = SystemSchemas['MenuUpdateRequest']['data'];
+export type MenuListItem = SystemSchemas['MenuListListResponse'];
+export type MenuDetail = SystemSchemas['MenuDetailDetailResponse'];
+type MenuCreatePayload = SystemSchemas['MenuCreateCreateRequest']['data'];
+type MenuUpdatePayload = SystemSchemas['MenuUpdateUpdateRequest']['data'];
+type MenuDeleteApiPayload = SystemSchemas['MenuDeleteDeleteRequest']['data'];
 type LegacyListParams = {
   page?: number;
   size?: number;
@@ -26,6 +27,8 @@ type LegacyListParams = {
 };
 export type MenuPayload = Partial<MenuCreatePayload & MenuUpdatePayload> &
   Partial<LegacyMenuFields>;
+export type MenuDeletePayload = MenuDeleteApiPayload;
+export type MenuDeleteParams = { menuId: number } & MenuDeletePayload;
 export type MenuQueryParams = Partial<MenuListItem & MenuPayload & LegacyListParams>;
 
 export type Menu = (MenuListItem | MenuDetail) &

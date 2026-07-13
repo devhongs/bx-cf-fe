@@ -109,12 +109,6 @@ describe('check-api-paths', () => {
           file: 'common-code.api.ts',
           line: 2,
         },
-        {
-          method: 'delete',
-          rawPath: '/system/menus/${encodeURIComponent(menuId)}',
-          file: 'menu.api.ts',
-          line: 3,
-        },
         { method: 'post', rawPath: '/users/list', file: 'user.api.ts', line: 4 },
         {
           method: 'post',
@@ -138,7 +132,7 @@ describe('check-api-paths', () => {
       ],
     });
 
-    expect(result.allowed).toHaveLength(8);
+    expect(result.allowed).toHaveLength(7);
     expect(result.missing).toHaveLength(0);
   });
 });

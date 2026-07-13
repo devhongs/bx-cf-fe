@@ -1,6 +1,6 @@
 import { httpService } from '../../../shared/ajax/http.service';
 
-import type { Menu, MenuPayload, MenuQueryParams } from '../model/menu.type';
+import type { Menu, MenuDeleteParams, MenuPayload, MenuQueryParams } from '../model/menu.type';
 
 export const fetchMenuList = <T extends Menu = Menu>(
   _params?: MenuQueryParams,
@@ -17,5 +17,7 @@ export const updateMenu = (menuId: number, payload: MenuPayload): Promise<void> 
     data: payload,
   });
 
-export const deleteMenu = (menuId: number): Promise<void> =>
-  httpService.delete<void>(`/system/menus/${encodeURIComponent(menuId)}`);
+export const deleteMenu = ({ menuId, deletedBy }: MenuDeleteParams): Promise<void> =>
+  httpService.post<void>(`/system/menus/${encodeURIComponent(menuId)}/delete`, {
+    data: { deletedBy },
+  });

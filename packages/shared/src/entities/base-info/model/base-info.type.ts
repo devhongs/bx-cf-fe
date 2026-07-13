@@ -16,7 +16,7 @@ export type BaseInfoCommonCode = SystemSchemas['CommonCodeListResponse'];
 export type BaseInfoCommonCodeGroup = SystemSchemas['CommonCodeGroupListResponse'] & {
   children?: BaseInfoCommonCode[];
 };
-export type BaseInfoMenu = SystemSchemas['MenuListResponse'];
+export type BaseInfoMenu = SystemSchemas['MenuListListResponse'];
 
 export interface BaseInfoDataMap {
   CODE: BaseInfoCommonCodeGroup[];

@@ -56,11 +56,13 @@ describe('menu api', () => {
     expect(postSpy).toHaveBeenNthCalledWith(2, '/system/menus/1/update', { data: payload });
   });
 
-  it('deletes menus through the planned delete endpoint', async () => {
-    const deleteSpy = vi.spyOn(httpService, 'delete').mockResolvedValue(undefined);
+  it('deletes menus through the generated delete endpoint', async () => {
+    const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue(undefined);
 
-    await deleteMenu(1);
+    await deleteMenu({ menuId: 1, deletedBy: 'admin' });
 
-    expect(deleteSpy).toHaveBeenCalledWith('/system/menus/1');
+    expect(postSpy).toHaveBeenCalledWith('/system/menus/1/delete', {
+      data: { deletedBy: 'admin' },
+    });
   });
 });

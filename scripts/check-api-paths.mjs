@@ -37,12 +37,6 @@ const ALLOWLIST = [
       'temporary system common-code delete endpoints are used by FE before backend OpenAPI is ready',
   },
   {
-    method: 'delete',
-    rawPathPrefix: '/system/menus',
-    reason:
-      'temporary system menu delete endpoints are used by FE before backend OpenAPI is ready',
-  },
-  {
     rawPathPrefix: '/users',
     reason: 'temporary user management endpoints are used by FE before backend OpenAPI is ready',
   },

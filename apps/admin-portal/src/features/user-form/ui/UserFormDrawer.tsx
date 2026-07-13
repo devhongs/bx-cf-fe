@@ -78,8 +78,7 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
   const createMutation = useCreateUser();
   const updateMutation = useUpdateUser();
   const deleteMutation = useDeleteUser();
-  const savePending = createMutation.isPending || updateMutation.isPending;
-  const pending = savePending || deleteMutation.isPending;
+  const pending = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending;
 
   const handleSubmit = async (values: UserFormValues) => {
     setSubmitError('');
@@ -130,7 +129,7 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
             </button>
           )}
           <button type="submit" form={FORM_ID} className={styles.button} disabled={pending}>
-            {savePending ? '저장 중' : '저장'}
+            {pending ? '처리 중' : '저장'}
           </button>
         </>
       }

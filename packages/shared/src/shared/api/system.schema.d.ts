@@ -59,6 +59,23 @@ export namespace system {
       patch?: never;
       trace?: never;
     };
+    '/menus/{menuId}/delete': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      get?: never;
+      put?: never;
+      /** 메뉴 삭제 */
+      post: operations['deleteMenu'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
     '/menus/{menuId}/actions/list': {
       parameters: {
         query?: never;
@@ -373,118 +390,7 @@ export namespace system {
        *       "updatedAt": "2026-01-01T10:00:00+09:00"
        *     }
        */
-      MenuListResponse: {
-        /**
-         * Format: int64
-         * @description 메뉴 ID
-         */
-        menuId?: number;
-        /**
-         * Format: int64
-         * @description 상위 메뉴 ID
-         */
-        parentMenuId?: number;
-        /**
-         * @description 메뉴 코드
-         * @example DASHBOARD
-         */
-        menuCd?: string;
-        /**
-         * @description 메뉴명
-         * @example 대시보드
-         */
-        menuNm?: string;
-        /**
-         * @description 메뉴 유형
-         * @example MENU
-         */
-        menuType?: string;
-        /**
-         * @description 화면 경로
-         * @example /dashboard
-         */
-        path?: string;
-        /**
-         * @description 프론트엔드 컴포넌트 경로
-         * @example DashboardView
-         */
-        component?: string;
-        /**
-         * @description 아이콘명
-         * @example LayoutDashboard
-         */
-        icon?: string;
-        /**
-         * Format: int32
-         * @description 메뉴 깊이
-         * @example 1
-         */
-        depth?: number;
-        /**
-         * Format: int32
-         * @description 정렬 순서
-         * @example 1
-         */
-        sortSeq?: number;
-        /**
-         * @description 노출 여부
-         * @example Y
-         * @enum {string}
-         */
-        visibleYn?: 'Y' | 'N';
-        /**
-         * @description 사용 여부
-         * @example Y
-         * @enum {string}
-         */
-        useYn?: 'Y' | 'N';
-        /** @description 비고 */
-        remark?: string;
-        /**
-         * @description 생성자 ID
-         * @example admin
-         */
-        createdBy?: string;
-        /**
-         * @description 수정자 ID
-         * @example admin
-         */
-        updatedBy?: string;
-        /**
-         * Format: date-time
-         * @description 생성 일시
-         * @example 2026-01-01T09:00:00+09:00
-         */
-        createdAt?: string;
-        /**
-         * Format: date-time
-         * @description 수정 일시
-         * @example 2026-01-01T10:00:00+09:00
-         */
-        updatedAt?: string;
-      };
-      /**
-       * @example {
-       *       "menuId": 0,
-       *       "parentMenuId": 0,
-       *       "menuCd": "DASHBOARD",
-       *       "menuNm": "대시보드",
-       *       "menuType": "MENU",
-       *       "path": "/dashboard",
-       *       "component": "DashboardView",
-       *       "icon": "LayoutDashboard",
-       *       "depth": "1",
-       *       "sortSeq": "1",
-       *       "visibleYn": "Y",
-       *       "useYn": "Y",
-       *       "remark": "string",
-       *       "createdBy": "admin",
-       *       "updatedBy": "admin",
-       *       "createdAt": "2026-01-01T09:00:00+09:00",
-       *       "updatedAt": "2026-01-01T10:00:00+09:00"
-       *     }
-       */
-      MenuDetailResponse: {
+      MenuListListResponse: {
         /**
          * Format: int64
          * @description 메뉴 ID
@@ -605,6 +511,138 @@ export namespace system {
       };
       /**
        * @example {
+       *       "menuId": 0,
+       *       "parentMenuId": 0,
+       *       "menuCd": "DASHBOARD",
+       *       "menuNm": "대시보드",
+       *       "menuType": "MENU",
+       *       "path": "/dashboard",
+       *       "component": "DashboardView",
+       *       "icon": "LayoutDashboard",
+       *       "depth": "1",
+       *       "sortSeq": "1",
+       *       "visibleYn": "Y",
+       *       "useYn": "Y",
+       *       "remark": "string",
+       *       "createdBy": "admin",
+       *       "updatedBy": "admin",
+       *       "createdAt": "2026-01-01T09:00:00+09:00",
+       *       "updatedAt": "2026-01-01T10:00:00+09:00"
+       *     }
+       */
+      MenuDetailDetailResponse: {
+        /**
+         * Format: int64
+         * @description 메뉴 ID
+         */
+        menuId?: number;
+        /**
+         * Format: int64
+         * @description 상위 메뉴 ID
+         */
+        parentMenuId?: number;
+        /**
+         * @description 메뉴 코드
+         * @example DASHBOARD
+         */
+        menuCd?: string;
+        /**
+         * @description 메뉴명
+         * @example 대시보드
+         */
+        menuNm?: string;
+        /**
+         * @description 메뉴 유형
+         * @example MENU
+         */
+        menuType?: string;
+        /**
+         * @description 화면 경로
+         * @example /dashboard
+         */
+        path?: string;
+        /**
+         * @description 프론트엔드 컴포넌트 경로
+         * @example DashboardView
+         */
+        component?: string;
+        /**
+         * @description 아이콘명
+         * @example LayoutDashboard
+         */
+        icon?: string;
+        /**
+         * Format: int32
+         * @description 메뉴 깊이
+         * @example 1
+         */
+        depth?: number;
+        /**
+         * Format: int32
+         * @description 정렬 순서
+         * @example 1
+         */
+        sortSeq?: number;
+        /**
+         * @description 노출 여부
+         * @example Y
+         * @enum {string}
+         */
+        visibleYn?: 'Y' | 'N';
+        /**
+         * @description 사용 여부
+         * @example Y
+         * @enum {string}
+         */
+        useYn?: 'Y' | 'N';
+        /** @description 비고 */
+        remark?: string;
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
+        /**
+         * Format: date-time
+         * @description 생성 일시
+         * @example 2026-01-01T09:00:00+09:00
+         */
+        createdAt?: string;
+        /**
+         * Format: date-time
+         * @description 수정 일시
+         * @example 2026-01-01T10:00:00+09:00
+         */
+        updatedAt?: string;
+      };
+      /**
+       * @example {
+       *       "data": {
+       *         "deletedBy": "admin"
+       *       }
+       *     }
+       */
+      MenuDeleteDeleteRequest: {
+        /**
+         * @example {
+         *       "deletedBy": "admin"
+         *     }
+         */
+        data: {
+          /**
+           * @description 삭제 요청자 ID
+           * @example admin
+           */
+          deletedBy: string;
+        };
+      };
+      /**
+       * @example {
        *       "data": {
        *         "parentMenuId": 0,
        *         "menuCd": "DASHBOARD",
@@ -622,7 +660,7 @@ export namespace system {
        *       }
        *     }
        */
-      MenuCreateRequest: {
+      MenuCreateCreateRequest: {
         /**
          * @example {
          *       "parentMenuId": 0,
@@ -727,7 +765,7 @@ export namespace system {
        *       }
        *     }
        */
-      MenuUpdateRequest: {
+      MenuUpdateUpdateRequest: {
         /**
          * @example {
          *       "parentMenuId": 0,
@@ -1595,7 +1633,7 @@ export namespace system {
            *       }
            *     }
            */
-          'application/json': components['schemas']['MenuUpdateRequest'];
+          'application/json': components['schemas']['MenuUpdateUpdateRequest'];
         };
       };
       responses: {
@@ -1646,7 +1684,50 @@ export namespace system {
               msg?: string;
               /** @description 요청 추적 ID */
               requestId?: string;
-              payload?: components['schemas']['MenuDetailResponse'];
+              payload?: components['schemas']['MenuDetailDetailResponse'];
+            };
+          };
+        };
+      };
+    };
+    deleteMenu: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          menuId: number;
+        };
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          /**
+           * @example {
+           *       "data": {
+           *         "deletedBy": "admin"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['MenuDeleteDeleteRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: Record<string, never>;
             };
           };
         };
@@ -1754,7 +1835,7 @@ export namespace system {
               msg?: string;
               /** @description 요청 추적 ID */
               requestId?: string;
-              payload?: components['schemas']['MenuListResponse'][];
+              payload?: components['schemas']['MenuListListResponse'][];
             };
           };
         };
@@ -1784,7 +1865,7 @@ export namespace system {
               msg?: string;
               /** @description 요청 추적 ID */
               requestId?: string;
-              payload?: components['schemas']['MenuListResponse'][];
+              payload?: components['schemas']['MenuListListResponse'][];
             };
           };
         };
@@ -1818,7 +1899,7 @@ export namespace system {
            *       }
            *     }
            */
-          'application/json': components['schemas']['MenuCreateRequest'];
+          'application/json': components['schemas']['MenuCreateCreateRequest'];
         };
       };
       responses: {
