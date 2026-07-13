@@ -17,7 +17,7 @@ export const updateMenu = (menuId: number, payload: MenuPayload): Promise<void> 
     data: payload,
   });
 
-export const deleteMenu = ({ menuId, deletedBy }: MenuDeleteParams): Promise<void> =>
-  httpService.post<void>(`/system/menus/${encodeURIComponent(menuId)}/delete`, {
-    data: { deletedBy },
+export const deleteMenu = ({ menuId, authUser }: MenuDeleteParams): Promise<void> =>
+  httpService.post<void>(`/system/menus/${encodeURIComponent(menuId)}/delete`, undefined, {
+    headers: { 'X-Auth-User': authUser },
   });

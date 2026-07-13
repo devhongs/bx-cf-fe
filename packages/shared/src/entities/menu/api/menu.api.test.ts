@@ -59,10 +59,10 @@ describe('menu api', () => {
   it('deletes menus through the generated delete endpoint', async () => {
     const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue(undefined);
 
-    await deleteMenu({ menuId: 1, deletedBy: 'admin' });
+    await deleteMenu({ menuId: 1, authUser: 'admin' });
 
-    expect(postSpy).toHaveBeenCalledWith('/system/menus/1/delete', {
-      data: { deletedBy: 'admin' },
+    expect(postSpy).toHaveBeenCalledWith('/system/menus/1/delete', undefined, {
+      headers: { 'X-Auth-User': 'admin' },
     });
   });
 });

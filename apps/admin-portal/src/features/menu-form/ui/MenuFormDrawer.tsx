@@ -80,7 +80,7 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
 
     setSubmitError('');
     try {
-      await deleteMutation.mutateAsync({ menuId, deletedBy: userId ?? 'admin' });
+      await deleteMutation.mutateAsync({ menuId, authUser: userId ?? 'admin' });
       onClose();
     } catch (error) {
       setSubmitError(getApiErrorMessage(error, '삭제에 실패했습니다.'));

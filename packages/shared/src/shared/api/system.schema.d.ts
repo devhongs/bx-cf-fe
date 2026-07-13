@@ -390,7 +390,7 @@ export namespace system {
        *       "updatedAt": "2026-01-01T10:00:00+09:00"
        *     }
        */
-      MenuListListResponse: {
+      MenuListResponse: {
         /**
          * Format: int64
          * @description 메뉴 ID
@@ -530,7 +530,7 @@ export namespace system {
        *       "updatedAt": "2026-01-01T10:00:00+09:00"
        *     }
        */
-      MenuDetailDetailResponse: {
+      MenuDetailResponse: {
         /**
          * Format: int64
          * @description 메뉴 ID
@@ -623,27 +623,6 @@ export namespace system {
       /**
        * @example {
        *       "data": {
-       *         "deletedBy": "admin"
-       *       }
-       *     }
-       */
-      MenuDeleteDeleteRequest: {
-        /**
-         * @example {
-         *       "deletedBy": "admin"
-         *     }
-         */
-        data: {
-          /**
-           * @description 삭제 요청자 ID
-           * @example admin
-           */
-          deletedBy: string;
-        };
-      };
-      /**
-       * @example {
-       *       "data": {
        *         "parentMenuId": 0,
        *         "menuCd": "DASHBOARD",
        *         "menuNm": "대시보드",
@@ -660,7 +639,7 @@ export namespace system {
        *       }
        *     }
        */
-      MenuCreateCreateRequest: {
+      MenuCreateRequest: {
         /**
          * @example {
          *       "parentMenuId": 0,
@@ -765,7 +744,7 @@ export namespace system {
        *       }
        *     }
        */
-      MenuUpdateUpdateRequest: {
+      MenuUpdateRequest: {
         /**
          * @example {
          *       "parentMenuId": 0,
@@ -1633,7 +1612,7 @@ export namespace system {
            *       }
            *     }
            */
-          'application/json': components['schemas']['MenuUpdateUpdateRequest'];
+          'application/json': components['schemas']['MenuUpdateRequest'];
         };
       };
       responses: {
@@ -1684,7 +1663,7 @@ export namespace system {
               msg?: string;
               /** @description 요청 추적 ID */
               requestId?: string;
-              payload?: components['schemas']['MenuDetailDetailResponse'];
+              payload?: components['schemas']['MenuDetailResponse'];
             };
           };
         };
@@ -1693,24 +1672,15 @@ export namespace system {
     deleteMenu: {
       parameters: {
         query?: never;
-        header?: never;
+        header: {
+          'X-Auth-User': string;
+        };
         path: {
           menuId: number;
         };
         cookie?: never;
       };
-      requestBody: {
-        content: {
-          /**
-           * @example {
-           *       "data": {
-           *         "deletedBy": "admin"
-           *       }
-           *     }
-           */
-          'application/json': components['schemas']['MenuDeleteDeleteRequest'];
-        };
-      };
+      requestBody?: never;
       responses: {
         /** @description OK */
         200: {
@@ -1835,7 +1805,7 @@ export namespace system {
               msg?: string;
               /** @description 요청 추적 ID */
               requestId?: string;
-              payload?: components['schemas']['MenuListListResponse'][];
+              payload?: components['schemas']['MenuListResponse'][];
             };
           };
         };
@@ -1865,7 +1835,7 @@ export namespace system {
               msg?: string;
               /** @description 요청 추적 ID */
               requestId?: string;
-              payload?: components['schemas']['MenuListListResponse'][];
+              payload?: components['schemas']['MenuListResponse'][];
             };
           };
         };
@@ -1899,7 +1869,7 @@ export namespace system {
            *       }
            *     }
            */
-          'application/json': components['schemas']['MenuCreateCreateRequest'];
+          'application/json': components['schemas']['MenuCreateRequest'];
         };
       };
       responses: {
