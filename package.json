@@ -27,7 +27,6 @@
     "check": "turbo check",
     "check:api-paths": "node scripts/check-api-paths.mjs",
     "wbs:pull": "node docs/wbs-pull.js",
-    "wbs:notion-sync": "node --env-file-if-exists=.env.local docs/wbs-notion-sync.js",
     "wbs:sync": "node docs/wbs-sync.js",
     "wbs:force-sync": "node docs/wbs-force-sync.js",
     "gen:api": "node scripts/gen-api.mjs && biome format --write packages/shared/src/shared/api",

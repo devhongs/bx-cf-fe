@@ -187,8 +187,6 @@ PC 보호 화면 최초 진입 시 코드/메뉴 기준정보를 준비합니다
 | `pnpm gen:readme` | `README.md` → `landing/assets/fe.readme.html` 생성 |
 | `pnpm wbs:pull -- --dry-run` | GitHub Projects의 신규 항목을 WBS 반영 전에 미리보기 |
 | `pnpm wbs:pull` | GitHub Projects의 신규 항목을 `docs/wbs.md`에 추가 (`docs/wbs-pull.js`) |
-| `pnpm wbs:notion-sync -- --dry-run` | `docs/wbs.md` → Notion `FE WBS` 변경 미리보기 |
-| `pnpm wbs:notion-sync` | `docs/wbs.md` → Notion `FE WBS` 증분 동기화 (섹션 부모/Sub-task/페이지 본문 포함) |
 | `pnpm wbs:sync` | `docs/wbs.md` → GitHub Projects 동기화 (`docs/wbs-sync.js`) |
 | `pnpm wbs:force-sync` | WBS 강제 재동기화 (`docs/wbs-force-sync.js`) |
 

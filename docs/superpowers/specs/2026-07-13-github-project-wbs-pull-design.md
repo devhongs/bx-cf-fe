@@ -2,7 +2,7 @@
 
 ## Goal
 
-Import GitHub Project items that are not represented in `docs/wbs.md`, while keeping `docs/wbs.md` as the source of truth for subsequent GitHub and Notion pushes.
+Import GitHub Project items that are not represented in `docs/wbs.md`, while keeping `docs/wbs.md` as the source of truth for subsequent GitHub pushes.
 
 ## Direction
 
