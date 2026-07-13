@@ -217,6 +217,7 @@
 
 ### 04. API 연동 기반
 - [ ] [협업] OpenAPI 스펙(Swagger 등) 기반 도메인별 API 명세서 작성 및 계약 체결 [Must]
+  <!-- github-item:ISSUE:I_kwDOQXFipc8AAAABFfcutw -->
   * **목적**: 프론트-백엔드 간 API 계약을 단일 소스로 합의해 불일치 제거
   * **작업 내용**:
     - 도메인별 요청/응답 규격을 OpenAPI 문서로 정의·합의
@@ -463,6 +464,8 @@
   * **완료 조건(AC)**:
     - 키보드 노출 시 입력 필드가 가려지지 않음
 - [ ] Swagger 기반 TypeScript 타입 생성 및 동기화 자동화 [Should]
+  <!-- github-item:ISSUE:I_kwDOQXFipc8AAAABFfhJSA -->
+  <!-- github-item:ISSUE:I_kwDOQXFipc8AAAABFvdLYQ -->
   * **목적**: Swagger에서 제공하는 JSON 명세를 활용해 프론트엔드 타입 정의를 자동으로 생성 및 동기화하여 백엔드와의 인터페이스 불일치 방지
   * **작업 내용**:
     - openapi-typescript 등 Swagger-to-TS 도구를 설치 및 CLI 스크립트 정의

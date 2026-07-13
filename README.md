@@ -185,6 +185,8 @@ PC 보호 화면 최초 진입 시 코드/메뉴 기준정보를 준비합니다
 | :--- | :--- |
 | `pnpm gen:api` | 여러 백엔드 OpenAPI 스펙 → 서비스별 TS 타입 생성 (`scripts/gen-api.mjs` → `packages/shared/src/shared/api/*.schema.d.ts`). 스펙 목록은 `API_DOCS_URLS` 환경변수로 덮어쓰기 |
 | `pnpm gen:readme` | `README.md` → `landing/assets/fe.readme.html` 생성 |
+| `pnpm wbs:pull -- --dry-run` | GitHub Projects의 신규 항목을 WBS 반영 전에 미리보기 |
+| `pnpm wbs:pull` | GitHub Projects의 신규 항목을 `docs/wbs.md`에 추가 (`docs/wbs-pull.js`) |
 | `pnpm wbs:sync` | `docs/wbs.md` → GitHub Projects 동기화 (`docs/wbs-sync.js`) |
 | `pnpm wbs:force-sync` | WBS 강제 재동기화 (`docs/wbs-force-sync.js`) |
 
@@ -274,6 +276,7 @@ bx-cf-fe/
 ├── docs/                        # 프로젝트 문서 & 도구
 │   ├── order.md / todo.md / wbs.md
 │   ├── wbs-sync.js              # WBS → GitHub Projects 동기화 스크립트
+│   ├── wbs-pull.js              # GitHub Projects → WBS 신규 항목 가져오기
 │   └── ppt-build/               # 제안 PPT 빌드·렌더 산출물
 │
 ├── packages/
