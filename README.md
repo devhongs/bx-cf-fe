@@ -8,9 +8,18 @@
 - 서버 OpenAPI 스펙 → 프론트 스펙(타입·쿼리·API 클라이언트) 자동화
 - 모노레포 폴더 구조와 **Feature-Sliced Design (FSD)** 설계 규격
 
-기술 스택은 초고속 빌드 성능과 극대화된 DX(Developer Experience)를 지향하는 **React 19 + TypeScript + Vite** 기반입니다.
+기술 스택은 초고속 빌드 성능과 극대화된 DX(Developer Experience)를 지향하는 **React 19.2 + TypeScript 6 + Vite 8** 기반입니다.
 
-**pnpm Workspaces + Turborepo** 기반의 모노레포로 구성되며, **Feature-Sliced Design (FSD)** 설계 규격과 단일 공유 패키지(`@bx/shared`) 아키텍처를 따릅니다. PC·모바일 웹은 각각 독립된 FSD 애플리케이션이며, 도메인 로직·UI·HTTP 통신·인증을 `@bx/shared`에서 공유합니다.
+**pnpm Workspaces + Turborepo** 기반의 모노레포로 구성되며, **Feature-Sliced Design (FSD)** 설계 규격과 단일 공유 패키지(`@bx/shared`) 아키텍처를 따릅니다. PC·모바일·관리자 웹은 각각 독립된 FSD 애플리케이션이며, 도메인 로직·UI·HTTP 통신·인증을 `@bx/shared`에서 공유합니다.
+
+| 주요 도구 | 버전 |
+| :--- | :--- |
+| React | `19.2.x` |
+| TypeScript | `6.0.x` |
+| Vite | `8.0.x` |
+| TanStack Query | `5.100.x` |
+| TanStack Router | `1.130.x` |
+| pnpm | `11.1.3` |
 
 ---
 
@@ -50,7 +59,7 @@ pnpm dev:server    # Mock API 서버 (3333)
 
 | 연결 방식 | URL / Target | 비고 |
 | :--- | :--- | :--- |
-| **개발 기본** (Vite proxy) | `VITE_API_URL=/channel/backend/api/v1` → `http://192.168.110.217` | PC/Mobile 개발 기본값 |
+| **개발 기본** (Vite proxy) | `VITE_API_URL=/channel/backend/api/v1` → `http://192.168.110.217` | PC/Mobile/Admin 개발 기본값 |
 | **운영** (Nginx same-origin) | `VITE_API_URL=/channel/backend/api/v1` | 빌드/배포 기본값 |
 | **Mock** (`mock/server.js`) | `http://localhost:3333` | 프로토타이핑·UI 개발용, 필요 시 env 전환 |
 | **로컬 Spring 직접 연결** | `http://localhost:18081/channel/backend/api/v1` | 로컬 백엔드 직접 기동 시 |
@@ -58,7 +67,7 @@ pnpm dev:server    # Mock API 서버 (3333)
 > **핵심**: Mock 서버([mock/server.js](mock/server.js))는 Spring과 **동일한 계약**(공통 envelope + JWT 인증)을 흉내냅니다. 따라서 앱은 **단일 코드패스**로 동작하며, mock에서 검증한 인증·통신 로직이 Spring 연동 시 그대로 유지됩니다. (`pnpm dev:server`로 구동, Node 내장 모듈만 사용해 의존성 없음)
 
 ```bash
-# apps/pc-web/.env  ·  apps/mobile-web/.env
+# apps/pc-web/.env · apps/mobile-web/.env · apps/admin-portal/.env
 VITE_API_URL=/channel/backend/api/v1                         # 개발 기본: Vite proxy → Spring
 #VITE_API_URL=http://localhost:3333                          # Mock 사용 시
 #VITE_API_URL=http://localhost:18081/channel/backend/api/v1   # 로컬 Spring 직접 연결 시
@@ -91,6 +100,7 @@ VITE_API_URL=/channel/backend/api/v1                         # 개발 기본: Vi
 | `-1005` | ACCESS_DENIED | 리소스 접근 권한 없음 (로그아웃 X) |
 | `-2003/-2004` | JSON_*_PARSING | JSON 직렬화/역직렬화 오류 |
 | `-4001/-4002` | DB_*_ERROR | DB 조회/저장 오류 |
+| `-4003` | 백엔드 정의 | Database access error (현재 FE `API_ERROR_CODE`에는 미등록) |
 | `-9999` | SERVER_ERROR | 서버 내부 오류 |
 
 ---
@@ -184,7 +194,7 @@ PC 보호 화면 최초 진입 시 코드/메뉴 기준정보를 준비합니다
 | 명령 | 설명 |
 | :--- | :--- |
 | `pnpm gen:api` | 여러 백엔드 OpenAPI 스펙 → 서비스별 TS 타입 생성 (`scripts/gen-api.mjs` → `packages/shared/src/shared/api/*.schema.d.ts`). 스펙 목록은 `API_DOCS_URLS` 환경변수로 덮어쓰기 |
-| `pnpm gen:readme` | `README.md` → `landing/assets/fe.readme.html` 생성 |
+| `pnpm gen:readme` | 로컬 landing 미리보기용 README HTML 생성 (배포 시 CI가 자동 실행) |
 | `pnpm wbs:pull -- --dry-run` | GitHub Projects의 신규 항목을 WBS 반영 전에 미리보기 |
 | `pnpm wbs:pull` | GitHub Projects의 신규 항목을 `docs/wbs.md`에 추가 (`docs/wbs-pull.js`) |
 | `pnpm wbs:sync` | `docs/wbs.md` → GitHub Projects 동기화 (`docs/wbs-sync.js`) |
@@ -215,6 +225,7 @@ PC 보호 화면 최초 진입 시 코드/메뉴 기준정보를 준비합니다
 | pnpm | `11.1.3` (`packageManager`와 동기화) |
 | 배포 트리거 | `develop` 브랜치 push |
 | API URL 주입 | `VITE_API_URL=/channel/backend/api/v1` |
+| 배포 결과 알림 | Discord Webhook (`DISCORD_WH` GitHub Actions secret) |
 
 1. `pnpm install --frozen-lockfile`
 2. `pnpm gen:api`로 백엔드 OpenAPI 스펙 기준 타입 재생성
@@ -248,7 +259,7 @@ CI는 빌드 성공 여부뿐 아니라 **백엔드 스펙과 FE generated 타�
 ### 안내 페이지 (landing)
 `landing/index.html`은 FE·BE 자료(소개 PDF·README·WBS·저장소)를 링크로 안내하는 **단일 정적 페이지**입니다. 어떤 앱에도 속하지 않으므로 `public/`(앱 공유 publicDir)이 아닌 별도 `landing/`에 두고, Nginx 루트 context로 서빙합니다. CI/CD에서 `pnpm gen:readme` 실행 후 `landing/*` 전체를 landing 배포 경로로 복사합니다.
 
-> `README.md`를 수정했다면 `pnpm gen:readme`를 실행해 `landing/assets/fe.readme.html`도 함께 갱신해야 합니다.
+> README HTML은 CI가 배포 전에 자동 생성합니다. 로컬 landing 미리보기가 필요한 경우에만 `pnpm gen:readme`를 실행합니다. 형제 BE 저장소가 로컬에 있으면 `be.readme.html`도 함께 변경될 수 있습니다.
 
 ---
 
@@ -282,7 +293,7 @@ bx-cf-fe/
 ├── packages/
 │   └── shared/                  # 공유 패키지 (@bx/shared)
 │       └── src/
-│           ├── entities/        # 도메인: account, alarm, auth, base-info, menu, product, user
+│           ├── entities/        # 도메인: account, alarm, auth, base-info, common-code, menu, product, user
 │           │   └── <entity>/    #   ├ api/    (HTTP 호출)
 │           │                    #   ├ model/  (타입·hook·queries·store·storage)
 │           │                    #   └ ui/     (도메인 컴포넌트)
@@ -308,7 +319,13 @@ bx-cf-fe/
     │
     ├── mobile-web/              # 모바일 웹 (3001) — FSD 앱 (구조 동일, 풀스크린 모달)
     │
-    └── admin-portal/            # 관리자 포탈 (3002) — 스켈레톤(템플릿)
+    └── admin-portal/            # 관리자 포탈 (3002) — 운영 관리 앱
+        └── src/
+            ├── routes/          #   로그인·대시보드·코드·메뉴·사용자·프로필 라우트
+            ├── pages/           #   관리자 업무 화면
+            ├── features/        #   코드·메뉴·사용자 등록/수정 기능
+            ├── widgets/         #   관리자 레이아웃·사이드바
+            └── shared/          #   관리자 전용 폼·필터·드로어·스타일
 ```
 
 > 라우트 트리(`routeTree.gen.ts`)는 TanStack Router 플러그인이 dev/build 시 자동 생성합니다(직접 수정 금지).
@@ -344,7 +361,12 @@ TanStack Query key는 `xxxQueryKeys = { all, list, detail, ... }` 객체 패턴�
 * baseURL은 `httpService.init()`에서 1회 설정하므로, 각 API 함수는 **상대 경로**만 사용합니다. (예: `httpService.get('/product/list')`)
 * `execute()`가 envelope의 `payload`를 언래핑하여 반환하고, `success: false`는 에러로 throw합니다.
 
-### 5. 공통 상수 (`@bx/shared/.../constants`)
+### 5. 공통 UI와 앱 전용 UI
+* 여러 앱에서 재사용할 수 있는 기본 UI는 `packages/shared/src/shared/ui`에 구현합니다.
+* 앱별 동작이나 스타일이 필요하면 shared 기본 컴포넌트를 조합하거나 확장하고, wrapper와 스타일은 해당 앱 내부에 둡니다.
+* 앱에 먼저 구현한 기능이라도 재사용 범위가 넓어지면 shared UI로 승격합니다.
+
+### 6. 공통 상수 (`@bx/shared/.../constants`)
 | 모듈 | 내용 |
 | :--- | :--- |
 | `api.ts` | `API_URL`(env 주입), `IS_MOCK_API`, `API_CONFIG`(타임아웃·재시도) |

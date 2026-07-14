@@ -40,7 +40,7 @@ export function UsersPage() {
   const [status, setStatus] = useState('ALL');
   const [userType, setUserType] = useState('ALL');
   const { data } = useFetchUserList(undefined, { retry: false });
-  const users = data?.length ? data : fallbackUsers;
+  const users = data || [];
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedUsrId, setSelectedUsrId] = useState<string | undefined>();
 

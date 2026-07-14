@@ -26,10 +26,6 @@ type LegacyListParams = {
 };
 export type MenuPayload = Partial<MenuCreatePayload & MenuUpdatePayload> &
   Partial<LegacyMenuFields>;
-export type MenuDeleteParams = {
-  menuId: number;
-  authUser: string;
-};
 export type MenuQueryParams = Partial<MenuListItem & MenuPayload & LegacyListParams>;
 
 export type Menu = (MenuListItem | MenuDetail) &

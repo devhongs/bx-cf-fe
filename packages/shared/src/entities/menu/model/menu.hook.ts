@@ -11,7 +11,7 @@ import {
   menuQueryKeys,
   updateMenuMutation,
 } from './menu.queries';
-import type { Menu, MenuDeleteParams, MenuPayload, MenuQueryParams } from './menu.type';
+import type { Menu, MenuPayload, MenuQueryParams } from './menu.type';
 
 /**
  * 모든 메뉴 목록을 가져오는 쿼리 훅.
@@ -73,8 +73,8 @@ export const useUpdateMenu = (
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */
 export const useDeleteMenu = (
-  options?: UseMutationOptions<void, Error, MenuDeleteParams, unknown>,
-): UseMutationResult<void, Error, MenuDeleteParams, unknown> => {
+  options?: UseMutationOptions<void, Error, number, unknown>,
+): UseMutationResult<void, Error, number, unknown> => {
   const queryClient = useQueryClient();
   return useMutation({
     ...deleteMenuMutation(),

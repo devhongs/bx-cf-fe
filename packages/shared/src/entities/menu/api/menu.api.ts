@@ -1,6 +1,6 @@
 import { httpService } from '../../../shared/ajax/http.service';
 
-import type { Menu, MenuDeleteParams, MenuPayload, MenuQueryParams } from '../model/menu.type';
+import type { Menu, MenuPayload, MenuQueryParams } from '../model/menu.type';
 
 export const fetchMenuList = <T extends Menu = Menu>(
   _params?: MenuQueryParams,
@@ -17,7 +17,5 @@ export const updateMenu = (menuId: number, payload: MenuPayload): Promise<void> 
     data: payload,
   });
 
-export const deleteMenu = ({ menuId, authUser }: MenuDeleteParams): Promise<void> =>
-  httpService.post<void>(`/system/menus/${encodeURIComponent(menuId)}/delete`, undefined, {
-    headers: { 'X-Auth-User': authUser },
-  });
+export const deleteMenu = (menuId: number): Promise<void> =>
+  httpService.post<void>(`/system/menus/${encodeURIComponent(menuId)}/delete`);

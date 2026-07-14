@@ -485,8 +485,7 @@ export namespace system {
        *       "data": {
        *         "menuIds": [
        *           0
-       *         ],
-       *         "createdBy": "admin"
+       *         ]
        *       }
        *     }
        */
@@ -495,18 +494,12 @@ export namespace system {
          * @example {
          *       "menuIds": [
          *         0
-         *       ],
-         *       "createdBy": "admin"
+         *       ]
          *     }
          */
         data: {
           /** @description 역할에 부여할 메뉴 ID 목록 */
           menuIds: number[];
-          /**
-           * @description 요청자 ID
-           * @example admin
-           */
-          createdBy?: string;
         };
       };
       /**
@@ -634,8 +627,7 @@ export namespace system {
        *         "sortSeq": "1",
        *         "visibleYn": "Y",
        *         "useYn": "Y",
-       *         "remark": "string",
-       *         "createdBy": "admin"
+       *         "remark": "string"
        *       }
        *     }
        */
@@ -653,8 +645,7 @@ export namespace system {
          *       "sortSeq": "1",
          *       "visibleYn": "Y",
          *       "useYn": "Y",
-         *       "remark": "string",
-         *       "createdBy": "admin"
+         *       "remark": "string"
          *     }
          */
         data: {
@@ -719,11 +710,6 @@ export namespace system {
           useYn?: 'Y' | 'N';
           /** @description 비고 */
           remark?: string;
-          /**
-           * @description 요청자 ID
-           * @example admin
-           */
-          createdBy?: string;
         };
       };
       /**
@@ -739,8 +725,7 @@ export namespace system {
        *         "sortSeq": "1",
        *         "visibleYn": "Y",
        *         "useYn": "Y",
-       *         "remark": "string",
-       *         "createdBy": "admin"
+       *         "remark": "string"
        *       }
        *     }
        */
@@ -757,8 +742,7 @@ export namespace system {
          *       "sortSeq": "1",
          *       "visibleYn": "Y",
          *       "useYn": "Y",
-         *       "remark": "string",
-         *       "createdBy": "admin"
+         *       "remark": "string"
          *     }
          */
         data: {
@@ -818,11 +802,6 @@ export namespace system {
           useYn?: 'Y' | 'N';
           /** @description 비고 */
           remark?: string;
-          /**
-           * @description 요청자 ID
-           * @example admin
-           */
-          createdBy?: string;
         };
       };
       /**
@@ -1607,8 +1586,7 @@ export namespace system {
            *         "sortSeq": "1",
            *         "visibleYn": "Y",
            *         "useYn": "Y",
-           *         "remark": "string",
-           *         "createdBy": "admin"
+           *         "remark": "string"
            *       }
            *     }
            */
@@ -1672,9 +1650,7 @@ export namespace system {
     deleteMenu: {
       parameters: {
         query?: never;
-        header: {
-          'X-Auth-User': string;
-        };
+        header?: never;
         path: {
           menuId: number;
         };
@@ -1749,8 +1725,7 @@ export namespace system {
           /**
            * @example {
            *       "data": {
-           *         "menuIds": "string",
-           *         "createdBy": "admin"
+           *         "menuIds": "string"
            *       }
            *     }
            */
@@ -1864,8 +1839,7 @@ export namespace system {
            *         "sortSeq": "1",
            *         "visibleYn": "Y",
            *         "useYn": "Y",
-           *         "remark": "string",
-           *         "createdBy": "admin"
+           *         "remark": "string"
            *       }
            *     }
            */
