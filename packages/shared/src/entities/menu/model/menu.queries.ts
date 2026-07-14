@@ -1,7 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 
 import { createMenu, deleteMenu, fetchMenu, fetchMenuList, updateMenu } from '../api/menu.api';
-import type { Menu, MenuPayload, MenuQueryParams } from './menu.type';
+import type { Menu, MenuAuthParams, MenuPayload, MenuQueryParams } from './menu.type';
 
 export const menuQueryKeys = {
   all: ['menu'] as const,
@@ -22,16 +22,22 @@ export const menuDetailQuery = <T extends Menu = Menu>(menuId: number) =>
   });
 
 export const createMenuMutation = () => ({
-  mutationFn: (payload: MenuPayload) => createMenu(payload),
+  mutationFn: ({ payload, authUser }: { payload: MenuPayload } & MenuAuthParams) =>
+    createMenu(payload, authUser),
 });
 
 export const updateMenuMutation = () => ({
-  mutationFn: ({ menuId, payload }: { menuId: number; payload: MenuPayload }) =>
-    updateMenu(menuId, payload),
+  mutationFn: ({
+    menuId,
+    payload,
+    authUser,
+  }: { menuId: number; payload: MenuPayload } & MenuAuthParams) =>
+    updateMenu(menuId, payload, authUser),
 });
 
 export const deleteMenuMutation = () => ({
-  mutationFn: (menuId: number) => deleteMenu(menuId),
+  mutationFn: ({ menuId, authUser }: { menuId: number } & MenuAuthParams) =>
+    deleteMenu(menuId, authUser),
 });
 
 export const fetchMenuListQuery = menuListQuery;

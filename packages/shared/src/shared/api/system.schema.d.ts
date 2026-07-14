@@ -1565,7 +1565,9 @@ export namespace system {
     updateMenu: {
       parameters: {
         query?: never;
-        header?: never;
+        header: {
+          'X-Auth-User': string;
+        };
         path: {
           menuId: number;
         };
@@ -1650,7 +1652,9 @@ export namespace system {
     deleteMenu: {
       parameters: {
         query?: never;
-        header?: never;
+        header: {
+          'X-Auth-User': string;
+        };
         path: {
           menuId: number;
         };
@@ -1714,7 +1718,9 @@ export namespace system {
     saveRoleMenus: {
       parameters: {
         query?: never;
-        header?: never;
+        header: {
+          'X-Auth-User': string;
+        };
         path: {
           roleId: number;
         };
@@ -1819,7 +1825,9 @@ export namespace system {
     createMenu: {
       parameters: {
         query?: never;
-        header?: never;
+        header: {
+          'X-Auth-User': string;
+        };
         path?: never;
         cookie?: never;
       };

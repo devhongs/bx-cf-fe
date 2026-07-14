@@ -11,7 +11,7 @@ import {
   menuQueryKeys,
   updateMenuMutation,
 } from './menu.queries';
-import type { Menu, MenuPayload, MenuQueryParams } from './menu.type';
+import type { Menu, MenuAuthParams, MenuPayload, MenuQueryParams } from './menu.type';
 
 /**
  * 모든 메뉴 목록을 가져오는 쿼리 훅.
@@ -41,8 +41,8 @@ export const useFetchMenu = <T extends Menu = Menu>(
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */
 export const useCreateMenu = (
-  options?: UseMutationOptions<void, Error, MenuPayload, unknown>,
-): UseMutationResult<void, Error, MenuPayload, unknown> => {
+  options?: UseMutationOptions<void, Error, { payload: MenuPayload } & MenuAuthParams, unknown>,
+): UseMutationResult<void, Error, { payload: MenuPayload } & MenuAuthParams, unknown> => {
   const queryClient = useQueryClient();
   return useMutation({
     ...createMenuMutation(),
@@ -55,8 +55,18 @@ export const useCreateMenu = (
 };
 
 export const useUpdateMenu = (
-  options?: UseMutationOptions<void, Error, { menuId: number; payload: MenuPayload }, unknown>,
-): UseMutationResult<void, Error, { menuId: number; payload: MenuPayload }, unknown> => {
+  options?: UseMutationOptions<
+    void,
+    Error,
+    { menuId: number; payload: MenuPayload } & MenuAuthParams,
+    unknown
+  >,
+): UseMutationResult<
+  void,
+  Error,
+  { menuId: number; payload: MenuPayload } & MenuAuthParams,
+  unknown
+> => {
   const queryClient = useQueryClient();
   return useMutation({
     ...updateMenuMutation(),
@@ -73,8 +83,8 @@ export const useUpdateMenu = (
  * @param [options] - 추가 뮤테이션 설정 옵션.
  */
 export const useDeleteMenu = (
-  options?: UseMutationOptions<void, Error, number, unknown>,
-): UseMutationResult<void, Error, number, unknown> => {
+  options?: UseMutationOptions<void, Error, { menuId: number } & MenuAuthParams, unknown>,
+): UseMutationResult<void, Error, { menuId: number } & MenuAuthParams, unknown> => {
   const queryClient = useQueryClient();
   return useMutation({
     ...deleteMenuMutation(),

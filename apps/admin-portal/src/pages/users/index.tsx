@@ -8,33 +8,6 @@ import { AdminFilterBar } from '@/shared/ui/admin-filter-bar/AdminFilterBar';
 
 import styles from '../admin-page.module.css';
 
-const fallbackUsers: ManagedUser[] = [
-  {
-    usrId: 'admin',
-    usrNm: '관리자',
-    userType: 'ADMIN',
-    deptName: '운영',
-    positDivName: '슈퍼관리자',
-    useYn: 'Y',
-  },
-  {
-    usrId: 'ops01',
-    usrNm: '운영자',
-    userType: 'ADMIN',
-    deptName: '서비스운영',
-    positDivName: '운영자',
-    useYn: 'Y',
-  },
-  {
-    usrId: 'svc-user',
-    usrNm: '서비스 사용자',
-    userType: 'SERVICE',
-    deptName: '고객',
-    positDivName: '일반',
-    useYn: 'Y',
-  },
-];
-
 export function UsersPage() {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('ALL');

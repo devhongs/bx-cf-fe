@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { useCreateMenu, useDeleteMenu, useFetchMenu, useUpdateMenu } from '@bx/shared';
+import {
+  useAuthStore,
+  useCreateMenu,
+  useDeleteMenu,
+  useFetchMenu,
+  useUpdateMenu,
+} from '@bx/shared';
 import type { Menu } from '@bx/shared';
 
 import { getApiErrorMessage } from '@/shared/lib/getApiErrorMessage';
@@ -50,16 +56,19 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
   const createMutation = useCreateMenu();
   const updateMutation = useUpdateMenu();
   const deleteMutation = useDeleteMenu();
+  const userId = useAuthStore((state) => state.user?.usrId);
   const pending = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending;
 
   const handleSubmit = async (payload: MenuFormPayload) => {
     setSubmitError('');
 
+    const authUser = userId ?? 'admin';
+
     try {
       if (isUpdateMode) {
-        await updateMutation.mutateAsync({ menuId, payload });
+        await updateMutation.mutateAsync({ menuId, payload, authUser });
       } else {
-        await createMutation.mutateAsync(payload);
+        await createMutation.mutateAsync({ payload, authUser });
       }
       onClose();
     } catch (error) {
@@ -73,7 +82,7 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
 
     setSubmitError('');
     try {
-      await deleteMutation.mutateAsync(menuId);
+      await deleteMutation.mutateAsync({ menuId, authUser: userId ?? 'admin' });
       onClose();
     } catch (error) {
       setSubmitError(getApiErrorMessage(error, '삭제에 실패했습니다.'));
