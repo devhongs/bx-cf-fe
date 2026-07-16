@@ -41,7 +41,7 @@
         border-bottom: 1px solid #232d3f;
       }
       .md h3 { font-size: 18px; margin: 28px 0 12px; }
-      .md h2, .md h3 { scroll-margin-top: 24px; }
+      .md h2 { scroll-margin-top: 24px; }
       .md a { color: #5b9dff; text-decoration: none; }
       .md a:hover { text-decoration: underline; }
       .md hr { border: none; border-top: 1px solid #232d3f; margin: 32px 0; }
@@ -90,7 +90,6 @@
         text-decoration: none;
       }
       .toc-link:hover, .toc-link[aria-current="location"] { color: #eaeef6; background: #1c2738; }
-      .toc-link-depth-3 { margin-left: 16px; }
       @media (max-width: 1100px) {
         .readme-layout { display: block; width: min(100% - 32px, 880px); }
         .toc-column { display: none; }
@@ -144,10 +143,10 @@
 </tbody></table>
 <hr>
 <h2 id="시작하기-quick-start">🚀 시작하기 (Quick Start)</h2>
-<h3 id="1-패키지-의존성-설치">1. 패키지 의존성 설치</h3>
+<h3>1. 패키지 의존성 설치</h3>
 <pre><code class="language-bash">pnpm install
 </code></pre>
-<h3 id="2-개발-서버-실행">2. 개발 서버 실행</h3>
+<h3>2. 개발 서버 실행</h3>
 <p>전체 앱을 한 번에 확인할 때는 <code>dev:all</code>을 사용합니다. 이 명령은 Mock API 서버도 함께 띄우지만, 앱이 mock을 사용하려면 각 앱 <code>.env</code>의 <code>VITE_API_URL</code>을 <code>http://localhost:3333</code>으로 전환해야 합니다.</p>
 <pre><code class="language-bash">pnpm dev:all
 </code></pre>
@@ -212,7 +211,7 @@ VITE_API_URL=/channel/backend/api/v1                         # 개발 기본: Vi
 <li><code>VITE_API_URL</code>을 상대경로로 두면 앱의 <code>vite.config.ts</code> proxy 설정을 타고, 절대 URL로 두면 브라우저가 해당 서버로 직접 요청합니다.</li>
 <li>Mock 서버는 <code>db.json</code>을 그대로 서빙하되 모든 응답을 envelope로 감싸고, <code>/auth/*</code> 엔드포인트는 Spring 형태의 가짜 토큰(먼 미래 만료)을 발급합니다. (<code>db.json</code> 변경 시 mock 서버 재시작 필요)</li>
 </ul>
-<h3 id="공통-응답-규격-envelope">공통 응답 규격 (envelope)</h3>
+<h3>공통 응답 규격 (envelope)</h3>
 <p>실서버 응답은 공통부(<code>success</code>/<code>code</code>/<code>msg</code>)와 데이터부(<code>payload</code>)로 구성됩니다. <code>httpService</code>가 <code>payload</code>를 자동 언래핑하여 반환합니다.</p>
 <pre><code class="language-jsonc">{
   &quot;success&quot;: true,     // 성공/실패
@@ -221,7 +220,7 @@ VITE_API_URL=/channel/backend/api/v1                         # 개발 기본: Vi
   &quot;payload&quot;: { }       // 실제 데이터 (any)
 }
 </code></pre>
-<h3 id="api-에러-코드-api-error-code">API 에러 코드 (<code>API_ERROR_CODE</code>)</h3>
+<h3>API 에러 코드 (<code>API_ERROR_CODE</code>)</h3>
 <table>
 <thead>
 <tr>
@@ -286,14 +285,14 @@ httpService.init({
   auth: createHttpAuthConfig(),
 });
 </code></pre>
-<h3 id="로그인-흐름">로그인 흐름</h3>
+<h3>로그인 흐름</h3>
 <ol>
 <li>비밀번호를 <code>sha256()</code>로 해싱 → <code>POST /auth/login</code> (<code>{ usrId, usrPwd }</code>)</li>
 <li>응답 <code>payload</code>(사용자 정보 + accessToken + accessTokenExpiresAt)를 <code>useAuthStore.setAuth()</code>로 저장</li>
 <li>refreshToken 값은 서버가 <strong>HttpOnly Cookie</strong>로 관리하고, FE는 localStorage에 저장하지 않음</li>
 <li>accessToken 및 accessTokenExpiresAt은 <strong>localStorage</strong>에 보관(탭 간 공유·새로고침 유지)</li>
 </ol>
-<h3 id="토큰-자동-관리-인터셉터">토큰 자동 관리 (인터셉터)</h3>
+<h3>토큰 자동 관리 (인터셉터)</h3>
 <ul>
 <li><strong>요청</strong>: 모든 요청에 <code>Authorization: Bearer &lt;accessToken&gt;</code> 자동 부착</li>
 <li><strong>응답 (<code>-1004</code> 또는 HTTP 401)</strong>: <code>POST /auth/refresh-token</code>으로 재발급 후 원요청 <strong>자동 재시도</strong><ul>
@@ -305,13 +304,13 @@ httpService.init({
 <li><strong>응답 (<code>-1002</code>/<code>-1003</code>)</strong>: 재발급 불가 → 즉시 로그아웃</li>
 <li><strong>응답 (<code>-1005</code>)</strong>: 인가(권한) 오류 → 로그아웃하지 않고 에러 그대로 전달</li>
 </ul>
-<h3 id="라우트-가드">라우트 가드</h3>
+<h3>라우트 가드</h3>
 <p>보호 라우트(<code>(page)/_page</code>)는 <code>beforeLoad</code>에서 <code>requireAuth</code>를 먼저 수행합니다. <code>ensureValidAuthSession()</code>은 <code>accessTokenExpiresAt</code>이 유효하면 바로 통과하고, 만료됐거나 accessToken이 없으면 refresh 쿠키로 accessToken 재발급을 시도한 뒤 페이지 진입 여부를 결정합니다.</p>
 <p>인증 통과 후 PC 웹은 <code>ensureBaseInfoBootstrapped(queryClient, { menuCacheScope: usrId })</code>를 호출해 기준정보 준비가 끝난 뒤 화면을 로딩합니다.</p>
 <hr>
 <h2 id="기준정보-부트스트랩-pc-web">🧭 기준정보 부트스트랩 (PC Web)</h2>
 <p>PC 보호 화면 최초 진입 시 코드/메뉴 기준정보를 준비합니다. 실행 중 에러가 나도 화면 진입은 막지 않고, 가능한 경우 기존 localStorage 캐시를 재사용합니다.</p>
-<h3 id="처리-흐름">처리 흐름</h3>
+<h3>처리 흐름</h3>
 <ol>
 <li><code>POST /system/reference-data/versions/latest</code>로 기준정보 버전을 조회합니다. (<code>refType/versionNo</code> → <code>type/version</code>으로 정규화)</li>
 <li>타입별 localStorage 캐시가 <code>serverVersion + schemaVersion</code> 기준으로 최신인지 확인합니다.</li>
@@ -323,7 +322,7 @@ httpService.init({
 </li>
 <li>조회 결과를 localStorage에 저장하고, 화면에서 쓰는 <code>CONFIG.SESSION.CODE</code> / <code>CONFIG.SESSION.MENU_LIST</code>에 주입합니다.</li>
 </ol>
-<h3 id="캐시-역할">캐시 역할</h3>
+<h3>캐시 역할</h3>
 <table>
 <thead>
 <tr>
@@ -347,7 +346,7 @@ httpService.init({
 <p><code>schemaVersion</code>은 FE 내부 캐시 구조 버전입니다. 서버 버전이 그대로여도 FE 저장 구조가 바뀌면 schemaVersion을 올려 강제로 재조회하게 합니다. 현재 CODE는 그룹+children 구조를 반영해 <code>2</code>, MENU는 <code>1</code>입니다.</p>
 <hr>
 <h2 id="실행-스크립트-scripts">📜 실행 스크립트 (Scripts)</h2>
-<h3 id="개발-서버">개발 서버</h3>
+<h3>개발 서버</h3>
 <table>
 <thead>
 <tr>
@@ -372,7 +371,7 @@ httpService.init({
 <td align="left">전체 앱 + Mock API 동시 구동</td>
 </tr>
 </tbody></table>
-<h3 id="검증-빌드">검증 / 빌드</h3>
+<h3>검증 / 빌드</h3>
 <table>
 <thead>
 <tr>
@@ -404,7 +403,7 @@ httpService.init({
 <blockquote>
 <p><strong>단위 테스트</strong>: <code>*.test.ts(x)</code> 파일(Vitest)이 <code>packages/shared</code>와 <code>scripts</code>에 존재하지만, 이를 실행하는 workspace 스크립트와 <code>turbo.json</code> task가 아직 없습니다. 루트 <code>pnpm test</code>는 <code>turbo test</code>를 호출하므로 현재 <code>Could not find task &#39;test&#39;</code>로 실패합니다. 각 워크스페이스에 <code>test</code> 스크립트와 Vitest 설정을 추가한 뒤 이 문서에 반영해야 합니다.</p>
 </blockquote>
-<h3 id="e2e-playwright">E2E (Playwright)</h3>
+<h3>E2E (Playwright)</h3>
 <table>
 <thead>
 <tr>
@@ -421,7 +420,7 @@ httpService.init({
 <td align="left">개별 앱 E2E</td>
 </tr>
 </tbody></table>
-<h3 id="기타">기타</h3>
+<h3>기타</h3>
 <table>
 <thead>
 <tr>
@@ -489,7 +488,7 @@ httpService.init({
 <blockquote>
 <p>dev 서버에서는 <code>base</code>가 <code>/</code>로 유지됩니다(빌드 시에만 context 경로 적용).</p>
 </blockquote>
-<h3 id="ci-cd-github-workflows-ci-yml">CI/CD (<a href=".github/workflows/ci.yml">.github/workflows/ci.yml</a>)</h3>
+<h3>CI/CD (<a href=".github/workflows/ci.yml">.github/workflows/ci.yml</a>)</h3>
 <p><code>develop</code> 브랜치에 push되면 self-hosted 러너에서 자동으로 다음을 수행합니다.</p>
 <table>
 <thead>
@@ -532,7 +531,7 @@ httpService.init({
 <li><code>pnpm gen:readme</code>로 <code>landing/assets/fe.readme.html</code> 재생성</li>
 <li>각 앱 <code>dist/*</code>와 <code>landing/*</code>를 Nginx 서빙 폴더로 복사 (배포 완료 후 Discord 알림)</li>
 </ol>
-<h3 id="openapi-스펙-정합성-체크">OpenAPI 스펙 정합성 체크</h3>
+<h3>OpenAPI 스펙 정합성 체크</h3>
 <p>CI는 빌드 성공 여부뿐 아니라 <strong>백엔드 스펙과 FE generated 타입의 동기화 여부</strong>도 확인합니다.</p>
 <ul>
 <li><code>pnpm gen:api</code>는 <code>scripts/gen-api.mjs</code>의 기본 내부망 Swagger URL 또는 <code>API_DOCS_URLS</code> 환경변수로 지정한 URL에서 스펙을 받아 <code>packages/shared/src/shared/api/*.schema.d.ts</code>를 재생성합니다.</li>
@@ -570,7 +569,7 @@ httpService.init({
 <p><strong>참고</strong>: 현재 develop push 시 <strong>세 앱이 모두 함께 빌드·배포</strong>됩니다. 운영용 앱별 독립 배포가 필요하면 워크플로우를 분리(브랜치/태그/<code>paths</code> 필터 또는 turbo affected)해야 합니다.</p>
 <p><strong>주의</strong>: CI는 <code>--frozen-lockfile</code>로 의존성을 설치합니다. <code>package.json</code>의 dependencies/devDependencies를 변경했다면 반드시 <code>pnpm-lock.yaml</code>도 함께 갱신해 커밋해야 합니다. lockfile만 갱신하려면 <code>pnpm install --lockfile-only</code>를 사용합니다.</p>
 </blockquote>
-<h3 id="안내-페이지-landing">안내 페이지 (landing)</h3>
+<h3>안내 페이지 (landing)</h3>
 <p><code>landing/index.html</code>은 FE·BE 자료(소개 PDF·README·WBS·저장소)를 링크로 안내하는 <strong>단일 정적 페이지</strong>입니다. 어떤 앱에도 속하지 않으므로 <code>public/</code>(앱 공유 publicDir)이 아닌 별도 <code>landing/</code>에 두고, Nginx 루트 context로 서빙합니다. CI/CD에서 <code>pnpm gen:readme</code> 실행 후 <code>landing/*</code> 전체를 landing 배포 경로로 복사합니다.</p>
 <blockquote>
 <p>README HTML은 CI가 배포 전에 자동 생성합니다. 로컬 landing 미리보기가 필요한 경우에만 <code>pnpm gen:readme</code>를 실행합니다. 형제 BE 저장소가 로컬에 있으면 <code>be.readme.html</code>도 함께 변경될 수 있습니다.</p>
@@ -647,18 +646,18 @@ httpService.init({
 </blockquote>
 <hr>
 <h2 id="코드-스타일-및-개발-표준">🎨 코드 스타일 및 개발 표준</h2>
-<h3 id="1-린터-포맷터-biome">1. 린터·포맷터 (Biome)</h3>
+<h3>1. 린터·포맷터 (Biome)</h3>
 <p>ESLint/Prettier 대신 Rust 기반 <strong>Biome</strong>으로 품질·스타일을 관리합니다.</p>
 <ul>
 <li><strong>접근성(a11y) 규칙 제외</strong>: 프로토타이핑/마이그레이션 속도를 위해 <a href="biome.json">biome.json</a>에서 <code>a11y</code>를 비활성화했습니다.</li>
 <li><strong>포맷 규칙</strong>: 인덴트 Space 2 · 개행 LF · 작은따옴표(<code>&#39;</code>) · 세미콜론 항상.</li>
 </ul>
-<h3 id="2-barrel-index-ts-규칙">2. Barrel(<code>index.ts</code>) 규칙</h3>
+<h3>2. Barrel(<code>index.ts</code>) 규칙</h3>
 <ul>
 <li>엔티티·훅·UI는 디렉토리의 <code>index.ts</code>로 묶어 노출합니다.</li>
 <li><strong>순환 참조 금지</strong>: <code>@bx/shared</code> <strong>내부</strong> 모듈끼리는 반드시 <strong>로컬 상대 경로</strong>로 임포트합니다. (패키지 명칭 <code>@bx/shared</code>로 자기 자신을 호출하면 순환 의존성 발생)</li>
 </ul>
-<h3 id="3-도메인-파일-배치-컨벤션">3. 도메인 파일 배치 컨벤션</h3>
+<h3>3. 도메인 파일 배치 컨벤션</h3>
 <p>새 파일/기능을 추가하기 전에는 같은 도메인의 기존 구조를 먼저 확인하고, <code>entities</code> 하위의 기존 패턴을 우선합니다.</p>
 <table>
 <thead>
@@ -689,19 +688,19 @@ httpService.init({
 </tr>
 </tbody></table>
 <p>TanStack Query key는 <code>xxxQueryKeys = { all, list, detail, ... }</code> 객체 패턴을 사용합니다. 기존 컨벤션과 다르게 갈 필요가 있으면 구현 전에 이유를 먼저 설명합니다.</p>
-<h3 id="4-http-통신-httpservice">4. HTTP 통신 (<code>httpService</code>)</h3>
+<h3>4. HTTP 통신 (<code>httpService</code>)</h3>
 <ul>
 <li>모든 API 호출은 <code>@bx/shared</code>의 <code>httpService.get/post/put/patch/delete</code>를 사용합니다.</li>
 <li>baseURL은 <code>httpService.init()</code>에서 1회 설정하므로, 각 API 함수는 <strong>상대 경로</strong>만 사용합니다. (예: <code>httpService.get(&#39;/product/list&#39;)</code>)</li>
 <li><code>execute()</code>가 envelope의 <code>payload</code>를 언래핑하여 반환하고, <code>success: false</code>는 에러로 throw합니다.</li>
 </ul>
-<h3 id="5-공통-ui와-앱-전용-ui">5. 공통 UI와 앱 전용 UI</h3>
+<h3>5. 공통 UI와 앱 전용 UI</h3>
 <ul>
 <li>여러 앱에서 재사용할 수 있는 기본 UI는 <code>packages/shared/src/shared/ui</code>에 구현합니다.</li>
 <li>앱별 동작이나 스타일이 필요하면 shared 기본 컴포넌트를 조합하거나 확장하고, wrapper와 스타일은 해당 앱 내부에 둡니다.</li>
 <li>앱에 먼저 구현한 기능이라도 재사용 범위가 넓어지면 shared UI로 승격합니다.</li>
 </ul>
-<h3 id="6-공통-상수-bx-shared-constants">6. 공통 상수 (<code>@bx/shared/.../constants</code>)</h3>
+<h3>6. 공통 상수 (<code>@bx/shared/.../constants</code>)</h3>
 <table>
 <thead>
 <tr>
@@ -763,9 +762,9 @@ toast.error(&#39;저장에 실패했습니다.&#39;);
 </ul>
 <hr>
 <h2 id="git-커밋-컨벤션">📘 Git 커밋 컨벤션</h2>
-<h3 id="형식">형식</h3>
+<h3>형식</h3>
 <p><code>Type(Scope): Subject</code></p>
-<h3 id="type">Type</h3>
+<h3>Type</h3>
 <table>
 <thead>
 <tr>
@@ -809,40 +808,16 @@ toast.error(&#39;저장에 실패했습니다.&#39;);
       <aside class="toc-column">
         <nav class="toc" aria-label="문서 목차">
         <a class="toc-link toc-link-depth-2" href="#시작하기-quick-start">🚀 시작하기 (Quick Start)</a>
-        <a class="toc-link toc-link-depth-3" href="#1-패키지-의존성-설치">1. 패키지 의존성 설치</a>
-        <a class="toc-link toc-link-depth-3" href="#2-개발-서버-실행">2. 개발 서버 실행</a>
         <a class="toc-link toc-link-depth-2" href="#백엔드-연결-vite-proxy-mock-spring">🌐 백엔드 연결 (Vite Proxy ↔ Mock ↔ Spring)</a>
-        <a class="toc-link toc-link-depth-3" href="#공통-응답-규격-envelope">공통 응답 규격 (envelope)</a>
-        <a class="toc-link toc-link-depth-3" href="#api-에러-코드-api-error-code">API 에러 코드 (API_ERROR_CODE)</a>
         <a class="toc-link toc-link-depth-2" href="#인증-jwt">🔐 인증 (JWT)</a>
-        <a class="toc-link toc-link-depth-3" href="#로그인-흐름">로그인 흐름</a>
-        <a class="toc-link toc-link-depth-3" href="#토큰-자동-관리-인터셉터">토큰 자동 관리 (인터셉터)</a>
-        <a class="toc-link toc-link-depth-3" href="#라우트-가드">라우트 가드</a>
         <a class="toc-link toc-link-depth-2" href="#기준정보-부트스트랩-pc-web">🧭 기준정보 부트스트랩 (PC Web)</a>
-        <a class="toc-link toc-link-depth-3" href="#처리-흐름">처리 흐름</a>
-        <a class="toc-link toc-link-depth-3" href="#캐시-역할">캐시 역할</a>
         <a class="toc-link toc-link-depth-2" href="#실행-스크립트-scripts">📜 실행 스크립트 (Scripts)</a>
-        <a class="toc-link toc-link-depth-3" href="#개발-서버">개발 서버</a>
-        <a class="toc-link toc-link-depth-3" href="#검증-빌드">검증 / 빌드</a>
-        <a class="toc-link toc-link-depth-3" href="#e2e-playwright">E2E (Playwright)</a>
-        <a class="toc-link toc-link-depth-3" href="#기타">기타</a>
         <a class="toc-link toc-link-depth-2" href="#배포-deployment">🚢 배포 (Deployment)</a>
-        <a class="toc-link toc-link-depth-3" href="#ci-cd-github-workflows-ci-yml">CI/CD (.github/workflows/ci.yml)</a>
-        <a class="toc-link toc-link-depth-3" href="#openapi-스펙-정합성-체크">OpenAPI 스펙 정합성 체크</a>
-        <a class="toc-link toc-link-depth-3" href="#안내-페이지-landing">안내 페이지 (landing)</a>
         <a class="toc-link toc-link-depth-2" href="#디렉토리-아키텍처">📂 디렉토리 아키텍처</a>
         <a class="toc-link toc-link-depth-2" href="#코드-스타일-및-개발-표준">🎨 코드 스타일 및 개발 표준</a>
-        <a class="toc-link toc-link-depth-3" href="#1-린터-포맷터-biome">1. 린터·포맷터 (Biome)</a>
-        <a class="toc-link toc-link-depth-3" href="#2-barrel-index-ts-규칙">2. Barrel(index.ts) 규칙</a>
-        <a class="toc-link toc-link-depth-3" href="#3-도메인-파일-배치-컨벤션">3. 도메인 파일 배치 컨벤션</a>
-        <a class="toc-link toc-link-depth-3" href="#4-http-통신-httpservice">4. HTTP 통신 (httpService)</a>
-        <a class="toc-link toc-link-depth-3" href="#5-공통-ui와-앱-전용-ui">5. 공통 UI와 앱 전용 UI</a>
-        <a class="toc-link toc-link-depth-3" href="#6-공통-상수-bx-shared-constants">6. 공통 상수 (@bx/shared/.../constants)</a>
         <a class="toc-link toc-link-depth-2" href="#모달-시스템">🪟 모달 시스템</a>
         <a class="toc-link toc-link-depth-2" href="#토스트-시스템">🔔 토스트 시스템</a>
         <a class="toc-link toc-link-depth-2" href="#git-커밋-컨벤션">📘 Git 커밋 컨벤션</a>
-        <a class="toc-link toc-link-depth-3" href="#형식">형식</a>
-        <a class="toc-link toc-link-depth-3" href="#type">Type</a>
         </nav>
       </aside>
     </div>

@@ -4,17 +4,19 @@ import * as readmeHtml from './gen-readme-html.mjs';
 const { buildReadmeContent } = readmeHtml;
 
 describe('README HTML heading outline', () => {
-  it('creates matching H2/H3 outline entries and unique body anchors', () => {
+  it('creates H2-only outline entries and unique body anchors', () => {
     const result = buildReadmeContent('# Document\n\n## Overview\n\n### Details\n\n## Overview');
+    const html = readmeHtml.renderReadmeDocument('Document', result);
 
     expect(result.headings).toEqual([
       { id: 'overview', depth: 2, label: 'Overview' },
-      { id: 'details', depth: 3, label: 'Details' },
       { id: 'overview-2', depth: 2, label: 'Overview' },
     ]);
     expect(result.body).toContain('<h2 id="overview">Overview</h2>');
-    expect(result.body).toContain('<h3 id="details">Details</h3>');
+    expect(result.body).toContain('<h3>Details</h3>');
     expect(result.body).toContain('<h2 id="overview-2">Overview</h2>');
+    expect(html).not.toContain('toc-link-depth-3');
+    expect(html).not.toContain('href="#details"');
   });
 
   it('derives plain labels from inline heading tokens', () => {
@@ -38,7 +40,7 @@ describe('README HTML heading outline', () => {
 
     expect(html).toContain('<nav class="toc" aria-label="문서 목차">');
     expect(html).toContain('class="toc-link toc-link-depth-2" href="#overview"');
-    expect(html).toContain('class="toc-link toc-link-depth-3" href="#details"');
+    expect(html).not.toContain('class="toc-link toc-link-depth-3"');
     expect(html).toContain('scroll-behavior: smooth');
     expect(html).toContain('position: sticky');
     expect(html).toContain('@media (max-width: 1100px)');

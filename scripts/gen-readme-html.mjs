@@ -77,7 +77,7 @@ export const renderReadmeDocument = (title, { body, headings }) => {
         border-bottom: 1px solid #232d3f;
       }
       .md h3 { font-size: 18px; margin: 28px 0 12px; }
-      .md h2, .md h3 { scroll-margin-top: 24px; }
+      .md h2 { scroll-margin-top: 24px; }
       .md a { color: #5b9dff; text-decoration: none; }
       .md a:hover { text-decoration: underline; }
       .md hr { border: none; border-top: 1px solid #232d3f; margin: 32px 0; }
@@ -126,7 +126,6 @@ export const renderReadmeDocument = (title, { body, headings }) => {
         text-decoration: none;
       }
       .toc-link:hover, .toc-link[aria-current="location"] { color: #eaeef6; background: #1c2738; }
-      .toc-link-depth-3 { margin-left: 16px; }
       @media (max-width: 1100px) {
         .readme-layout { display: block; width: min(100% - 32px, 880px); }
         .toc-column { display: none; }
@@ -221,7 +220,7 @@ export const buildReadmeContent = (markdown) => {
   const counts = new Map();
 
   for (const token of tokens) {
-    if (token.type !== 'heading' || (token.depth !== 2 && token.depth !== 3)) continue;
+    if (token.type !== 'heading' || token.depth !== 2) continue;
     const label = getHeadingLabel(token.tokens);
     token.headingId = createHeadingId(label, counts);
     headings.push({ id: token.headingId, depth: token.depth, label });

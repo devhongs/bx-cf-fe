@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Generate FE/BE README HTML with a right-side H2/H3 table of contents that scrolls to and highlights the current section without pagination.
+**Goal:** Generate FE/BE README HTML with a right-side H2-only table of contents that scrolls to and highlights the current section without pagination.
 
 **Architecture:** Tokenize Markdown once with `marked.lexer()`, annotate heading tokens with deterministic unique IDs, and use those same tokens to render both body anchors and the TOC. Keep output as a standalone HTML file with inline CSS and a small `IntersectionObserver` script for active-section state.
 
@@ -10,7 +10,7 @@
 
 ## Global Constraints
 
-- Include `h2` as top-level TOC items and `h3` as indented child items; exclude `h1`.
+- Include only `h2` as TOC items; exclude `h1` and `h3`, leaving `h3` as an ordinary body heading without a generated ID.
 - Preserve the existing single-document vertical scroll and standalone HTML output.
 - Keep anchor navigation functional without JavaScript; JavaScript is only required for active-section highlighting.
 - Hide the TOC on narrow screens and let the document use the available width.
@@ -26,30 +26,32 @@
 - Modify: `scripts/gen-readme-html.mjs`
 
 **Interfaces:**
-- Produces: `buildReadmeContent(markdown: string): { body: string; headings: Array<{ id: string; depth: 2 | 3; label: string }> }`
+- Produces: `buildReadmeContent(markdown: string): { body: string; headings: Array<{ id: string; depth: 2; label: string }> }`
 - Produces: `generateReadmeHtml(options?): Promise<Array<{ out: string; skipped: boolean }>>`
 - Consumes: `marked.lexer()`, `marked.parser()`, and the existing `TARGETS`/`OUT_DIR` defaults.
 
 - [ ] **Step 1: Write the failing heading test**
 
-Create `scripts/gen-readme-html.test.mjs` with a sample containing `h1`, repeated `h2`, and `h3`. Assert that `buildReadmeContent()` returns only depths 2 and 3, produces IDs `overview`, `details`, and `overview-2`, and renders matching body IDs.
+Create `scripts/gen-readme-html.test.mjs` with a sample containing `h1`, repeated `h2`, and `h3`. Assert that `buildReadmeContent()` returns only the two `h2` entries, produces IDs `overview` and `overview-2`, renders matching `h2` body IDs, and leaves `h3` without an ID or TOC link.
 
 ```js
 import { describe, expect, it } from 'vitest';
-import { buildReadmeContent } from './gen-readme-html.mjs';
+import { buildReadmeContent, renderReadmeDocument } from './gen-readme-html.mjs';
 
 describe('README HTML heading outline', () => {
-  it('creates matching H2/H3 outline entries and unique body anchors', () => {
+  it('creates H2-only outline entries and unique body anchors', () => {
     const result = buildReadmeContent(`# Document\n\n## Overview\n\n### Details\n\n## Overview`);
+    const html = renderReadmeDocument('Document', result);
 
     expect(result.headings).toEqual([
       { id: 'overview', depth: 2, label: 'Overview' },
-      { id: 'details', depth: 3, label: 'Details' },
       { id: 'overview-2', depth: 2, label: 'Overview' },
     ]);
     expect(result.body).toContain('<h2 id="overview">Overview</h2>');
-    expect(result.body).toContain('<h3 id="details">Details</h3>');
+    expect(result.body).toContain('<h3>Details</h3>');
     expect(result.body).toContain('<h2 id="overview-2">Overview</h2>');
+    expect(html).not.toContain('toc-link-depth-3');
+    expect(html).not.toContain('href="#details"');
   });
 });
 ```
@@ -62,7 +64,7 @@ Expected: FAIL because `buildReadmeContent` is not exported.
 
 - [ ] **Step 3: Implement token annotation and testable direct-run boundary**
 
-In `scripts/gen-readme-html.mjs`, add a deterministic slug counter, annotate depth 2/3 heading tokens, render headings with IDs through a `marked.Renderer`, and export `buildReadmeContent()` and `generateReadmeHtml()`. Wrap filesystem generation in the same `pathToFileURL(process.argv[1])` direct-run guard used by `scripts/gen-api.mjs` so test imports have no write side effects.
+In `scripts/gen-readme-html.mjs`, add a deterministic slug counter, annotate only depth 2 heading tokens, render headings with IDs through a `marked.Renderer`, and export `buildReadmeContent()` and `generateReadmeHtml()`. Wrap filesystem generation in the same `pathToFileURL(process.argv[1])` direct-run guard used by `scripts/gen-api.mjs` so test imports have no write side effects.
 
 ```js
 const createHeadingId = (label, counts) => {
@@ -82,7 +84,7 @@ export const buildReadmeContent = (markdown) => {
   const counts = new Map();
 
   for (const token of tokens) {
-    if (token.type !== 'heading' || (token.depth !== 2 && token.depth !== 3)) continue;
+    if (token.type !== 'heading' || token.depth !== 2) continue;
     token.headingId = createHeadingId(token.text, counts);
     headings.push({ id: token.headingId, depth: token.depth, label: token.text });
   }
@@ -131,7 +133,7 @@ Add a second test that calls `renderReadmeDocument()` and asserts:
 ```js
 expect(html).toContain('<nav class="toc" aria-label="문서 목차">');
 expect(html).toContain('class="toc-link toc-link-depth-2" href="#overview"');
-expect(html).toContain('class="toc-link toc-link-depth-3" href="#details"');
+expect(html).not.toContain('class="toc-link toc-link-depth-3"');
 expect(html).toContain('scroll-behavior: smooth');
 expect(html).toContain('position: sticky');
 expect(html).toContain('@media (max-width: 1100px)');
@@ -147,7 +149,7 @@ Expected: the heading test passes and the layout test fails because the TOC mark
 
 - [ ] **Step 3: Implement the standalone document layout**
 
-Replace the single centered `.md` wrapper with a constrained `.readme-layout` containing `<main class="md">` and `<aside class="toc-column">`. Render a semantic `nav` from `headings`, use `.toc-link-depth-3` indentation, and keep the current dark palette.
+Replace the single centered `.md` wrapper with a constrained `.readme-layout` containing `<main class="md">` and `<aside class="toc-column">`. Render a semantic `nav` from the H2-only `headings` and keep the current dark palette.
 
 Use these layout constraints:
 
@@ -166,7 +168,7 @@ html { scroll-behavior: smooth; }
   max-height: calc(100vh - 48px);
   overflow-y: auto;
 }
-.md h2, .md h3 { scroll-margin-top: 24px; }
+.md h2 { scroll-margin-top: 24px; }
 @media (max-width: 1100px) {
   .readme-layout { display: block; width: min(100% - 32px, 880px); }
   .toc-column { display: none; }
@@ -208,13 +210,15 @@ Expected: `fe.readme.html` is generated; `be.readme.html` is generated only when
 
 - [ ] **Step 2: Verify generated structure**
 
-Run: `rg -n 'class="toc"|toc-link-depth-3|IntersectionObserver|id="시작하기-quick-start"' landing/assets/fe.readme.html`
+Run: `rg -n 'class="toc"|toc-link-depth-2|IntersectionObserver|id="시작하기-quick-start"' landing/assets/fe.readme.html`
 
-Expected: TOC markup, nested links, active tracking, and heading IDs are present.
+Run: `! rg -n 'toc-link-depth-3|<h3 id=' landing/assets/fe.readme.html landing/assets/be.readme.html`
+
+Expected: H2-only TOC markup, active tracking, and H2 heading IDs are present; H3 TOC links and H3 IDs are absent.
 
 - [ ] **Step 3: Verify desktop interaction**
 
-Open `landing/assets/fe.readme.html` in the in-app browser at a desktop viewport. Confirm the right TOC is visible and sticky, clicking a nested item updates the hash and scrolls to the matching heading, the active item changes while scrolling, and the document remains one continuous page.
+Open `landing/assets/fe.readme.html` in the in-app browser at a desktop viewport. Confirm the right H2-only TOC is visible and sticky, clicking an item updates the hash and scrolls to the matching heading, the active item changes while scrolling, and the document remains one continuous page.
 
 - [ ] **Step 4: Verify narrow viewport**
 

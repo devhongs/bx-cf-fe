@@ -41,7 +41,7 @@
         border-bottom: 1px solid #232d3f;
       }
       .md h3 { font-size: 18px; margin: 28px 0 12px; }
-      .md h2, .md h3 { scroll-margin-top: 24px; }
+      .md h2 { scroll-margin-top: 24px; }
       .md a { color: #5b9dff; text-decoration: none; }
       .md a:hover { text-decoration: underline; }
       .md hr { border: none; border-top: 1px solid #232d3f; margin: 32px 0; }
@@ -90,7 +90,6 @@
         text-decoration: none;
       }
       .toc-link:hover, .toc-link[aria-current="location"] { color: #eaeef6; background: #1c2738; }
-      .toc-link-depth-3 { margin-left: 16px; }
       @media (max-width: 1100px) {
         .readme-layout { display: block; width: min(100% - 32px, 880px); }
         .toc-column { display: none; }
@@ -434,7 +433,7 @@ X-Auth-Roles
 X-Auth-Session-Id
 </code></pre>
 <p>내부 서비스는 이 헤더로 JWT 재파싱 없이 사용자 ID, 권한, 세션 ID 확인 가능. 외부 사용자의 헤더 변조 방지는 product-svc/system-svc 같은 내부 서비스를 Gateway 뒤에 두고 직접 외부 접근을 차단하는 구성이 전제.</p>
-<h3 id="refresh-token-cookie">Refresh Token Cookie</h3>
+<h3>Refresh Token Cookie</h3>
 <p>refresh token은 JavaScript에서 읽을 수 없도록 HttpOnly 쿠키로만 전달.</p>
 <pre><code class="language-js">await fetch(&quot;/channel/backend/api/v1/auth/refresh-token&quot;, {
   method: &quot;POST&quot;,
@@ -476,7 +475,7 @@ X-Auth-Session-Id
 <td>7일</td>
 </tr>
 </tbody></table>
-<h3 id="redis-valkey-세션-컨텍스트">Redis/Valkey 세션 컨텍스트</h3>
+<h3>Redis/Valkey 세션 컨텍스트</h3>
 <p><code>session-context-common</code> 공통 세션 컨텍스트.</p>
 <table>
 <thead>
@@ -535,7 +534,7 @@ X-Auth-Session-Id
 /actuator/health
 /actuator/info
 </code></pre>
-<h3 id="integration">Integration</h3>
+<h3>Integration</h3>
 <pre><code class="language-text">POST /channel/backend/api/v1/integration/github/webhook
 </code></pre>
 <p>GitHub issue webhook을 수신해 Notion 할일 DB에 row를 생성한다. 이 endpoint는 사용자 JWT 대신 GitHub의 <code>X-Hub-Signature-256</code> HMAC-SHA256 서명을 검증한다.</p>
@@ -550,7 +549,7 @@ NOTION_BASE_URL=https://api.notion.com
 <p><code>/logout</code>은 인증된 access token 필요. Gateway가 검증한 내부 헤더의 <code>userId</code>, <code>sessionId</code> 기준으로 DB refresh token과 Redis 세션 삭제.</p>
 <h2 id="api-목록">API 목록</h2>
 <p>Gateway 기준 대표 API.</p>
-<h3 id="auth">Auth</h3>
+<h3>Auth</h3>
 <pre><code class="language-text">POST /channel/backend/api/v1/auth/login
 POST /channel/backend/api/v1/auth/erp-login
 POST /channel/backend/api/v1/auth/refresh-token
@@ -567,11 +566,11 @@ POST /channel/backend/api/v1/auth/logout
 <p>로그인 응답의 <code>payload.accessToken</code>은 클라이언트가 이후 요청에 사용. refresh token은 HttpOnly 쿠키로 전달되고 JSON 응답에서는 제외.</p>
 <pre><code class="language-text">Authorization: Bearer &lt;accessToken&gt;
 </code></pre>
-<h3 id="product">Product</h3>
+<h3>Product</h3>
 <pre><code class="language-text">POST /channel/backend/api/v1/product/list
 POST /channel/backend/api/v1/product/detail/{productId}
 </code></pre>
-<h3 id="system-menu">System - Menu</h3>
+<h3>System - Menu</h3>
 <pre><code class="language-text">POST /channel/backend/api/v1/system/menus/list
 POST /channel/backend/api/v1/system/menus/{menuId}/detail
 POST /channel/backend/api/v1/system/menus/create
@@ -581,7 +580,7 @@ POST /channel/backend/api/v1/system/menus/{menuId}/actions/list
 POST /channel/backend/api/v1/system/menus/roles/{roleId}/list
 POST /channel/backend/api/v1/system/menus/roles/{roleId}/save
 </code></pre>
-<h3 id="system-common-code">System - Common Code</h3>
+<h3>System - Common Code</h3>
 <pre><code class="language-text">POST /channel/backend/api/v1/system/common-codes/groups/list
 POST /channel/backend/api/v1/system/common-codes/groups/create
 POST /channel/backend/api/v1/system/common-codes/groups/{groupCd}/update
@@ -590,16 +589,16 @@ POST /channel/backend/api/v1/system/common-codes/groups/{groupCd}/codes/list
 POST /channel/backend/api/v1/system/common-codes/groups/{groupCd}/codes/create
 POST /channel/backend/api/v1/system/common-codes/groups/{groupCd}/codes/{code}/update
 </code></pre>
-<h3 id="system-reference-data">System - Reference Data</h3>
+<h3>System - Reference Data</h3>
 <pre><code class="language-text">POST /channel/backend/api/v1/system/reference-data/versions/latest
 </code></pre>
-<h3 id="system-mci-management">System - MCI Management</h3>
+<h3>System - MCI Management</h3>
 <pre><code class="language-text">POST /channel/backend/api/v1/system/mci/transactions/list
 POST /channel/backend/api/v1/system/mci/transactions/{transactionCode}/detail
 POST /channel/backend/api/v1/system/mci/transactions/create
 POST /channel/backend/api/v1/system/mci/transactions/{transactionCode}/update
 </code></pre>
-<h3 id="mci">MCI</h3>
+<h3>MCI</h3>
 <pre><code class="language-text">POST /channel/backend/api/v1/mci/execute
 </code></pre>
 <p>MCI 요청은 <code>MciRequest</code> 표준 형식을 사용한다. 현재 거래 설정은 <code>src/main/resources/config/mci-svc/application.yml</code>의 <code>mci.transactions</code>에 YAML로 관리한다.</p>
@@ -643,7 +642,7 @@ POST /channel/backend/api/v1/system/mci/transactions/{transactionCode}/update
 <li>Swagger UI 상단 <code>Authorize</code>에 access token 입력</li>
 <li><code>product-svc</code> 또는 <code>system-svc</code> API 호출</li>
 </ol>
-<h3 id="swagger에서-로그아웃-테스트">Swagger에서 로그아웃 테스트</h3>
+<h3>Swagger에서 로그아웃 테스트</h3>
 <p>Gateway Swagger(<code>http://localhost:18081/swagger-ui.html</code>)에서 테스트하는 것이 권장 흐름.</p>
 <ol>
 <li><code>auth-svc</code> definition에서 <code>login</code> API 호출</li>
@@ -676,7 +675,7 @@ JSON.parse(atob(token.split(&quot;.&quot;)[1].replace(/-/g, &quot;+&quot;).repla
   &quot;payload&quot;: {}
 }
 </code></pre>
-<h3 id="예외-처리-원칙">예외 처리 원칙</h3>
+<h3>예외 처리 원칙</h3>
 <ul>
 <li>의미를 아는 업무 실패는 도메인 ErrorCode와 BwgException 계열로 명시한다.</li>
 <li>필요한 ErrorCode enum은 공통 개발팀에 요청하여 정의한다.</li>
@@ -932,22 +931,10 @@ public class LoginReqDto {
         <a class="toc-link toc-link-depth-2" href="#db-연결-정보">DB 연결 정보</a>
         <a class="toc-link toc-link-depth-2" href="#gateway-라우팅">Gateway 라우팅</a>
         <a class="toc-link toc-link-depth-2" href="#인증과-세션-흐름">인증과 세션 흐름</a>
-        <a class="toc-link toc-link-depth-3" href="#refresh-token-cookie">Refresh Token Cookie</a>
-        <a class="toc-link toc-link-depth-3" href="#redis-valkey-세션-컨텍스트">Redis/Valkey 세션 컨텍스트</a>
         <a class="toc-link toc-link-depth-2" href="#인증-제외-경로">인증 제외 경로</a>
-        <a class="toc-link toc-link-depth-3" href="#integration">Integration</a>
         <a class="toc-link toc-link-depth-2" href="#api-목록">API 목록</a>
-        <a class="toc-link toc-link-depth-3" href="#auth">Auth</a>
-        <a class="toc-link toc-link-depth-3" href="#product">Product</a>
-        <a class="toc-link toc-link-depth-3" href="#system-menu">System - Menu</a>
-        <a class="toc-link toc-link-depth-3" href="#system-common-code">System - Common Code</a>
-        <a class="toc-link toc-link-depth-3" href="#system-reference-data">System - Reference Data</a>
-        <a class="toc-link toc-link-depth-3" href="#system-mci-management">System - MCI Management</a>
-        <a class="toc-link toc-link-depth-3" href="#mci">MCI</a>
         <a class="toc-link toc-link-depth-2" href="#swagger">Swagger</a>
-        <a class="toc-link toc-link-depth-3" href="#swagger에서-로그아웃-테스트">Swagger에서 로그아웃 테스트</a>
         <a class="toc-link toc-link-depth-2" href="#공통-응답">공통 응답</a>
-        <a class="toc-link toc-link-depth-3" href="#예외-처리-원칙">예외 처리 원칙</a>
         <a class="toc-link toc-link-depth-2" href="#에러-코드-범위">에러 코드 범위</a>
         <a class="toc-link toc-link-depth-2" href="#openapi-typebridge">OpenAPI TypeBridge</a>
         <a class="toc-link toc-link-depth-2" href="#설정-파일-구조">설정 파일 구조</a>
