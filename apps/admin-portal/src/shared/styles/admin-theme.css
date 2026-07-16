@@ -17,7 +17,9 @@
   --admin-warning: #a05d00;
   --admin-danger: #bc2f43;
   --admin-success: #087c51;
+  --admin-info: #0b6ea8;
   --admin-panel-shadow: 0 18px 48px rgba(17, 32, 37, 0.12);
+  --admin-overlay-shadow: 0 8px 24px rgba(17, 32, 37, 0.16);
 
   --background: var(--admin-bg);
   --background-deep: var(--admin-bg-deep);
@@ -32,6 +34,11 @@
   --accent: var(--admin-accent);
   --accent-hover: var(--admin-accent-hover);
   --accent-foreground: var(--admin-accent-foreground);
+  --success: var(--admin-success);
+  --info: var(--admin-info);
+  --warning: var(--admin-warning);
+  --danger: var(--admin-danger);
+  --overlay-shadow: var(--admin-overlay-shadow);
   --scrollbar-thumb: rgba(20, 32, 38, 0.24);
   --scrollbar-thumb-hover: rgba(20, 32, 38, 0.38);
 }
@@ -55,7 +62,9 @@
   --admin-warning: #f5b24a;
   --admin-danger: #ff6b7a;
   --admin-success: #51d18b;
+  --admin-info: #58c5e8;
   --admin-panel-shadow: 0 18px 60px rgba(0, 0, 0, 0.32);
+  --admin-overlay-shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
 
   --background: var(--admin-bg);
   --background-deep: var(--admin-bg-deep);
@@ -70,6 +79,11 @@
   --accent: var(--admin-accent);
   --accent-hover: var(--admin-accent-hover);
   --accent-foreground: var(--admin-accent-foreground);
+  --success: var(--admin-success);
+  --info: var(--admin-info);
+  --warning: var(--admin-warning);
+  --danger: var(--admin-danger);
+  --overlay-shadow: var(--admin-overlay-shadow);
   --scrollbar-thumb: rgba(238, 246, 247, 0.18);
   --scrollbar-thumb-hover: rgba(238, 246, 247, 0.32);
 }

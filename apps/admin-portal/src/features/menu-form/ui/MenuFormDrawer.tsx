@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import {
+  toast,
   useAuthStore,
   useCreateMenu,
   useDeleteMenu,
@@ -70,6 +71,7 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
       } else {
         await createMutation.mutateAsync({ payload, authUser });
       }
+      toast.success('저장되었습니다.');
       onClose();
     } catch (error) {
       setSubmitError(getApiErrorMessage(error, '저장에 실패했습니다.'));

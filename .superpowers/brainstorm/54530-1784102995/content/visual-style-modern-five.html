@@ -1,0 +1,167 @@
+<style>
+  #modern-five { display:grid; gap:18px; }
+  #modern-five .head { display:flex; justify-content:space-between; align-items:flex-end; gap:16px; }
+  #modern-five .head h2, #modern-five .head p { margin:0; }
+  #modern-five .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+  #modern-five .concept { cursor:pointer; padding:0; overflow:hidden; }
+  #modern-five .concept:last-child { grid-column:1 / -1; }
+  #modern-five .card-body { padding:13px 15px 15px; }
+  #modern-five .card-body h3 { margin:0 0 4px; }
+  #modern-five .card-body p { margin:0; }
+  #modern-five .rec { display:inline-flex; margin-left:6px; padding:2px 6px; border-radius:999px; background:var(--primary); color:var(--primary-foreground); font-size:11px; }
+  #modern-five .slide { position:relative; aspect-ratio:16/9; overflow:hidden; font-family:Arial,"Noto Sans KR",sans-serif; }
+  #modern-five .slide * { box-sizing:border-box; }
+  #modern-five .eyebrow { font-size:8px; font-weight:700; letter-spacing:.1em; }
+  #modern-five .title { font-size:25px; font-weight:700; line-height:1.05; letter-spacing:-.05em; }
+  #modern-five .copy { font-size:8px; line-height:1.35; }
+  #modern-five .micro { font-size:7px; line-height:1.35; }
+
+  /* D — Precision Swiss */
+  #modern-five .swiss { background:#fff; color:#07162e; padding:18px 20px; }
+  #modern-five .swiss .index { position:absolute; left:18px; bottom:-15px; font-size:102px; font-weight:800; line-height:1; color:#e7efff; letter-spacing:-.12em; }
+  #modern-five .swiss .eyebrow { color:#1359ff; margin-left:90px; }
+  #modern-five .swiss .title { margin:10px 0 0 90px; max-width:55%; }
+  #modern-five .swiss .rule { position:absolute; left:20px; right:20px; top:90px; height:2px; background:#07162e; }
+  #modern-five .swiss .signal { position:absolute; right:20px; top:18px; width:32px; height:32px; border-radius:50%; background:#ff3d2e; }
+  #modern-five .swiss .rows { position:absolute; left:112px; right:20px; bottom:20px; }
+  #modern-five .swiss .row { display:grid; grid-template-columns:28px 1fr 1.35fr; gap:10px; align-items:center; min-height:30px; border-top:1px solid #cbd8ef; }
+  #modern-five .swiss .row b { color:#1359ff; font-size:8px; }
+  #modern-five .swiss .row strong { font-size:9px; }
+  #modern-five .swiss .row span { font-size:7px; color:#53647c; }
+
+  /* E — Aurora Depth */
+  #modern-five .aurora { color:#fff; padding:18px 20px; background:radial-gradient(circle at 72% 18%,#26d6ff 0,rgba(38,214,255,.12) 22%,transparent 42%),radial-gradient(circle at 15% 100%,#7b42ff 0,rgba(123,66,255,.2) 32%,transparent 58%),linear-gradient(135deg,#06152f 0%,#102a69 58%,#091a3a 100%); }
+  #modern-five .aurora:before, #modern-five .aurora:after { content:""; position:absolute; border:1px solid rgba(255,255,255,.28); border-radius:50%; }
+  #modern-five .aurora:before { width:172px; height:172px; right:-43px; top:-72px; }
+  #modern-five .aurora:after { width:124px; height:124px; right:-18px; top:-47px; }
+  #modern-five .aurora .eyebrow { color:#73e8ff; }
+  #modern-five .aurora .title { margin-top:12px; width:62%; font-size:27px; }
+  #modern-five .aurora .statement { position:absolute; left:20px; bottom:23px; width:39%; font-size:9px; line-height:1.45; color:#cbdcff; }
+  #modern-five .aurora .steps { position:absolute; right:24px; bottom:22px; width:46%; display:grid; gap:7px; }
+  #modern-five .aurora .step { display:grid; grid-template-columns:28px 1fr; gap:8px; align-items:center; border-bottom:1px solid rgba(255,255,255,.24); padding-bottom:6px; }
+  #modern-five .aurora .step b { color:#72e8ff; font-size:8px; }
+  #modern-five .aurora .step strong { font-size:9px; }
+
+  /* F — Ink + Lime */
+  #modern-five .ink { background:#f8f3e8; color:#101010; padding:17px 19px; }
+  #modern-five .ink .eyebrow { color:#101010; }
+  #modern-five .ink .title { margin-top:9px; font-size:29px; font-weight:800; max-width:62%; }
+  #modern-five .ink .highlight { position:absolute; left:17px; top:79px; width:61%; height:12px; background:#c8ff29; transform:rotate(-1deg); z-index:0; }
+  #modern-five .ink .title { position:relative; z-index:1; }
+  #modern-five .ink .quote { position:absolute; right:18px; top:20px; width:29%; border-top:4px solid #101010; padding-top:7px; font-size:8px; font-weight:700; }
+  #modern-five .ink .matrix { position:absolute; left:19px; right:19px; bottom:18px; display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid #101010; border-bottom:1px solid #101010; }
+  #modern-five .ink .cell { min-height:62px; padding:9px; border-right:1px solid #101010; }
+  #modern-five .ink .cell:last-child { border-right:0; }
+  #modern-five .ink .cell b { display:block; font-size:8px; margin-bottom:9px; }
+  #modern-five .ink .cell strong { display:block; font-size:10px; margin-bottom:5px; }
+  #modern-five .ink .cell span { font-size:7px; color:#514c43; }
+
+  /* G — Blue Panorama */
+  #modern-five .panorama { background:#1359ff; color:#fff; padding:18px 20px; }
+  #modern-five .panorama .cut { position:absolute; right:-22px; top:0; width:58%; height:100%; background:#fff; clip-path:polygon(28% 0,100% 0,100% 100%,0 100%); }
+  #modern-five .panorama .eyebrow { color:#b9d1ff; position:relative; }
+  #modern-five .panorama .title { position:relative; margin-top:12px; width:49%; font-size:27px; }
+  #modern-five .panorama .answer { position:absolute; left:20px; bottom:22px; width:38%; color:#dbe7ff; font-size:8px; line-height:1.45; }
+  #modern-five .panorama .outcomes { position:absolute; right:20px; top:30px; bottom:24px; width:43%; color:#07162e; display:grid; align-content:center; gap:11px; }
+  #modern-five .panorama .outcome { display:grid; grid-template-columns:24px 1fr; gap:9px; align-items:start; }
+  #modern-five .panorama .outcome b { color:#1359ff; font-size:8px; }
+  #modern-five .panorama .outcome strong { display:block; font-size:10px; margin-bottom:3px; }
+  #modern-five .panorama .outcome span { font-size:7px; color:#596b83; }
+
+  /* H — Editorial Data */
+  #modern-five .data { background:#fff; color:#07162e; padding:18px 20px; }
+  #modern-five .data .topline { position:absolute; left:0; top:0; right:0; height:7px; background:linear-gradient(90deg,#1359ff 0 62%,#ff684f 62% 78%,#00b8c7 78%); }
+  #modern-five .data .eyebrow { color:#1359ff; }
+  #modern-five .data .title { margin-top:9px; width:58%; }
+  #modern-five .data .big-arrow { position:absolute; right:22px; top:28px; font-size:46px; color:#e4ecfb; font-weight:300; }
+  #modern-five .data .chart { position:absolute; left:20px; right:20px; bottom:21px; height:72px; display:grid; grid-template-columns:1fr 1.4fr 1fr; gap:10px; align-items:end; }
+  #modern-five .data .bar { position:relative; border-top:2px solid #1359ff; padding-top:7px; }
+  #modern-five .data .bar:nth-child(2) { border-top-color:#ff684f; height:67px; }
+  #modern-five .data .bar:nth-child(3) { border-top-color:#00b8c7; height:54px; }
+  #modern-five .data .bar b { display:block; font-size:8px; color:#1359ff; margin-bottom:5px; }
+  #modern-five .data .bar:nth-child(2) b { color:#ff684f; }
+  #modern-five .data .bar:nth-child(3) b { color:#00a2b0; }
+  #modern-five .data .bar strong { display:block; font-size:9px; margin-bottom:4px; }
+  #modern-five .data .bar span { font-size:7px; color:#596b83; }
+
+  @media (max-width:900px) {
+    #modern-five .grid { grid-template-columns:1fr; }
+    #modern-five .concept:last-child { grid-column:auto; }
+  }
+</style>
+
+<div id="modern-five">
+  <div class="head">
+    <div>
+      <h2>모던 디자인 추가 5안</h2>
+      <p class="subtitle">회색 카드 반복을 없애고, 여백·타이포·색면·구조만으로 차이를 만들었습니다.</p>
+    </div>
+    <span class="label">D–H · CLICK TO SELECT</span>
+  </div>
+
+  <div class="grid cards">
+    <div class="concept card" data-choice="d-precision-swiss" onclick="toggleSelect(this)">
+      <div class="slide swiss">
+        <div class="index">03</div><div class="signal"></div>
+        <div class="eyebrow">WHY NOW · 추진 배경</div><div class="title">왜 지금 필요한가</div><div class="rule"></div>
+        <div class="rows">
+          <div class="row"><b>01</b><strong>공통 기반 부재</strong><span>초기 작업 반복·시간 소모</span></div>
+          <div class="row"><b>02</b><strong>고객사별 차이</strong><span>공통 표준화 + 확장 구조 분리</span></div>
+          <div class="row"><b>03</b><strong>추진 적기</strong><span>반복 활용 공통 자산 확보</span></div>
+        </div>
+      </div>
+      <div class="card-body"><h3>D · Precision Swiss</h3><p>백색·정렬·큰 숫자·작은 레드 신호. 가장 정제된 국제 디자인 스타일.</p></div>
+    </div>
+
+    <div class="concept card" data-choice="e-aurora-depth" onclick="toggleSelect(this)">
+      <div class="slide aurora">
+        <div class="eyebrow">03 / WHY NOW</div><div class="title">공통 기반을<br>먼저 확보한다</div>
+        <div class="statement">기제품 적용 제약을 넘어서<br>다음 프로젝트의 출발점을 만든다.</div>
+        <div class="steps">
+          <div class="step"><b>01</b><strong>반복 작업 제거</strong></div>
+          <div class="step"><b>02</b><strong>고객 차이 구조화</strong></div>
+          <div class="step"><b>03</b><strong>재사용 자산 확보</strong></div>
+        </div>
+      </div>
+      <div class="card-body"><h3>E · Aurora Depth</h3><p>딥 블루 그라데이션과 빛의 깊이. 기술력과 프리미엄 인상을 함께 강조.</p></div>
+    </div>
+
+    <div class="concept card" data-choice="f-ink-lime" onclick="toggleSelect(this)">
+      <div class="slide ink">
+        <div class="eyebrow">WHY NOW / 03</div><div class="highlight"></div><div class="title">지금 필요한<br>공통 기반</div>
+        <div class="quote">프로젝트마다<br>처음부터 다시<br>만들지 않는다.</div>
+        <div class="matrix">
+          <div class="cell"><b>01</b><strong>기반 부재</strong><span>기초 재구축 반복</span></div>
+          <div class="cell"><b>02</b><strong>고객 차이</strong><span>확장 구조로 격리</span></div>
+          <div class="cell"><b>03</b><strong>추진 적기</strong><span>공통 자산 선제 확보</span></div>
+        </div>
+      </div>
+      <div class="card-body"><h3>F · Ink + Lime</h3><p>오프화이트·검정·애시드 라임. 스타트업/테크 브랜드처럼 강하고 현대적.</p></div>
+    </div>
+
+    <div class="concept card" data-choice="g-blue-panorama" onclick="toggleSelect(this)">
+      <div class="slide panorama">
+        <div class="cut"></div><div class="eyebrow">WHY NOW · 03</div><div class="title">채널 프로젝트의<br>출발점을 바꾼다</div>
+        <div class="answer">기제품 적용 제약 →<br>채널 프로젝트 공통 기반 선제 확보</div>
+        <div class="outcomes">
+          <div class="outcome"><b>01</b><div><strong>초기 작업 단축</strong><span>공통 기반 부재 해소</span></div></div>
+          <div class="outcome"><b>02</b><div><strong>차이 구조화</strong><span>고객별 확장 유연성</span></div></div>
+          <div class="outcome"><b>03</b><div><strong>재사용 자산</strong><span>차기 프로젝트 가속</span></div></div>
+        </div>
+      </div>
+      <div class="card-body"><h3>G · Blue Panorama <span class="rec">추천</span></h3><p>뱅크웨어 블루를 넓은 색면과 흰 컷아웃으로 사용. 브랜드·창의성·임원 가독성 균형.</p></div>
+    </div>
+
+    <div class="concept card" data-choice="h-editorial-data" onclick="toggleSelect(this)">
+      <div class="slide data">
+        <div class="topline"></div><div class="eyebrow">WHY NOW · 추진 배경</div><div class="title">왜 지금 필요한가</div><div class="big-arrow">→</div>
+        <div class="chart">
+          <div class="bar"><b>01</b><strong>기반 부재</strong><span>초기 작업 반복</span></div>
+          <div class="bar"><b>02</b><strong>고객 차이</strong><span>표준화 + 확장 구조 분리</span></div>
+          <div class="bar"><b>03</b><strong>추진 적기</strong><span>공통 자산 확보</span></div>
+        </div>
+      </div>
+      <div class="card-body"><h3>H · Editorial Data</h3><p>얇은 선·비례·컬러 신호로 정보 흐름을 표현. 보고서와 프레젠테이션의 절충형.</p></div>
+    </div>
+  </div>
+</div>

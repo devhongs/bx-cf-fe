@@ -3,7 +3,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 
-import { API_CONFIG, API_URL, createHttpAuthConfig, httpService } from '@bx/shared';
+import { API_CONFIG, API_URL, Toaster, createHttpAuthConfig, httpService } from '@bx/shared';
 
 // API 초기화 — 앱 시작 시 한 번만 설정.
 // mock 서버(mock/server.js)도 Spring과 동일한 envelope/JWT 계약을 따르므로 단일 코드패스로 동작한다.
@@ -42,6 +42,7 @@ if (rootElement && !rootElement.innerHTML) {
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
+        <Toaster />
       </QueryClientProvider>
     </StrictMode>,
   );

@@ -1,0 +1,116 @@
+<style>
+  #bx-concepts { display:grid; gap:18px; }
+  #bx-concepts .intro { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; }
+  #bx-concepts .intro p { margin:0; }
+  #bx-concepts .concept-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+  #bx-concepts .concept { cursor:pointer; padding:0; overflow:hidden; }
+  #bx-concepts .concept .card-body { padding:14px 16px 16px; }
+  #bx-concepts .concept .card-body h3 { margin:0 0 5px; }
+  #bx-concepts .concept .card-body p { margin:0; }
+  #bx-concepts .slide { position:relative; aspect-ratio:16/9; overflow:hidden; font-family:Arial,"Noto Sans KR",sans-serif; }
+  #bx-concepts .slide * { box-sizing:border-box; }
+  #bx-concepts .slide .eyebrow { font-size:8px; letter-spacing:.08em; font-weight:700; }
+  #bx-concepts .slide .title { font-size:24px; line-height:1.05; font-weight:700; letter-spacing:-.04em; }
+  #bx-concepts .slide .small { font-size:7px; line-height:1.35; }
+  #bx-concepts .slide .body { font-size:9px; line-height:1.3; }
+
+  #bx-concepts .kinetic { background:#fbfcff; color:#0b1738; padding:20px 21px; }
+  #bx-concepts .kinetic:before { content:"03"; position:absolute; right:-5px; top:-28px; font-size:108px; font-weight:800; color:#e8efff; letter-spacing:-.12em; }
+  #bx-concepts .kinetic .bluebar { position:absolute; inset:0 auto 0 0; width:8px; background:#1b5cff; }
+  #bx-concepts .kinetic .eyebrow { color:#1b5cff; }
+  #bx-concepts .kinetic .title { margin-top:9px; max-width:72%; }
+  #bx-concepts .kinetic .statement { position:absolute; right:18px; top:77px; width:42%; background:#ff5d4d; color:#fff; padding:8px 10px; transform:rotate(-2deg); font-size:8px; font-weight:700; }
+  #bx-concepts .kinetic .tracks { position:absolute; left:22px; right:18px; bottom:18px; display:grid; grid-template-columns:1.1fr .9fr 1fr; gap:4px; align-items:end; }
+  #bx-concepts .kinetic .track { position:relative; padding:9px 7px 7px; border-top:2px solid #1b5cff; min-height:64px; }
+  #bx-concepts .kinetic .track:nth-child(2) { background:#e9f0ff; border-top-color:#0b1738; transform:translateY(-9px); }
+  #bx-concepts .kinetic .track:nth-child(3) { border-top-color:#ff5d4d; }
+  #bx-concepts .kinetic .n { color:#1b5cff; font-size:8px; font-weight:700; margin-bottom:7px; }
+  #bx-concepts .kinetic .track strong { display:block; font-size:9px; margin-bottom:5px; }
+
+  #bx-concepts .blueprint { background:#07172f; color:#eef8ff; padding:19px 20px; }
+  #bx-concepts .blueprint:before { content:""; position:absolute; inset:0; background-image:linear-gradient(rgba(57,219,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(57,219,255,.08) 1px,transparent 1px); background-size:18px 18px; }
+  #bx-concepts .blueprint .eyebrow { position:relative; color:#4edcff; }
+  #bx-concepts .blueprint .title { position:relative; margin-top:9px; color:#fff; max-width:70%; }
+  #bx-concepts .blueprint .signal { position:absolute; right:18px; top:18px; color:#b8ff5a; border:1px solid #b8ff5a; padding:4px 7px; font-size:7px; letter-spacing:.08em; }
+  #bx-concepts .blueprint .flow { position:absolute; left:21px; right:21px; bottom:23px; height:77px; }
+  #bx-concepts .blueprint .line { position:absolute; left:20px; right:12px; top:36px; height:2px; background:#35d8ff; box-shadow:0 0 9px rgba(53,216,255,.7); }
+  #bx-concepts .blueprint .node { position:absolute; top:15px; width:28%; min-height:51px; padding:8px; border:1px solid #2f7ea5; background:rgba(6,31,58,.86); }
+  #bx-concepts .blueprint .node:nth-of-type(2) { left:35%; top:0; border-color:#b8ff5a; }
+  #bx-concepts .blueprint .node:nth-of-type(3) { right:0; }
+  #bx-concepts .blueprint .node strong { display:block; color:#fff; font-size:9px; margin-bottom:5px; }
+  #bx-concepts .blueprint .node span { color:#9db4ca; font-size:7px; }
+  #bx-concepts .blueprint .node:nth-of-type(2) strong { color:#b8ff5a; }
+
+  #bx-concepts .magazine { background:#fff6e9; color:#111; padding:18px 19px; }
+  #bx-concepts .magazine .corner { position:absolute; right:0; top:0; width:38%; height:48%; background:#ffb000; clip-path:polygon(30% 0,100% 0,100% 100%,0 70%); }
+  #bx-concepts .magazine .eyebrow { color:#e6007e; position:relative; }
+  #bx-concepts .magazine .title { position:relative; margin-top:9px; max-width:67%; font-family:Georgia,"Noto Serif KR",serif; font-size:25px; }
+  #bx-concepts .magazine .quote { position:absolute; right:13px; top:26px; width:31%; color:#171717; font-size:8px; font-weight:700; line-height:1.3; transform:rotate(2deg); }
+  #bx-concepts .magazine .ribbon { position:absolute; left:0; right:0; top:92px; height:18px; background:#1f55ff; color:#fff; display:flex; align-items:center; padding-left:20px; font-size:8px; font-weight:700; letter-spacing:.03em; }
+  #bx-concepts .magazine .stories { position:absolute; left:19px; right:17px; bottom:17px; display:grid; grid-template-columns:1.25fr .75fr 1fr; gap:10px; }
+  #bx-concepts .magazine .story { border-left:3px solid #111; padding-left:7px; min-height:52px; }
+  #bx-concepts .magazine .story:nth-child(2) { border-left-color:#e6007e; margin-top:9px; }
+  #bx-concepts .magazine .story:nth-child(3) { border-left-color:#ff8a00; }
+  #bx-concepts .magazine .story strong { display:block; font-size:9px; margin-bottom:5px; }
+  #bx-concepts .magazine .story span { font-size:7px; line-height:1.35; color:#4b4036; }
+
+  @media (max-width:900px) { #bx-concepts .concept-grid { grid-template-columns:1fr; } }
+</style>
+
+<div id="bx-concepts">
+  <div class="intro">
+    <div>
+      <h2>BX-CF — 전면 재디자인 3안</h2>
+      <p class="subtitle">같은 3페이지 콘텐츠를 반복 카드 없이 완전히 다른 문법으로 비교했습니다.</p>
+    </div>
+    <span class="label">CLICK TO SELECT</span>
+  </div>
+
+  <div class="concept-grid cards">
+    <div class="concept card" data-choice="kinetic-editorial" onclick="toggleSelect(this)">
+      <div class="slide kinetic">
+        <div class="bluebar"></div>
+        <div class="eyebrow">WHY NOW · 추진 배경</div>
+        <div class="title">왜 지금<br>필요한가</div>
+        <div class="statement">기제품 적용 제약 →<br>공통 기반 선제 확보</div>
+        <div class="tracks">
+          <div class="track"><div class="n">01</div><strong>공통 기반 부재</strong><div class="small">초기 작업 반복·시간 소모</div></div>
+          <div class="track"><div class="n">02</div><strong>고객사별 차이</strong><div class="small">표준화 + 확장 구조 분리</div></div>
+          <div class="track"><div class="n">03</div><strong>추진 적기</strong><div class="small">반복 활용 공통 자산 확보</div></div>
+        </div>
+      </div>
+      <div class="card-body"><h3>A · Kinetic Editorial</h3><p>화이트 기반, 큰 숫자·비대칭·코랄 포인트. 페이지마다 다른 실루엣을 쓰는 추천안.</p></div>
+    </div>
+
+    <div class="concept card" data-choice="electric-blueprint" onclick="toggleSelect(this)">
+      <div class="slide blueprint">
+        <div class="eyebrow">WHY NOW / 03</div>
+        <div class="title">공통 기반을<br>먼저 확보한다</div>
+        <div class="signal">ACTION WINDOW</div>
+        <div class="flow">
+          <div class="line"></div>
+          <div class="node"><strong>기반 부재</strong><span>재구축 반복</span></div>
+          <div class="node"><strong>표준화</strong><span>차이를 구조로 격리</span></div>
+          <div class="node"><strong>재사용 자산</strong><span>차기 프로젝트 가속</span></div>
+        </div>
+      </div>
+      <div class="card-body"><h3>B · Electric Blueprint</h3><p>딥 네이비, 시안·라임 신호색. 기술 제안서·아키텍처 강도가 가장 높은 안.</p></div>
+    </div>
+
+    <div class="concept card" data-choice="magazine-cuts" onclick="toggleSelect(this)">
+      <div class="slide magazine">
+        <div class="corner"></div>
+        <div class="eyebrow">03 / WHY NOW</div>
+        <div class="title">지금,<br>공통 기반을<br>확보할 때</div>
+        <div class="quote">프로젝트마다<br>처음부터 다시<br>만들지 않는다.</div>
+        <div class="ribbon">기제품 적용 제약 → 채널 프로젝트 공통 기반 선제 확보</div>
+        <div class="stories">
+          <div class="story"><strong>공통 기반 부재</strong><span>프로젝트별 BE·FE 기초 재구축</span></div>
+          <div class="story"><strong>고객사별 차이</strong><span>확장 구조로 분리</span></div>
+          <div class="story"><strong>추진 적기</strong><span>가용 인력으로 자산화</span></div>
+        </div>
+      </div>
+      <div class="card-body"><h3>C · Magazine Cuts</h3><p>아이보리, 오렌지·마젠타·블루. 가장 파격적이고 제품 브랜딩에 가까운 안.</p></div>
+    </div>
+  </div>
+</div>

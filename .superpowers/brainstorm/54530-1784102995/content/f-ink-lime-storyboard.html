@@ -1,0 +1,154 @@
+<style>
+  #f-story { display:grid; gap:18px; }
+  #f-story .head { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; }
+  #f-story .head h2, #f-story .head p { margin:0; }
+  #f-story .rules { display:flex; flex-wrap:wrap; gap:8px; }
+  #f-story .rules span { padding:5px 9px; border:1px solid var(--border); border-radius:999px; font-size:12px; }
+  #f-story .story-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; }
+  #f-story .frame { overflow:hidden; padding:0; }
+  #f-story .caption { padding:10px 12px 12px; display:flex; justify-content:space-between; gap:10px; }
+  #f-story .caption b { font-size:13px; }
+  #f-story .caption span { font-size:12px; color:var(--muted-foreground); }
+  #f-story .slide { position:relative; overflow:hidden; aspect-ratio:16/9; font-family:Arial,"Noto Sans KR",sans-serif; }
+  #f-story .slide * { box-sizing:border-box; }
+  #f-story .eyebrow { font-size:7px; font-weight:700; letter-spacing:.1em; }
+  #f-story .title { font-size:23px; font-weight:800; line-height:1.05; letter-spacing:-.05em; }
+  #f-story .micro { font-size:6.5px; line-height:1.35; }
+  #f-story .small { font-size:7.5px; line-height:1.35; }
+  #f-story .approve { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+  /* 01 Cover */
+  #f-story .s1 { background:#f8f3e8; color:#0e0e0e; padding:22px 24px; }
+  #f-story .s1:before { content:""; position:absolute; left:0; top:0; bottom:0; width:10px; background:#1359ff; }
+  #f-story .s1 .eyebrow { color:#1359ff; }
+  #f-story .s1 .title { margin-top:31px; font-size:34px; }
+  #f-story .s1 .lime { position:absolute; left:23px; top:121px; width:58%; height:14px; background:#c8ff29; transform:rotate(-1deg); }
+  #f-story .s1 .sub { position:absolute; left:25px; top:146px; font-size:11px; font-weight:700; }
+  #f-story .s1 .meta { position:absolute; left:25px; right:25px; bottom:20px; display:grid; grid-template-columns:1fr 1fr 1.5fr; border-top:1px solid #111; padding-top:8px; }
+  #f-story .s1 .meta b { display:block; color:#1359ff; font-size:6px; margin-bottom:3px; }
+  #f-story .s1 .meta span { font-size:8px; }
+
+  /* 02 Definition */
+  #f-story .s2 { background:#fff; color:#0e0e0e; padding:18px 20px; }
+  #f-story .s2 .monogram { position:absolute; left:16px; top:10px; font-size:92px; font-weight:800; color:#edf2ff; line-height:1; letter-spacing:-.12em; }
+  #f-story .s2 .eyebrow, #f-story .s2 .title { position:relative; margin-left:42%; }
+  #f-story .s2 .eyebrow { color:#1359ff; }
+  #f-story .s2 .title { margin-top:8px; font-size:21px; }
+  #f-story .s2 .definition { position:absolute; left:42%; right:20px; top:83px; border-top:4px solid #0e0e0e; padding-top:8px; font-size:8px; line-height:1.5; }
+  #f-story .s2 .pillars { position:absolute; left:20px; right:20px; bottom:18px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  #f-story .s2 .pillar { border-top:2px solid #1359ff; padding-top:6px; }
+  #f-story .s2 .pillar:nth-child(2) { border-top-color:#c8ff29; }
+  #f-story .s2 .pillar:nth-child(3) { border-top-color:#0e0e0e; }
+  #f-story .s2 .pillar b { font-size:7px; color:#1359ff; }
+  #f-story .s2 .pillar strong { display:block; font-size:8.5px; margin:5px 0 3px; }
+
+  /* 03 Why now */
+  #f-story .s3 { background:#f8f3e8; color:#101010; padding:17px 19px; }
+  #f-story .s3 .eyebrow { color:#101010; }
+  #f-story .s3 .title { margin-top:9px; font-size:27px; max-width:62%; position:relative; z-index:1; }
+  #f-story .s3 .highlight { position:absolute; left:17px; top:79px; width:61%; height:12px; background:#c8ff29; transform:rotate(-1deg); }
+  #f-story .s3 .quote { position:absolute; right:18px; top:20px; width:29%; border-top:4px solid #101010; padding-top:7px; font-size:8px; font-weight:700; }
+  #f-story .s3 .matrix { position:absolute; left:19px; right:19px; bottom:18px; display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid #101010; border-bottom:1px solid #101010; }
+  #f-story .s3 .cell { min-height:61px; padding:9px; border-right:1px solid #101010; }
+  #f-story .s3 .cell:last-child { border-right:0; }
+  #f-story .s3 .cell b { display:block; font-size:7px; margin-bottom:8px; }
+  #f-story .s3 .cell strong { display:block; font-size:9px; margin-bottom:4px; }
+
+  /* 04 Architecture */
+  #f-story .s4 { background:#0b0b0b; color:#fff; padding:18px 20px; }
+  #f-story .s4 .eyebrow { color:#c8ff29; }
+  #f-story .s4 .title { margin-top:8px; font-size:22px; }
+  #f-story .s4 .rail { position:absolute; left:23px; right:23px; top:98px; height:2px; background:#c8ff29; }
+  #f-story .s4 .zone { position:absolute; top:80px; width:27%; }
+  #f-story .s4 .zone.front { left:22px; }
+  #f-story .s4 .zone.api { left:37%; }
+  #f-story .s4 .zone.back { right:22px; }
+  #f-story .s4 .zone b { display:inline-block; background:#c8ff29; color:#0b0b0b; padding:4px 7px; font-size:7px; }
+  #f-story .s4 .zone strong { display:block; font-size:10px; margin:17px 0 7px; }
+  #f-story .s4 .zone span { color:#d9d2c4; font-size:6.5px; line-height:1.45; }
+  #f-story .s4 .e2e { position:absolute; left:22px; right:22px; bottom:17px; border:1px solid #c8ff29; color:#c8ff29; padding:7px 9px; display:flex; justify-content:space-between; gap:10px; font-size:7px; }
+
+  /* 05 Plan */
+  #f-story .s5 { background:#fff; color:#0d0d0d; padding:18px 20px; }
+  #f-story .s5 .eyebrow { color:#1359ff; }
+  #f-story .s5 .title { margin-top:8px; width:55%; }
+  #f-story .s5 .promise { position:absolute; right:20px; top:20px; width:31%; border-top:3px solid #c8ff29; padding-top:6px; font-size:7px; }
+  #f-story .s5 .months { position:absolute; left:20px; right:20px; bottom:17px; height:99px; display:grid; grid-template-columns:repeat(3,1fr); gap:8px; align-items:end; }
+  #f-story .s5 .month { position:relative; border-bottom:1px solid #0d0d0d; padding:0 8px 8px 38px; min-height:68px; }
+  #f-story .s5 .month:nth-child(2) { transform:translateY(-17px); border-bottom-color:#1359ff; }
+  #f-story .s5 .month .n { position:absolute; left:0; bottom:-9px; font-size:52px; line-height:1; font-weight:800; color:#eef2ff; }
+  #f-story .s5 .month:nth-child(2) .n { color:#c8ff29; }
+  #f-story .s5 .month strong { position:relative; display:block; font-size:9px; margin-bottom:5px; }
+  #f-story .s5 .month span { position:relative; font-size:6.5px; color:#5b5146; }
+
+  /* 06 Deliverables */
+  #f-story .s6 { background:#1359ff; color:#fff; padding:18px 20px; }
+  #f-story .s6 .eyebrow { color:#dce7ff; }
+  #f-story .s6 .title { margin-top:8px; font-size:22px; width:52%; }
+  #f-story .s6 .count { position:absolute; right:18px; top:12px; font-size:62px; line-height:1; font-weight:800; color:#c8ff29; }
+  #f-story .s6 .items { position:absolute; left:20px; right:20px; bottom:18px; display:grid; grid-template-columns:repeat(3,1fr); gap:8px 15px; }
+  #f-story .s6 .item { border-top:1px solid rgba(255,255,255,.68); padding-top:6px; min-height:34px; }
+  #f-story .s6 .item b { color:#c8ff29; font-size:6.5px; margin-right:7px; }
+  #f-story .s6 .item strong { font-size:7.5px; }
+  #f-story .s6 .item span { display:block; margin:4px 0 0 24px; font-size:6px; color:#dbe7ff; }
+
+  /* 07 Impact */
+  #f-story .s7 { background:#f8f3e8; color:#0d0d0d; padding:18px 20px; }
+  #f-story .s7 .field { position:absolute; right:0; top:0; width:42%; height:100%; background:#c8ff29; }
+  #f-story .s7 .eyebrow, #f-story .s7 .title { position:relative; }
+  #f-story .s7 .eyebrow { color:#1359ff; }
+  #f-story .s7 .title { margin-top:8px; width:52%; }
+  #f-story .s7 .benefits { position:absolute; left:20px; top:89px; width:51%; columns:2; column-gap:17px; }
+  #f-story .s7 .benefit { break-inside:avoid; border-top:1px solid #0d0d0d; padding:5px 0 8px; font-size:6.5px; }
+  #f-story .s7 .roadmap { position:absolute; right:20px; top:28px; width:31%; }
+  #f-story .s7 .roadmap h4 { margin:0 0 12px; font-size:9px; }
+  #f-story .s7 .stage { display:grid; grid-template-columns:35px 1fr; gap:7px; border-top:1px solid #0d0d0d; padding:7px 0; font-size:7px; }
+  #f-story .s7 .stage b { color:#1359ff; }
+  #f-story .s7 .monitor { margin-top:8px; padding-top:7px; border-top:3px solid #1359ff; font-size:6.5px; }
+
+  /* 08 AI */
+  #f-story .s8 { background:#0b0b0b; color:#fff; padding:18px 20px; }
+  #f-story .s8 .ai { position:absolute; right:-8px; top:-20px; font-size:123px; font-weight:800; line-height:1; color:#1b1b1b; letter-spacing:-.12em; }
+  #f-story .s8 .eyebrow { color:#c8ff29; position:relative; }
+  #f-story .s8 .title { position:relative; margin-top:9px; width:61%; }
+  #f-story .s8 .proof { position:absolute; left:20px; right:20px; bottom:18px; display:grid; grid-template-columns:1fr 1.25fr .8fr; gap:13px; }
+  #f-story .s8 .proof > div { border-top:2px solid #fff; padding-top:7px; }
+  #f-story .s8 .proof > div:nth-child(2) { border-top-color:#c8ff29; }
+  #f-story .s8 .proof > div:nth-child(3) { border-top-color:#1359ff; }
+  #f-story .s8 .proof b { display:block; color:#c8ff29; font-size:7px; margin-bottom:7px; }
+  #f-story .s8 .proof strong { display:block; font-size:8.5px; margin-bottom:5px; }
+  #f-story .s8 .proof span { color:#d8d0c2; font-size:6.3px; line-height:1.4; }
+
+  @media (max-width:900px) { #f-story .story-grid { grid-template-columns:1fr; } }
+</style>
+
+<div id="f-story">
+  <div class="head">
+    <div><h2>F · Ink + Lime — 8페이지 전체 스토리보드</h2><p class="subtitle">콘텐츠는 유지하고, 반복 카드 없이 페이지마다 실루엣과 주조색을 바꿉니다.</p></div>
+    <span class="label">SLIDE 09 DELETED</span>
+  </div>
+  <div class="rules"><span>Ivory · Ink · Acid Lime · Brand Blue</span><span>무회색</span><span>반복 카드 금지</span><span>타이포 중심</span><span>페이지별 다른 구도</span></div>
+
+  <div class="story-grid">
+    <div class="frame card"><div class="slide s1"><div class="eyebrow">CHANNEL UNIT</div><div class="title">채널<br>파운데이션</div><div class="lime"></div><div class="sub">Channel Foundation</div><div class="meta"><div><b>기간</b><span>3개월 · 1단계</span></div><div><b>인원</b><span>2명</span></div><div><b>산출물</b><span>스타터 키트 + 개발 가이드</span></div></div></div><div class="caption"><b>01 · COVER</b><span>강한 타이포 + 최소 정보</span></div></div>
+
+    <div class="frame card"><div class="slide s2"><div class="monogram">CF</div><div class="eyebrow">DEFINITION · 무엇인가</div><div class="title">채널 파운데이션이란?</div><div class="definition">채널 프로젝트 반복 영역 표준화<br>프론트엔드 · 인증/권한 · 게이트웨이 · MCI 연동 기반</div><div class="pillars"><div class="pillar"><b>01</b><strong>공통 구조 표준화</strong><div class="micro">초기 구축 부담 축소</div></div><div class="pillar"><b>02</b><strong>고객사별 확장 대응</strong><div class="micro">차이를 구조로 격리</div></div><div class="pillar"><b>03</b><strong>모듈형 확장 기반</strong><div class="micro">core · mci · full</div></div></div></div><div class="caption"><b>02 · DEFINITION</b><span>대형 모노그램 + 3축 구조</span></div></div>
+
+    <div class="frame card"><div class="slide s3"><div class="eyebrow">WHY NOW / 03</div><div class="highlight"></div><div class="title">지금 필요한<br>공통 기반</div><div class="quote">프로젝트마다<br>처음부터 다시<br>만들지 않는다.</div><div class="matrix"><div class="cell"><b>01</b><strong>기반 부재</strong><div class="micro">기초 재구축 반복</div></div><div class="cell"><b>02</b><strong>고객 차이</strong><div class="micro">확장 구조로 격리</div></div><div class="cell"><b>03</b><strong>추진 적기</strong><div class="micro">공통 자산 선제 확보</div></div></div></div><div class="caption"><b>03 · WHY NOW</b><span>선택한 F 콘셉트 기준 페이지</span></div></div>
+
+    <div class="frame card"><div class="slide s4"><div class="eyebrow">ARCHITECTURE · 구성</div><div class="title">Channel Foundation 구성도</div><div class="rail"></div><div class="zone front"><b>FRONTEND</b><strong>React 19</strong><span>Turbo · pnpm · PC · Mobile · Admin<br>@bx/shared · TanStack · Vite</span></div><div class="zone api"><b>API</b><strong>HTTPS · JWT</strong><span>OpenAPI TypeBridge<br>FE·BE 타입 자동 일치</span></div><div class="zone back"><b>BACKEND</b><strong>Java 21 · Boot 3</strong><span>Gateway · Services · MCI<br>Adapter / Mapper SPI</span></div><div class="e2e"><b>E2E 테스트 자동화</b><span>Playwright 주요 시나리오 → CI · Vitest</span></div></div><div class="caption"><b>04 · ARCHITECTURE</b><span>다크 테크 플로우 + E2E 레일</span></div></div>
+
+    <div class="frame card"><div class="slide s5"><div class="eyebrow">PLAN · 개발 계획</div><div class="title">2명 · 3개월<br>1단계 마일스톤</div><div class="promise">공통 뼈대 집중<br>고객별 비즈니스 로직 제외</div><div class="months"><div class="month"><div class="n">1</div><strong>기반 구축</strong><span>모노레포 · shared · 배포 검증</span></div><div class="month"><div class="n">2</div><strong>핵심 모듈</strong><span>auth · gateway · MCI routing</span></div><div class="month"><div class="n">3</div><strong>검증 & 가이드</strong><span>Admin 연계 · E2E · 가이드</span></div></div></div><div class="caption"><b>05 · PLAN</b><span>숫자로 흐르는 비대칭 타임라인</span></div></div>
+
+    <div class="frame card"><div class="slide s6"><div class="eyebrow">DELIVERABLES · 산출물</div><div class="title">1단계 주요 산출물</div><div class="count">06</div><div class="items"><div class="item"><b>01</b><strong>Frontend 개발 가이드</strong><span>PC · Mobile · Admin</span></div><div class="item"><b>02</b><strong>Backend 개발 가이드</strong><span>공통 모듈 · 표준 레이아웃</span></div><div class="item"><b>03</b><strong>인증 / 권한 기본 체계</strong><span>JWT · Gateway · Redis</span></div><div class="item"><b>04</b><strong>MCI 연동 표준</strong><span>Registry · Adapter · Mapper</span></div><div class="item"><b>05</b><strong>API · 타입 자동화</strong><span>OpenAPI TypeBridge</span></div><div class="item"><b>06</b><strong>프로젝트 관리 · WBS</strong><span>GitHub Project 기반</span></div></div></div><div class="caption"><b>06 · DELIVERABLES</b><span>브랜드 블루 전면 + 6개 타이포 항목</span></div></div>
+
+    <div class="frame card"><div class="slide s7"><div class="field"></div><div class="eyebrow">IMPACT · 기대효과 & 로드맵</div><div class="title">기대효과와<br>향후 확장</div><div class="benefits"><div class="benefit">초기 구축 기간 단축</div><div class="benefit">개발 표준화 · 품질 향상</div><div class="benefit">반복 개발 비용 절감</div><div class="benefit">MCI · 외부 연동 재사용</div><div class="benefit">커스터마이징 범위 명확화</div><div class="benefit">Pre-sales 데모 · 즉시 커스터마이징</div></div><div class="roadmap"><h4>모듈 단위 제품화</h4><div class="stage"><b>core</b><span>auth + system + gateway</span></div><div class="stage"><b>mci</b><span>core + mci</span></div><div class="stage"><b>full</b><span>integration + 샘플 업무</span></div><div class="monitor">채널 서비스 모니터링 도구</div></div></div><div class="caption"><b>07 · IMPACT</b><span>아이보리/라임 분할 + 로드맵</span></div></div>
+
+    <div class="frame card"><div class="slide s8"><div class="ai">AI</div><div class="eyebrow">AI · 개발 방식</div><div class="title">AI 활용 개발 —<br>실증과 SI 시장 대비</div><div class="proof"><div><b>AI AGENT</b><strong>AI Agent 활용 가치</strong><span>의존성 유지 분석 · 정합성 기반 코드 생성 · 오류 진단</span></div><div><b>PROOF</b><strong>실증 — 적용 중</strong><span>GitHub ↔ Notion · WBS 동기화 · OpenAPI 타입 자동생성</span></div><div><b>MARKET</b><strong>시장 변화 대비</strong><span>조직 경험 축적 · 적용 역량 내재화</span></div></div></div><div class="caption"><b>08 · AI PROOF</b><span>블랙 전면 + 대형 AI 타이포</span></div></div>
+  </div>
+
+  <div class="approve options">
+    <div class="option" data-choice="approve-f-storyboard" onclick="toggleSelect(this)"><div class="letter">✓</div><div class="content"><h3>이 방향 승인</h3><p>이 스토리보드로 최종 PPT를 제작합니다.</p></div></div>
+    <div class="option" data-choice="revise-f-storyboard" onclick="toggleSelect(this)"><div class="letter">↺</div><div class="content"><h3>조정 필요</h3><p>바꾸고 싶은 페이지나 색 사용을 알려주세요.</p></div></div>
+  </div>
+</div>

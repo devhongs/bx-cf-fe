@@ -3,7 +3,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 
-import { API_CONFIG, API_URL, createHttpAuthConfig, httpService } from '@bx/shared';
+import { API_CONFIG, API_URL, Toaster, createHttpAuthConfig, httpService } from '@bx/shared';
 
 httpService.init({
   baseURL: API_URL,
@@ -42,6 +42,7 @@ if (rootElement && !rootElement.innerHTML) {
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
+        <Toaster />
       </QueryClientProvider>
     </StrictMode>,
   );
