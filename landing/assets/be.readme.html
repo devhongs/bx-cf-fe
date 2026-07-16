@@ -7,6 +7,7 @@
     <link rel="icon" href="/favicon.ico" />
     <style>
       :root { color-scheme: dark; }
+      html { scroll-behavior: smooth; }
       body {
         margin: 0;
         background:
@@ -19,10 +20,16 @@
         -webkit-font-smoothing: antialiased;
         min-height: 100vh;
       }
-      .md {
-        max-width: 880px;
+      .readme-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 880px) 260px;
+        gap: 56px;
+        width: min(100% - 48px, 1240px);
         margin: 0 auto;
-        padding: 48px 24px 96px;
+      }
+      .md {
+        min-width: 0;
+        padding: 48px 0 96px;
         font-size: 15px;
       }
       .md h1, .md h2, .md h3 { letter-spacing: -0.02em; line-height: 1.3; }
@@ -34,6 +41,7 @@
         border-bottom: 1px solid #232d3f;
       }
       .md h3 { font-size: 18px; margin: 28px 0 12px; }
+      .md h2, .md h3 { scroll-margin-top: 24px; }
       .md a { color: #5b9dff; text-decoration: none; }
       .md a:hover { text-decoration: underline; }
       .md hr { border: none; border-top: 1px solid #232d3f; margin: 32px 0; }
@@ -66,17 +74,40 @@
       }
       .md ul, .md ol { padding-left: 24px; }
       .md img { max-width: 100%; }
+      .toc-column { padding: 48px 0 96px; }
+      .toc {
+        position: sticky;
+        top: 24px;
+        max-height: calc(100vh - 48px);
+        overflow-y: auto;
+      }
+      .toc-link {
+        display: block;
+        padding: 5px 8px;
+        color: #8893a8;
+        font-size: 14px;
+        line-height: 1.45;
+        text-decoration: none;
+      }
+      .toc-link:hover, .toc-link[aria-current="location"] { color: #eaeef6; background: #1c2738; }
+      .toc-link-depth-3 { margin-left: 16px; }
+      @media (max-width: 1100px) {
+        .readme-layout { display: block; width: min(100% - 32px, 880px); }
+        .toc-column { display: none; }
+      }
     </style>
   </head>
   <body>
-    <main class="md">
+    <div class="readme-layout">
+      <main class="md">
 <h1>BX-CF-BE</h1>
 <p>BWG 채널 파운데이션(Channel Foundation) 백엔드 프로젝트. Java 21, Spring Boot 3.3.4, Spring Cloud Gateway, Eureka Discovery, Gradle 멀티모듈 기반. 인증, 상품, 기준정보 서비스를 관심사별로 분리.</p>
-<h2>현재 구조</h2>
+<h2 id="현재-구조">현재 구조</h2>
 <pre><code class="language-text">bx-cf-be/
 ├─ libs/
-│  ├─ common/                  공통 응답, 예외, AOP, OpenAPI TypeBridge, JPA/MyBatis 기반 설정
+│  ├─ common/                  공통 응답, 예외 처리, OpenAPI TypeBridge, JPA/MyBatis 기반 설정
 │  ├─ business-common/         업무 공통 검증, 업무 예외, 업무 값 객체
+│  ├─ mci-common/              MCI 표준 요청/응답, 거래 registry, Adapter/Mapper SPI, Router
 │  ├─ security-common/         JWT 발급/검증, 인증 필터, 인증 에러 코드, 내부 인증 헤더
 │  └─ session-context-common/  Redis/Valkey 기반 세션 컨텍스트 모델과 저장소
 ├─ infra/
@@ -84,22 +115,26 @@
 │  └─ api-gateway/             Spring Cloud Gateway, JWT 검증, 서비스 라우팅
 ├─ services/
 │  ├─ auth-svc/                로그인, 토큰 발급/재발급, 로그아웃, Redis 세션 저장
+│  ├─ mci-svc/                 금융 채널 MCI 라우팅, YAML 거래 정의, 샘플 Adapter/Mapper
 │  ├─ product-svc/             상품 조회
-│  └─ system-svc/              메뉴, 역할별 메뉴, 공통코드 관리
+│  └─ system-svc/              메뉴, 역할별 메뉴, 공통코드, MCI 관리 API 설계
 └─ src/main/resources/config/  모듈별 공통 설정과 profile별 설정
 </code></pre>
 <p><code>settings.gradle</code> 기준 포함 모듈.</p>
 <pre><code class="language-gradle">libs:common
 libs:business-common
+libs:mci-common
 libs:security-common
 libs:session-context-common
 infra:api-gateway
 infra:discovery-svc
 services:auth-svc
+services:integration-svc
+services:mci-svc
 services:product-svc
 services:system-svc
 </code></pre>
-<h2>모듈 의존성</h2>
+<h2 id="모듈-의존성">모듈 의존성</h2>
 <table>
 <thead>
 <tr>
@@ -124,6 +159,16 @@ services:system-svc
 <td>사용자 인증, access/refresh token 발급, Redis 세션 컨텍스트 저장/삭제</td>
 </tr>
 <tr>
+<td><code>services:integration-svc</code></td>
+<td><code>common</code>, <code>business-common</code></td>
+<td>대외계 연동. GitHub webhook 수신, GitHub 서명 검증, Notion 할일 DB row 생성</td>
+</tr>
+<tr>
+<td><code>services:mci-svc</code></td>
+<td><code>common</code>, <code>business-common</code>, <code>mci-common</code></td>
+<td>금융 채널 MCI 라우팅, YAML 거래 registry, 고객사 Adapter/Mapper 실행</td>
+</tr>
+<tr>
 <td><code>services:product-svc</code></td>
 <td><code>common</code>, <code>business-common</code>, <code>session-context-common</code></td>
 <td>상품 API, 필요 시 내부 인증 헤더/sessionId 기반 세션 컨텍스트 조회</td>
@@ -131,7 +176,12 @@ services:system-svc
 <tr>
 <td><code>services:system-svc</code></td>
 <td><code>common</code>, <code>business-common</code>, <code>session-context-common</code></td>
-<td>메뉴/공통코드 API, 필요 시 내부 인증 헤더/sessionId 기반 세션 컨텍스트 조회</td>
+<td>메뉴/공통코드 API, MCI 관리 API 설계, 필요 시 내부 인증 헤더/sessionId 기반 세션 컨텍스트 조회</td>
+</tr>
+<tr>
+<td><code>libs:mci-common</code></td>
+<td><code>common</code></td>
+<td>MCI 표준 모델, 거래 정의, Adapter/Mapper SPI, Router 공통 모듈</td>
 </tr>
 <tr>
 <td><code>libs:security-common</code></td>
@@ -144,17 +194,19 @@ services:system-svc
 <td><code>session:{sessionId}</code> 규칙의 Redis 세션 컨텍스트 공통화</td>
 </tr>
 </tbody></table>
-<h2>실행 순서</h2>
+<h2 id="실행-순서">실행 순서</h2>
 <p>로컬에서 여러 서비스를 직접 실행할 때 권장 순서.</p>
 <ol>
 <li><code>infra:discovery-svc</code></li>
 <li><code>services:auth-svc</code></li>
 <li><code>services:product-svc</code></li>
 <li><code>services:system-svc</code></li>
+<li><code>services:mci-svc</code></li>
+<li><code>services:integration-svc</code></li>
 <li><code>infra:api-gateway</code></li>
 </ol>
 <p>Gateway는 Eureka에 등록된 서비스 이름으로 <code>lb://...</code> 라우팅. Gateway보다 하위 서비스와 Discovery를 먼저 기동하는 흐름이 이해하기 쉬움.</p>
-<h2>포트와 경로</h2>
+<h2 id="포트와-경로">포트와 경로</h2>
 <table>
 <thead>
 <tr>
@@ -181,6 +233,18 @@ services:system-svc
 <td align="right">18082</td>
 <td><code>/auth</code></td>
 <td><code>/channel/backend/api/v1/auth/**</code></td>
+</tr>
+<tr>
+<td>integration-svc</td>
+<td align="right">18085</td>
+<td><code>/integration</code></td>
+<td><code>/channel/backend/api/v1/integration/**</code></td>
+</tr>
+<tr>
+<td>mci-svc</td>
+<td align="right">18086</td>
+<td><code>/mci</code></td>
+<td><code>/channel/backend/api/v1/mci/**</code></td>
 </tr>
 <tr>
 <td>product-svc</td>
@@ -218,7 +282,94 @@ services:system-svc
 <td><code>jdbc:postgresql://192.168.110.217:5432/bxcfdb</code></td>
 </tr>
 </tbody></table>
-<h2>Gateway 라우팅</h2>
+<h2 id="db-연결-정보">DB 연결 정보</h2>
+<p>현재 <code>local</code>, <code>dev</code> profile은 동일한 PostgreSQL DB를 사용.</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DBMS</td>
+<td>PostgreSQL</td>
+</tr>
+<tr>
+<td>Host</td>
+<td><code>192.168.110.217</code></td>
+</tr>
+<tr>
+<td>Port</td>
+<td><code>5432</code></td>
+</tr>
+<tr>
+<td>Database</td>
+<td><code>bxcfdb</code></td>
+</tr>
+<tr>
+<td>JDBC URL</td>
+<td><code>jdbc:postgresql://192.168.110.217:5432/bxcfdb</code></td>
+</tr>
+<tr>
+<td>Driver</td>
+<td><code>org.postgresql.Driver</code></td>
+</tr>
+<tr>
+<td>Username</td>
+<td><code>bxcf</code></td>
+</tr>
+<tr>
+<td>Password</td>
+<td><code>1111</code></td>
+</tr>
+</tbody></table>
+<p>직접 접속 예.</p>
+<pre><code class="language-bash">PGPASSWORD=1111 psql -h 192.168.110.217 -p 5432 -U bxcf -d bxcfdb
+</code></pre>
+<p>서비스별 datasource 설정 위치.</p>
+<table>
+<thead>
+<tr>
+<th>서비스</th>
+<th>local 설정</th>
+<th>dev 설정</th>
+<th>datasource</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>auth-svc</code></td>
+<td><code>src/main/resources/config/auth-svc/local/application-local.yml</code></td>
+<td><code>src/main/resources/config/auth-svc/dev/application-dev.yml</code></td>
+<td><code>jpa-main</code>, <code>mybatis-main</code></td>
+</tr>
+<tr>
+<td><code>integration-svc</code></td>
+<td><code>src/main/resources/config/integration-svc/local/application-local.yml</code></td>
+<td><code>src/main/resources/config/integration-svc/dev/application-dev.yml</code></td>
+<td>외부 API 연동 전용</td>
+</tr>
+<tr>
+<td><code>mci-svc</code></td>
+<td><code>src/main/resources/config/mci-svc/local/application-local.yml</code></td>
+<td><code>src/main/resources/config/mci-svc/dev/application-dev.yml</code></td>
+<td>YAML 거래 registry, 외부 DB 미사용</td>
+</tr>
+<tr>
+<td><code>product-svc</code></td>
+<td><code>src/main/resources/config/product-svc/local/application-local.yml</code></td>
+<td><code>src/main/resources/config/product-svc/dev/application-dev.yml</code></td>
+<td><code>jpa-main</code>, <code>mybatis-main</code></td>
+</tr>
+<tr>
+<td><code>system-svc</code></td>
+<td><code>src/main/resources/config/system-svc/local/application-local.yml</code></td>
+<td><code>src/main/resources/config/system-svc/dev/application-dev.yml</code></td>
+<td><code>mybatis-main</code></td>
+</tr>
+</tbody></table>
+<p>운영/외부 배포 환경에서는 DB 계정과 비밀번호를 README나 profile 설정에 직접 두지 말고 환경변수, Vault, Kubernetes Secret 같은 외부 Secret 저장소로 분리 권장.</p>
+<h2 id="gateway-라우팅">Gateway 라우팅</h2>
 <p>Gateway 라우팅 설정 위치: <code>src/main/resources/config/api-gateway/application.yml</code></p>
 <table>
 <thead>
@@ -234,6 +385,18 @@ services:system-svc
 <td><code>lb://BWG-CHANNEL-BACKEND-AUTH-SVC</code></td>
 <td><code>/channel/backend/api/v1/auth/**</code></td>
 <td><code>StripPrefix=4</code> 후 auth-svc로 전달</td>
+</tr>
+<tr>
+<td><code>integration-svc</code></td>
+<td><code>lb://BWG-CHANNEL-BACKEND-INTEGRATION-SVC</code></td>
+<td><code>/channel/backend/api/v1/integration/**</code></td>
+<td><code>StripPrefix=4</code> 후 integration-svc로 전달</td>
+</tr>
+<tr>
+<td><code>mci-svc</code></td>
+<td><code>lb://BWG-CHANNEL-BACKEND-MCI-SVC</code></td>
+<td><code>/channel/backend/api/v1/mci/**</code></td>
+<td><code>StripPrefix=4</code> 후 mci-svc로 전달</td>
 </tr>
 <tr>
 <td><code>product-svc</code></td>
@@ -255,7 +418,7 @@ services:system-svc
 </tr>
 </tbody></table>
 <p><code>lb://</code> 라우팅은 Eureka에 등록된 인스턴스 목록 기준으로 Spring Cloud LoadBalancer가 대상 인스턴스를 선택. 같은 서비스가 여러 포트나 여러 서버에 떠 있어도 Eureka 등록과 네트워크 접근이 가능하면 Gateway에서 분산 호출 가능.</p>
-<h2>인증과 세션 흐름</h2>
+<h2 id="인증과-세션-흐름">인증과 세션 흐름</h2>
 <p>현재 인증 흐름 핵심.</p>
 <ol>
 <li>클라이언트가 <code>auth-svc</code> 로그인 API 호출</li>
@@ -271,7 +434,7 @@ X-Auth-Roles
 X-Auth-Session-Id
 </code></pre>
 <p>내부 서비스는 이 헤더로 JWT 재파싱 없이 사용자 ID, 권한, 세션 ID 확인 가능. 외부 사용자의 헤더 변조 방지는 product-svc/system-svc 같은 내부 서비스를 Gateway 뒤에 두고 직접 외부 접근을 차단하는 구성이 전제.</p>
-<h3>Refresh Token Cookie</h3>
+<h3 id="refresh-token-cookie">Refresh Token Cookie</h3>
 <p>refresh token은 JavaScript에서 읽을 수 없도록 HttpOnly 쿠키로만 전달.</p>
 <pre><code class="language-js">await fetch(&quot;/channel/backend/api/v1/auth/refresh-token&quot;, {
   method: &quot;POST&quot;,
@@ -313,7 +476,7 @@ X-Auth-Session-Id
 <td>7일</td>
 </tr>
 </tbody></table>
-<h3>Redis/Valkey 세션 컨텍스트</h3>
+<h3 id="redis-valkey-세션-컨텍스트">Redis/Valkey 세션 컨텍스트</h3>
 <p><code>session-context-common</code> 공통 세션 컨텍스트.</p>
 <table>
 <thead>
@@ -356,7 +519,7 @@ X-Auth-Session-Id
       timeout: 2s
 </code></pre>
 <p>Redis 서버는 개발 서버 podman으로 구축되어 있음</p>
-<h2>인증 제외 경로</h2>
+<h2 id="인증-제외-경로">인증 제외 경로</h2>
 <p>Gateway <code>SecurityConfig</code>의 <code>PERMIT_URL_ARRAY</code> 기준. JWT 없이 접근 가능한 경로만 명시.</p>
 <p>대표 경로.</p>
 <pre><code class="language-text">/channel/backend/api/v1/auth/login
@@ -366,15 +529,28 @@ X-Auth-Session-Id
 /channel/backend/api/v1/auth/password/find
 /channel/backend/api/v1/auth/password/reset-request
 /channel/backend/api/v1/auth/password/reset
+/channel/backend/api/v1/integration/github/webhook
 /swagger-ui/**
 /v3/api-docs/**
 /actuator/health
 /actuator/info
 </code></pre>
+<h3 id="integration">Integration</h3>
+<pre><code class="language-text">POST /channel/backend/api/v1/integration/github/webhook
+</code></pre>
+<p>GitHub issue webhook을 수신해 Notion 할일 DB에 row를 생성한다. 이 endpoint는 사용자 JWT 대신 GitHub의 <code>X-Hub-Signature-256</code> HMAC-SHA256 서명을 검증한다.</p>
+<p>필요 환경변수.</p>
+<pre><code class="language-text">GITHUB_WEBHOOK_SECRET
+NOTION_ENABLED=true
+NOTION_TOKEN
+NOTION_DATABASE_ID
+NOTION_VERSION=2022-06-28
+NOTION_BASE_URL=https://api.notion.com
+</code></pre>
 <p><code>/logout</code>은 인증된 access token 필요. Gateway가 검증한 내부 헤더의 <code>userId</code>, <code>sessionId</code> 기준으로 DB refresh token과 Redis 세션 삭제.</p>
-<h2>API 목록</h2>
+<h2 id="api-목록">API 목록</h2>
 <p>Gateway 기준 대표 API.</p>
-<h3>Auth</h3>
+<h3 id="auth">Auth</h3>
 <pre><code class="language-text">POST /channel/backend/api/v1/auth/login
 POST /channel/backend/api/v1/auth/erp-login
 POST /channel/backend/api/v1/auth/refresh-token
@@ -382,34 +558,52 @@ POST /channel/backend/api/v1/auth/logout
 </code></pre>
 <p>로그인 요청 예.</p>
 <pre><code class="language-json">{
-  &quot;usrId&quot;: &quot;hong.gildong&quot;,
-  &quot;usrPwd&quot;: &quot;password&quot;
+  &quot;data&quot;: {
+    &quot;usrId&quot;: &quot;hong.gildong&quot;,
+    &quot;usrPwd&quot;: &quot;password&quot;
+  }
 }
 </code></pre>
 <p>로그인 응답의 <code>payload.accessToken</code>은 클라이언트가 이후 요청에 사용. refresh token은 HttpOnly 쿠키로 전달되고 JSON 응답에서는 제외.</p>
 <pre><code class="language-text">Authorization: Bearer &lt;accessToken&gt;
 </code></pre>
-<h3>Product</h3>
+<h3 id="product">Product</h3>
 <pre><code class="language-text">POST /channel/backend/api/v1/product/list
 POST /channel/backend/api/v1/product/detail/{productId}
 </code></pre>
-<h3>System - Menu</h3>
+<h3 id="system-menu">System - Menu</h3>
 <pre><code class="language-text">POST /channel/backend/api/v1/system/menus/list
+POST /channel/backend/api/v1/system/menus/{menuId}/detail
 POST /channel/backend/api/v1/system/menus/create
 POST /channel/backend/api/v1/system/menus/{menuId}/update
+POST /channel/backend/api/v1/system/menus/{menuId}/delete
 POST /channel/backend/api/v1/system/menus/{menuId}/actions/list
 POST /channel/backend/api/v1/system/menus/roles/{roleId}/list
 POST /channel/backend/api/v1/system/menus/roles/{roleId}/save
 </code></pre>
-<h3>System - Common Code</h3>
+<h3 id="system-common-code">System - Common Code</h3>
 <pre><code class="language-text">POST /channel/backend/api/v1/system/common-codes/groups/list
 POST /channel/backend/api/v1/system/common-codes/groups/create
 POST /channel/backend/api/v1/system/common-codes/groups/{groupCd}/update
+POST /channel/backend/api/v1/system/common-codes/groups/detail
 POST /channel/backend/api/v1/system/common-codes/groups/{groupCd}/codes/list
 POST /channel/backend/api/v1/system/common-codes/groups/{groupCd}/codes/create
 POST /channel/backend/api/v1/system/common-codes/groups/{groupCd}/codes/{code}/update
 </code></pre>
-<h2>Swagger</h2>
+<h3 id="system-reference-data">System - Reference Data</h3>
+<pre><code class="language-text">POST /channel/backend/api/v1/system/reference-data/versions/latest
+</code></pre>
+<h3 id="system-mci-management">System - MCI Management</h3>
+<pre><code class="language-text">POST /channel/backend/api/v1/system/mci/transactions/list
+POST /channel/backend/api/v1/system/mci/transactions/{transactionCode}/detail
+POST /channel/backend/api/v1/system/mci/transactions/create
+POST /channel/backend/api/v1/system/mci/transactions/{transactionCode}/update
+</code></pre>
+<h3 id="mci">MCI</h3>
+<pre><code class="language-text">POST /channel/backend/api/v1/mci/execute
+</code></pre>
+<p>MCI 요청은 <code>MciRequest</code> 표준 형식을 사용한다. 현재 거래 설정은 <code>src/main/resources/config/mci-svc/application.yml</code>의 <code>mci.transactions</code>에 YAML로 관리한다.</p>
+<h2 id="swagger">Swagger</h2>
 <p>Gateway에서 각 서비스 OpenAPI 문서를 모아서 제공.</p>
 <pre><code class="language-text">http://localhost:18081/swagger-ui.html
 </code></pre>
@@ -433,6 +627,14 @@ POST /channel/backend/api/v1/system/common-codes/groups/{groupCd}/codes/{code}/u
 <td>system-svc</td>
 <td><code>/system-svc/v3/api-docs</code></td>
 </tr>
+<tr>
+<td>integration-svc</td>
+<td><code>/integration-svc/v3/api-docs</code></td>
+</tr>
+<tr>
+<td>mci-svc</td>
+<td><code>/mci-svc/v3/api-docs</code></td>
+</tr>
 </tbody></table>
 <p>Swagger에서 인증 API 호출 순서.</p>
 <ol>
@@ -441,7 +643,7 @@ POST /channel/backend/api/v1/system/common-codes/groups/{groupCd}/codes/{code}/u
 <li>Swagger UI 상단 <code>Authorize</code>에 access token 입력</li>
 <li><code>product-svc</code> 또는 <code>system-svc</code> API 호출</li>
 </ol>
-<h3>Swagger에서 로그아웃 테스트</h3>
+<h3 id="swagger에서-로그아웃-테스트">Swagger에서 로그아웃 테스트</h3>
 <p>Gateway Swagger(<code>http://localhost:18081/swagger-ui.html</code>)에서 테스트하는 것이 권장 흐름.</p>
 <ol>
 <li><code>auth-svc</code> definition에서 <code>login</code> API 호출</li>
@@ -465,7 +667,7 @@ X-Auth-Session-Id: &lt;access token의 sessionId claim&gt;
 JSON.parse(atob(token.split(&quot;.&quot;)[1].replace(/-/g, &quot;+&quot;).replace(/_/g, &quot;/&quot;)));
 </code></pre>
 <p>출력 JSON의 <code>sub</code>가 <code>X-Auth-User</code>, <code>sessionId</code>가 <code>X-Auth-Session-Id</code>에 해당한다.</p>
-<h2>공통 응답</h2>
+<h2 id="공통-응답">공통 응답</h2>
 <p>기본 응답 구조: <code>ApiResponse&lt;T&gt;</code></p>
 <pre><code class="language-json">{
   &quot;success&quot;: true,
@@ -474,7 +676,16 @@ JSON.parse(atob(token.split(&quot;.&quot;)[1].replace(/-/g, &quot;+&quot;).repla
   &quot;payload&quot;: {}
 }
 </code></pre>
-<h2>에러 코드 범위</h2>
+<h3 id="예외-처리-원칙">예외 처리 원칙</h3>
+<ul>
+<li>의미를 아는 업무 실패는 도메인 ErrorCode와 BwgException 계열로 명시한다.</li>
+<li>필요한 ErrorCode enum은 공통 개발팀에 요청하여 정의한다.</li>
+<li>BwgException에는 반드시 ErrorCode와 message를 담는다.</li>
+<li>의미를 모르는 시스템/인프라/예상 밖 예외는 감싸지 않고 전파한다.</li>
+<li>MVC 요청의 예외는 GlobalRestExceptionAdvice가 처리하고, Security/Gateway 경계의 예외는 각 security handler 또는 gateway advice가 처리한다.</li>
+<li>최종 ApiResponse 변환은 GlobalRestExceptionAdvice가 담당한다.</li>
+</ul>
+<h2 id="에러-코드-범위">에러 코드 범위</h2>
 <table>
 <thead>
 <tr>
@@ -484,9 +695,14 @@ JSON.parse(atob(token.split(&quot;.&quot;)[1].replace(/-/g, &quot;+&quot;).repla
 </tr>
 </thead>
 <tbody><tr>
+<td>Common</td>
+<td><code>-2001</code>, <code>-2003</code>, <code>-2004</code>, <code>-4001</code> ~ <code>-4004</code>, <code>-9001</code>, <code>-9002</code>, <code>-9999</code></td>
+<td>validation, JSON 파싱, DB, timeout, server 공통 오류</td>
+</tr>
+<tr>
 <td>Auth</td>
-<td><code>-1001</code> ~ <code>-1005</code>, <code>-2003</code>, <code>-2004</code>, <code>-4001</code>, <code>-4002</code>, <code>-9999</code></td>
-<td>필수값 누락, 토큰 오류, 인증 실패, DB 오류</td>
+<td><code>-1001</code> ~ <code>-1005</code></td>
+<td>토큰 오류, 인증 실패</td>
 </tr>
 <tr>
 <td>Business Common</td>
@@ -499,13 +715,38 @@ JSON.parse(atob(token.split(&quot;.&quot;)[1].replace(/-/g, &quot;+&quot;).repla
 <td>상품 입력값 오류, 상품 없음, 상품 저장 오류</td>
 </tr>
 <tr>
+<td>MCI</td>
+<td><code>-6001</code> ~ <code>-6999</code></td>
+<td>요청 검증, 거래 라우팅, Adapter/Mapper 구성 오류</td>
+</tr>
+<tr>
 <td>Gateway</td>
 <td><code>-9999</code></td>
 <td>Gateway 내부 오류</td>
 </tr>
 </tbody></table>
-<h2>OpenAPI TypeBridge</h2>
-<p>TypeBridge 관련 코드 위치: <code>libs/common/src/main/java/com/bwg/channel/backend/common/openapi/typebridge</code></p>
+<h2 id="openapi-typebridge">OpenAPI TypeBridge</h2>
+<p>OpenAPI 관련 코드 위치.</p>
+<table>
+<thead>
+<tr>
+<th>영역</th>
+<th>위치</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OpenAPI 공통 유틸</td>
+<td><code>libs/common/src/main/java/com/bwg/channel/backend/common/openapi</code></td>
+</tr>
+<tr>
+<td>OpenAPI customizer</td>
+<td><code>libs/common/src/main/java/com/bwg/channel/backend/common/openapi/customizer</code></td>
+</tr>
+<tr>
+<td>TypeBridge</td>
+<td><code>libs/common/src/main/java/com/bwg/channel/backend/common/openapi/typebridge</code></td>
+</tr>
+</tbody></table>
 <p>주요 어노테이션.</p>
 <table>
 <thead>
@@ -538,7 +779,7 @@ public class LoginReqDto {
     private String usrPwd;
 }
 </code></pre>
-<h2>설정 파일 구조</h2>
+<h2 id="설정-파일-구조">설정 파일 구조</h2>
 <p>설정 파일은 루트의 <code>src/main/resources/config</code> 아래에 모음. Gradle <code>processResources</code>에서 선택된 profile 파일만 각 모듈 jar에 포함.</p>
 <pre><code class="language-text">src/main/resources/config/
 ├─ api-gateway/
@@ -546,6 +787,8 @@ public class LoginReqDto {
 │  ├─ local/application-local.yml
 │  └─ dev/application-dev.yml
 ├─ auth-svc/
+├─ integration-svc/
+├─ mci-svc/
 ├─ product-svc/
 ├─ system-svc/
 ├─ discovery-svc/
@@ -557,18 +800,20 @@ public class LoginReqDto {
 <pre><code class="language-bash">./gradlew :services:auth-svc:bootJar -Pprofile=dev
 </code></pre>
 <p><code>security-common</code> 설정은 auth-svc와 api-gateway에서 <code>spring.config.import</code>로 참조.</p>
-<h2>빌드</h2>
+<h2 id="빌드">빌드</h2>
 <p>전체 주요 서비스 bootJar.</p>
-<pre><code class="language-bash">./gradlew :infra:discovery-svc:bootJar :infra:api-gateway:bootJar :services:auth-svc:bootJar :services:product-svc:bootJar :services:system-svc:bootJar -Pprofile=local
+<pre><code class="language-bash">./gradlew :infra:discovery-svc:bootJar :infra:api-gateway:bootJar :services:auth-svc:bootJar :services:integration-svc:bootJar :services:mci-svc:bootJar :services:product-svc:bootJar :services:system-svc:bootJar -Pprofile=local
 </code></pre>
 <p>빌드 결과.</p>
 <pre><code class="language-text">build/dist/bx-cf-be/*.jar
 </code></pre>
 <p>개별 빌드 예.</p>
 <pre><code class="language-bash">./gradlew :services:auth-svc:bootJar -Pprofile=local
+./gradlew :services:integration-svc:bootJar -Pprofile=local
+./gradlew :services:mci-svc:bootJar -Pprofile=local
 ./gradlew :infra:api-gateway:bootJar -Pprofile=local
 </code></pre>
-<h2>실행</h2>
+<h2 id="실행">실행</h2>
 <p>jar 직접 실행 예.</p>
 <pre><code class="language-bash">java -Dfile.encoding=UTF-8 -Duser.timezone=Asia/Seoul \
      -Dspring.profiles.active=local \
@@ -577,13 +822,18 @@ public class LoginReqDto {
 <p>Gradle bootRun 사용 예.</p>
 <pre><code class="language-bash">./gradlew :infra:discovery-svc:bootRun -Pprofile=local
 ./gradlew :services:auth-svc:bootRun -Pprofile=local
+./gradlew :services:integration-svc:bootRun -Pprofile=local
+./gradlew :services:mci-svc:bootRun -Pprofile=local
 ./gradlew :services:product-svc:bootRun -Pprofile=local
 ./gradlew :services:system-svc:bootRun -Pprofile=local
 ./gradlew :infra:api-gateway:bootRun -Pprofile=local
 </code></pre>
-<h2>테스트</h2>
+<h2 id="테스트">테스트</h2>
 <p>인증/세션/Gateway 관련 테스트.</p>
 <pre><code class="language-bash">./gradlew :services:auth-svc:test
+./gradlew :services:integration-svc:test
+./gradlew :services:mci-svc:test
+./gradlew :libs:mci-common:test
 ./gradlew :libs:security-common:test
 ./gradlew :libs:session-context-common:test
 ./gradlew :infra:api-gateway:test
@@ -591,7 +841,7 @@ public class LoginReqDto {
 <p>전체 테스트.</p>
 <pre><code class="language-bash">./gradlew test
 </code></pre>
-<h2>개발 환경</h2>
+<h2 id="개발-환경">개발 환경</h2>
 <table>
 <thead>
 <tr>
@@ -630,7 +880,7 @@ public class LoginReqDto {
 <li><code>gradle.properties</code>의 <code>-Dfile.encoding=UTF-8</code></li>
 <li>Java compile encoding <code>UTF-8</code></li>
 </ul>
-<h2>배포 참고</h2>
+<h2 id="배포-참고">배포 참고</h2>
 <p><code>.github/workflows/deploy-dev.yml</code>은 <code>develop</code> push 시 변경 경로 기준으로 필요한 서비스만 빌드/배포.</p>
 <table>
 <thead>
@@ -642,6 +892,14 @@ public class LoginReqDto {
 <tbody><tr>
 <td><code>services/auth-svc/**</code></td>
 <td>auth-svc</td>
+</tr>
+<tr>
+<td><code>services/integration-svc/**</code>, <code>src/main/resources/config/integration-svc/**</code></td>
+<td>integration-svc</td>
+</tr>
+<tr>
+<td><code>services/mci-svc/**</code>, <code>libs/mci-common/**</code>, <code>src/main/resources/config/mci-svc/**</code></td>
+<td>mci-svc</td>
 </tr>
 <tr>
 <td><code>services/product-svc/**</code></td>
@@ -656,14 +914,101 @@ public class LoginReqDto {
 <td>전체 서비스</td>
 </tr>
 </tbody></table>
-<h2>GitHub Project</h2>
+<h2 id="github-project">GitHub Project</h2>
 <ul>
 <li>Issues: <code>https://github.com/yooyongbeom/bx-cf-be/issues</code></li>
 <li>Project board: <code>https://github.com/users/yooyongbeom/projects/2</code></li>
 </ul>
-<h2>참고 자료</h2>
-<p><code>reffile/</code> 아래 프로젝트 참고 문서와 Postman collection 위치.</p>
+<h2 id="참고-자료">참고 자료</h2>
+<p><code>reffile/</code> 아래 프로젝트 참고 문서와 Postman collection 위치..</p>
 
-    </main>
+      </main>
+      <aside class="toc-column">
+        <nav class="toc" aria-label="문서 목차">
+        <a class="toc-link toc-link-depth-2" href="#현재-구조">현재 구조</a>
+        <a class="toc-link toc-link-depth-2" href="#모듈-의존성">모듈 의존성</a>
+        <a class="toc-link toc-link-depth-2" href="#실행-순서">실행 순서</a>
+        <a class="toc-link toc-link-depth-2" href="#포트와-경로">포트와 경로</a>
+        <a class="toc-link toc-link-depth-2" href="#db-연결-정보">DB 연결 정보</a>
+        <a class="toc-link toc-link-depth-2" href="#gateway-라우팅">Gateway 라우팅</a>
+        <a class="toc-link toc-link-depth-2" href="#인증과-세션-흐름">인증과 세션 흐름</a>
+        <a class="toc-link toc-link-depth-3" href="#refresh-token-cookie">Refresh Token Cookie</a>
+        <a class="toc-link toc-link-depth-3" href="#redis-valkey-세션-컨텍스트">Redis/Valkey 세션 컨텍스트</a>
+        <a class="toc-link toc-link-depth-2" href="#인증-제외-경로">인증 제외 경로</a>
+        <a class="toc-link toc-link-depth-3" href="#integration">Integration</a>
+        <a class="toc-link toc-link-depth-2" href="#api-목록">API 목록</a>
+        <a class="toc-link toc-link-depth-3" href="#auth">Auth</a>
+        <a class="toc-link toc-link-depth-3" href="#product">Product</a>
+        <a class="toc-link toc-link-depth-3" href="#system-menu">System - Menu</a>
+        <a class="toc-link toc-link-depth-3" href="#system-common-code">System - Common Code</a>
+        <a class="toc-link toc-link-depth-3" href="#system-reference-data">System - Reference Data</a>
+        <a class="toc-link toc-link-depth-3" href="#system-mci-management">System - MCI Management</a>
+        <a class="toc-link toc-link-depth-3" href="#mci">MCI</a>
+        <a class="toc-link toc-link-depth-2" href="#swagger">Swagger</a>
+        <a class="toc-link toc-link-depth-3" href="#swagger에서-로그아웃-테스트">Swagger에서 로그아웃 테스트</a>
+        <a class="toc-link toc-link-depth-2" href="#공통-응답">공통 응답</a>
+        <a class="toc-link toc-link-depth-3" href="#예외-처리-원칙">예외 처리 원칙</a>
+        <a class="toc-link toc-link-depth-2" href="#에러-코드-범위">에러 코드 범위</a>
+        <a class="toc-link toc-link-depth-2" href="#openapi-typebridge">OpenAPI TypeBridge</a>
+        <a class="toc-link toc-link-depth-2" href="#설정-파일-구조">설정 파일 구조</a>
+        <a class="toc-link toc-link-depth-2" href="#빌드">빌드</a>
+        <a class="toc-link toc-link-depth-2" href="#실행">실행</a>
+        <a class="toc-link toc-link-depth-2" href="#테스트">테스트</a>
+        <a class="toc-link toc-link-depth-2" href="#개발-환경">개발 환경</a>
+        <a class="toc-link toc-link-depth-2" href="#배포-참고">배포 참고</a>
+        <a class="toc-link toc-link-depth-2" href="#github-project">GitHub Project</a>
+        <a class="toc-link toc-link-depth-2" href="#참고-자료">참고 자료</a>
+        </nav>
+      </aside>
+    </div>
+    <script>
+      (() => {
+        const tocLinks = Array.from(document.querySelectorAll('.toc-link'));
+        const linksById = new Map(
+          tocLinks.map((link) => [link.getAttribute('href').slice(1), link]),
+        );
+        const targetHeadings = Array.from(linksById.keys())
+          .map((id) => document.getElementById(id))
+          .filter(Boolean);
+        const setActive = (id) => {
+          const activeLink = linksById.get(id);
+          tocLinks.forEach((link) => {
+            if (link === activeLink) link.setAttribute('aria-current', 'location');
+            else link.removeAttribute('aria-current');
+          });
+        };
+        const getHashId = () => {
+          try {
+            return decodeURIComponent(window.location.hash.slice(1));
+          } catch {
+            return '';
+          }
+        };
+        const activateHash = () => {
+          const hashId = getHashId();
+          if (linksById.has(hashId)) setActive(hashId);
+        };
+
+        activateHash();
+        if (
+          !tocLinks.some((link) => link.getAttribute('aria-current') === 'location') &&
+          targetHeadings[0]
+        ) {
+          setActive(targetHeadings[0].id);
+        }
+        window.addEventListener('hashchange', activateHash);
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const visibleHeading = entries
+              .filter((entry) => entry.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+            if (visibleHeading) setActive(visibleHeading.target.id);
+          },
+          { rootMargin: '-24px 0px -65% 0px', threshold: 0 },
+        );
+        targetHeadings.forEach((heading) => observer.observe(heading));
+      })();
+    </script>
   </body>
 </html>
