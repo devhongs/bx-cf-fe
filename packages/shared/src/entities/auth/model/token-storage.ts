@@ -10,6 +10,11 @@ import { local } from '../../../shared/lib/utils';
 
 import type { AuthTokens } from './auth.type';
 
+/**
+ * 과거 이중 JSON 인코딩 등으로 따옴표가 중첩된 legacy 값을 정리한다.
+ * 정상 저장 경로(local.set/local.get)에서는 이미 파싱되므로 no-op 이며,
+ * 손상된 기존 저장값에 대한 방어용으로만 남긴다.
+ */
 const normalizeStoredString = (value: string | null): string | null => {
   if (!value) return null;
 
@@ -20,10 +25,9 @@ const normalizeStoredString = (value: string | null): string | null => {
   return normalized;
 };
 
+// 읽기·쓰기 모두 local(스토리지 추상화)을 경유해 대칭을 맞춘다.
+// (local.get 이 window 부재(SSR)·JSON 파싱을 처리하므로 raw localStorage 접근을 두지 않는다.)
 const getStoredString = (key: string): string | null => {
-  if (typeof localStorage !== 'undefined') {
-    return normalizeStoredString(localStorage.getItem(key));
-  }
   return normalizeStoredString(local.get<string>(key));
 };
 

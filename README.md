@@ -219,6 +219,8 @@ PC 보호 화면 최초 진입 시 코드/메뉴 기준정보를 준비합니다
 ### CI/CD ([.github/workflows/ci.yml](.github/workflows/ci.yml))
 `develop` 브랜치에 push되면 self-hosted 러너에서 자동으로 다음을 수행합니다.
 
+> 전체 연결 구조, job 실행 순서, 현재 운영상 주의점은 [CI/CD 실행 흐름](docs/ci-cd-flow.md)에서 확인할 수 있습니다.
+
 | 항목 | 값 |
 | :--- | :--- |
 | Runner | `self-hosted` |

@@ -23,10 +23,6 @@ export default defineConfig(({ command }) => ({
     }),
     tailwindcss(),
   ],
-  // test: {
-  //   globals: true,
-  //   environment: 'jsdom',
-  // },
   server: {
     // 개발 시 API 요청을 백엔드로 프록시해 same-origin으로 만든다 (CORS/크로스도메인 쿠키 문제 회피).
     // VITE_API_URL 을 상대경로(/channel/...)로 두면 브라우저 → dev 서버 → 백엔드로 전달된다.

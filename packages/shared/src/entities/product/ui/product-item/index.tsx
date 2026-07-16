@@ -1,4 +1,4 @@
-import type { Product } from '../..';
+import type { Product } from '../../model/product.type';
 import type { BaseProps } from '../../../../shared/types';
 import { IconButton } from '../../../../shared/ui';
 
