@@ -15,6 +15,7 @@
       "**/routeTree.gen.ts",
       "**/bxui_template.css",
       "docs/ppt-build/**",
+      "scripts/presentations/**",
       "pnpm-lock.yaml"
     ]
   },

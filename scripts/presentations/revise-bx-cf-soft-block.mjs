@@ -92,7 +92,7 @@ async function prepareFrameMap() {
   await fs.writeFile(FRAME_MAP, `${JSON.stringify(frameMap, null, 2)}\n`, "utf8");
   await fs.writeFile(
     path.join(WORK, "template-audit.txt"),
-    [
+    `${[
       "Source: BX-CF.pptx (9 slides, 1280×720)",
       "Visual system: light ice-blue canvas, deep navy type, cobalt accent rules, Malgun Gothic.",
       "Reusable frame: ghost page numeral + eyebrow + large title + footer metadata.",
@@ -101,12 +101,12 @@ async function prepareFrameMap() {
       "Output: source slides 1–8; source slide 9 omitted by explicit user request.",
       "Source media: none.",
       "Source charts/tables: none.",
-    ].join("\n") + "\n",
+    ].join("\n")}\n`,
     "utf8",
   );
   await fs.writeFile(
     path.join(WORK, "deviation-log.txt"),
-    [
+    `${[
       "Slide 2: flat columns converted to three contained cards; definition area grouped.",
       "Slide 3: rule-only rows converted to alternating full-width bands.",
       "Slide 4: three inherited architecture columns compressed vertically; one requested E2E automation band added.",
@@ -118,7 +118,7 @@ async function prepareFrameMap() {
       "No imported image, chart, or table objects were introduced.",
       "Fidelity note: inherited accent rules are intentionally expanded into approved opaque grouping surfaces.",
       "The overlay heuristic therefore reports expected false positives; all affected source objects are declared replace targets in the validated frame map.",
-    ].join("\n") + "\n",
+    ].join("\n")}\n`,
     "utf8",
   );
   console.log(`Prepared frame map for ${outputSlides.length} output slides`);
