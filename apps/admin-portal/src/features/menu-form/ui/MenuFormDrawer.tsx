@@ -57,13 +57,11 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
   const createMutation = useCreateMenu();
   const updateMutation = useUpdateMenu();
   const deleteMutation = useDeleteMenu();
-  const userId = useAuthStore((state) => state.user?.usrId);
+  const authUser = useAuthStore((state) => state.user!.usrId);
   const pending = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending;
 
   const handleSubmit = async (payload: MenuFormPayload) => {
     setSubmitError('');
-
-    const authUser = userId ?? 'admin';
 
     try {
       if (isUpdateMode) {
@@ -84,7 +82,7 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
 
     setSubmitError('');
     try {
-      await deleteMutation.mutateAsync({ menuId, authUser: userId ?? 'admin' });
+      await deleteMutation.mutateAsync({ menuId, authUser });
       onClose();
     } catch (error) {
       setSubmitError(getApiErrorMessage(error, '삭제에 실패했습니다.'));

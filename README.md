@@ -178,11 +178,12 @@ PC 보호 화면 최초 진입 시 코드/메뉴 기준정보를 준비합니다
 | 명령 | 설명 |
 | :--- | :--- |
 | `pnpm check` | 전체 타입 검사 (`turbo check` → 각 앱 `tsc --noEmit`) |
-| `pnpm test` | 전체 단위 테스트 (`turbo test`) |
 | `pnpm lint` | Biome 린트 |
 | `pnpm format` | Biome 일괄 포맷팅 |
 | `pnpm check:api-paths` | `httpService` 경로가 generated OpenAPI 경로와 맞는지 검사 |
 | `pnpm build` | 프로덕션 통합 빌드 (Turborepo 캐싱) |
+
+> **단위 테스트**: `*.test.ts(x)` 파일(Vitest)이 `packages/shared`와 `scripts`에 존재하지만, 이를 실행하는 workspace 스크립트와 `turbo.json` task가 아직 없습니다. 루트 `pnpm test`는 `turbo test`를 호출하므로 현재 `Could not find task 'test'`로 실패합니다. 각 워크스페이스에 `test` 스크립트와 Vitest 설정을 추가한 뒤 이 문서에 반영해야 합니다.
 
 ### E2E (Playwright)
 | 명령 | 설명 |
@@ -272,23 +273,27 @@ bx-cf-fe/
 ├── turbo.json                   # Turborepo 파이프라인 캐싱
 ├── biome.json                   # Biome 린터 & 포맷터 (a11y 규칙 제외)
 ├── tsconfig.json                # 공통 TS 설정 (각 앱이 extends)
-├── tailwind.config.js           # Tailwind 폰트 확장
 ├── db.json                      # Mock 데이터
 ├── mock/                        # Mock API 서버 (Spring 계약 흉내, 무의존성)
 │   └── server.js
 ├── public/                      # 공용 정적 자산 (앱 간 공유 publicDir)
 ├── landing/                     # 안내 페이지 (Nginx 루트 context, 앱 비종속)
-│   └── index.html
+│   ├── index.html
+│   └── assets/                  #   소개 PDF·PPTX, gen:readme 산출물(fe/be.readme.html), backup/(이전 테마 덱)
 ├── scripts/
 │   ├── gen-api.mjs              # OpenAPI → TS 타입 생성
 │   ├── check-api-paths.mjs      # FE API 호출 경로 ↔ OpenAPI 경로 정합성 체크
-│   └── gen-readme-html.mjs      # README → landing HTML 생성
+│   ├── gen-readme-html.mjs      # README → landing HTML 생성
+│   └── presentations/           # 제안 덱 빌드·수정 스크립트 (Biome 검사 제외)
 ├── .github/workflows/ci.yml     # develop push 시 빌드·검증·Nginx 배포
 ├── docs/                        # 프로젝트 문서 & 도구
 │   ├── order.md / todo.md / wbs.md
+│   ├── form-components.md       # 폼 컴포넌트 사용 가이드
+│   ├── ppt-intro.md             # 제안 덱 내러티브 원고
 │   ├── wbs-sync.js              # WBS → GitHub Projects 동기화 스크립트
 │   ├── wbs-pull.js              # GitHub Projects → WBS 신규 항목 가져오기
-│   └── ppt-build/               # 제안 PPT 빌드·렌더 산출물
+│   ├── superpowers/             # 기능별 작업 계획(plans)·설계(specs) 기록
+│   └── ppt-build/               # 제안 PPT 빌드·렌더 산출물 (Biome 검사 제외)
 │
 ├── packages/
 │   └── shared/                  # 공유 패키지 (@bx/shared)
@@ -300,7 +305,7 @@ bx-cf-fe/
 │           ├── shared/          # 공통: ui, hooks, model, lib, types, constants, ajax
 │           │   ├── ajax/        #   http.service (envelope·인터셉터·JWT)
 │           │   ├── constants/   #   api, error-codes, siteConfig, storage-keys
-│           │   └── ui/          #   dialog, drawer, modal, button, input ...
+│           │   └── ui/          #   dialog, drawer, modal, toast, button, input ...
 │           └── index.ts         # 배럴 (외부로 일괄 Export)
 │
 └── apps/
@@ -386,6 +391,31 @@ TanStack Query key는 `xxxQueryKeys = { all, list, detail, ... }` 객체 패턴�
 * **PC**: 화면 중앙 다이얼로그 (`Dialog`)
 * **모바일**: 풀스크린 다이얼로그
 * 모달 화면은 각 앱의 `routes/(modal)/<name>/index.tsx`에 두고, `useModal().open({ path: '<name>' })`으로 호출합니다.
+
+---
+
+## 🔔 토스트 시스템
+
+`@bx/shared`가 **sonner**를 얇게 감싼 `Toaster` 컴포넌트와 `toast` 함수를 제공합니다. 세 앱 모두 `main.tsx`에서 `<Toaster />`를 라우터와 같은 레벨에 한 번 마운트하며, 호출은 어디서든 `toast(...)`로 합니다.
+
+```tsx
+// apps/[app]/src/main.tsx
+<QueryClientProvider client={queryClient}>
+  <RouterProvider router={router} />
+  <Toaster />
+</QueryClientProvider>
+```
+
+```ts
+import { toast } from '@bx/shared';
+
+toast.success('저장되었습니다.');
+toast.error('저장에 실패했습니다.');
+```
+
+* 기본값은 `position="bottom-center"` · `closeButton` 활성이며, 필요 시 `<Toaster />`에 sonner props를 그대로 넘겨 덮어쓸 수 있습니다.
+* 아이콘은 lucide-react 기반으로 success/info/warning/error/loading이 미리 지정되어 있습니다.
+* 색상은 앱별 테마 토큰(`--surface-elevated`, `--foreground`, `--border`)을 var()로 참조하므로, pc-web의 `.dark`·admin의 `[data-admin-theme]`·mobile-web의 light 기본값에 래퍼 수정 없이 따라갑니다.
 
 ---
 
