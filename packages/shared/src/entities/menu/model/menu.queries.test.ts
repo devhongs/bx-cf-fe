@@ -5,6 +5,7 @@ import { menuListQuery, menuQueryKeys } from './menu.queries';
 describe('menu query keys', () => {
   it('uses the entity query key object pattern', () => {
     expect(menuQueryKeys.all).toEqual(['menu']);
+    expect(menuQueryKeys.lists()).toEqual(['menu', 'list']);
     expect(menuQueryKeys.list({ useYn: 'Y' })).toEqual(['menu', 'list', { useYn: 'Y' }]);
     expect(menuQueryKeys.detail(1)).toEqual(['menu', 'detail', 1]);
   });

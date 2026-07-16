@@ -5,6 +5,7 @@ import type { Menu, MenuAuthParams, MenuPayload, MenuQueryParams } from './menu.
 
 export const menuQueryKeys = {
   all: ['menu'] as const,
+  lists: () => ['menu', 'list'] as const,
   list: (params?: MenuQueryParams) => ['menu', 'list', params] as const,
   detail: (id: number) => ['menu', 'detail', id] as const,
 };
