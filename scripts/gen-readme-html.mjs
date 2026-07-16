@@ -20,7 +20,20 @@ const TARGETS = [
   { src: '../../bx-cf-be/README.md', out: 'be.readme.html', title: 'BX-CF Backend · README' },
 ];
 
-function render(title, body) {
+const escapeHtml = (value) =>
+  value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+const renderToc = (headings) =>
+  headings
+    .map(
+      ({ id, depth, label }) =>
+        `        <a class="toc-link toc-link-depth-${depth}" href="#${id}">${escapeHtml(label)}</a>`,
+    )
+    .join('\n');
+
+export const renderReadmeDocument = (title, { body, headings }) => {
+  const toc = renderToc(headings);
+
   return `<!doctype html>
 <html lang="ko">
   <head>
@@ -30,6 +43,7 @@ function render(title, body) {
     <link rel="icon" href="/favicon.ico" />
     <style>
       :root { color-scheme: dark; }
+      html { scroll-behavior: smooth; }
       body {
         margin: 0;
         background:
@@ -42,10 +56,16 @@ function render(title, body) {
         -webkit-font-smoothing: antialiased;
         min-height: 100vh;
       }
-      .md {
-        max-width: 880px;
+      .readme-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 880px) 260px;
+        gap: 56px;
+        width: min(100% - 48px, 1240px);
         margin: 0 auto;
-        padding: 48px 24px 96px;
+      }
+      .md {
+        min-width: 0;
+        padding: 48px 0 96px;
         font-size: 15px;
       }
       .md h1, .md h2, .md h3 { letter-spacing: -0.02em; line-height: 1.3; }
@@ -57,6 +77,7 @@ function render(title, body) {
         border-bottom: 1px solid #232d3f;
       }
       .md h3 { font-size: 18px; margin: 28px 0 12px; }
+      .md h2, .md h3 { scroll-margin-top: 24px; }
       .md a { color: #5b9dff; text-decoration: none; }
       .md a:hover { text-decoration: underline; }
       .md hr { border: none; border-top: 1px solid #232d3f; margin: 32px 0; }
@@ -89,16 +110,93 @@ function render(title, body) {
       }
       .md ul, .md ol { padding-left: 24px; }
       .md img { max-width: 100%; }
+      .toc-column { padding: 48px 0 96px; }
+      .toc {
+        position: sticky;
+        top: 24px;
+        max-height: calc(100vh - 48px);
+        overflow-y: auto;
+      }
+      .toc-link {
+        display: block;
+        padding: 5px 8px;
+        color: #8893a8;
+        font-size: 14px;
+        line-height: 1.45;
+        text-decoration: none;
+      }
+      .toc-link:hover, .toc-link[aria-current="location"] { color: #eaeef6; background: #1c2738; }
+      .toc-link-depth-3 { margin-left: 16px; }
+      @media (max-width: 1100px) {
+        .readme-layout { display: block; width: min(100% - 32px, 880px); }
+        .toc-column { display: none; }
+      }
     </style>
   </head>
   <body>
-    <main class="md">
+    <div class="readme-layout">
+      <main class="md">
 ${body}
-    </main>
+      </main>
+      <aside class="toc-column">
+        <nav class="toc" aria-label="문서 목차">
+${toc}
+        </nav>
+      </aside>
+    </div>
+    <script>
+      (() => {
+        const tocLinks = Array.from(document.querySelectorAll('.toc-link'));
+        const linksById = new Map(
+          tocLinks.map((link) => [link.getAttribute('href').slice(1), link]),
+        );
+        const targetHeadings = Array.from(linksById.keys())
+          .map((id) => document.getElementById(id))
+          .filter(Boolean);
+        const setActive = (id) => {
+          const activeLink = linksById.get(id);
+          tocLinks.forEach((link) => {
+            if (link === activeLink) link.setAttribute('aria-current', 'location');
+            else link.removeAttribute('aria-current');
+          });
+        };
+        const getHashId = () => {
+          try {
+            return decodeURIComponent(window.location.hash.slice(1));
+          } catch {
+            return '';
+          }
+        };
+        const activateHash = () => {
+          const hashId = getHashId();
+          if (linksById.has(hashId)) setActive(hashId);
+        };
+
+        activateHash();
+        if (
+          !tocLinks.some((link) => link.getAttribute('aria-current') === 'location') &&
+          targetHeadings[0]
+        ) {
+          setActive(targetHeadings[0].id);
+        }
+        window.addEventListener('hashchange', activateHash);
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const visibleHeading = entries
+              .filter((entry) => entry.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+            if (visibleHeading) setActive(visibleHeading.target.id);
+          },
+          { rootMargin: '-24px 0px -65% 0px', threshold: 0 },
+        );
+        targetHeadings.forEach((heading) => observer.observe(heading));
+      })();
+    </script>
   </body>
 </html>
 `;
-}
+};
 
 const createHeadingId = (label, counts) => {
   const base =
@@ -126,7 +224,6 @@ export const buildReadmeContent = (markdown) => {
     if (token.type !== 'heading' || (token.depth !== 2 && token.depth !== 3)) continue;
     const label = getHeadingLabel(token.tokens);
     token.headingId = createHeadingId(label, counts);
-    token.headingLabel = label;
     headings.push({ id: token.headingId, depth: token.depth, label });
   }
 
@@ -155,9 +252,9 @@ export const generateReadmeHtml = async ({ targets = TARGETS, outDir = OUT_DIR }
       continue;
     }
     const md = await readFile(srcUrl, 'utf8');
-    const { body } = buildReadmeContent(md);
+    const content = buildReadmeContent(md);
     const outUrl = new URL(out, outDir);
-    await writeFile(outUrl, render(title, body), 'utf8');
+    await writeFile(outUrl, renderReadmeDocument(title, content), 'utf8');
     console.log(`✅ ${out} 생성 완료 (${md.length.toLocaleString()}자)`);
     results.push({ out, skipped: false });
   }
