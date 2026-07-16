@@ -9,6 +9,7 @@
  * 소스가 없으면(예: CI 에 BE 레포 미체크아웃) 해당 항목은 건너뛴다.
  */
 import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { pathToFileURL } from 'node:url';
 import { marked } from 'marked';
 
 const OUT_DIR = new URL('../landing/assets/', import.meta.url);
@@ -99,19 +100,73 @@ ${body}
 `;
 }
 
-await mkdir(OUT_DIR, { recursive: true });
+const createHeadingId = (label, counts) => {
+  const base =
+    label
+      .normalize('NFKC')
+      .toLocaleLowerCase('ko')
+      .replace(/[^\p{Letter}\p{Number}]+/gu, '-')
+      .replace(/^-|-$/g, '') || 'section';
+  const count = (counts.get(base) ?? 0) + 1;
+  counts.set(base, count);
+  return count === 1 ? base : `${base}-${count}`;
+};
 
-for (const { src, out, title } of TARGETS) {
-  const srcUrl = new URL(src, import.meta.url);
-  try {
-    await access(srcUrl);
-  } catch {
-    console.warn(`⏭️  ${out} 건너뜀 — 소스 없음 (${src})`);
-    continue;
+const getHeadingLabel = (tokens) => {
+  const renderer = new marked.TextRenderer();
+  return new marked.Parser({ renderer }).parseInline(tokens);
+};
+
+export const buildReadmeContent = (markdown) => {
+  const tokens = marked.lexer(markdown, { gfm: true });
+  const headings = [];
+  const counts = new Map();
+
+  for (const token of tokens) {
+    if (token.type !== 'heading' || (token.depth !== 2 && token.depth !== 3)) continue;
+    const label = getHeadingLabel(token.tokens);
+    token.headingId = createHeadingId(label, counts);
+    token.headingLabel = label;
+    headings.push({ id: token.headingId, depth: token.depth, label });
   }
-  const md = await readFile(srcUrl, 'utf8');
-  const body = marked.parse(md, { gfm: true, breaks: false });
-  const outUrl = new URL(out, OUT_DIR);
-  await writeFile(outUrl, render(title, body), 'utf8');
-  console.log(`✅ ${out} 생성 완료 (${md.length.toLocaleString()}자)`);
+
+  const renderer = new marked.Renderer();
+  renderer.heading = function ({ tokens: inlineTokens, depth, headingId }) {
+    const content = this.parser.parseInline(inlineTokens);
+    return headingId
+      ? `<h${depth} id="${headingId}">${content}</h${depth}>\n`
+      : `<h${depth}>${content}</h${depth}>\n`;
+  };
+
+  return { body: marked.parser(tokens, { renderer }), headings };
+};
+
+export const generateReadmeHtml = async ({ targets = TARGETS, outDir = OUT_DIR } = {}) => {
+  await mkdir(outDir, { recursive: true });
+  const results = [];
+
+  for (const { src, out, title } of targets) {
+    const srcUrl = new URL(src, import.meta.url);
+    try {
+      await access(srcUrl);
+    } catch {
+      console.warn(`⏭️  ${out} 건너뜀 — 소스 없음 (${src})`);
+      results.push({ out, skipped: true });
+      continue;
+    }
+    const md = await readFile(srcUrl, 'utf8');
+    const { body } = buildReadmeContent(md);
+    const outUrl = new URL(out, outDir);
+    await writeFile(outUrl, render(title, body), 'utf8');
+    console.log(`✅ ${out} 생성 완료 (${md.length.toLocaleString()}자)`);
+    results.push({ out, skipped: false });
+  }
+
+  return results;
+};
+
+const isDirectRun = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (isDirectRun) {
+  await generateReadmeHtml();
 }
