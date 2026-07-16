@@ -4,9 +4,9 @@
 
 **Goal:** Generate FE/BE README HTML with a right-side H2-only table of contents that scrolls to and highlights the current section without pagination.
 
-**Architecture:** Tokenize Markdown once with `marked.lexer()`, annotate heading tokens with deterministic unique IDs, and use those same tokens to render both body anchors and the TOC. Keep output as a standalone HTML file with inline CSS and a small `IntersectionObserver` script for active-section state.
+**Architecture:** Tokenize Markdown once with `marked.lexer()`, annotate heading tokens with deterministic unique IDs, and use those same tokens to render both body anchors and the TOC. Keep output as a standalone HTML file with inline CSS and a small passive scroll handler that selects the active H2 by document position and explicitly selects the last H2 at document bottom.
 
-**Tech Stack:** Node.js 22, ESM, marked 18, Vitest 4, HTML/CSS/vanilla JavaScript
+**Tech Stack:** Node.js 22, ESM, marked 18, Vitest 4, JSDOM, HTML/CSS/vanilla JavaScript
 
 ## Global Constraints
 
@@ -16,6 +16,7 @@
 - Hide the TOC on narrow screens and let the document use the available width.
 - Do not parse generated HTML or Markdown headings with regular expressions.
 - Apply the same generator behavior to FE and BE README targets.
+- Select the last H2 at document bottom even when its trailing section is too short to cross the normal active line, and restore prior H2 sections during upward scrolling.
 
 ---
 
@@ -137,7 +138,7 @@ expect(html).not.toContain('class="toc-link toc-link-depth-3"');
 expect(html).toContain('scroll-behavior: smooth');
 expect(html).toContain('position: sticky');
 expect(html).toContain('@media (max-width: 1100px)');
-expect(html).toContain('new IntersectionObserver');
+expect(html).toContain("window.addEventListener('scroll'");
 expect(html).toContain("aria-current");
 ```
 
@@ -175,7 +176,9 @@ html { scroll-behavior: smooth; }
 }
 ```
 
-Add an inline script that observes all TOC-targeted headings, sets exactly one link's `aria-current="location"`, and uses the current hash as the initial active item. Do not intercept link clicks; native hash navigation plus CSS smooth scrolling remains the navigation mechanism.
+Add an inline passive scroll handler that compares the document-space position of each TOC-targeted H2 with a fixed top active line. When the viewport reaches document bottom, explicitly select the final H2 so a short trailing section remains reachable. Recalculate on every ordinary scroll so upward scrolling restores the preceding H2. Set exactly one link's `aria-current="location"`, and use the current hash as the initial active item. Do not intercept link clicks; native hash navigation plus CSS smooth scrolling remains the navigation mechanism.
+
+Add a JSDOM behavioral regression test with at least three H2 sections. Mock heading positions and document height, dispatch an ordinary bottom scroll, and assert that only the final link is current; then dispatch an upward scroll and assert that only the preceding link is current.
 
 - [ ] **Step 4: Run focused and script test suites**
 
@@ -210,7 +213,7 @@ Expected: `fe.readme.html` is generated; `be.readme.html` is generated only when
 
 - [ ] **Step 2: Verify generated structure**
 
-Run: `rg -n 'class="toc"|toc-link-depth-2|IntersectionObserver|id="시작하기-quick-start"' landing/assets/fe.readme.html`
+Run: `rg -n 'class="toc"|toc-link-depth-2|addEventListener\(.scroll.|documentHeight|id="시작하기-quick-start"' landing/assets/fe.readme.html`
 
 Run: `! rg -n 'toc-link-depth-3|<h3 id=' landing/assets/fe.readme.html landing/assets/be.readme.html`
 
@@ -218,7 +221,7 @@ Expected: H2-only TOC markup, active tracking, and H2 heading IDs are present; H
 
 - [ ] **Step 3: Verify desktop interaction**
 
-Open `landing/assets/fe.readme.html` in the in-app browser at a desktop viewport. Confirm the right H2-only TOC is visible and sticky, clicking an item updates the hash and scrolls to the matching heading, the active item changes while scrolling, and the document remains one continuous page.
+Open `landing/assets/fe.readme.html` in the in-app browser at a desktop viewport. Confirm the right H2-only TOC is visible and sticky, clicking an item updates the hash and scrolls to the matching heading, a short final section becomes active at document bottom, upward scrolling restores prior sections, and the document remains one continuous page.
 
 - [ ] **Step 4: Verify narrow viewport**
 

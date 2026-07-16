@@ -846,28 +846,34 @@ toast.error(&#39;저장에 실패했습니다.&#39;);
         };
         const activateHash = () => {
           const hashId = getHashId();
-          if (linksById.has(hashId)) setActive(hashId);
+          if (!linksById.has(hashId)) return false;
+          setActive(hashId);
+          return true;
+        };
+        const updateActiveFromScroll = () => {
+          if (!targetHeadings.length) return;
+          const documentHeight = Math.max(
+            document.documentElement.scrollHeight,
+            document.body.scrollHeight,
+          );
+          if (window.scrollY + window.innerHeight >= documentHeight - 1) {
+            setActive(targetHeadings[targetHeadings.length - 1].id);
+            return;
+          }
+
+          const activeLine = window.scrollY + 24;
+          let activeHeading = targetHeadings[0];
+          for (const heading of targetHeadings) {
+            const headingTop = heading.getBoundingClientRect().top + window.scrollY;
+            if (headingTop > activeLine) break;
+            activeHeading = heading;
+          }
+          setActive(activeHeading.id);
         };
 
-        activateHash();
-        if (
-          !tocLinks.some((link) => link.getAttribute('aria-current') === 'location') &&
-          targetHeadings[0]
-        ) {
-          setActive(targetHeadings[0].id);
-        }
+        if (!activateHash()) updateActiveFromScroll();
         window.addEventListener('hashchange', activateHash);
-
-        const observer = new IntersectionObserver(
-          (entries) => {
-            const visibleHeading = entries
-              .filter((entry) => entry.isIntersecting)
-              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-            if (visibleHeading) setActive(visibleHeading.target.id);
-          },
-          { rootMargin: '-24px 0px -65% 0px', threshold: 0 },
-        );
-        targetHeadings.forEach((heading) => observer.observe(heading));
+        window.addEventListener('scroll', updateActiveFromScroll, { passive: true });
       })();
     </script>
   </body>

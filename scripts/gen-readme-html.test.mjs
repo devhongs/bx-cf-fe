@@ -1,3 +1,4 @@
+import { JSDOM } from 'jsdom';
 import { describe, expect, it } from 'vitest';
 import * as readmeHtml from './gen-readme-html.mjs';
 
@@ -44,8 +45,48 @@ describe('README HTML heading outline', () => {
     expect(html).toContain('scroll-behavior: smooth');
     expect(html).toContain('position: sticky');
     expect(html).toContain('@media (max-width: 1100px)');
-    expect(html).toContain('new IntersectionObserver');
+    expect(html).toContain("window.addEventListener('scroll'");
+    expect(html).not.toContain('new IntersectionObserver');
     expect(html).toContain('aria-current');
+  });
+
+  it('tracks a short final section at document bottom and restores the prior section upward', () => {
+    const html = readmeHtml.renderReadmeDocument(
+      'Document',
+      buildReadmeContent('# Document\n\n## First\n\nContent\n\n## Middle\n\nContent\n\n## Final'),
+    );
+    const dom = new JSDOM(html, { runScripts: 'outside-only', url: 'https://example.com/' });
+    const { document, Event } = dom.window;
+    const headingTops = { first: 100, middle: 900, final: 1850 };
+    let scrollY = 0;
+
+    Object.defineProperty(dom.window, 'scrollY', { configurable: true, get: () => scrollY });
+    Object.defineProperty(dom.window, 'innerHeight', { configurable: true, value: 800 });
+    Object.defineProperty(document.documentElement, 'scrollHeight', {
+      configurable: true,
+      value: 2000,
+    });
+    Object.defineProperty(document.body, 'scrollHeight', { configurable: true, value: 2000 });
+    for (const heading of document.querySelectorAll('.md h2')) {
+      heading.getBoundingClientRect = () => ({
+        top: headingTops[heading.id] - scrollY,
+      });
+    }
+
+    dom.window.eval(document.querySelector('script').textContent);
+
+    const currentHrefs = () =>
+      Array.from(document.querySelectorAll('.toc-link[aria-current="location"]'), (link) =>
+        link.getAttribute('href'),
+      );
+
+    scrollY = 1200;
+    dom.window.dispatchEvent(new Event('scroll'));
+    expect(currentHrefs()).toEqual(['#final']);
+
+    scrollY = 1000;
+    dom.window.dispatchEvent(new Event('scroll'));
+    expect(currentHrefs()).toEqual(['#middle']);
   });
 
   it('escapes plain TOC labels without nesting Markdown link anchors', () => {
