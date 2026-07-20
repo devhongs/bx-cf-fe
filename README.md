@@ -181,9 +181,10 @@ PC 보호 화면 최초 진입 시 코드/메뉴 기준정보를 준비합니다
 | `pnpm lint` | Biome 린트 |
 | `pnpm format` | Biome 일괄 포맷팅 |
 | `pnpm check:api-paths` | `httpService` 경로가 generated OpenAPI 경로와 맞는지 검사 |
+| `pnpm test` | 전체 workspace 단위 테스트 (Vitest, Turborepo 캐싱) |
 | `pnpm build` | 프로덕션 통합 빌드 (Turborepo 캐싱) |
 
-> **단위 테스트**: `*.test.ts(x)` 파일(Vitest)이 `packages/shared`와 `scripts`에 존재하지만, 이를 실행하는 workspace 스크립트와 `turbo.json` task가 아직 없습니다. 루트 `pnpm test`는 `turbo test`를 호출하므로 현재 `Could not find task 'test'`로 실패합니다. 각 워크스페이스에 `test` 스크립트와 Vitest 설정을 추가한 뒤 이 문서에 반영해야 합니다.
+> **단위 테스트**: `pc-web`, `mobile-web`, `admin-portal`, `@bx/shared`에 Vitest 설정과 `test` 스크립트가 있으며, 루트 `pnpm test`가 Turborepo를 통해 전체 workspace 테스트를 실행합니다. 테스트 파일이 아직 없는 workspace도 `--passWithNoTests`로 정상 종료합니다. 현재 GitHub Actions workflow에는 `pnpm test` 단계가 포함되어 있지 않습니다.
 
 ### E2E (Playwright)
 | 명령 | 설명 |
@@ -219,7 +220,7 @@ PC 보호 화면 최초 진입 시 코드/메뉴 기준정보를 준비합니다
 ### CI/CD ([.github/workflows/ci.yml](.github/workflows/ci.yml))
 `develop` 브랜치에 push되면 self-hosted 러너에서 자동으로 다음을 수행합니다.
 
-> 전체 연결 구조, job 실행 순서, 현재 운영상 주의점은 [CI/CD 실행 흐름](docs/ci-cd-flow.md)에서 확인할 수 있습니다.
+> 전체 연결 구조, job 실행 순서, 현재 운영상 주의점은 [CI/CD 실행 흐름](https://github.com/devhongs/bx-cf-fe/blob/develop/docs/ci-cd-flow.md)에서 확인할 수 있습니다.
 
 | 항목 | 값 |
 | :--- | :--- |
@@ -261,6 +262,8 @@ CI는 빌드 성공 여부뿐 아니라 **백엔드 스펙과 FE generated 타�
 
 ### 안내 페이지 (landing)
 `landing/index.html`은 FE·BE 자료(소개 PDF·README·WBS·저장소)를 링크로 안내하는 **단일 정적 페이지**입니다. 어떤 앱에도 속하지 않으므로 `public/`(앱 공유 publicDir)이 아닌 별도 `landing/`에 두고, Nginx 루트 context로 서빙합니다. CI/CD에서 `pnpm gen:readme` 실행 후 `landing/*` 전체를 landing 배포 경로로 복사합니다.
+
+`pnpm gen:readme`로 생성한 README HTML은 데스크톱에서 H2 제목만 모은 우측 고정 목차를 제공하고, 문서 스크롤에 따라 현재 항목을 표시합니다. 목차 링크는 URL hash와 부드러운 스크롤을 사용하며, 1100px 이하 화면에서는 목차를 숨기고 본문을 전체 폭으로 표시합니다.
 
 > README HTML은 CI가 배포 전에 자동 생성합니다. 로컬 landing 미리보기가 필요한 경우에만 `pnpm gen:readme`를 실행합니다. 형제 BE 저장소가 로컬에 있으면 `be.readme.html`도 함께 변경될 수 있습니다.
 
@@ -336,6 +339,27 @@ bx-cf-fe/
 ```
 
 > 라우트 트리(`routeTree.gen.ts`)는 TanStack Router 플러그인이 dev/build 시 자동 생성합니다(직접 수정 금지).
+
+---
+
+## 🧩 Feature-Sliced Design (FSD)
+
+이 저장소는 [Feature-Sliced Design 공식 홈페이지](https://fsd.how/)의 구조화 원칙을 기반으로 하며, 자세한 개념은 [FSD 한국어 Overview](https://fsd.how/kr/docs/get-started/overview/)에서 확인할 수 있습니다. FSD는 프론트엔드 코드를 책임 범위에 따른 **Layer**, 비즈니스 도메인에 따른 **Slice**, 기술 역할에 따른 **Segment**로 나누는 아키텍처 방법론입니다.
+
+BX-CF는 이를 모노레포에 맞게 적용합니다.
+
+| FSD Layer | 이 저장소에서의 역할 |
+| :--- | :--- |
+| `app` | 앱 진입점, 전역 Provider와 설정 |
+| `pages` / `routes` | 화면과 URL 진입 단위 |
+| `widgets` | 사이드바·레이아웃처럼 독립적인 대형 UI 구성 |
+| `features` | 로그인, 등록·수정처럼 사용자 행동 중심의 기능 |
+| `entities` | account, auth, menu, product 등 도메인별 API·model·UI |
+| `shared` | 특정 도메인에 종속되지 않는 UI·유틸리티·통신·상수 |
+
+- 앱별 화면·기능·스타일은 `apps/*/src`에 두고, 여러 앱이 공유하는 도메인과 기반 기능은 `packages/shared/src`에서 관리합니다.
+- Slice 내부는 `api`, `model`, `ui` 등의 Segment로 역할을 분리합니다.
+- 외부 모듈은 Slice의 `index.ts` Public API를 통해 접근하고, 상위 Layer에서 하위 Layer 방향으로 의존하도록 구성합니다.
 
 ---
 
