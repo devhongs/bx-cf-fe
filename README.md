@@ -324,7 +324,7 @@ bx-cf-fe/
 │           ├── shared/          # 공통: ui, hooks, model, lib, types, constants, ajax
 │           │   ├── ajax/        #   http.service (envelope·인터셉터·JWT)
 │           │   ├── constants/   #   api, error-codes, siteConfig, storage-keys
-│           │   └── ui/          #   dialog, drawer, modal, toast, button, input ...
+│           │   └── ui/          #   alert, dialog, drawer, modal, toast, button, input ...
 │           └── index.ts         # 배럴 (외부로 일괄 Export)
 │
 └── apps/
@@ -404,7 +404,8 @@ TanStack Query key는 `xxxQueryKeys = { all, list, detail, ... }` 객체 패턴�
 ### 4. HTTP 통신 (`httpService`)
 * 모든 API 호출은 `@bx/shared`의 `httpService.get/post/put/patch/delete`를 사용합니다.
 * baseURL은 `httpService.init()`에서 1회 설정하므로, 각 API 함수는 **상대 경로**만 사용합니다. (예: `httpService.get('/product/list')`)
-* `execute()`가 envelope의 `payload`를 언래핑하여 반환하고, `success: false`는 에러로 throw합니다.
+* `execute()`가 envelope의 `payload`를 언래핑하여 반환하고, `success: false`는 `ApiError`로 throw합니다.
+* envelope 업무 오류, HTTP 오류, 네트워크 단절, timeout, 요청 취소는 모두 `ApiError`로 정규화됩니다. 호출부에서는 `code`, `status`, `kind`, `payload`, `url`, `message`를 동일한 방식으로 사용할 수 있습니다.
 
 ### 5. 공통 UI와 앱 전용 UI
 * 여러 앱에서 재사용할 수 있는 기본 UI는 `packages/shared/src/shared/ui`에 구현합니다.
@@ -431,6 +432,84 @@ TanStack Query key는 `xxxQueryKeys = { all, list, detail, ... }` 객체 패턴�
 * **PC**: 화면 중앙 다이얼로그 (`Dialog`)
 * **모바일**: 풀스크린 다이얼로그
 * 모달 화면은 각 앱의 `routes/(modal)/<name>/index.tsx`에 두고, `useModal().open({ path: '<name>' })`으로 호출합니다.
+
+---
+
+## 🚨 공통 Alert·Confirm 및 API 에러 처리
+
+`@bx/shared`는 Promise 기반 `openAlert`·`openConfirm`과 Radix Dialog 기반 `<AlertHost />`를 제공합니다. PC·Mobile·Admin은 `main.tsx`에서 `<AlertHost />`를 라우터와 같은 레벨에 한 번 마운트합니다.
+
+```tsx
+<QueryClientProvider client={queryClient}>
+  <RouterProvider router={router} />
+  <Toaster />
+  <AlertHost />
+</QueryClientProvider>
+```
+
+### 직접 호출
+
+```ts
+import { openAlert, openConfirm } from '@bx/shared';
+
+await openAlert({
+  title: '알림',
+  message: '저장되었습니다.',
+  confirmText: '확인',
+});
+
+const confirmed = await openConfirm({
+  title: '삭제 확인',
+  message: '선택한 항목을 삭제하시겠습니까?',
+  confirmText: '삭제',
+  cancelText: '유지',
+});
+
+if (!confirmed) return;
+```
+
+* `openAlert`는 확인 버튼만 표시하며, 닫힐 때까지 기다릴 수 있습니다.
+* `openConfirm`은 기본적으로 `확인`·`취소` 버튼을 표시하고 `Promise<boolean>`을 반환합니다.
+* Confirm은 확인 버튼을 누른 경우에만 `true`이며, 취소·ESC·오버레이 클릭은 `false`입니다.
+* 여러 요청은 queue에 쌓여 순서대로 표시됩니다.
+
+### API 에러 중앙 처리
+
+`createQueryClient()`의 `QueryCache`와 `MutationCache`가 Query/Mutation 실패를 `handleApiError()`로 전달합니다. 별도 정책이 없으면 서버 메시지로 공통 alert를 표시하며, 동시에 같은 메시지가 여러 번 발생하면 하나로 합칩니다.
+
+```ts
+// 화면에서 직접 오류를 표시
+useQuery({
+  ...queryOptions,
+  meta: { error: { silent: true } },
+});
+
+// 공통 alert 메시지 변경
+useLogin({
+  meta: {
+    error: {
+      message: '로그인에 실패했습니다. 아이디 또는 비밀번호를 확인해주세요.',
+    },
+  },
+});
+
+// alert를 닫은 뒤 후처리
+useMutation({
+  ...mutationOptions,
+  meta: { error: { onClose: () => navigate({ to: '/list' }) } },
+});
+```
+
+| `meta.error` 옵션 | 역할 |
+| :--- | :--- |
+| `silent` | 공통 alert를 표시하지 않음. boolean 또는 `(error) => boolean` 사용 |
+| `ignoreCodes` | 지정한 서버 에러 코드만 공통 처리에서 제외 |
+| `message` | alert 메시지 변경. 문자열 또는 `(error) => string` 사용 |
+| `onClose` | 사용자가 공통 alert를 닫은 뒤 실행 |
+
+인증 오류는 HTTP 인터셉터가 재발급·로그아웃을 처리하고, 취소된 요청과 TanStack Router redirect는 공통 alert에서 제외합니다. 업무·인증 오류는 재시도하지 않으며 network·timeout·server 오류만 한 번 재시도합니다. React Query를 거치지 않는 직접 호출은 `catch`에서 `handleApiError(error, policy)`를 호출합니다.
+
+Toast는 확인이 필요 없는 짧은 성공·상태 알림에 사용하고, Alert는 사용자의 확인이 필요한 오류·안내, Confirm은 삭제처럼 사용자 결정이 필요한 작업에 사용합니다. 신규 코드에서는 `window.alert`·`window.confirm` 대신 공통 API를 사용합니다. 현재 Admin 삭제 화면에 남아 있는 native confirm은 순차 마이그레이션 대상입니다.
 
 ---
 
