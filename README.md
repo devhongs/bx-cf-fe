@@ -160,10 +160,17 @@ PC·Admin·Mobile 보호 화면 최초 진입 시 코드/메뉴 기준정보를 
 | localStorage | 새로고침/재접속 후에도 기준정보 재사용 (`base-info:CODE`, `base-info:MENU:<app>:<usrId>`) |
 | sessionStorage | 기존 화면 로직이 참조하는 런타임 세션 데이터 (`CONFIG.SESSION.CODE`, `CONFIG.SESSION.MENU_LIST`) |
 
+공통코드 캐시는 모든 앱이 동일한 데이터를 사용한다는 전제로 `base-info:CODE` 하나를 공유합니다. 메뉴는 앱과 사용자별 구성이 다를 수 있으므로 `pc:<usrId>`, `admin:<usrId>`, `mobile:<usrId>` scope로 분리합니다.
+
 `schemaVersion`은 FE 내부 캐시 구조 버전입니다. 서버 버전이 그대로여도 FE 저장 구조가 바뀌면 schemaVersion을 올려 강제로 재조회하게 합니다. 현재 CODE는 그룹+children 구조를 반영해 `2`, MENU는 `1`입니다.
 
+### 버전 확인 및 갱신 시점
+`staleTime`과 `gcTime`을 무한대로 설정했으므로 동일한 QueryClient와 `menuCacheScope`가 유지되는 앱 실행 중에는 부트스트랩을 한 번만 수행합니다. 서버 버전이 앱 실행 중 변경되더라도 즉시 감지하지 않으며, 브라우저 새로고침이나 앱 재실행으로 새 QueryClient가 생성될 때 버전을 다시 확인합니다.
+
+Admin의 코드·메뉴 등록/수정/삭제는 해당 관리 화면의 목록 Query만 갱신합니다. `CONFIG.SESSION.CODE`와 `CONFIG.SESSION.MENU_LIST`에 적재된 기준정보는 다음 새로고침에서 서버 버전을 확인한 뒤 갱신됩니다.
+
 ### 실패 시 동작 (의도된 동작)
-라우트 가드가 호출하는 `bootstrapBaseInfoSafe`는 **절대 throw하지 않습니다.** 실패는 반환값의 `failed` 배열에 담기고, `beforeLoad`는 이 배열을 확인하지 않은 채 화면 진입을 허용합니다. 버전 또는 데이터 조회가 실패하면 사용 가능한 기존 캐시를 sessionStorage에 먼저 복원합니다.
+라우트 가드가 호출하는 `bootstrapBaseInfoSafe`는 **절대 throw하지 않습니다.** 실패는 반환값의 `failed` 배열에 담기고, `beforeLoad`는 이 배열을 확인하지 않은 채 화면 진입을 허용합니다. 버전 또는 데이터 조회가 실패하면 사용 가능한 기존 캐시를 sessionStorage에 복원합니다.
 
 따라서 "첫 접속 + 기준정보 조회 실패"(재사용할 localStorage 캐시가 아직 없는 상태)에서는 부트스트랩이 성공으로 간주되지만 `CONFIG.SESSION.CODE`가 비어 있는 채로 화면이 렌더됩니다. 이때 `$codeUtils`와 `Select`의 `groupCd`는 조용히 빈 목록이 되고, 세션을 구독하지 않으므로 이후 채워져도 새로고침 전까지 복구되지 않습니다.
 
