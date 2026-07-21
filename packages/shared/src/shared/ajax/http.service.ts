@@ -9,6 +9,8 @@ import type {
 import { isExpiredTokenCode, isFatalAuthCode } from '../constants/error-codes';
 import { encodeQueryString } from '../lib/utils';
 
+import { apiErrorFromEnvelope, toApiError } from './api-error';
+
 interface RequestArgs {
   method: HttpMethod;
   url: string;
@@ -252,6 +254,10 @@ export class HttpService {
     });
   }
 
+  /**
+   * 모든 실패를 ApiError로 정규화해서 던진다.
+   * (envelope success:false / HTTP 에러 / 네트워크 실패 / 취소 모두 동일한 모양)
+   */
   private async execute<T>(args: RequestArgs, options?: AxiosRequestConfig): Promise<T> {
     try {
       const { data } = await this.httpRequest<ApiResponse<T>>(args, options);
@@ -260,18 +266,9 @@ export class HttpService {
         return data.payload;
       }
 
-      throw data;
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.data) throw error.response.data;
-        throw {
-          success: false,
-          code: '-1',
-          msg: error.message,
-          payload: null,
-        } satisfies ApiResponse<null>;
-      }
-      throw error;
+      throw apiErrorFromEnvelope(data, { url: args.url });
+    } catch (error) {
+      throw toApiError(error, { url: args.url });
     }
   }
 }

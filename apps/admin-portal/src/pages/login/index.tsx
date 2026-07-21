@@ -9,7 +9,8 @@ import styles from './index.module.css';
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const loginMutation = useLogin();
+  // 로그인 실패 메시지는 화면이 직접 노출하므로 공통 에러 알럿은 끈다.
+  const loginMutation = useLogin({ meta: { error: { silent: true } } });
   const [usrId, setUsrId] = useState(local.get<string>(STORAGE_KEYS.RECENT_USER_ID) || '');
   const [password, setPassword] = useState(local.get<string>(STORAGE_KEYS.RECENT_USER_PW) || '');
   const [error, setError] = useState('');

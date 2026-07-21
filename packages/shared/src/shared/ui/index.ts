@@ -1,3 +1,4 @@
+export * from './alert/AlertHost';
 export * from './button/Button';
 export * from './data-table/DataTable';
 export * from './dialog';

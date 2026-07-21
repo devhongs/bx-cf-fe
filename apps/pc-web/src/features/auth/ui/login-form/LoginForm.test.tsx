@@ -12,6 +12,13 @@ describe('PC LoginForm', () => {
 
   afterEach(cleanup);
 
+  it('contains only the login card without page footer actions', () => {
+    render(<LoginForm onSubmit={vi.fn()} />);
+
+    expect(screen.queryByRole('button', { name: '한국어 ▾' })).toBeNull();
+    expect(screen.queryByRole('button', { name: '개인정보처리방침' })).toBeNull();
+  });
+
   it('shows inline required errors before submitting payload', async () => {
     const handleSubmit = vi.fn();
 

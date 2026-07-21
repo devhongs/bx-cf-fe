@@ -86,14 +86,14 @@ export interface ModalClose<T = any> {
   data?: T;
 }
 
+/**
+ * alert/confirm은 여기 두지 않는다. `openAlert`/`openConfirm`(model/alert)을 쓴다.
+ * useModal은 훅이라 React 트리 밖에서 못 부르는데, 공통 에러 핸들러가 그 위치에서
+ * 알럿을 띄워야 해서 스토어 직접 접근이 가능한 쪽으로 분리했다.
+ */
 export interface useModalReturnValue {
   modals: Array<ModalConfig>;
   open: (props: ModalConfig | (() => ModalConfig)) => Promise<any>;
   close: (data?: any) => void;
   closeAll: () => void;
-  // alert: (props: AlertComponentProps | string) => Promise<boolean>;
-  // confirm: (props: AlertComponentProps | string) => Promise<boolean>;
-  // showSaveComplete: (props?: AlertComponentProps) => Promise<boolean>;
-  // showUpdateComplete: (props?: AlertComponentProps) => Promise<boolean>;
-  // showDeleteComplete: (props?: AlertComponentProps) => Promise<boolean>;
 }
