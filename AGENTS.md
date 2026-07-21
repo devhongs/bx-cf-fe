@@ -18,11 +18,11 @@
 
 ## App bootstrap
 
-- PC protected routes run auth first, then base-info bootstrap.
+- PC, Admin, and Mobile protected routes run auth first, then base-info bootstrap.
 - Base-info bootstrap uses React Query to prevent duplicate work in one app execution session, and localStorage for versioned reuse across reloads.
+- Scope menu caches by both app and user (`<app>:<userId>`) because production apps share the same origin and localStorage.
 - Base-info cache freshness is checked with both server version and FE `schemaVersion`.
 - Base-info bootstrap must fail open: if version/data loading fails, hydrate any usable cache and allow the screen to load.
-- Do not add base-info bootstrap to admin routes unless explicitly requested.
 
 ## Dev backend
 

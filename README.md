@@ -134,15 +134,15 @@ httpService.init({
 * **응답 (`-1005`)**: 인가(권한) 오류 → 로그아웃하지 않고 에러 그대로 전달
 
 ### 라우트 가드
-보호 라우트(`(page)/_page`)는 `beforeLoad`에서 `requireAuth`를 먼저 수행합니다. `ensureValidAuthSession()`은 `accessTokenExpiresAt`이 유효하면 바로 통과하고, 만료됐거나 accessToken이 없으면 refresh 쿠키로 accessToken 재발급을 시도한 뒤 페이지 진입 여부를 결정합니다.
+보호 라우트(`(page)/_page`)는 `beforeLoad`에서 `requireAuth`를 먼저 수행합니다. `ensureValidAuthSession()`은 `accessTokenExpiresAt`이 유효하면 바로 통과하고, 만료됐거나 accessToken이 없으면 refresh 쿠키로 accessToken 재발급을 시도합니다. 유효한 세션과 사용자 ID가 모두 있어야 보호 화면에 진입합니다.
 
-인증 통과 후 PC 웹은 `ensureBaseInfoBootstrapped(queryClient, { menuCacheScope: usrId })`를 호출해 기준정보 준비가 끝난 뒤 화면을 로딩합니다.
+인증 통과 후 PC·Admin·Mobile은 앱과 사용자 ID를 조합한 메뉴 캐시 scope로 `ensureBaseInfoBootstrapped`를 호출하고, 기준정보 준비가 끝난 뒤 화면을 로딩합니다.
 
 ---
 
-## 🧭 기준정보 부트스트랩 (PC Web)
+## 🧭 기준정보 부트스트랩
 
-PC 보호 화면 최초 진입 시 코드/메뉴 기준정보를 준비합니다. 실행 중 에러가 나도 화면 진입은 막지 않고, 가능한 경우 기존 localStorage 캐시를 재사용합니다.
+PC·Admin·Mobile 보호 화면 최초 진입 시 코드/메뉴 기준정보를 준비합니다. 실행 중 에러가 나도 화면 진입은 막지 않고, 가능한 경우 기존 localStorage 캐시를 재사용합니다.
 
 ### 처리 흐름
 1. `POST /system/reference-data/versions/latest`로 기준정보 버전을 조회합니다. (`refType/versionNo` → `type/version`으로 정규화)
@@ -157,13 +157,13 @@ PC 보호 화면 최초 진입 시 코드/메뉴 기준정보를 준비합니다
 | 레이어 | 역할 |
 | :--- | :--- |
 | React Query | 앱 실행 세션에서 `ensureQueryData` 중복 실행 방지 (`baseInfoQueryKeys.bootstrap(menuCacheScope)`) |
-| localStorage | 새로고침/재접속 후에도 기준정보 재사용 (`base-info:CODE`, `base-info:MENU:<usrId>`) |
+| localStorage | 새로고침/재접속 후에도 기준정보 재사용 (`base-info:CODE`, `base-info:MENU:<app>:<usrId>`) |
 | sessionStorage | 기존 화면 로직이 참조하는 런타임 세션 데이터 (`CONFIG.SESSION.CODE`, `CONFIG.SESSION.MENU_LIST`) |
 
 `schemaVersion`은 FE 내부 캐시 구조 버전입니다. 서버 버전이 그대로여도 FE 저장 구조가 바뀌면 schemaVersion을 올려 강제로 재조회하게 합니다. 현재 CODE는 그룹+children 구조를 반영해 `2`, MENU는 `1`입니다.
 
 ### 실패 시 동작 (의도된 동작)
-라우트 가드가 호출하는 `bootstrapBaseInfoSafe`는 **절대 throw하지 않습니다.** 실패는 반환값의 `failed` 배열에 담기고, `beforeLoad`는 이 배열을 확인하지 않은 채 화면 진입을 허용합니다.
+라우트 가드가 호출하는 `bootstrapBaseInfoSafe`는 **절대 throw하지 않습니다.** 실패는 반환값의 `failed` 배열에 담기고, `beforeLoad`는 이 배열을 확인하지 않은 채 화면 진입을 허용합니다. 버전 또는 데이터 조회가 실패하면 사용 가능한 기존 캐시를 sessionStorage에 먼저 복원합니다.
 
 따라서 "첫 접속 + 기준정보 조회 실패"(재사용할 localStorage 캐시가 아직 없는 상태)에서는 부트스트랩이 성공으로 간주되지만 `CONFIG.SESSION.CODE`가 비어 있는 채로 화면이 렌더됩니다. 이때 `$codeUtils`와 `Select`의 `groupCd`는 조용히 빈 목록이 되고, 세션을 구독하지 않으므로 이후 채워져도 새로고침 전까지 복구되지 않습니다.
 

@@ -102,6 +102,12 @@ const hydrateCachedBaseInfo = <TType extends BaseInfoType>(
   hydrateBaseInfo(cache.type, cache.data);
 };
 
+const hydrateAvailableCachedBaseInfo = (options?: BaseInfoBootstrapOptions): void => {
+  for (const type of BASE_INFO_TYPES) {
+    hydrateCachedBaseInfo(readBaseInfoCache(type, getCacheScope(type, options)));
+  }
+};
+
 const fetchBaseInfoData = <TType extends BaseInfoType>(
   type: TType,
 ): Promise<BaseInfoDataMap[TType]> => {
@@ -159,6 +165,7 @@ export const bootstrapBaseInfo = async (
   try {
     versionMap = await createVersionMap();
   } catch (error) {
+    hydrateAvailableCachedBaseInfo(options);
     result.failed.push({ stage: 'versions', error });
     return result;
   }

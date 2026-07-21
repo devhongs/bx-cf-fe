@@ -5,6 +5,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import {
   BASE_INFO_SCHEMA_VERSION,
   createBaseInfoCacheKey,
+  createBaseInfoMenuCacheScope,
   isBaseInfoCacheFresh,
   readBaseInfoCache,
   writeBaseInfoCache,
@@ -43,6 +44,16 @@ describe('base info storage', () => {
 
   it('uses a scoped localStorage key when data can differ by user or role', () => {
     expect(createBaseInfoCacheKey('MENU', 'hongsik.yoo')).toBe('base-info:MENU:hongsik.yoo');
+  });
+
+  it.each([
+    ['pc', 'base-info:MENU:pc:hongsik.yoo'],
+    ['admin', 'base-info:MENU:admin:hongsik.yoo'],
+    ['mobile', 'base-info:MENU:mobile:hongsik.yoo'],
+  ] as const)('separates %s menu cache by app and user', (app, expectedKey) => {
+    const scope = createBaseInfoMenuCacheScope(app, 'hongsik.yoo');
+
+    expect(createBaseInfoCacheKey('MENU', scope)).toBe(expectedKey);
   });
 
   it('treats cache as fresh only when server version and schema version both match', () => {

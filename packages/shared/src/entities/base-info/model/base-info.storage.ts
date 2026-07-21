@@ -1,6 +1,6 @@
 import { local } from '../../../shared/lib/utils';
 
-import type { BaseInfoCache, BaseInfoDataMap, BaseInfoType } from './base-info.type';
+import type { BaseInfoApp, BaseInfoCache, BaseInfoDataMap, BaseInfoType } from './base-info.type';
 
 export const BASE_INFO_SCHEMA_VERSION = {
   CODE: 2,
@@ -8,6 +8,9 @@ export const BASE_INFO_SCHEMA_VERSION = {
 } as const satisfies Record<BaseInfoType, number>;
 
 const BASE_INFO_STORAGE_KEY_PREFIX = 'base-info';
+
+export const createBaseInfoMenuCacheScope = (app: BaseInfoApp, userId: string): string =>
+  `${app}:${userId}`;
 
 export const createBaseInfoCacheKey = (type: BaseInfoType, scope?: string): string =>
   scope

@@ -3,6 +3,7 @@ import type { system } from '../../../shared/api/system.schema';
 type SystemSchemas = system.components['schemas'];
 
 export type BaseInfoType = 'CODE' | 'MENU';
+export type BaseInfoApp = 'pc' | 'admin' | 'mobile';
 
 export type BaseInfoReferenceDataVersion = SystemSchemas['ReferenceDataVersionLatestResponse'];
 export type BaseInfoVersionApiRequest = SystemSchemas['ReferenceDataVersionLatestRequest'];

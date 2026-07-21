@@ -1,7 +1,7 @@
 import { Outlet, createFileRoute, useLocation } from '@tanstack/react-router';
 import { Menu, PanelRightOpen } from 'lucide-react';
 
-import { ensureBaseInfoBootstrapped, useAuthStore } from '@bx/shared';
+import { createBaseInfoMenuCacheScope, ensureBaseInfoBootstrapped, useAuthStore } from '@bx/shared';
 
 import { queryClient } from '@/queryClient';
 import { LayoutProvider, useLayout } from '@/shared/context/LayoutContext';
@@ -97,7 +97,8 @@ function PageLayout() {
 
 const loadAuthenticatedPage = async (args: any) => {
   const context = await requireAuth(args);
-  const menuCacheScope = useAuthStore.getState().user?.usrId;
+  const userId = useAuthStore.getState().user!.usrId;
+  const menuCacheScope = createBaseInfoMenuCacheScope('pc', userId);
 
   await ensureBaseInfoBootstrapped(queryClient, { menuCacheScope });
 

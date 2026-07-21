@@ -99,11 +99,25 @@ describe('base info bootstrap', () => {
     });
   });
 
-  it('resolves safely when version lookup fails so the app can continue loading', async () => {
+  it('hydrates usable cache when version lookup fails so the app can continue loading', async () => {
     mockedFetchVersions.mockRejectedValue(new Error('network down'));
+    writeBaseInfoCache('CODE', '0.1', [
+      {
+        groupCd: 'USE_YN',
+        groupNm: '사용 여부',
+        children: [{ groupCd: 'USE_YN', code: 'Y', codeNm: '사용' }],
+      },
+    ]);
+    writeBaseInfoCache('MENU', '0.1', [{ menuId: 1, menuNm: '대시보드' }], 'pc:hongsik.yoo');
 
-    await expect(bootstrapBaseInfoSafe()).resolves.toMatchObject({
+    await expect(
+      bootstrapBaseInfoSafe({ menuCacheScope: 'pc:hongsik.yoo' }),
+    ).resolves.toMatchObject({
       failed: [{ stage: 'versions' }],
     });
+    expect(session.get(CONFIG.SESSION.CODE)).toEqual({
+      USE_YN: [{ codeField: 'Y', label: '사용', labelField: '사용' }],
+    });
+    expect(session.get(CONFIG.SESSION.MENU_LIST)).toEqual([{ menuId: 1, menuNm: '대시보드' }]);
   });
 });
