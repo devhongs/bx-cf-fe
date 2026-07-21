@@ -1,13 +1,15 @@
-import { useEffect, useMemo, useState } from 'react';
-import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
+  openConfirm,
   useCreateCommonCodeGroup,
   useDeleteCommonCodeGroup,
   useFetchCommonCodeGroup,
+  useFetchCommonCodeList,
+  useFieldArray,
   useUpdateCommonCodeGroup,
 } from '@bx/shared';
-import type { CommonCodeGroup, CommonCodeGroupPayload } from '@bx/shared';
+import type { CommonCode, CommonCodeGroup, CommonCodeGroupPayload } from '@bx/shared';
 
 import { getApiErrorMessage } from '@/shared/lib/getApiErrorMessage';
 import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
@@ -15,30 +17,78 @@ import { AppForm, useAppForm } from '@/shared/ui/admin-form';
 
 import styles from '@/shared/ui/admin-form/AdminForm.module.css';
 
+import codeStyles from './CodeGroupFormDrawer.module.css';
+
 const FORM_ID = 'admin-code-group-form';
+
+/**
+ * 폼이 들고 있는 코드 행. sortSeq는 배열 순서로 확정하므로 입력받지 않는다.
+ *
+ * 저장이 그룹 단위 전체 교체(서버가 기존 코드를 전부 지우고 payload로 다시 삽입)라
+ * 기존 행의 `codeId`는 보낼 필요가 없다. 화면에서 지운 행은 payload에서 빠지는 것으로 삭제된다.
+ */
+interface CodeRowValues {
+  code: string;
+  codeNm: string;
+  useYn: 'Y' | 'N';
+}
 
 interface CodeGroupFormValues {
   groupCd: string;
   groupNm: string;
   groupDesc: string;
   useYn: 'Y' | 'N';
+  codes: CodeRowValues[];
 }
 
-const toFormValues = (group?: CommonCodeGroup): CodeGroupFormValues => ({
+const toCodeRow = (code: CommonCode): CodeRowValues => ({
+  code: code.code ?? '',
+  codeNm: code.codeNm ?? '',
+  useYn: code.useYn ?? 'Y',
+});
+
+const toFormValues = (group?: CommonCodeGroup, codes: CommonCode[] = []): CodeGroupFormValues => ({
   groupCd: group?.groupCd ?? '',
   groupNm: group?.groupNm ?? '',
   groupDesc: group?.groupDesc ?? '',
   useYn: group?.useYn ?? 'Y',
+  codes: codes.map(toCodeRow),
 });
 
-const toPayload = (values: CodeGroupFormValues): CommonCodeGroupPayload => ({
+/**
+ * 그룹 + 코드 일괄 저장 payload.
+ *
+ * `codes`는 그룹에 속한 코드의 **전체 목록**이다. 서버는 기존 코드를 모두 삭제한 뒤
+ * 이 배열을 다시 삽입하므로, 부분 갱신이나 삭제 대상 id를 따로 실어보내지 않는다.
+ *
+ * 아직 OpenAPI 스펙에 없다(서버가 일괄 저장을 지원하도록 수정 중).
+ * 스펙이 나와 `CommonCodeGroupPayload`가 재생성되면 이 확장 타입을 지운다.
+ */
+interface CodeGroupSavePayload extends CommonCodeGroupPayload {
+  codes: Array<{
+    code: string;
+    codeNm: string;
+    sortSeq: number;
+    useYn: 'Y' | 'N';
+  }>;
+}
+
+const toPayload = (values: CodeGroupFormValues): CodeGroupSavePayload => ({
   groupCd: values.groupCd.trim(),
   groupNm: values.groupNm.trim(),
   groupDesc: values.groupDesc.trim() || undefined,
   useYn: values.useYn,
+  codes: values.codes.map((row, index) => ({
+    code: row.code.trim(),
+    codeNm: row.codeNm.trim(),
+    sortSeq: index + 1,
+    useYn: row.useYn,
+  })),
 });
 
 const fullFieldClassName = `${styles.field} ${styles.fieldFull}`;
+/* 행 안의 필드도 admin 입력 스타일(.field input)을 그대로 받아야 하므로 함께 건다 */
+const cellFieldClassName = `${styles.field} ${codeStyles.cell}`;
 
 interface CodeGroupFormDrawerProps {
   open: boolean;
@@ -46,8 +96,6 @@ interface CodeGroupFormDrawerProps {
   groupCd?: string;
   /** 목록 행 데이터 — 상세 응답이 오기 전이나 실패했을 때 초기값으로 사용 */
   fallback?: CommonCodeGroup;
-  /** 폼 아래에 붙는 추가 콘텐츠 (예: 코드 목록 섹션) */
-  children?: ReactNode;
   onClose: () => void;
 }
 
@@ -55,7 +103,6 @@ export function CodeGroupFormDrawer({
   open,
   groupCd,
   fallback,
-  children,
   onClose,
 }: CodeGroupFormDrawerProps) {
   const isUpdateMode = groupCd != null;
@@ -67,10 +114,16 @@ export function CodeGroupFormDrawer({
   });
   const group = detailData?.[0] ?? fallback;
 
-  const defaultValues = useMemo(() => toFormValues(group), [group]);
+  const { data: codeData } = useFetchCommonCodeList(groupCd ?? '', undefined, {
+    enabled: open && isUpdateMode,
+    retry: false,
+  });
+  const defaultValues = toFormValues(group, codeData ?? []);
   const { form, FormInput, FormSelect, FormTextarea } = useAppForm<CodeGroupFormValues>({
+    open,
     defaultValues,
   });
+  const { fields, append, remove } = useFieldArray({ control: form.control, name: 'codes' });
 
   useEffect(() => {
     if (!open) return;
@@ -100,7 +153,11 @@ export function CodeGroupFormDrawer({
 
   const handleDelete = async () => {
     if (!isUpdateMode) return;
-    if (!window.confirm(`'${group?.groupNm ?? groupCd}' 그룹을 삭제하시겠습니까?`)) return;
+
+    const confirmed = await openConfirm({
+      message: `'${group?.groupNm ?? groupCd}' 그룹을 삭제하시겠습니까?`,
+    });
+    if (!confirmed) return;
 
     setSubmitError('');
     try {
@@ -141,9 +198,74 @@ export function CodeGroupFormDrawer({
         <FormSelect label="사용여부" name="useYn" groupCd="USE_YN" emptyOption="SELECT" />
         <FormInput label="그룹명" name="groupNm" required fieldClassName={fullFieldClassName} />
         <FormTextarea label="설명" name="groupDesc" fieldClassName={fullFieldClassName} />
+
+        <section className={`${codeStyles.section} ${styles.fieldFull}`}>
+          <div className={codeStyles.header}>
+            <h3>코드 목록</h3>
+            <button
+              type="button"
+              className={styles.button}
+              onClick={() => append({ code: '', codeNm: '', useYn: 'Y' })}
+            >
+              코드 추가
+            </button>
+          </div>
+
+          {fields.length === 0 ? (
+            <p className={codeStyles.empty}>등록된 코드가 없습니다.</p>
+          ) : (
+            <>
+              <div className={codeStyles.columnHeader}>
+                <span>코드</span>
+                <span>코드명</span>
+                <span>정렬</span>
+                <span>사용여부</span>
+                <span />
+              </div>
+              <div className={codeStyles.rows}>
+                {fields.map((field, index) => (
+                  <div key={field.id} className={codeStyles.row}>
+                    <FormInput
+                      name={`codes.${index}.code`}
+                      required
+                      fieldClassName={cellFieldClassName}
+                      /* 한 행을 고치면 짝이 된 다른 행의 중복 에러도 같이 풀려야 한다 */
+                      deps={['codes']}
+                      validate={(value, values) =>
+                        values.codes.filter((row) => row.code.trim() === String(value).trim())
+                          .length === 1 || '코드가 중복됩니다.'
+                      }
+                    />
+                    <FormInput
+                      name={`codes.${index}.codeNm`}
+                      required
+                      fieldClassName={cellFieldClassName}
+                    />
+                    {/* 정렬 순서는 배열 순서로 확정한다 (저장 시 index + 1) */}
+                    <span className={codeStyles.sortSeq}>{index + 1}</span>
+                    <FormSelect
+                      name={`codes.${index}.useYn`}
+                      groupCd="USE_YN"
+                      emptyOption="NONE"
+                      fieldClassName={cellFieldClassName}
+                    />
+                    <button
+                      type="button"
+                      className={codeStyles.removeButton}
+                      aria-label={`${index + 1}번째 코드 삭제`}
+                      onClick={() => remove(index)}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </section>
+
         {submitError && <p className={styles.formError}>{submitError}</p>}
       </AppForm>
-      {children}
     </AdminDrawer>
   );
 }

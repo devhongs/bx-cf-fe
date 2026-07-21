@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { type FieldPath, useForm } from 'react-hook-form';
+import { type FieldPath, useFieldArray, useForm } from 'react-hook-form';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { Form } from './Form';
@@ -25,6 +25,35 @@ interface SignupValues {
 
 interface ProfileValues {
   introduction: string;
+}
+
+interface CodeListValues {
+  codes: Array<{ code: string }>;
+}
+
+function TestCodeListForm() {
+  const { form, FormInput: CodeInput } = useBaseForm<CodeListValues>({
+    defaultValues: { codes: [{ code: 'A' }, { code: 'A' }] },
+  });
+  const { fields } = useFieldArray({ control: form.control, name: 'codes' });
+
+  return (
+    <Form id="code-list" form={form} onSubmit={() => {}}>
+      {fields.map((field, index) => (
+        <CodeInput
+          key={field.id}
+          label={`code-${index}`}
+          name={`codes.${index}.code`}
+          deps={['codes']}
+          validate={(value, values) =>
+            values.codes.filter((row) => row.code.trim() === String(value).trim()).length === 1 ||
+            '코드가 중복됩니다.'
+          }
+        />
+      ))}
+      <button type="submit">코드 저장</button>
+    </Form>
+  );
 }
 
 const defaultValues: SignupValues = {
@@ -302,6 +331,25 @@ describe('Form components (rules mode)', () => {
         { ...defaultValues, userId: 'custom-value' },
         expect.anything(),
       );
+    });
+  });
+
+  /**
+   * 배열 필드의 중복 검사는 `deps`에 **배열 이름**을 걸어야 형제 행까지 재검증된다.
+   * 이게 없으면 RHF가 값이 바뀐 행만 검증해서 짝이 된 다른 행에 유령 에러가 남는다.
+   */
+  it('revalidates sibling rows of a field array through deps', async () => {
+    render(<TestCodeListForm />);
+
+    fireEvent.click(screen.getByRole('button', { name: '코드 저장' }));
+    await waitFor(() => {
+      expect(screen.getAllByText('코드가 중복됩니다.')).toHaveLength(2);
+    });
+
+    fireEvent.change(screen.getByLabelText('code-0'), { target: { value: 'B' } });
+
+    await waitFor(() => {
+      expect(screen.queryAllByText('코드가 중복됩니다.')).toHaveLength(0);
     });
   });
 

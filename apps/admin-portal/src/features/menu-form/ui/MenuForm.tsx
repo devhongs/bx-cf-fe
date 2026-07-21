@@ -15,6 +15,8 @@ const emptyDefaultValues: MenuFormValues = {
 
 interface MenuFormProps {
   id: string;
+  /** 드로어에 얹을 때 열림 상태를 넘기면 재오픈 시 폼이 초기값으로 돌아간다. */
+  open?: boolean;
   defaultValues?: MenuFormValues;
   submitError?: string;
   onSubmit: (payload: MenuFormPayload) => void | Promise<void>;
@@ -33,11 +35,12 @@ const toPayload = (values: MenuFormValues): MenuFormPayload => ({
 
 export function MenuForm({
   id,
+  open,
   defaultValues = emptyDefaultValues,
   submitError,
   onSubmit,
 }: MenuFormProps) {
-  const { form, FormInput, FormSelect } = useAppForm<MenuFormValues>({ defaultValues });
+  const { form, FormInput, FormSelect } = useAppForm<MenuFormValues>({ open, defaultValues });
 
   const handleSubmit = (values: MenuFormValues) => onSubmit(toPayload(values));
 

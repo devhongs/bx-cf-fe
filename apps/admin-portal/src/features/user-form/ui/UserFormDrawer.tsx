@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { useCreateUser, useDeleteUser, useFetchUser, useUpdateUser } from '@bx/shared';
+import { openConfirm, useCreateUser, useDeleteUser, useFetchUser, useUpdateUser } from '@bx/shared';
 import type { ManagedUser, UseYn, UserPayload, UserType } from '@bx/shared';
 
 import { getApiErrorMessage } from '@/shared/lib/getApiErrorMessage';
@@ -57,8 +57,8 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
   });
   const user = detail ?? fallback;
 
-  const defaultValues = useMemo(() => toFormValues(user), [user]);
-  const { form, FormInput, FormSelect } = useAppForm<UserFormValues>({ defaultValues });
+  const defaultValues = toFormValues(user);
+  const { form, FormInput, FormSelect } = useAppForm<UserFormValues>({ open, defaultValues });
 
   useEffect(() => {
     if (!open) return;
@@ -88,7 +88,11 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
 
   const handleDelete = async () => {
     if (!isUpdateMode) return;
-    if (!window.confirm(`'${user?.usrNm ?? usrId}' 사용자를 삭제하시겠습니까?`)) return;
+
+    const confirmed = await openConfirm({
+      message: `'${user?.usrNm ?? usrId}' 사용자를 삭제하시겠습니까?`,
+    });
+    if (!confirmed) return;
 
     setSubmitError('');
     try {

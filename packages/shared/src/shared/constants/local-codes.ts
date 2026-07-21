@@ -53,3 +53,11 @@ export const LOCAL_CODE_MAP = {
 } as const satisfies Record<string, ReadonlyArray<CodeItem>>;
 
 export type LocalCodeGroupCd = keyof typeof LOCAL_CODE_MAP;
+
+/**
+ * 코드 그룹 코드. 로컬 코드 그룹은 자동완성으로 돕되, 서버에만 등록된 그룹도 그대로 받는다.
+ *
+ * `string & Record<never, never>`는 union이 `string`으로 뭉개지는 걸 막는 관용구다.
+ * 이게 없으면 TS가 전체를 `string`으로 좁혀버려 자동완성이 사라진다.
+ */
+export type CodeGroupCd = LocalCodeGroupCd | (string & Record<never, never>);

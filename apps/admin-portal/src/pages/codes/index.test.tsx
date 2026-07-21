@@ -90,15 +90,16 @@ describe('CodesPage', () => {
 
     expect(screen.getByRole('dialog', { name: '사용 여부' })).toBeTruthy();
     expect(screen.getByText('코드 목록')).toBeTruthy();
+    // 코드 목록은 읽기 전용 표가 아니라 편집 가능한 폼 필드로 렌더된다
     await waitFor(() => {
-      expect(screen.getAllByText('미사용').length).toBeGreaterThan(0);
+      expect(screen.getByDisplayValue('미사용')).toBeTruthy();
     });
 
     fireEvent.click(await screen.findByText('USER_TYPE'));
 
     await waitFor(() => {
       expect(screen.getByRole('dialog', { name: '사용자 유형' })).toBeTruthy();
-      expect(screen.getAllByText('관리자').length).toBeGreaterThan(0);
+      expect(screen.getByDisplayValue('관리자')).toBeTruthy();
     });
   });
 });

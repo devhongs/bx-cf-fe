@@ -8,47 +8,11 @@ import { AdminFilterBar } from '@/shared/ui/admin-filter-bar/AdminFilterBar';
 
 import styles from '../admin-page.module.css';
 
-const fallbackMenus: Menu[] = [
-  {
-    menuId: 10,
-    menuCd: 'DASHBOARD',
-    menuNm: '대시보드',
-    menuType: 'MENU',
-    path: '/dashboard',
-    depth: 1,
-    sortSeq: 1,
-    visibleYn: 'Y',
-    useYn: 'Y',
-  },
-  {
-    menuId: 20,
-    menuCd: 'COMMON_CODE',
-    menuNm: '코드관리',
-    menuType: 'MENU',
-    path: '/codes',
-    depth: 1,
-    sortSeq: 2,
-    visibleYn: 'Y',
-    useYn: 'Y',
-  },
-  {
-    menuId: 30,
-    menuCd: 'MENU_MANAGE',
-    menuNm: '메뉴관리',
-    menuType: 'MENU',
-    path: '/menus',
-    depth: 1,
-    sortSeq: 3,
-    visibleYn: 'Y',
-    useYn: 'Y',
-  },
-];
-
 export function MenusPage() {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('');
   const { data } = useFetchMenuList(undefined, { retry: false });
-  const menus = data?.length ? data : fallbackMenus;
+  const menus = data ?? [];
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedMenuId, setSelectedMenuId] = useState<number | undefined>();
 
@@ -115,7 +79,7 @@ export function MenusPage() {
           <DataTable
             columns={columns}
             rows={filteredMenus}
-            getRowId={(row) => row.menuId || row.menuCd || ''}
+            getRowId={(row) => row.menuId ?? row.menuCd ?? ''}
             selectedId={selected?.menuId}
             onRowSelect={(row) => openMenuDrawer(row.menuId)}
           />

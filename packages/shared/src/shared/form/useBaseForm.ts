@@ -15,6 +15,8 @@ import { FormSelect, type FormSelectProps } from './FormSelect';
 import { FormTextarea, type FormTextareaProps } from './FormTextarea';
 
 export type { FieldValues } from 'react-hook-form';
+/** 배열 필드(코드 목록 등)를 다루는 화면이 RHF에 직접 의존하지 않도록 재노출한다. */
+export { useFieldArray } from 'react-hook-form';
 
 type FieldComponent<P> = (props: P) => ReactElement | null;
 

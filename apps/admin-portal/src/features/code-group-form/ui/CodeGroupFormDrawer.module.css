@@ -1,0 +1,78 @@
+/* 코드 목록 편집 영역. 서버가 그룹+코드를 한 번에 저장하도록 바뀌는 중이라,
+   행을 단건 저장하지 않고 폼 값(useFieldArray)으로 들고 있다가 저장 시 함께 보낸다.
+   전용 edit grid가 생기면 이 블록만 걷어내면 된다. */
+
+.section {
+  margin-top: 24px;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.header h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* 코드 / 코드명 / 정렬 / 사용여부 / 삭제 */
+.row {
+  display: grid;
+  grid-template-columns: 132px 1fr 72px 110px 32px;
+  gap: 8px;
+  align-items: start;
+}
+
+.columnHeader {
+  composes: row;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 행 안에서는 라벨을 헤더가 대신하므로 필드 자체 여백을 없앤다 */
+.cell {
+  margin: 0;
+  min-width: 0;
+}
+
+.sortSeq {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.removeButton {
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.removeButton:hover {
+  border-color: var(--danger, #f87171);
+  color: var(--danger, #f87171);
+}
+
+.empty {
+  padding: 24px 0;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}

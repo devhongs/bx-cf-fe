@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
+  openConfirm,
   toast,
   useAuthStore,
   useCreateMenu,
@@ -47,7 +48,7 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
   });
   const menu = detail ?? fallback;
 
-  const defaultValues = useMemo(() => toFormValues(menu), [menu]);
+  const defaultValues = toFormValues(menu);
 
   useEffect(() => {
     if (!open) return;
@@ -78,7 +79,11 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
 
   const handleDelete = async () => {
     if (!isUpdateMode) return;
-    if (!window.confirm(`'${menu?.menuNm ?? menuId}' 메뉴를 삭제하시겠습니까?`)) return;
+
+    const confirmed = await openConfirm({
+      message: `'${menu?.menuNm ?? menuId}' 메뉴를 삭제하시겠습니까?`,
+    });
+    if (!confirmed) return;
 
     setSubmitError('');
     try {
@@ -116,6 +121,7 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
     >
       <MenuForm
         id={FORM_ID}
+        open={open}
         defaultValues={defaultValues}
         submitError={submitError}
         onSubmit={handleSubmit}

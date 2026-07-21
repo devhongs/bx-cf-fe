@@ -1,65 +1,18 @@
 import { useMemo, useState } from 'react';
 
-import {
-  $codeUtils,
-  DataTable,
-  useFetchCommonCodeGroupList,
-  useFetchCommonCodeList,
-} from '@bx/shared';
-import type { CommonCode, CommonCodeGroup, DataTableColumn } from '@bx/shared';
+import { $codeUtils, DataTable, useFetchCommonCodeGroupList } from '@bx/shared';
+import type { CommonCodeGroup, DataTableColumn } from '@bx/shared';
 
 import { CodeGroupFormDrawer } from '@/features/code-group-form/ui/CodeGroupFormDrawer';
 import { AdminFilterBar } from '@/shared/ui/admin-filter-bar/AdminFilterBar';
 
 import styles from '../admin-page.module.css';
 
-const fallbackGroups: CommonCodeGroup[] = [
-  {
-    groupId: 1,
-    groupCd: 'USE_YN',
-    groupNm: '사용 여부',
-    groupDesc: '사용/미사용 상태 공통 코드',
-    systemYn: 'Y',
-    useYn: 'Y',
-  },
-  {
-    groupId: 2,
-    groupCd: 'USER_TYPE',
-    groupNm: '사용자 유형',
-    groupDesc: '관리자와 서비스 사용자 구분',
-    systemYn: 'N',
-    useYn: 'Y',
-  },
-  {
-    groupId: 3,
-    groupCd: 'MENU_TYPE',
-    groupNm: '메뉴 유형',
-    groupDesc: '메뉴, 화면, 링크 구분',
-    systemYn: 'N',
-    useYn: 'Y',
-  },
-];
-
-const fallbackCodesByGroup: Record<string, CommonCode[]> = {
-  USE_YN: [
-    { groupCd: 'USE_YN', code: 'Y', codeNm: '사용', sortSeq: 1, useYn: 'Y' },
-    { groupCd: 'USE_YN', code: 'N', codeNm: '미사용', sortSeq: 2, useYn: 'Y' },
-  ],
-  USER_TYPE: [
-    { groupCd: 'USER_TYPE', code: 'ADMIN', codeNm: '관리자', sortSeq: 1, useYn: 'Y' },
-    { groupCd: 'USER_TYPE', code: 'SERVICE', codeNm: '서비스 사용자', sortSeq: 2, useYn: 'Y' },
-  ],
-  MENU_TYPE: [
-    { groupCd: 'MENU_TYPE', code: 'MENU', codeNm: '메뉴', sortSeq: 1, useYn: 'Y' },
-    { groupCd: 'MENU_TYPE', code: 'PAGE', codeNm: '화면', sortSeq: 2, useYn: 'Y' },
-  ],
-};
-
 export function CodesPage() {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('');
   const { data } = useFetchCommonCodeGroupList(undefined, { retry: false });
-  const groups = data?.length ? data : fallbackGroups;
+  const groups = data ?? [];
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedGroupCd, setSelectedGroupCd] = useState<string | undefined>();
 
@@ -73,16 +26,6 @@ export function CodesPage() {
   }, [groups, search, status]);
 
   const selected = groups.find((group) => group.groupCd === selectedGroupCd);
-  const selectedGroupCdForQuery = selected?.groupCd || '';
-  const { data: codeData } = useFetchCommonCodeList(selectedGroupCdForQuery, undefined, {
-    enabled: drawerOpen && Boolean(selectedGroupCdForQuery),
-    retry: false,
-  });
-  const selectedCodes = selectedGroupCdForQuery
-    ? codeData?.length
-      ? codeData
-      : (fallbackCodesByGroup[selectedGroupCdForQuery] ?? [])
-    : [];
 
   const columns: Array<DataTableColumn<CommonCodeGroup>> = [
     { id: 'groupCd', header: '그룹코드', width: '150px', cell: (row) => row.groupCd },
@@ -102,23 +45,6 @@ export function CodesPage() {
       id: 'useYn',
       header: '상태',
       width: '96px',
-      align: 'center',
-      cell: (row) => (
-        <span className={`${styles.badge} ${row.useYn === 'Y' ? styles.badgeSuccess : ''}`}>
-          {$codeUtils.codeValue('USE_YN', row.useYn ?? '', { visibleCode: false })}
-        </span>
-      ),
-    },
-  ];
-
-  const codeColumns: Array<DataTableColumn<CommonCode>> = [
-    { id: 'code', header: '코드', width: '132px', cell: (row) => row.code },
-    { id: 'codeNm', header: '코드명', cell: (row) => row.codeNm },
-    { id: 'sortSeq', header: '정렬', width: '72px', align: 'right', cell: (row) => row.sortSeq },
-    {
-      id: 'useYn',
-      header: '상태',
-      width: '86px',
       align: 'center',
       cell: (row) => (
         <span className={`${styles.badge} ${row.useYn === 'Y' ? styles.badgeSuccess : ''}`}>
@@ -173,24 +99,7 @@ export function CodesPage() {
           groupCd={selectedGroupCd}
           fallback={selected}
           onClose={closeDrawer}
-        >
-          {selected && (
-            <section className={styles.detailBlock}>
-              <div className={styles.detailBlockHeader}>
-                <h3>코드 목록</h3>
-                <button type="button" className={styles.ghostButton}>
-                  코드 추가
-                </button>
-              </div>
-              <DataTable
-                columns={codeColumns}
-                rows={selectedCodes}
-                getRowId={(row) => row.code || row.sortSeq || ''}
-                emptyLabel="등록된 코드가 없습니다."
-              />
-            </section>
-          )}
-        </CodeGroupFormDrawer>
+        />
       </div>
     </section>
   );
