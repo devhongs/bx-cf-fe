@@ -3,35 +3,33 @@ import * as React from 'react';
 import { $codeUtils } from '../../lib/utils/common.code';
 import { cn } from '../lib/cn';
 
-/** `emptyOption`을 켜기만 했을 때 쓰이는 기본값. 사이트별로 다르면 여기만 고친다. */
-export const SELECT_EMPTY_OPTION_VALUE = '';
-export const SELECT_EMPTY_OPTION_LABEL = '전체';
-
 export interface SelectOption {
   value: string;
   label: string;
   disabled?: boolean;
 }
 
+export const SELECT_EMPTY_OPTION_PRESETS = {
+  ALL: { value: '', label: '전체' },
+  SELECT: { value: '', label: '선택' },
+} as const satisfies Record<'ALL' | 'SELECT', SelectOption>;
+
+export type SelectEmptyOption = keyof typeof SELECT_EMPTY_OPTION_PRESETS | 'NONE' | SelectOption;
+
 export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  /** select 바깥 컨테이너의 크기나 배치를 조정할 때 사용한다. */
+  containerClassName?: string;
   /** 정적 옵션. `groupCd`와 함께 주면 이쪽이 우선한다. */
   options?: Array<SelectOption>;
   /**
-   * 공통코드 그룹 코드. 부트스트랩이 세션에 적재한 코드맵에서 옵션을 채운다.
-   * 세션에 코드가 없으면(부트스트랩 실패 등) 빈 목록이 되고, 세션을 구독하지 않으므로
-   * 이후 채워져도 다시 그리지 않는다. README "기준정보 부트스트랩 > 실패 시 동작" 참고.
+   * 공통코드 그룹 코드. 세션의 서버 코드가 우선이며 그룹이 없으면 로컬 코드로 대체한다.
+   * 서버 그룹이 빈 배열로 존재하면 서버 데이터를 그대로 사용한다.
    */
   groupCd?: string;
   /**
-   * 입력 폼의 "선택". `required`면 고른 뒤 되돌아갈 수 없도록 disabled로 렌더한다.
-   * (필수가 아니면 다시 고를 수 있어야 하므로 disabled를 붙이지 않는다.)
+   * 첫 번째 보조 option. 기본값은 `ALL`이며 `SELECT`, `NONE` 또는 사용자 정의 option을 받는다.
    */
-  placeholder?: string;
-  /**
-   * 조회 조건의 "전체". placeholder와 달리 선택 가능한 실제 값이다.
-   * `true`면 기본값(`''` / `'전체'`)을 쓰고, 객체로 value·label을 덮어쓸 수 있다.
-   */
-  emptyOption?: boolean | { value?: string; label?: string };
+  emptyOption?: SelectEmptyOption;
 }
 
 const codeOptions = (groupCd: string): Array<SelectOption> =>
@@ -40,13 +38,22 @@ const codeOptions = (groupCd: string): Array<SelectOption> =>
     label: item.label ?? item.labelField,
   }));
 
+const resolveEmptyOption = (emptyOption: SelectEmptyOption): SelectOption | undefined => {
+  if (emptyOption === 'NONE') return undefined;
+  if (typeof emptyOption === 'string') return SELECT_EMPTY_OPTION_PRESETS[emptyOption];
+  return emptyOption;
+};
+
 const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, options, groupCd, placeholder, emptyOption, required, ...props }, ref) => {
+  (
+    { className, containerClassName, options, groupCd, emptyOption = 'ALL', required, ...props },
+    ref,
+  ) => {
     const resolvedOptions = options ?? (groupCd ? codeOptions(groupCd) : []);
-    const empty = emptyOption ? (emptyOption === true ? {} : emptyOption) : undefined;
+    const empty = resolveEmptyOption(emptyOption);
 
     return (
-      <div className="relative w-full">
+      <div className={cn('relative w-full', containerClassName)}>
         <select
           className={cn(
             'flex h-9 w-full rounded-md border border-border bg-background px-3 py-1 text-sm shadow-sm transition-colors focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent disabled:cursor-not-allowed disabled:opacity-50 appearance-none pr-8 cursor-pointer text-foreground',
@@ -56,14 +63,9 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           required={required}
           {...props}
         >
-          {placeholder && (
-            <option value="" disabled={Boolean(required)}>
-              {placeholder}
-            </option>
-          )}
           {empty && (
-            <option value={empty.value ?? SELECT_EMPTY_OPTION_VALUE}>
-              {empty.label ?? SELECT_EMPTY_OPTION_LABEL}
+            <option value={empty.value} disabled={empty.disabled}>
+              {empty.label}
             </option>
           )}
           {resolvedOptions.map((opt) => (

@@ -1,13 +1,15 @@
 import { Plus, Search } from 'lucide-react';
 import type { ReactNode } from 'react';
 
+import { Select } from '@bx/shared';
+
 import styles from './AdminFilterBar.module.css';
 
 interface AdminFilterBarProps {
   searchValue: string;
   searchPlaceholder?: string;
   statusValue?: string;
-  statusOptions?: Array<{ label: string; value: string }>;
+  statusGroupCd?: string;
   resultLabel?: string;
   primaryActionLabel?: string;
   extra?: ReactNode;
@@ -19,12 +21,8 @@ interface AdminFilterBarProps {
 export function AdminFilterBar({
   searchValue,
   searchPlaceholder = '검색어 입력',
-  statusValue = 'ALL',
-  statusOptions = [
-    { label: '전체', value: 'ALL' },
-    { label: '사용', value: 'Y' },
-    { label: '미사용', value: 'N' },
-  ],
+  statusValue = '',
+  statusGroupCd = 'USE_YN',
   resultLabel,
   primaryActionLabel,
   extra,
@@ -44,18 +42,14 @@ export function AdminFilterBar({
       </label>
 
       {onStatusChange && (
-        <select
+        <Select
+          containerClassName="w-[120px]"
           className={styles.select}
           aria-label="상태 필터"
           value={statusValue}
+          groupCd={statusGroupCd}
           onChange={(event) => onStatusChange(event.target.value)}
-        >
-          {statusOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        />
       )}
 
       {extra}

@@ -11,16 +11,6 @@ import styles from '@/shared/ui/admin-form/AdminForm.module.css';
 
 const FORM_ID = 'admin-user-form';
 
-const userTypeOptions = [
-  { value: 'ADMIN', label: '관리자' },
-  { value: 'SERVICE', label: '서비스 사용자' },
-];
-
-const useYnOptions = [
-  { value: 'Y', label: '사용' },
-  { value: 'N', label: '중지' },
-];
-
 interface UserFormValues {
   usrId: string;
   usrNm: string;
@@ -136,9 +126,9 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
     >
       <AppForm id={FORM_ID} form={form} onSubmit={handleSubmit}>
         <FormInput label="아이디" name="usrId" readOnly={isUpdateMode} required />
-        <FormSelect label="유형" name="userType" options={userTypeOptions} />
+        <FormSelect label="유형" name="userType" groupCd="USER_TYPE" emptyOption="SELECT" />
         <FormInput label="이름" name="usrNm" required />
-        <FormSelect label="사용여부" name="useYn" options={useYnOptions} />
+        <FormSelect label="사용여부" name="useYn" groupCd="USER_STATUS" emptyOption="SELECT" />
         <FormInput label="부서" name="deptName" />
         <FormInput label="직책" name="positDivName" />
         {submitError && <p className={styles.formError}>{submitError}</p>}

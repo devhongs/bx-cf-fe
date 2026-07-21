@@ -64,11 +64,8 @@ export function SignupForm({ defaultValues = emptyDefaultValues, onSubmit }: Sig
       <FormSelect
         label="가입 유형"
         name="userType"
-        options={[
-          { value: 'personal', label: '개인' },
-          { value: 'business', label: '사업자' },
-        ]}
-        placeholder="가입 유형 선택"
+        groupCd="SIGNUP_USER_TYPE"
+        emptyOption="SELECT"
         required
       />
 

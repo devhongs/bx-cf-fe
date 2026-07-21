@@ -61,7 +61,7 @@ function TestSignupForm({ onSubmit }: { onSubmit: (values: SignupValues) => void
       <FormSelect<SignupValues>
         name="userType"
         label="가입 유형"
-        placeholder="가입 유형 선택"
+        emptyOption="SELECT"
         options={[
           { value: 'personal', label: '개인' },
           { value: 'business', label: '사업자' },

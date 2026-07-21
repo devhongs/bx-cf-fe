@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { $codeUtils } from '@bx/shared';
 import type { BankId } from '@bx/shared';
-import { BANK_OPTIONS } from '@bx/shared';
 import { formatAccountNumberByBank } from '@bx/shared';
 import type { BaseProps } from '@bx/shared';
 import { Button, Input } from '@bx/shared';
@@ -20,7 +20,7 @@ export function TransferAmount({ bankId, accountNo, name }: TransferAmountProps)
   const [receiverName, setReceiverName] = useState(name ?? '');
   const [amount, setAmount] = useState<string>('');
 
-  const bankName = BANK_OPTIONS.find((bank) => bank.id === bankId)?.name || '';
+  const bankName = bankId ? $codeUtils.codeValue('BANK', bankId, { visibleCode: false }) : '';
   const formattedAccountNo = formatAccountNumberByBank(selectedBankId, targetAccountNo);
 
   useEffect(() => {

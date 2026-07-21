@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { useFetchRecentAccountList } from '@bx/shared';
+import { $codeUtils, useFetchRecentAccountList } from '@bx/shared';
 import type { Account, BankId } from '@bx/shared';
-import { BANK_OPTIONS } from '@bx/shared';
 import { useModal } from '@bx/shared';
 import { formatAccountNumberByBank } from '@bx/shared';
 import type { BaseProps } from '@bx/shared';
@@ -66,8 +65,8 @@ export function TransferList(_props: TransferListProps) {
           className={styles.formSelect}
           value={bankId ?? ''}
           onChange={(e) => setBankId(e.target.value as BankId)}
-          options={BANK_OPTIONS.map((bank) => ({ value: bank.id, label: bank.name }))}
-          placeholder="은행 선택"
+          groupCd="BANK"
+          emptyOption="SELECT"
         />
 
         {/* 다음 버튼 */}
@@ -81,8 +80,7 @@ export function TransferList(_props: TransferListProps) {
 
         <div className={styles.recentList} role="list">
           {recentAccounts.map((acc) => {
-            const bank = BANK_OPTIONS.find((b) => b.id === acc.bankId);
-            const bankName = bank ? bank.name : acc.bankId;
+            const bankName = $codeUtils.codeValue('BANK', acc.bankId, { visibleCode: false });
 
             const formattedAccountNum = formatAccountNumberByBank(acc.bankId, acc.accountNo);
 

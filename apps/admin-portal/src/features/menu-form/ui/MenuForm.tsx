@@ -20,16 +20,6 @@ interface MenuFormProps {
   onSubmit: (payload: MenuFormPayload) => void | Promise<void>;
 }
 
-const menuTypeOptions = [
-  { value: 'MENU', label: '메뉴' },
-  { value: 'PAGE', label: '화면' },
-];
-
-const visibleOptions = [
-  { value: 'Y', label: '노출' },
-  { value: 'N', label: '숨김' },
-];
-
 const fullFieldClassName = `${styles.field} ${styles.fieldFull}`;
 
 const toPayload = (values: MenuFormValues): MenuFormPayload => ({
@@ -54,7 +44,7 @@ export function MenuForm({
   return (
     <AppForm id={id} form={form} onSubmit={handleSubmit}>
       <FormInput label="메뉴코드" name="menuCd" required />
-      <FormSelect label="메뉴유형" name="menuType" options={menuTypeOptions} />
+      <FormSelect label="메뉴유형" name="menuType" groupCd="MENU_TYPE" emptyOption="SELECT" />
       <FormInput label="메뉴명" name="menuNm" required fieldClassName={fullFieldClassName} />
       <FormInput
         label="경로"
@@ -63,7 +53,7 @@ export function MenuForm({
         fieldClassName={fullFieldClassName}
       />
       <FormInput label="정렬" name="sortSeq" type="number" />
-      <FormSelect label="노출여부" name="visibleYn" options={visibleOptions} />
+      <FormSelect label="노출여부" name="visibleYn" groupCd="VISIBLE_YN" emptyOption="SELECT" />
       {submitError && <p className={styles.formError}>{submitError}</p>}
     </AppForm>
   );

@@ -17,11 +17,6 @@ import styles from '@/shared/ui/admin-form/AdminForm.module.css';
 
 const FORM_ID = 'admin-code-group-form';
 
-const useYnOptions = [
-  { value: 'Y', label: '사용' },
-  { value: 'N', label: '미사용' },
-];
-
 interface CodeGroupFormValues {
   groupCd: string;
   groupNm: string;
@@ -143,7 +138,7 @@ export function CodeGroupFormDrawer({
     >
       <AppForm id={FORM_ID} form={form} onSubmit={handleSubmit}>
         <FormInput label="그룹코드" name="groupCd" readOnly={isUpdateMode} required />
-        <FormSelect label="사용여부" name="useYn" options={useYnOptions} />
+        <FormSelect label="사용여부" name="useYn" groupCd="USE_YN" emptyOption="SELECT" />
         <FormInput label="그룹명" name="groupNm" required fieldClassName={fullFieldClassName} />
         <FormTextarea label="설명" name="groupDesc" fieldClassName={fullFieldClassName} />
         {submitError && <p className={styles.formError}>{submitError}</p>}

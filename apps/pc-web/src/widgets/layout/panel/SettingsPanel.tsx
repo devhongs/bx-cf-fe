@@ -1,21 +1,20 @@
-import { useTheme } from '@bx/shared';
-import { ChevronDown, X } from 'lucide-react';
+import { $codeUtils, Select, useTheme } from '@bx/shared';
+import { X } from 'lucide-react';
 import { useState } from 'react';
 
 import { useLayout } from '@/shared/context/LayoutContext';
 import styles from './SettingsPanel.module.css';
 
-const ACCOUNT_TYPES = ['전체 계좌', '입출금', '적금', '카드'];
-const DATE_RANGES = ['오늘', '1주일', '1개월', '3개월'];
 const THEMES = [
   { value: 'light', label: '라이트' },
   { value: 'dark', label: '다크' },
 ] as const;
 
 export function SettingsPanel() {
+  const dateRanges = $codeUtils.getCodes('DATE_RANGE');
   const { settingsPanelOpen, toggleSettingsPanel } = useLayout();
-  const [accountType, setAccountType] = useState(ACCOUNT_TYPES[0]);
-  const [dateRange, setDateRange] = useState(DATE_RANGES[2]);
+  const [accountType, setAccountType] = useState('');
+  const [dateRange, setDateRange] = useState('ONE_MONTH');
   const [transferAmount, setTransferAmount] = useState('');
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [alertEnabled, setAlertEnabled] = useState(false);
@@ -39,34 +38,26 @@ export function SettingsPanel() {
         {/* 계좌 유형 */}
         <div className={styles.section}>
           <label className={styles.label}>계좌 유형</label>
-          <div className={styles.selectWrapper}>
-            <select
-              className={styles.select}
-              value={accountType}
-              onChange={(e) => setAccountType(e.target.value)}
-            >
-              {ACCOUNT_TYPES.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
-            <ChevronDown size={14} className={styles.selectIcon} />
-          </div>
+          <Select
+            className={styles.select}
+            value={accountType}
+            groupCd="ACCOUNT_TYPE"
+            onChange={(e) => setAccountType(e.target.value)}
+          />
         </div>
 
         {/* 조회 기간 */}
         <div className={styles.section}>
           <label className={styles.label}>조회 기간</label>
           <div className={styles.chipGroup}>
-            {DATE_RANGES.map((d) => (
+            {dateRanges.map(({ codeField, labelField }) => (
               <button
-                key={d}
+                key={codeField}
                 type="button"
-                className={`${styles.chip} ${dateRange === d ? styles.chipActive : ''}`}
-                onClick={() => setDateRange(d)}
+                className={`${styles.chip} ${dateRange === codeField ? styles.chipActive : ''}`}
+                onClick={() => setDateRange(codeField)}
               >
-                {d}
+                {labelField}
               </button>
             ))}
           </div>

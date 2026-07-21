@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import { DataTable, useFetchMenuList } from '@bx/shared';
+import { $codeUtils, DataTable, useFetchMenuList } from '@bx/shared';
 import type { DataTableColumn, Menu } from '@bx/shared';
 
 import { MenuFormDrawer } from '@/features/menu-form/ui/MenuFormDrawer';
@@ -46,7 +46,7 @@ const fallbackMenus: Menu[] = [
 
 export function MenusPage() {
   const [search, setSearch] = useState('');
-  const [status, setStatus] = useState('ALL');
+  const [status, setStatus] = useState('');
   const { data } = useFetchMenuList(undefined, { retry: false });
   const menus = data?.length ? data : fallbackMenus;
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -56,7 +56,7 @@ export function MenusPage() {
     return menus.filter((menu) => {
       const keyword = `${menu.menuCd ?? ''} ${menu.menuNm ?? ''} ${menu.path ?? ''}`.toLowerCase();
       const matchesSearch = keyword.includes(search.toLowerCase());
-      const matchesStatus = status === 'ALL' || menu.useYn === status;
+      const matchesStatus = !status || menu.useYn === status;
       return matchesSearch && matchesStatus;
     });
   }, [menus, search, status]);
@@ -75,7 +75,7 @@ export function MenusPage() {
       align: 'center',
       cell: (row) => (
         <span className={`${styles.badge} ${row.visibleYn === 'Y' ? styles.badgeSuccess : ''}`}>
-          {row.visibleYn === 'Y' ? '노출' : '숨김'}
+          {$codeUtils.codeValue('VISIBLE_YN', row.visibleYn ?? '', { visibleCode: false })}
         </span>
       ),
     },

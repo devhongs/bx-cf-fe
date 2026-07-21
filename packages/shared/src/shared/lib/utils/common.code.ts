@@ -1,3 +1,4 @@
+import { LOCAL_CODE_MAP } from '../../constants/local-codes';
 import { CONFIG } from '../../constants/siteConfig';
 import type { CodeItem } from '../../types/index';
 
@@ -19,7 +20,13 @@ interface CoreData {
 const getCodeMap = (): CodeMap => session.get<CodeMap>(CONFIG.SESSION.CODE) ?? {};
 
 /** 그룹 코드에 해당하는 코드 리스트 (동기) */
-const getCodes = (code: string): Array<CodeItem> => getCodeMap()[code] ?? [];
+const getCodes = (code: string): Array<CodeItem> => {
+  const serverCodes = getCodeMap()[code];
+  if (serverCodes !== undefined) return serverCodes;
+
+  const localCodes = LOCAL_CODE_MAP[code as keyof typeof LOCAL_CODE_MAP];
+  return localCodes ? [...localCodes] : [];
+};
 
 /** 그룹 코드 내에서 codeField 로 항목 찾기 */
 const findCode = (code: string, key: string): CodeItem | undefined =>

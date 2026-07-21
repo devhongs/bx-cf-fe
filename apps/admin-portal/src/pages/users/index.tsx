@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import { DataTable, useFetchUserList } from '@bx/shared';
+import { $codeUtils, DataTable, Select, useFetchUserList } from '@bx/shared';
 import type { DataTableColumn, ManagedUser } from '@bx/shared';
 
 import { UserFormDrawer } from '@/features/user-form/ui/UserFormDrawer';
@@ -10,8 +10,8 @@ import styles from '../admin-page.module.css';
 
 export function UsersPage() {
   const [search, setSearch] = useState('');
-  const [status, setStatus] = useState('ALL');
-  const [userType, setUserType] = useState('ALL');
+  const [status, setStatus] = useState('');
+  const [userType, setUserType] = useState('');
   const { data } = useFetchUserList(undefined, { retry: false });
   const users = data || [];
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -21,8 +21,8 @@ export function UsersPage() {
     return users.filter((user) => {
       const keyword = `${user.usrId} ${user.usrNm} ${user.deptName ?? ''}`.toLowerCase();
       const matchesSearch = keyword.includes(search.toLowerCase());
-      const matchesStatus = status === 'ALL' || user.useYn === status;
-      const matchesType = userType === 'ALL' || user.userType === userType;
+      const matchesStatus = !status || user.useYn === status;
+      const matchesType = !userType || user.userType === userType;
       return matchesSearch && matchesStatus && matchesType;
     });
   }, [users, search, status, userType]);
@@ -40,7 +40,7 @@ export function UsersPage() {
       align: 'center',
       cell: (row) => (
         <span className={`${styles.badge} ${row.userType === 'ADMIN' ? styles.badgeWarning : ''}`}>
-          {row.userType === 'ADMIN' ? '관리자' : '서비스'}
+          {$codeUtils.codeValue('USER_TYPE', row.userType ?? '', { visibleCode: false })}
         </span>
       ),
     },
@@ -51,7 +51,7 @@ export function UsersPage() {
       align: 'center',
       cell: (row) => (
         <span className={`${styles.badge} ${row.useYn === 'Y' ? styles.badgeSuccess : ''}`}>
-          {row.useYn === 'Y' ? '사용' : '중지'}
+          {$codeUtils.codeValue('USER_STATUS', row.useYn ?? '', { visibleCode: false })}
         </span>
       ),
     },
@@ -85,16 +85,14 @@ export function UsersPage() {
             primaryActionLabel="관리자 등록"
             searchPlaceholder="아이디, 이름, 부서 검색"
             extra={
-              <select
+              <Select
+                containerClassName="w-[160px]"
                 className={styles.fieldSelect}
                 aria-label="사용자 유형 필터"
                 value={userType}
+                groupCd="USER_TYPE"
                 onChange={(event) => setUserType(event.target.value)}
-              >
-                <option value="ALL">전체 유형</option>
-                <option value="ADMIN">관리자</option>
-                <option value="SERVICE">서비스 사용자</option>
-              </select>
+              />
             }
             onSearchChange={setSearch}
             onStatusChange={setStatus}

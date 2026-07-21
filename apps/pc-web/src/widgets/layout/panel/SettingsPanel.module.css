@@ -84,11 +84,6 @@
   letter-spacing: 0.5px;
 }
 
-/* Select */
-.selectWrapper {
-  position: relative;
-}
-
 .select {
   width: 100%;
   appearance: none;
@@ -105,15 +100,6 @@
 
 .select:focus {
   border-color: var(--accent);
-}
-
-.selectIcon {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--muted);
-  pointer-events: none;
 }
 
 /* Chip group */

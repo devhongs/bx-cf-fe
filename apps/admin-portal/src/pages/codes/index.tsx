@@ -1,6 +1,11 @@
 import { useMemo, useState } from 'react';
 
-import { DataTable, useFetchCommonCodeGroupList, useFetchCommonCodeList } from '@bx/shared';
+import {
+  $codeUtils,
+  DataTable,
+  useFetchCommonCodeGroupList,
+  useFetchCommonCodeList,
+} from '@bx/shared';
 import type { CommonCode, CommonCodeGroup, DataTableColumn } from '@bx/shared';
 
 import { CodeGroupFormDrawer } from '@/features/code-group-form/ui/CodeGroupFormDrawer';
@@ -52,7 +57,7 @@ const fallbackCodesByGroup: Record<string, CommonCode[]> = {
 
 export function CodesPage() {
   const [search, setSearch] = useState('');
-  const [status, setStatus] = useState('ALL');
+  const [status, setStatus] = useState('');
   const { data } = useFetchCommonCodeGroupList(undefined, { retry: false });
   const groups = data?.length ? data : fallbackGroups;
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -62,7 +67,7 @@ export function CodesPage() {
     return groups.filter((group) => {
       const keyword = `${group.groupCd ?? ''} ${group.groupNm ?? ''}`.toLowerCase();
       const matchesSearch = keyword.includes(search.toLowerCase());
-      const matchesStatus = status === 'ALL' || group.useYn === status;
+      const matchesStatus = !status || group.useYn === status;
       return matchesSearch && matchesStatus;
     });
   }, [groups, search, status]);
@@ -100,7 +105,7 @@ export function CodesPage() {
       align: 'center',
       cell: (row) => (
         <span className={`${styles.badge} ${row.useYn === 'Y' ? styles.badgeSuccess : ''}`}>
-          {row.useYn === 'Y' ? '사용' : '미사용'}
+          {$codeUtils.codeValue('USE_YN', row.useYn ?? '', { visibleCode: false })}
         </span>
       ),
     },
@@ -117,7 +122,7 @@ export function CodesPage() {
       align: 'center',
       cell: (row) => (
         <span className={`${styles.badge} ${row.useYn === 'Y' ? styles.badgeSuccess : ''}`}>
-          {row.useYn === 'Y' ? '사용' : '미사용'}
+          {$codeUtils.codeValue('USE_YN', row.useYn ?? '', { visibleCode: false })}
         </span>
       ),
     },

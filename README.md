@@ -162,6 +162,24 @@ PC·Admin·Mobile 보호 화면 최초 진입 시 코드/메뉴 기준정보를 
 
 공통코드 캐시는 모든 앱이 동일한 데이터를 사용한다는 전제로 `base-info:CODE` 하나를 공유합니다. 메뉴는 앱과 사용자별 구성이 다를 수 있으므로 `pc:<usrId>`, `admin:<usrId>`, `mobile:<usrId>` scope로 분리합니다.
 
+### 로컬 코드 fallback
+배포 시점에 고정되는 코드 목록은 `packages/shared/src/shared/constants/local-codes.ts`의 `LOCAL_CODE_MAP`에서 관리합니다. 화면은 코드 출처를 구분하지 않고 `groupCd`만 전달하며, `$codeUtils`와 `Select`는 다음 우선순위로 코드를 조회합니다.
+
+1. sessionStorage에 적재된 서버 코드 그룹
+2. 서버에 해당 그룹이 없으면 `LOCAL_CODE_MAP`
+3. 서버와 로컬에 모두 없으면 빈 배열
+
+서버 그룹이 빈 배열로 존재하는 경우에는 서버가 의도적으로 빈 목록을 제공한 것으로 보고 로컬 코드로 대체하지 않습니다. 로컬 코드는 번들에 포함되는 정적 데이터이므로 React Query나 localStorage에 별도로 저장하지 않습니다.
+
+`Select`와 `FormSelect`는 별도의 `placeholder`를 제공하지 않고 첫 번째 보조 항목을 `emptyOption`으로 통일합니다.
+
+| `emptyOption` | 렌더링 | 용도 |
+| :--- | :--- | :--- |
+| 생략 또는 `ALL` | `'' / 전체` | 조회 조건 기본값 |
+| `SELECT` | `'' / 선택` | 입력 폼 선택 안내 |
+| `NONE` | 렌더링하지 않음 | 코드 목록만 노출 |
+| `{ value, label }` | 지정한 값과 문구 | `전체 유형` 등 화면별 표현 |
+
 `schemaVersion`은 FE 내부 캐시 구조 버전입니다. 서버 버전이 그대로여도 FE 저장 구조가 바뀌면 schemaVersion을 올려 강제로 재조회하게 합니다. 현재 CODE는 그룹+children 구조를 반영해 `2`, MENU는 `1`입니다.
 
 ### 버전 확인 및 갱신 시점
@@ -172,7 +190,7 @@ Admin의 코드·메뉴 등록/수정/삭제는 해당 관리 화면의 목록 Q
 ### 실패 시 동작 (의도된 동작)
 라우트 가드가 호출하는 `bootstrapBaseInfoSafe`는 **절대 throw하지 않습니다.** 실패는 반환값의 `failed` 배열에 담기고, `beforeLoad`는 이 배열을 확인하지 않은 채 화면 진입을 허용합니다. 버전 또는 데이터 조회가 실패하면 사용 가능한 기존 캐시를 sessionStorage에 복원합니다.
 
-따라서 "첫 접속 + 기준정보 조회 실패"(재사용할 localStorage 캐시가 아직 없는 상태)에서는 부트스트랩이 성공으로 간주되지만 `CONFIG.SESSION.CODE`가 비어 있는 채로 화면이 렌더됩니다. 이때 `$codeUtils`와 `Select`의 `groupCd`는 조용히 빈 목록이 되고, 세션을 구독하지 않으므로 이후 채워져도 새로고침 전까지 복구되지 않습니다.
+따라서 "첫 접속 + 기준정보 조회 실패"(재사용할 localStorage 캐시가 아직 없는 상태)에서는 `CONFIG.SESSION.CODE`가 비어 있는 채로 화면이 렌더됩니다. 이때 `$codeUtils`와 `Select`의 `groupCd`는 로컬 코드 그룹이 있으면 해당 목록을 사용하고, 로컬에도 없는 그룹이면 빈 목록을 사용합니다. 세션을 구독하지 않으므로 이후 서버 코드가 채워져도 새로고침 전까지 다시 렌더링되지는 않습니다.
 
 기준정보를 못 받아도 화면은 열리는 쪽을 택한 결과입니다. 코드 누락을 오류로 다뤄야 하는 서비스라면 `beforeLoad`에서 `failed`에 `CODE`가 포함됐는지 확인해 에러 화면으로 보내도록 바꾸면 됩니다.
 
