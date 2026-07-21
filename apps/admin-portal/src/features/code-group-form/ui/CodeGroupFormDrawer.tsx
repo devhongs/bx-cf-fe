@@ -216,15 +216,17 @@ export function CodeGroupFormDrawer({
           ) : (
             <>
               <div className={codeStyles.columnHeader}>
+                <span>정렬</span>
                 <span>코드</span>
                 <span>코드명</span>
-                <span>정렬</span>
                 <span>사용여부</span>
                 <span />
               </div>
               <div className={codeStyles.rows}>
                 {fields.map((field, index) => (
                   <div key={field.id} className={codeStyles.row}>
+                    {/* 정렬 순서는 배열 순서로 확정한다 (저장 시 index + 1) */}
+                    <span className={codeStyles.sortSeq}>{index + 1}</span>
                     <FormInput
                       name={`codes.${index}.code`}
                       required
@@ -241,8 +243,6 @@ export function CodeGroupFormDrawer({
                       required
                       fieldClassName={cellFieldClassName}
                     />
-                    {/* 정렬 순서는 배열 순서로 확정한다 (저장 시 index + 1) */}
-                    <span className={codeStyles.sortSeq}>{index + 1}</span>
                     <FormSelect
                       name={`codes.${index}.useYn`}
                       groupCd="USE_YN"

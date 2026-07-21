@@ -21,10 +21,10 @@
   font-weight: 600;
 }
 
-/* 코드 / 코드명 / 정렬 / 사용여부 / 삭제 */
+/* 정렬 / 코드 / 코드명 / 사용여부 / 삭제 */
 .row {
   display: grid;
-  grid-template-columns: 132px 1fr 72px 110px 32px;
+  grid-template-columns: 72px 132px 1fr 110px 32px;
   gap: 8px;
   align-items: start;
 }

@@ -102,4 +102,17 @@ describe('CodesPage', () => {
       expect(screen.getByDisplayValue('관리자')).toBeTruthy();
     });
   });
+
+  it('코드 상세의 정렬 컬럼을 맨 앞에 표시한다', async () => {
+    renderCodesPage();
+
+    fireEvent.click(await screen.findByText('USE_YN'));
+
+    const header = await screen.findByText('정렬');
+    const labels = Array.from(header.parentElement?.children ?? []).map(
+      (element) => element.textContent,
+    );
+
+    expect(labels).toEqual(['정렬', '코드', '코드명', '사용여부', '']);
+  });
 });
