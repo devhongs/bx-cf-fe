@@ -65,6 +65,8 @@ export function FormSelect<TValues extends FieldValues = FieldValues>({
           id={field.id}
           name={field.name}
           ref={field.ref}
+          // 검증은 RHF가 하고, Select는 placeholder를 잠글지 판단하는 데만 쓴다.
+          required={Boolean(required)}
           value={field.value ?? ''}
           onBlur={(event) => {
             field.onBlur();

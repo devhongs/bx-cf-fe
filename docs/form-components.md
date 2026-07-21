@@ -198,6 +198,9 @@ Deferred (필요 시점에 FRM-051 절차로 추가):
 
 ```txt
 FormMoneyInput / FormNumberInput / FormCheckbox / FormRadioGroup
-CodeSelect / CodeRadioGroup / CodeCheckboxGroup / DatePicker 계열
+CodeRadioGroup / CodeCheckboxGroup / DatePicker 계열
 errorDisplay variants (summary / modal)
 ```
+
+공통코드 select은 별도 컴포넌트 없이 `Select`/`FormSelect`의 `groupCd` prop으로 처리한다.
+`options` 대신 `groupCd`를 주면 세션에 적재된 코드맵에서 옵션을 채운다.

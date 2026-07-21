@@ -85,6 +85,7 @@ const codeValue2 = (code: string, key: string): Promise<string> =>
 const valueList = (code: string): Array<string> => getCodes(code).map((item) => item.codeField);
 
 export const $codeUtils = {
+  getCodes,
   getCodeList,
   codeValue,
   codeValue2,
