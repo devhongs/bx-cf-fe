@@ -195,6 +195,23 @@ export namespace system {
       patch?: never;
       trace?: never;
     };
+    '/common-codes/groups/{groupCd}/codes/replace': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      get?: never;
+      put?: never;
+      /** 공통코드 일괄 교체 */
+      post: operations['replaceCommonCodes'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
     '/common-codes/groups/{groupCd}/codes/list': {
       parameters: {
         query?: never;
@@ -1278,6 +1295,35 @@ export namespace system {
       /**
        * @example {
        *       "data": {
+       *         "codes": [
+       *           "string"
+       *         ],
+       *         "createdBy": "admin"
+       *       }
+       *     }
+       */
+      CommonCodeReplaceReplaceRequest: {
+        /**
+         * @example {
+         *       "codes": [
+         *         "string"
+         *       ],
+         *       "createdBy": "admin"
+         *     }
+         */
+        data: {
+          /** @description 교체할 공통코드 목록 */
+          codes: Record<string, never>[];
+          /**
+           * @description 변경 요청자 ID
+           * @example admin
+           */
+          createdBy?: string;
+        };
+      };
+      /**
+       * @example {
+       *       "data": {
        *         "code": "Y",
        *         "codeNm": "사용",
        *         "codeDesc": "string",
@@ -1952,6 +1998,50 @@ export namespace system {
            *     }
            */
           'application/json': components['schemas']['CommonCodeUpdateRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: Record<string, never>;
+            };
+          };
+        };
+      };
+    };
+    replaceCommonCodes: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          groupCd: string;
+        };
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          /**
+           * @example {
+           *       "data": {
+           *         "codes": "string",
+           *         "createdBy": "admin"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['CommonCodeReplaceReplaceRequest'];
         };
       };
       responses: {
