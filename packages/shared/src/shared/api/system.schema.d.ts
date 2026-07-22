@@ -161,6 +161,43 @@ export namespace system {
       patch?: never;
       trace?: never;
     };
+    '/common-codes/{groupCd}/replace': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      get?: never;
+      put?: never;
+      /** 공통코드 그룹 및 코드 일괄 교체 */
+      post: operations['replaceCommonCodes'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/common-codes/list': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      get?: never;
+      put?: never;
+      /**
+       * 공통코드 그룹 상세 및 코드 목록 조회
+       * @description data.groupCd가 ALL이면 전체 그룹과 하위 공통코드 목록을 조회하고, 그 외에는 해당 그룹만 조회한다.
+       */
+      post: operations['getCommonCodeGroupDetails'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
     '/common-codes/groups/{groupCd}/update': {
       parameters: {
         query?: never;
@@ -189,23 +226,6 @@ export namespace system {
       put?: never;
       /** 공통코드 수정 */
       post: operations['updateCommonCode'];
-      delete?: never;
-      options?: never;
-      head?: never;
-      patch?: never;
-      trace?: never;
-    };
-    '/common-codes/groups/{groupCd}/codes/replace': {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      get?: never;
-      put?: never;
-      /** 공통코드 일괄 교체 */
-      post: operations['replaceCommonCodes'];
       delete?: never;
       options?: never;
       head?: never;
@@ -263,26 +283,6 @@ export namespace system {
       patch?: never;
       trace?: never;
     };
-    '/common-codes/groups/detail': {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      get?: never;
-      put?: never;
-      /**
-       * 공통코드 그룹 상세 및 코드 목록 조회
-       * @description data.groupCd가 ALL이면 전체 그룹과 하위 공통코드 목록을 조회하고, 그 외에는 해당 그룹만 조회한다.
-       */
-      post: operations['getCommonCodeGroupDetails'];
-      delete?: never;
-      options?: never;
-      head?: never;
-      patch?: never;
-      trace?: never;
-    };
     '/common-codes/groups/create': {
       parameters: {
         query?: never;
@@ -304,6 +304,26 @@ export namespace system {
   export type webhooks = Record<string, never>;
   export interface components {
     schemas: {
+      ApiRequestCommonCodeGroupReqDto: {
+        pagination?: components['schemas']['PaginationReqDto'];
+        filter?: components['schemas']['FilterReqDto'];
+        sort?: components['schemas']['SortReqDto'];
+        data?: components['schemas']['CommonCodeGroupReqDto'];
+      };
+      CommonCodeGroupDetailResDto: {
+        groupCd?: string;
+        groupNm?: string;
+        groupDesc?: string;
+        systemYn?: string;
+        useYn?: string;
+        createdBy?: string;
+        updatedBy?: string;
+        /** Format: date-time */
+        createdAt?: string;
+        /** Format: date-time */
+        updatedAt?: string;
+        codes?: components['schemas']['CommonCodeResDto'][];
+      };
       /**
        * @example {
        *       "actionId": 0,
@@ -1060,8 +1080,7 @@ export namespace system {
        *         "groupDesc": "string",
        *         "systemYn": "N",
        *         "useYn": "Y",
-       *         "sortSeq": "1",
-       *         "createdBy": "admin"
+       *         "sortSeq": "1"
        *       }
        *     }
        */
@@ -1073,8 +1092,7 @@ export namespace system {
          *       "groupDesc": "string",
          *       "systemYn": "N",
          *       "useYn": "Y",
-         *       "sortSeq": "1",
-         *       "createdBy": "admin"
+         *       "sortSeq": "1"
          *     }
          */
         data: {
@@ -1108,11 +1126,6 @@ export namespace system {
            * @example 1
            */
           sortSeq?: number;
-          /**
-           * @description 요청자 ID
-           * @example admin
-           */
-          createdBy?: string;
         };
       };
       /**
@@ -1122,8 +1135,7 @@ export namespace system {
        *         "groupDesc": "string",
        *         "systemYn": "N",
        *         "useYn": "Y",
-       *         "sortSeq": "1",
-       *         "createdBy": "admin"
+       *         "sortSeq": "1"
        *       }
        *     }
        */
@@ -1134,8 +1146,7 @@ export namespace system {
          *       "groupDesc": "string",
          *       "systemYn": "N",
          *       "useYn": "Y",
-         *       "sortSeq": "1",
-         *       "createdBy": "admin"
+         *       "sortSeq": "1"
          *     }
          */
         data: {
@@ -1164,11 +1175,6 @@ export namespace system {
            * @example 1
            */
           sortSeq?: number;
-          /**
-           * @description 요청자 ID
-           * @example admin
-           */
-          createdBy?: string;
         };
       };
       /**
@@ -1190,6 +1196,55 @@ export namespace system {
            * @example ALL
            */
           groupCd: string;
+        };
+      };
+      /**
+       * @example {
+       *       "data": {
+       *         "groupNm": "사용 여부",
+       *         "groupDesc": "string",
+       *         "systemYn": "N",
+       *         "useYn": "Y",
+       *         "sortSeq": "1"
+       *       }
+       *     }
+       */
+      CommonCodeGroupReplaceReplaceRequest: {
+        /**
+         * @example {
+         *       "groupNm": "사용 여부",
+         *       "groupDesc": "string",
+         *       "systemYn": "N",
+         *       "useYn": "Y",
+         *       "sortSeq": "1"
+         *     }
+         */
+        data: {
+          /**
+           * @description 공통코드 그룹명
+           * @example 사용 여부
+           */
+          groupNm: string;
+          /** @description 공통코드 그룹 설명 */
+          groupDesc?: string;
+          /**
+           * @description 시스템 코드 여부
+           * @example N
+           * @enum {string}
+           */
+          systemYn?: 'Y' | 'N';
+          /**
+           * @description 사용 여부
+           * @example Y
+           * @enum {string}
+           */
+          useYn?: 'Y' | 'N';
+          /**
+           * Format: int32
+           * @description 정렬 순서
+           * @example 1
+           */
+          sortSeq?: number;
         };
       };
       /**
@@ -1295,30 +1350,74 @@ export namespace system {
       /**
        * @example {
        *       "data": {
-       *         "codes": [
+       *         "group": {
+       *           "groupNm": "사용 여부",
+       *           "groupDesc": "string",
+       *           "systemYn": "N",
+       *           "useYn": "Y",
+       *           "sortSeq": "1"
+       *         },
+       *         "items": [
        *           "string"
-       *         ],
-       *         "createdBy": "admin"
+       *         ]
        *       }
        *     }
        */
       CommonCodeReplaceReplaceRequest: {
         /**
          * @example {
-         *       "codes": [
+         *       "group": {
+         *         "groupNm": "사용 여부",
+         *         "groupDesc": "string",
+         *         "systemYn": "N",
+         *         "useYn": "Y",
+         *         "sortSeq": "1"
+         *       },
+         *       "items": [
          *         "string"
-         *       ],
-         *       "createdBy": "admin"
+         *       ]
          *     }
          */
         data: {
-          /** @description 교체할 공통코드 목록 */
-          codes: Record<string, never>[];
           /**
-           * @description 변경 요청자 ID
-           * @example admin
+           * @description 수정할 공통코드 그룹 정보
+           * @example {
+           *       "groupNm": "사용 여부",
+           *       "groupDesc": "string",
+           *       "systemYn": "N",
+           *       "useYn": "Y",
+           *       "sortSeq": "1"
+           *     }
            */
-          createdBy?: string;
+          group: {
+            /**
+             * @description 공통코드 그룹명
+             * @example 사용 여부
+             */
+            groupNm: string;
+            /** @description 공통코드 그룹 설명 */
+            groupDesc?: string;
+            /**
+             * @description 시스템 코드 여부
+             * @example N
+             * @enum {string}
+             */
+            systemYn?: 'Y' | 'N';
+            /**
+             * @description 사용 여부
+             * @example Y
+             * @enum {string}
+             */
+            useYn?: 'Y' | 'N';
+            /**
+             * Format: int32
+             * @description 정렬 순서
+             * @example 1
+             */
+            sortSeq?: number;
+          };
+          /** @description 교체할 공통코드 목록 */
+          items: Record<string, never>[];
         };
       };
       /**
@@ -1332,8 +1431,7 @@ export namespace system {
        *         "useYn": "Y",
        *         "validFrom": "2026-01-01",
        *         "validTo": "2026-12-31",
-       *         "extraData": "{}",
-       *         "createdBy": "admin"
+       *         "extraData": "{}"
        *       }
        *     }
        */
@@ -1348,8 +1446,7 @@ export namespace system {
          *       "useYn": "Y",
          *       "validFrom": "2026-01-01",
          *       "validTo": "2026-12-31",
-         *       "extraData": "{}",
-         *       "createdBy": "admin"
+         *       "extraData": "{}"
          *     }
          */
         data: {
@@ -1399,11 +1496,6 @@ export namespace system {
            * @example {}
            */
           extraData?: string;
-          /**
-           * @description 요청자 ID
-           * @example admin
-           */
-          createdBy?: string;
         };
       };
       /**
@@ -1416,8 +1508,7 @@ export namespace system {
        *         "useYn": "Y",
        *         "validFrom": "2026-01-01",
        *         "validTo": "2026-12-31",
-       *         "extraData": "{}",
-       *         "createdBy": "admin"
+       *         "extraData": "{}"
        *       }
        *     }
        */
@@ -1431,8 +1522,7 @@ export namespace system {
          *       "useYn": "Y",
          *       "validFrom": "2026-01-01",
          *       "validTo": "2026-12-31",
-         *       "extraData": "{}",
-         *       "createdBy": "admin"
+         *       "extraData": "{}"
          *     }
          */
         data: {
@@ -1477,11 +1567,6 @@ export namespace system {
            * @example {}
            */
           extraData?: string;
-          /**
-           * @description 요청자 ID
-           * @example admin
-           */
-          createdBy?: string;
         };
       };
       /**
@@ -1557,6 +1642,51 @@ export namespace system {
          * @example 2026-01-01T10:00:00+09:00
          */
         updatedAt?: string;
+      };
+      PaginationReqDto: {
+        success?: boolean;
+        code?: string;
+        msg?: string;
+        requestId?: string;
+        payload?: {
+          [key: string]: unknown;
+        };
+      };
+      FilterReqDto: {
+        success?: boolean;
+        code?: string;
+        msg?: string;
+        requestId?: string;
+        payload?: {
+          [key: string]: unknown;
+        };
+      };
+      SortReqDto: {
+        success?: boolean;
+        code?: string;
+        msg?: string;
+        requestId?: string;
+        payload?: {
+          [key: string]: unknown;
+        };
+      };
+      CommonCodeGroupReqDto: {
+        success?: boolean;
+        code?: string;
+        msg?: string;
+        requestId?: string;
+        payload?: {
+          [key: string]: unknown;
+        };
+      };
+      CommonCodeResDto: {
+        success?: boolean;
+        code?: string;
+        msg?: string;
+        requestId?: string;
+        payload?: {
+          [key: string]: unknown;
+        };
       };
     };
     responses: never;
@@ -1922,10 +2052,92 @@ export namespace system {
         };
       };
     };
-    updateCommonCodeGroup: {
+    replaceCommonCodes: {
+      parameters: {
+        query?: never;
+        header: {
+          'X-Auth-User': string;
+        };
+        path: {
+          groupCd: string;
+        };
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          /**
+           * @example {
+           *       "data": {
+           *         "group": "string",
+           *         "items": "string"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['CommonCodeReplaceReplaceRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: Record<string, never>;
+            };
+          };
+        };
+      };
+    };
+    getCommonCodeGroupDetails: {
       parameters: {
         query?: never;
         header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['ApiRequestCommonCodeGroupReqDto'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: components['schemas']['CommonCodeGroupDetailResDto'][];
+            };
+          };
+        };
+      };
+    };
+    updateCommonCodeGroup: {
+      parameters: {
+        query?: never;
+        header: {
+          'X-Auth-User': string;
+        };
         path: {
           groupCd: string;
         };
@@ -1940,8 +2152,7 @@ export namespace system {
            *         "groupDesc": "string",
            *         "systemYn": "N",
            *         "useYn": "Y",
-           *         "sortSeq": "1",
-           *         "createdBy": "admin"
+           *         "sortSeq": "1"
            *       }
            *     }
            */
@@ -1973,7 +2184,9 @@ export namespace system {
     updateCommonCode: {
       parameters: {
         query?: never;
-        header?: never;
+        header: {
+          'X-Auth-User': string;
+        };
         path: {
           groupCd: string;
           code: string;
@@ -1992,56 +2205,11 @@ export namespace system {
            *         "useYn": "Y",
            *         "validFrom": "2026-01-01",
            *         "validTo": "2026-12-31",
-           *         "extraData": "{}",
-           *         "createdBy": "admin"
+           *         "extraData": "{}"
            *       }
            *     }
            */
           'application/json': components['schemas']['CommonCodeUpdateRequest'];
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            '*/*': {
-              /** @description 성공 여부 */
-              success?: boolean;
-              /** @description 응답 코드 */
-              code?: string;
-              /** @description 응답 메시지 */
-              msg?: string;
-              /** @description 요청 추적 ID */
-              requestId?: string;
-              payload?: Record<string, never>;
-            };
-          };
-        };
-      };
-    };
-    replaceCommonCodes: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path: {
-          groupCd: string;
-        };
-        cookie?: never;
-      };
-      requestBody: {
-        content: {
-          /**
-           * @example {
-           *       "data": {
-           *         "codes": "string",
-           *         "createdBy": "admin"
-           *       }
-           *     }
-           */
-          'application/json': components['schemas']['CommonCodeReplaceReplaceRequest'];
         };
       };
       responses: {
@@ -2101,7 +2269,9 @@ export namespace system {
     createCommonCode: {
       parameters: {
         query?: never;
-        header?: never;
+        header: {
+          'X-Auth-User': string;
+        };
         path: {
           groupCd: string;
         };
@@ -2120,8 +2290,7 @@ export namespace system {
            *         "useYn": "Y",
            *         "validFrom": "2026-01-01",
            *         "validTo": "2026-12-31",
-           *         "extraData": "{}",
-           *         "createdBy": "admin"
+           *         "extraData": "{}"
            *       }
            *     }
            */
@@ -2180,51 +2349,12 @@ export namespace system {
         };
       };
     };
-    getCommonCodeGroupDetails: {
-      parameters: {
-        query?: never;
-        header?: never;
-        path?: never;
-        cookie?: never;
-      };
-      requestBody: {
-        content: {
-          /**
-           * @example {
-           *       "data": {
-           *         "groupCd": "ALL"
-           *       }
-           *     }
-           */
-          'application/json': components['schemas']['CommonCodeGroupDetailRequest'];
-        };
-      };
-      responses: {
-        /** @description OK */
-        200: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            '*/*': {
-              /** @description 성공 여부 */
-              success?: boolean;
-              /** @description 응답 코드 */
-              code?: string;
-              /** @description 응답 메시지 */
-              msg?: string;
-              /** @description 요청 추적 ID */
-              requestId?: string;
-              payload?: components['schemas']['CommonCodeGroupDetailDetailResponse'][];
-            };
-          };
-        };
-      };
-    };
     createCommonCodeGroup: {
       parameters: {
         query?: never;
-        header?: never;
+        header: {
+          'X-Auth-User': string;
+        };
         path?: never;
         cookie?: never;
       };
@@ -2238,8 +2368,7 @@ export namespace system {
            *         "groupDesc": "string",
            *         "systemYn": "N",
            *         "useYn": "Y",
-           *         "sortSeq": "1",
-           *         "createdBy": "admin"
+           *         "sortSeq": "1"
            *       }
            *     }
            */

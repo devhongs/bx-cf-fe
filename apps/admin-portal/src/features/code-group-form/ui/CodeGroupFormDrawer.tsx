@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react';
 
 import {
   openConfirm,
+  useAuthStore,
   useCreateCommonCodeGroup,
   useDeleteCommonCodeGroup,
   useFetchCommonCodeGroup,
   useFetchCommonCodeList,
   useFieldArray,
-  useUpdateCommonCodeGroup,
+  useReplaceCommonCodes,
 } from '@bx/shared';
-import type { CommonCode, CommonCodeGroup, CommonCodeGroupPayload } from '@bx/shared';
+import type { CommonCode, CommonCodeGroup, CommonCodeReplacePayload } from '@bx/shared';
 
 import { getApiErrorMessage } from '@/shared/lib/getApiErrorMessage';
 import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
@@ -57,28 +58,17 @@ const toFormValues = (group?: CommonCodeGroup, codes: CommonCode[] = []): CodeGr
 
 /**
  * 그룹 + 코드 일괄 저장 payload.
- *
- * `codes`는 그룹에 속한 코드의 **전체 목록**이다. 서버는 기존 코드를 모두 삭제한 뒤
- * 이 배열을 다시 삽입하므로, 부분 갱신이나 삭제 대상 id를 따로 실어보내지 않는다.
- *
- * 아직 OpenAPI 스펙에 없다(서버가 일괄 저장을 지원하도록 수정 중).
- * 스펙이 나와 `CommonCodeGroupPayload`가 재생성되면 이 확장 타입을 지운다.
  */
-interface CodeGroupSavePayload extends CommonCodeGroupPayload {
-  codes: Array<{
-    code: string;
-    codeNm: string;
-    sortSeq: number;
-    useYn: 'Y' | 'N';
-  }>;
-}
+type CodeGroupSavePayload = { groupCd: string } & CommonCodeReplacePayload;
 
 const toPayload = (values: CodeGroupFormValues): CodeGroupSavePayload => ({
   groupCd: values.groupCd.trim(),
-  groupNm: values.groupNm.trim(),
-  groupDesc: values.groupDesc.trim() || undefined,
-  useYn: values.useYn,
-  codes: values.codes.map((row, index) => ({
+  group: {
+    groupNm: values.groupNm.trim(),
+    groupDesc: values.groupDesc.trim() || undefined,
+    useYn: values.useYn,
+  },
+  items: values.codes.map((row, index) => ({
     code: row.code.trim(),
     codeNm: row.codeNm.trim(),
     sortSeq: index + 1,
@@ -131,19 +121,21 @@ export function CodeGroupFormDrawer({
   }, [open]);
 
   const createMutation = useCreateCommonCodeGroup();
-  const updateMutation = useUpdateCommonCodeGroup();
+  const replaceMutation = useReplaceCommonCodes();
   const deleteMutation = useDeleteCommonCodeGroup();
-  const pending = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending;
+  const userId = useAuthStore((state) => state.user?.usrId);
+  const pending = createMutation.isPending || replaceMutation.isPending || deleteMutation.isPending;
 
   const handleSubmit = async (values: CodeGroupFormValues) => {
     setSubmitError('');
     const payload = toPayload(values);
+    const authUser = userId ?? 'admin';
 
     try {
       if (isUpdateMode) {
-        await updateMutation.mutateAsync({ groupCd, payload });
+        await replaceMutation.mutateAsync({ groupCd, payload, authUser });
       } else {
-        await createMutation.mutateAsync(payload);
+        await createMutation.mutateAsync({ groupCd: payload.groupCd, ...payload.group });
       }
       onClose();
     } catch (error) {

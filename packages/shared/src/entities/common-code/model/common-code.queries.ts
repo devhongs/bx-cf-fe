@@ -8,14 +8,17 @@ import {
   fetchCommonCodeGroup,
   fetchCommonCodeGroups,
   fetchCommonCodes,
+  replaceCommonCodes,
   updateCommonCode,
   updateCommonCodeGroup,
 } from '../api/common-code.api';
 import type {
+  CommonCodeAuthParams,
   CommonCodeGroupPayload,
   CommonCodeGroupQueryParams,
   CommonCodePayload,
   CommonCodeQueryParams,
+  CommonCodeReplacePayload,
 } from './common-code.type';
 
 export const commonCodeQueryKeys = {
@@ -52,6 +55,17 @@ export const createCommonCodeGroupMutation = () => ({
 export const updateCommonCodeGroupMutation = () => ({
   mutationFn: ({ groupCd, payload }: { groupCd: string; payload: CommonCodeGroupPayload }) =>
     updateCommonCodeGroup(groupCd, payload),
+});
+
+export const replaceCommonCodesMutation = () => ({
+  mutationFn: ({
+    groupCd,
+    payload,
+    authUser,
+  }: {
+    groupCd: string;
+    payload: CommonCodeReplacePayload;
+  } & CommonCodeAuthParams) => replaceCommonCodes(groupCd, payload, authUser),
 });
 
 export const deleteCommonCodeGroupMutation = () => ({

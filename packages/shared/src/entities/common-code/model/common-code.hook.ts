@@ -12,16 +12,19 @@ import {
   createCommonCodeMutation,
   deleteCommonCodeGroupMutation,
   deleteCommonCodeMutation,
+  replaceCommonCodesMutation,
   updateCommonCodeGroupMutation,
   updateCommonCodeMutation,
 } from './common-code.queries';
 import type {
   CommonCode,
+  CommonCodeAuthParams,
   CommonCodeGroup,
   CommonCodeGroupPayload,
   CommonCodeGroupQueryParams,
   CommonCodePayload,
   CommonCodeQueryParams,
+  CommonCodeReplacePayload,
 } from './common-code.type';
 
 export const useFetchCommonCodeGroupList = (
@@ -90,6 +93,30 @@ export const useDeleteCommonCodeGroup = (
   const queryClient = useQueryClient();
   return useMutation({
     ...deleteCommonCodeGroupMutation(),
+    ...options,
+    onSuccess: async (data, variables, onMutateResult, context) => {
+      await queryClient.invalidateQueries({ queryKey: commonCodeQueryKeys.all });
+      options?.onSuccess?.(data, variables, onMutateResult, context);
+    },
+  });
+};
+
+export const useReplaceCommonCodes = (
+  options?: UseMutationOptions<
+    void,
+    Error,
+    { groupCd: string; payload: CommonCodeReplacePayload } & CommonCodeAuthParams,
+    unknown
+  >,
+): UseMutationResult<
+  void,
+  Error,
+  { groupCd: string; payload: CommonCodeReplacePayload } & CommonCodeAuthParams,
+  unknown
+> => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    ...replaceCommonCodesMutation(),
     ...options,
     onSuccess: async (data, variables, onMutateResult, context) => {
       await queryClient.invalidateQueries({ queryKey: commonCodeQueryKeys.all });

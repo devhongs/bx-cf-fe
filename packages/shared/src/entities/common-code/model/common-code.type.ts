@@ -10,10 +10,11 @@ type LegacyListParams = {
 };
 
 export type CommonCodeGroupListItem = SystemSchemas['CommonCodeGroupListResponse'];
-export type CommonCodeGroupDetail = SystemSchemas['CommonCodeGroupDetailDetailResponse'];
+export type CommonCodeGroupDetail = SystemSchemas['CommonCodeGroupDetailResDto'];
 export type CommonCodeGroup = CommonCodeGroupListItem & Partial<CommonCodeGroupDetail>;
 type CommonCodeGroupCreatePayload = SystemSchemas['CommonCodeGroupCreateRequest']['data'];
 type CommonCodeGroupUpdatePayload = SystemSchemas['CommonCodeGroupUpdateRequest']['data'];
+type CommonCodeReplaceApiPayload = SystemSchemas['CommonCodeReplaceReplaceRequest']['data'];
 export type CommonCodeGroupPayload = Partial<
   CommonCodeGroupCreatePayload & CommonCodeGroupUpdatePayload
 >;
@@ -26,3 +27,9 @@ type CommonCodeCreatePayload = SystemSchemas['CommonCodeCreateRequest']['data'];
 type CommonCodeUpdatePayload = SystemSchemas['CommonCodeUpdateRequest']['data'];
 export type CommonCodePayload = Partial<CommonCodeCreatePayload & CommonCodeUpdatePayload>;
 export type CommonCodeQueryParams = Partial<CommonCode & CommonCodePayload & LegacyListParams>;
+export type CommonCodeReplacePayload = Omit<CommonCodeReplaceApiPayload, 'items'> & {
+  items: CommonCodePayload[];
+};
+export type CommonCodeAuthParams = {
+  authUser: string;
+};

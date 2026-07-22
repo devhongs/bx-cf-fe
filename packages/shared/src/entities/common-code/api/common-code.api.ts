@@ -2,10 +2,12 @@ import { httpService } from '../../../shared/ajax/http.service';
 
 import type {
   CommonCode,
+  CommonCodeAuthParams,
   CommonCodeGroup,
   CommonCodeGroupPayload,
   CommonCodeGroupQueryParams,
   CommonCodePayload,
+  CommonCodeReplacePayload,
 } from '../model/common-code.type';
 
 export const fetchCommonCodeGroups = (
@@ -14,7 +16,7 @@ export const fetchCommonCodeGroups = (
   httpService.post<Array<CommonCodeGroup>>('/system/common-codes/groups/list');
 
 export const fetchCommonCodeGroup = (groupCd: string): Promise<Array<CommonCodeGroup>> =>
-  httpService.post<Array<CommonCodeGroup>>('/system/common-codes/groups/detail', {
+  httpService.post<Array<CommonCodeGroup>>('/system/common-codes/list', {
     data: { groupCd },
   });
 
@@ -28,6 +30,23 @@ export const updateCommonCodeGroup = (
   httpService.post<void>(`/system/common-codes/groups/${encodeURIComponent(groupCd)}/update`, {
     data: payload,
   });
+
+const authUserHeader = ({ authUser }: CommonCodeAuthParams) => ({
+  headers: { 'X-Auth-User': authUser },
+});
+
+export const replaceCommonCodes = (
+  groupCd: string,
+  payload: CommonCodeReplacePayload,
+  authUser: string,
+): Promise<void> =>
+  httpService.post<void>(
+    `/system/common-codes/${encodeURIComponent(groupCd)}/replace`,
+    {
+      data: payload,
+    },
+    authUserHeader({ authUser }),
+  );
 
 export const deleteCommonCodeGroup = (groupCd: string): Promise<void> =>
   httpService.delete<void>(`/system/common-codes/groups/${encodeURIComponent(groupCd)}`);

@@ -10,6 +10,7 @@ import {
   fetchCommonCodeGroup,
   fetchCommonCodeGroups,
   fetchCommonCodes,
+  replaceCommonCodes,
   updateCommonCode,
   updateCommonCodeGroup,
 } from './common-code.api';
@@ -60,7 +61,7 @@ describe('common code api', () => {
 
     const result = await fetchCommonCodeGroup('USE_YN');
 
-    expect(postSpy).toHaveBeenCalledWith('/system/common-codes/groups/detail', {
+    expect(postSpy).toHaveBeenCalledWith('/system/common-codes/list', {
       data: { groupCd: 'USE_YN' },
     });
     expect(result).toEqual(group);
@@ -87,6 +88,22 @@ describe('common code api', () => {
     await deleteCommonCodeGroup('USE_YN');
 
     expect(deleteSpy).toHaveBeenCalledWith('/system/common-codes/groups/USE_YN');
+  });
+
+  it('replaces common code groups and codes through the generated replace endpoint', async () => {
+    const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue(undefined);
+    const payload = {
+      group: { groupNm: '사용 여부', useYn: 'Y' as const },
+      items: [{ code: 'Y', codeNm: '사용', sortSeq: 1, useYn: 'Y' as const }],
+    };
+
+    await replaceCommonCodes('USE_YN', payload, 'admin');
+
+    expect(postSpy).toHaveBeenCalledWith(
+      '/system/common-codes/USE_YN/replace',
+      { data: payload },
+      { headers: { 'X-Auth-User': 'admin' } },
+    );
   });
 
   it('fetches and mutates common codes under a group', async () => {
