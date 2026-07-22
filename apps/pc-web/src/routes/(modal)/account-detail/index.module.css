@@ -1,0 +1,45 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.title {
+  color: var(--foreground);
+}
+
+.description {
+  color: var(--muted);
+}
+
+.account {
+  padding: 16px;
+  border-radius: 8px;
+  background-color: var(--surface-raised);
+}
+
+.accountLabel {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.accountNumber {
+  margin-top: 4px;
+  color: var(--foreground);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.history {
+  display: flex;
+  height: 128px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: var(--surface-raised);
+}
+
+.historyMessage {
+  color: var(--muted);
+  font-size: 14px;
+}

@@ -1,0 +1,18 @@
+.content {
+  --dialog-content-max-width: 36rem;
+
+  z-index: var(--modal-z-index);
+  max-width: var(--dialog-content-max-width);
+  border-color: var(--border);
+  background: var(--surface);
+  color: var(--foreground);
+}
+
+.loading {
+  display: flex;
+  height: 160px;
+  align-items: center;
+  justify-content: center;
+  color: var(--faint);
+  font-size: 0.875rem;
+}

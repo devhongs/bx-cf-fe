@@ -1,9 +1,11 @@
 import { Suspense, lazy } from 'react';
-import type { ComponentType } from 'react';
+import type { CSSProperties, ComponentType } from 'react';
 
 import { Dialog, DialogContent } from '@bx/shared';
 import type { ModalConfig } from '@bx/shared';
 import { useModalStore } from '@bx/shared';
+
+import styles from './ModalContainer.module.css';
 
 /* ── 모달 컴포넌트 레지스트리 ── */
 const modalModules = import.meta.glob<Record<string, ComponentType<any>>>(
@@ -61,16 +63,12 @@ export function ModalContainer({ index = 0, ...config }: ModalContainerProps) {
     <Dialog open onOpenChange={handleOpenChange}>
       <DialogContent
         /* pc-web 다크 테마 */
-        className="border-border bg-surface text-foreground max-w-xl"
-        style={{ zIndex: 200 + index }}
+        className={styles.content}
+        style={{ '--modal-z-index': 200 + index } as CSSProperties}
         hideClose
-      > 
+      >
         <Suspense
-          fallback={
-            <div className="flex h-40 items-center justify-center text-sm text-faint">
-              로딩 중...
-            </div>
-          }
+          fallback={<div className={styles.loading}>로딩 중...</div>}
         >
           <Component {...config} />
         </Suspense>

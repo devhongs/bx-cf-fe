@@ -9,6 +9,8 @@ import { requireAuth } from '@/shared/guards/requireAuth';
 import { SettingsPanel } from '@/widgets/layout/panel';
 import { NavSidebar } from '@/widgets/layout/sidebar';
 
+import styles from './_page.module.css';
+
 const ROUTE_TITLES: Record<string, string> = {
   '/main': '대시보드',
   '/product': '상품',
@@ -46,28 +48,28 @@ function PageLayoutContent() {
   const title = ROUTE_TITLES[location.pathname] || '대시보드';
 
   return (
-    <div className="relative flex h-screen w-screen overflow-hidden bg-background">
+    <div className={styles.root}>
       <NavSidebar />
-      <div className="flex-1 flex flex-col h-screen overflow-hidden">
+      <div className={styles.shell}>
         {/* Global Header */}
-        <header className="flex items-center justify-between h-14 px-6 border-b border-border bg-background shrink-0">
-          <div className="flex items-center gap-3">
+        <header className={styles.header}>
+          <div className={styles.headerGroup}>
             <button
               type="button"
-              className="flex items-center justify-center w-8 h-8 rounded-lg border-none bg-surface-raised text-muted hover:bg-surface-hover hover:text-foreground cursor-pointer transition-colors duration-200"
+              className={styles.panelButton}
               onClick={toggleNavSidebar}
               title={navSidebarOpen ? '사이드바 접기' : '사이드바 펴기'}
             >
               {navSidebarOpen ? <FoldIcon size={18} /> : <Menu size={18} />}
             </button>
-            <span className="text-sm font-medium text-foreground">{title}</span>
+            <span className={styles.title}>{title}</span>
           </div>
 
           <div>
             {!settingsPanelOpen && (
               <button
                 type="button"
-                className="flex items-center justify-center w-8 h-8 rounded-lg border-none bg-surface-raised text-muted hover:bg-surface-hover hover:text-foreground cursor-pointer transition-colors duration-200"
+                className={styles.panelButton}
                 onClick={toggleSettingsPanel}
                 title="우측 패널 펴기"
               >
@@ -78,7 +80,7 @@ function PageLayoutContent() {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto bg-background">
+        <main className={styles.content}>
           <Outlet />
         </main>
       </div>

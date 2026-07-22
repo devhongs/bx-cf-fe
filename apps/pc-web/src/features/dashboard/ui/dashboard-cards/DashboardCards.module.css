@@ -38,7 +38,8 @@
   width: 28px;
   height: 28px;
   border-radius: 6px;
-  background-color: var(--surface-raised);
+  color: var(--card-accent);
+  background-color: var(--card-accent-background);
   flex-shrink: 0;
 }
 

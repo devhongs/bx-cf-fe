@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react';
+
 import { useNavigate } from '@tanstack/react-router';
 import { ArrowLeftRight, Bell, Settings, ShoppingBag, Star, Wallet } from 'lucide-react';
 
@@ -63,7 +65,12 @@ export function DashboardCards() {
           <div className={styles.cardHeader}>
             <div
               className={styles.iconWrapper}
-              style={{ color: card.color, backgroundColor: `${card.color}1a` }}
+              style={
+                {
+                  '--card-accent': card.color,
+                  '--card-accent-background': `${card.color}1a`,
+                } as CSSProperties
+              }
             >
               {card.icon}
             </div>

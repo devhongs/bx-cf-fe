@@ -1,0 +1,83 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.title {
+  color: var(--foreground);
+}
+
+.description,
+.label {
+  color: var(--muted);
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-size: 0.75rem;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: var(--surface-raised);
+  color: var(--foreground);
+  font-size: 0.875rem;
+}
+
+.input::placeholder {
+  color: var(--muted);
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.cancel,
+.submit {
+  flex: 1;
+  padding-block: 12px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.cancel {
+  background: var(--surface-raised);
+  color: var(--muted);
+  transition: background-color 0.15s;
+}
+
+.cancel:hover {
+  background: var(--surface-hover);
+}
+
+.submit {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  transition: opacity 0.15s;
+}
+
+.submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}

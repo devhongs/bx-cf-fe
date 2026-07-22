@@ -2,6 +2,8 @@ import { FormSubmitButton, validators } from '@bx/shared';
 
 import { AppForm, useAppForm } from '@/shared/ui/app-form';
 
+import styles from './SignupForm.module.css';
+
 export interface SignupFormValues {
   userId: string;
   name: string;
@@ -34,7 +36,7 @@ export function SignupForm({ defaultValues = emptyDefaultValues, onSubmit }: Sig
     onSubmit(payload);
 
   return (
-    <AppForm className="space-y-5" form={form} onSubmit={handleSubmit}>
+    <AppForm className={styles.form} form={form} onSubmit={handleSubmit}>
       <FormInput label="아이디" name="userId" placeholder="tester01" required minLength={4} />
       <FormInput label="이름" name="name" placeholder="홍길동" required />
       <FormInput
@@ -69,8 +71,8 @@ export function SignupForm({ defaultValues = emptyDefaultValues, onSubmit }: Sig
         required
       />
 
-      <div className="pt-2">
-        <FormSubmitButton className="w-full" loadingLabel="처리 중">
+      <div className={styles.actions}>
+        <FormSubmitButton className={styles.submit} loadingLabel="처리 중">
           가입하기
         </FormSubmitButton>
       </div>

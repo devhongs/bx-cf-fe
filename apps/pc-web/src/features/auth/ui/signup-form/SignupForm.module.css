@@ -1,0 +1,11 @@
+.form > * + * {
+  margin-top: 20px;
+}
+
+.actions {
+  padding-top: 8px;
+}
+
+.submit {
+  width: 100%;
+}
