@@ -8,6 +8,7 @@ import {
 
 import { cn } from '../ui/lib/cn';
 import { type FormFieldStyle, FormFieldStyleProvider } from './form-style-context';
+import styles from './Form.module.css';
 
 export interface FormProps<TValues extends FieldValues, TPayload = TValues>
   extends Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onSubmit'>,
@@ -43,7 +44,7 @@ export function Form<TValues extends FieldValues, TPayload = TValues>({
     <FormFieldStyleProvider value={fieldStyle}>
       <FormProvider {...form}>
         <form
-          className={cn('space-y-4', className)}
+          className={cn(styles.form, className)}
           noValidate
           onSubmit={form.handleSubmit(onSubmit)}
           {...props}

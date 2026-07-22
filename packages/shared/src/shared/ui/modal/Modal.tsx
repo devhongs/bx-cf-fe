@@ -20,6 +20,7 @@ import type { BaseProps } from '../../types';
 import { IconButton } from '../icon-button/IconButton';
 import { cn } from '../lib/cn';
 import { getSlot } from '../lib/component-util';
+import styles from './Modal.module.css';
 
 export interface ModalProps extends BaseProps {
   title?: string;
@@ -32,10 +33,10 @@ export interface ModalProps extends BaseProps {
 const Title: FC<{ children: ReactNode }> = ({ children }) => <>{children}</>;
 const Description: FC<{ children: ReactNode }> = ({ children }) => <>{children}</>;
 const Body: FC<{ children: ReactNode; className?: string }> = ({ children, className }) => (
-  <div className={cn('flex-1 overflow-y-auto p-4', className)}>{children}</div>
+  <div className={cn(styles.body, className)}>{children}</div>
 );
 const Footer: FC<{ children: ReactNode; className?: string }> = ({ children, className }) => (
-  <div className={cn('border-t border-border p-4', className)}>{children}</div>
+  <div className={cn(styles.footer, className)}>{children}</div>
 );
 
 /* ── 메인 컴포넌트 ── */
@@ -53,26 +54,26 @@ const ModalComponent: React.FC<ModalProps> = ({
   const FooterSlot = getSlot(children, Footer);
 
   return (
-    <div className={cn('flex h-full w-full flex-col', className)}>
+    <div className={cn(styles.root, className)}>
       {/* 헤더 */}
-      <div className="flex h-14 shrink-0 items-center border-b border-border px-2">
-        <div className="flex w-10 items-center justify-start">
+      <div className={styles.header}>
+        <div className={styles.headerAction}>
           <IconButton
             icon={closeButtonType === 'back' ? ArrowLeft : X}
             onClick={() => closeModal()}
           />
         </div>
-        <div className="flex flex-1 items-center justify-center text-base font-semibold">
+        <div className={styles.title}>
           {TitleSlot ?? title}
         </div>
-        <div className="w-10" />
+        <div className={styles.headerSpacer} />
       </div>
 
       {/* 설명 */}
-      {DescSlot && <div className="shrink-0 px-4 py-2 text-sm text-muted">{DescSlot}</div>}
+      {DescSlot && <div className={styles.description}>{DescSlot}</div>}
 
       {/* 바디 */}
-      <div className="flex-1 overflow-y-auto">{BodySlot}</div>
+      <div className={styles.content}>{BodySlot}</div>
 
       {/* 풋터 */}
       {FooterSlot && FooterSlot}

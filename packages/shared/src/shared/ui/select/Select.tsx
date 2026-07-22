@@ -3,6 +3,7 @@ import * as React from 'react';
 import type { CodeGroupCd } from '../../constants/local-codes';
 import { $codeUtils } from '../../lib/utils/common.code';
 import { cn } from '../lib/cn';
+import styles from './Select.module.css';
 
 export interface SelectOption {
   value: string;
@@ -56,12 +57,9 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     const empty = resolveEmptyOption(emptyOption);
 
     return (
-      <div className={cn('relative w-full', containerClassName)}>
+      <div className={cn(styles.container, containerClassName)}>
         <select
-          className={cn(
-            'flex h-9 w-full rounded-md border border-border bg-background px-3 py-1 text-sm shadow-sm transition-colors focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent disabled:cursor-not-allowed disabled:opacity-50 appearance-none pr-8 cursor-pointer text-foreground',
-            className,
-          )}
+          className={cn(styles.select, className)}
           ref={ref}
           required={required}
           {...props}
@@ -77,9 +75,9 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             </option>
           ))}
         </select>
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-faint">
+        <div className={styles.indicator}>
           <svg
-            className="h-4 w-4"
+            className={styles.icon}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

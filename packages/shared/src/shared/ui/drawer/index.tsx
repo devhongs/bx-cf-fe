@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
 
 import { cn } from '../lib/cn';
+import styles from './Drawer.module.css';
 
 /* ── Root ── */
 const Drawer = ({
@@ -48,7 +49,7 @@ const DrawerOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Overlay
     ref={ref}
-    className={cn('fixed inset-0 z-50 bg-black/50', className)}
+    className={cn(styles.overlay, className)}
     {...props}
   />
 ));
@@ -91,26 +92,23 @@ const DrawerContent = React.forwardRef<
       <DrawerPrimitive.Content
         ref={ref}
         className={cn(
-          !unstyled && 'fixed inset-x-0 bottom-0 z-50 flex flex-col bg-surface-elevated',
-          !unstyled && (fullscreen ? 'h-[100dvh] rounded-none' : 'max-h-[90dvh] rounded-t-2xl'),
+          !unstyled && styles.content,
+          !unstyled && (fullscreen ? styles.fullscreen : styles.sheet),
           className,
         )}
         {...props}
       >
         {/* 드래그 핸들 */}
         {!hideHandle && !fullscreen && (
-          <div className="mx-auto mt-3 h-1.5 w-12 rounded-full bg-border" />
+          <div className={styles.handle} />
         )}
         {/* X 버튼 (풀스크린일 때만 기본 표시) */}
         {!hideClose && fullscreen && (
           <DrawerClose
-            className={cn(
-              'absolute right-4 top-4 rounded-md p-1',
-              'opacity-60 hover:opacity-100 transition-opacity focus:outline-none',
-            )}
+            className={styles.close}
           >
             <X size={18} />
-            <span className="sr-only">닫기</span>
+            <span className={styles.visuallyHidden}>닫기</span>
           </DrawerClose>
         )}
         {children}
@@ -122,12 +120,12 @@ DrawerContent.displayName = 'DrawerContent';
 
 /* ── 레이아웃 헬퍼 ── */
 const DrawerHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('flex flex-col gap-1 p-4', className)} {...props} />
+  <div className={cn(styles.header, className)} {...props} />
 );
 DrawerHeader.displayName = 'DrawerHeader';
 
 const DrawerFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('flex flex-col gap-2 p-4', className)} {...props} />
+  <div className={cn(styles.footer, className)} {...props} />
 );
 DrawerFooter.displayName = 'DrawerFooter';
 
@@ -137,7 +135,7 @@ const DrawerTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Title
     ref={ref}
-    className={cn('text-lg font-semibold leading-none tracking-tight', className)}
+    className={cn(styles.title, className)}
     {...props}
   />
 ));
@@ -149,7 +147,7 @@ const DrawerDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Description
     ref={ref}
-    className={cn('text-sm text-muted', className)}
+    className={cn(styles.description, className)}
     {...props}
   />
 ));

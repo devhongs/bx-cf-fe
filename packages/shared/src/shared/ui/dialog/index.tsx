@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 import * as React from 'react';
 
 import { cn } from '../lib/cn';
+import styles from './Dialog.module.css';
 
 const Dialog = DialogPrimitive.Root;
 const DialogTrigger = DialogPrimitive.Trigger;
@@ -16,12 +17,7 @@ const DialogOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Overlay
     ref={ref}
-    className={cn(
-      'fixed inset-0 z-50 bg-black/50',
-      'transition-opacity duration-200',
-      'data-[state=open]:opacity-100 data-[state=closed]:opacity-0',
-      className,
-    )}
+    className={cn(styles.overlay, className)}
     {...props}
   />
 ));
@@ -42,34 +38,16 @@ const DialogContent = React.forwardRef<
     <DialogOverlay />
     <DialogPrimitive.Content
       ref={ref}
-      className={cn(
-        // 위치
-        'fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2',
-        // 크기
-        'w-full max-w-lg',
-        // 모양
-        'rounded-xl border border-border bg-surface-elevated shadow-xl',
-        // 애니메이션
-        'transition-all duration-200',
-        'data-[state=open]:opacity-100 data-[state=open]:scale-100',
-        'data-[state=closed]:opacity-0 data-[state=closed]:scale-95',
-        // 내부 레이아웃
-        'flex flex-col gap-4 p-6',
-        className,
-      )}
+      className={cn(styles.content, className)}
       {...props}
     >
       {children}
       {!hideClose && (
         <DialogClose
-          className={cn(
-            'absolute right-4 top-4 rounded-md p-1',
-            'opacity-60 hover:opacity-100',
-            'transition-opacity focus:outline-none',
-          )}
+          className={styles.close}
         >
           <X size={16} />
-          <span className="sr-only">닫기</span>
+          <span className={styles.visuallyHidden}>닫기</span>
         </DialogClose>
       )}
     </DialogPrimitive.Content>
@@ -79,12 +57,12 @@ DialogContent.displayName = DialogPrimitive.Content.displayName;
 
 /* ── 레이아웃 헬퍼 ── */
 const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('flex flex-col gap-1', className)} {...props} />
+  <div className={cn(styles.header, className)} {...props} />
 );
 DialogHeader.displayName = 'DialogHeader';
 
 const DialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('flex justify-end gap-2', className)} {...props} />
+  <div className={cn(styles.footer, className)} {...props} />
 );
 DialogFooter.displayName = 'DialogFooter';
 
@@ -94,7 +72,7 @@ const DialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={cn('text-lg font-semibold leading-none tracking-tight', className)}
+    className={cn(styles.title, className)}
     {...props}
   />
 ));
@@ -106,7 +84,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn('text-sm text-muted', className)}
+    className={cn(styles.description, className)}
     {...props}
   />
 ));

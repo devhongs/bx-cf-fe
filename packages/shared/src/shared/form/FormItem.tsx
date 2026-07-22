@@ -9,6 +9,7 @@ import {
 
 import { cn } from '../ui/lib/cn';
 import { useFormFieldStyle } from './form-style-context';
+import styles from './FormItem.module.css';
 import { type FieldRuleProps, buildFieldRules } from './rules';
 
 export type FormItemControl<TValues extends FieldValues> = ControllerRenderProps<
@@ -77,18 +78,15 @@ export function FormItem<TValues extends FieldValues>({
     undefined;
 
   return (
-    <div className={cn('space-y-1.5', className ?? style.fieldClassName)}>
+    <div className={cn(styles.item, className ?? style.fieldClassName)}>
       {label && (
         <label
-          className={cn(
-            'block text-sm font-medium text-current',
-            labelClassName ?? style.labelClassName,
-          )}
+          className={cn(styles.label, labelClassName ?? style.labelClassName)}
           htmlFor={id}
         >
           {label}
           {required && (
-            <span aria-hidden="true" className="ml-1 text-red-500">
+            <span aria-hidden="true" className={styles.required}>
               *
             </span>
           )}
@@ -102,10 +100,7 @@ export function FormItem<TValues extends FieldValues>({
       })}
       {description && (
         <p
-          className={cn(
-            'text-xs text-muted-foreground',
-            descriptionClassName ?? style.descriptionClassName,
-          )}
+          className={cn(styles.description, descriptionClassName ?? style.descriptionClassName)}
           id={descriptionId}
         >
           {description}
@@ -113,7 +108,7 @@ export function FormItem<TValues extends FieldValues>({
       )}
       {message && (
         <p
-          className={cn('text-xs text-red-500', errorClassName ?? style.errorClassName)}
+          className={cn(styles.error, errorClassName ?? style.errorClassName)}
           id={errorId}
         >
           {message}

@@ -3,6 +3,7 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import { type FieldPath, useFieldArray, useForm } from 'react-hook-form';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import buttonStyles from '../ui/button/Button.module.css';
 import { Form } from './Form';
 import { FormAccountInput } from './FormAccountInput';
 import { FormInput } from './FormInput';
@@ -181,8 +182,8 @@ describe('Form components (rules mode)', () => {
 
     const submitButton = screen.getByRole('button', { name: '가입하기' });
 
-    expect(submitButton.className).toContain('bg-accent');
-    expect(submitButton.className).not.toContain('bg-red-600');
+    expect(submitButton.className).toContain(buttonStyles.submit);
+    expect(submitButton.className).not.toContain(buttonStyles.destructive);
   });
 
   it('shows required errors on submit and submits values after validation passes', async () => {

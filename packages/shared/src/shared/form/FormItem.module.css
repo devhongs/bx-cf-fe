@@ -1,0 +1,25 @@
+.item > * + * {
+  margin-top: 6px;
+}
+
+.label {
+  display: block;
+  color: currentColor;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.required {
+  margin-left: 4px;
+  color: #ef4444;
+}
+
+.description {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.error {
+  color: #ef4444;
+  font-size: 0.75rem;
+}

@@ -1,6 +1,5 @@
-@import "tailwindcss";
+@import "../../../../../packages/shared/src/shared/styles/reset.css";
 @import "../../../../../packages/shared/src/shared/styles/theme.css";
-@source "../../../../../packages/shared/src";
 
 html {
   height: 100%;

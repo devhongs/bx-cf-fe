@@ -2,6 +2,7 @@ import * as PopoverPrimitive from '@radix-ui/react-popover';
 import * as React from 'react';
 
 import { cn } from '../lib/cn';
+import styles from './Popover.module.css';
 
 const Popover = PopoverPrimitive.Root;
 const PopoverTrigger = PopoverPrimitive.Trigger;
@@ -18,19 +19,7 @@ const PopoverContent = React.forwardRef<
       ref={ref}
       align={align}
       sideOffset={sideOffset}
-      className={cn(
-        // 크기
-        'z-50 w-72',
-        // 모양
-        'rounded-xl border border-border bg-surface-elevated shadow-xl',
-        'p-4',
-        // 애니메이션 (Dialog와 동일 패턴)
-        'transition-all duration-200',
-        'data-[state=open]:opacity-100 data-[state=open]:scale-100',
-        'data-[state=closed]:opacity-0 data-[state=closed]:scale-95',
-        'focus:outline-none',
-        className,
-      )}
+      className={cn(styles.content, className)}
       {...props}
     />
   </PopoverPrimitive.Portal>
