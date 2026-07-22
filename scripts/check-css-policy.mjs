@@ -29,7 +29,7 @@ function isTailwindClassList(value) {
 function containsTailwindClass(content) {
   const directClassPatterns = [
     /className\s*=\s*["']([^"']+)["']/g,
-    /\b(?:baseStyles|rootStyles)\s*=\s*["']([^"']+)["']/g,
+    /\b[A-Za-z_$][\w$]*?(?:ClassName|Classes|Styles)\s*=\s*["']([^"']+)["']/g,
   ];
 
   for (const pattern of directClassPatterns) {

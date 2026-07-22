@@ -86,7 +86,7 @@ export function UsersPage() {
             searchPlaceholder="아이디, 이름, 부서 검색"
             extra={
               <Select
-                containerClassName="w-[160px]"
+                containerClassName={styles.userTypeSelect}
                 className={styles.fieldSelect}
                 aria-label="사용자 유형 필터"
                 value={userType}

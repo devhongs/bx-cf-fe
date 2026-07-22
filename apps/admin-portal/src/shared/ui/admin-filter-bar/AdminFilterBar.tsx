@@ -43,7 +43,7 @@ export function AdminFilterBar({
 
       {onStatusChange && (
         <Select
-          containerClassName="w-[120px]"
+          containerClassName={styles.statusSelect}
           className={styles.select}
           aria-label="상태 필터"
           value={statusValue}

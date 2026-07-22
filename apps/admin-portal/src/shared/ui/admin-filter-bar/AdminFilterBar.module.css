@@ -42,6 +42,10 @@
   font-size: 0.82rem;
 }
 
+.statusSelect {
+  width: 120px;
+}
+
 .spacer {
   flex: 1;
   min-width: 12px;

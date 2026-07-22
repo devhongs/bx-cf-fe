@@ -1,0 +1,9 @@
+.control {
+  border-color: var(--border);
+  color: var(--foreground);
+  background-color: var(--surface);
+}
+
+.control::placeholder {
+  color: var(--faint);
+}

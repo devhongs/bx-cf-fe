@@ -57,6 +57,19 @@ test('accepts CSS Modules with runtime custom properties', async (context) => {
   assert.deepEqual(await findCssPolicyViolations(root), []);
 });
 
+test('reports utility strings assigned through class variables', async (context) => {
+  const root = await createFixture({
+    'src/Form.tsx': `const controlClassName =
+      'border-border bg-surface text-foreground placeholder:text-faint';
+      export function Form() { return <input className={controlClassName} />; }`,
+  });
+  context.after(() => rm(root, { recursive: true, force: true }));
+
+  assert.deepEqual(await findCssPolicyViolations(root), [
+    { file: 'src/Form.tsx', rule: 'tailwind-class' },
+  ]);
+});
+
 test('does not report the policy checker source itself', async () => {
   const projectRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
   const violations = await findCssPolicyViolations(projectRoot);
