@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 440px);
   min-height: 100vh;
-  background: linear-gradient(120deg, rgba(70, 208, 191, 0.14), transparent 36%), var(--background);
+  background: linear-gradient(120deg, var(--admin-login-glow), transparent 36%), var(--background);
 }
 
 .panel {

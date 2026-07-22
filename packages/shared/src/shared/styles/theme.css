@@ -19,7 +19,71 @@
   --info: #1a73e8;
   --warning: #b06000;
   --danger: #d93025;
+  --danger-action: #dc2626;
+  --danger-action-foreground: #ffffff;
+  --danger-action-hover: #b91c1c;
+  --danger-action-active: #991b1b;
+  --danger-soft: #f87171;
+  --form-error: #ef4444;
+  --icon-button-foreground: #000000;
+  --overlay-backdrop: rgb(0 0 0 / 50%);
   --overlay-shadow: 0 8px 24px rgba(21, 26, 35, 0.16);
+  --shadow-control: 0 1px 2px rgb(0 0 0 / 5%);
+  --shadow-button: 0 1px 2px rgb(0 0 0 / 10%);
+  --shadow-floating: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 8px 10px -6px rgb(0 0 0 / 10%);
+  --shadow-alert: 0 10px 38px rgb(0 0 0 / 20%);
+  --product-card-background: rgb(255 255 255 / 82%);
+  --product-card-background-hover: rgb(255 255 255 / 90%);
+  --product-card-border: rgb(255 255 255 / 65%);
+  --product-card-shadow: 0 10px 25px rgb(15 23 42 / 3%), 0 2px 6px rgb(15 23 42 / 1%);
+  --product-card-shadow-hover: 0 14px 30px rgb(15 23 42 / 6%), 0 4px 10px rgb(15 23 42 / 2%);
+  --product-icon-accent: #16c481;
+  --mesh-overlay: rgb(255 255 255 / 10%);
+  --mesh-purple-background: linear-gradient(135deg, #f5f0f9 0%, #ebdffa 40%, #f8f3fa 100%);
+  --mesh-purple-texture: radial-gradient(
+      circle at 10% 20%,
+      rgb(190 140 210 / 25%) 0%,
+      transparent 60%
+    ), radial-gradient(circle at 90% 80%, rgb(150 110 190 / 25%) 0%, transparent 70%);
+  --mesh-purple-blob-1: rgb(230 180 240 / 70%);
+  --mesh-purple-blob-2: rgb(195 160 235 / 65%);
+  --mesh-purple-blob-3: rgb(240 205 245 / 60%);
+  --mesh-blue-background: linear-gradient(135deg, #edf4fa 0%, #dbedf8 40%, #f2f7fc 100%);
+  --mesh-blue-texture: radial-gradient(
+      circle at 10% 20%,
+      rgb(120 175 225 / 25%) 0%,
+      transparent 60%
+    ), radial-gradient(circle at 90% 80%, rgb(100 150 210 / 25%) 0%, transparent 70%);
+  --mesh-blue-blob-1: rgb(165 210 255 / 70%);
+  --mesh-blue-blob-2: rgb(140 185 245 / 65%);
+  --mesh-blue-blob-3: rgb(185 225 255 / 60%);
+  --mesh-green-background: linear-gradient(135deg, #f0f7f4 0%, #dbefe9 40%, #f4faf7 100%);
+  --mesh-green-texture: radial-gradient(
+      circle at 10% 20%,
+      rgb(130 205 185 / 25%) 0%,
+      transparent 60%
+    ), radial-gradient(circle at 90% 80%, rgb(110 190 195 / 25%) 0%, transparent 70%);
+  --mesh-green-blob-1: rgb(160 235 215 / 65%);
+  --mesh-green-blob-2: rgb(140 215 225 / 55%);
+  --mesh-green-blob-3: rgb(205 245 230 / 50%);
+  --mesh-slate-background: linear-gradient(135deg, #f1f3f5 0%, #e5e9f0 40%, #f8f9fa 100%);
+  --mesh-slate-texture: radial-gradient(
+      circle at 10% 20%,
+      rgb(160 174 192 / 25%) 0%,
+      transparent 60%
+    ), radial-gradient(circle at 90% 80%, rgb(140 150 170 / 25%) 0%, transparent 70%);
+  --mesh-slate-blob-1: rgb(200 210 230 / 70%);
+  --mesh-slate-blob-2: rgb(180 190 210 / 65%);
+  --mesh-slate-blob-3: rgb(220 225 240 / 60%);
+  --mesh-cream-background: linear-gradient(135deg, #f9f6f0 0%, #f0eae1 40%, #faf8f4 100%);
+  --mesh-cream-texture: radial-gradient(
+      circle at 10% 20%,
+      rgb(215 205 190 / 25%) 0%,
+      transparent 60%
+    ), radial-gradient(circle at 90% 80%, rgb(200 190 175 / 25%) 0%, transparent 70%);
+  --mesh-cream-blob-1: rgb(230 220 205 / 60%);
+  --mesh-cream-blob-2: rgb(240 232 218 / 55%);
+  --mesh-cream-blob-3: rgb(220 212 198 / 50%);
   --scrollbar-thumb: rgba(0, 0, 0, 0.2);
   --scrollbar-thumb-hover: rgba(0, 0, 0, 0.35);
 }
@@ -45,7 +109,15 @@
   --info: #8ab4f8;
   --warning: #fdd663;
   --danger: #f28b82;
+  --overlay-backdrop: rgb(0 0 0 / 68%);
   --overlay-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  --shadow-control: 0 1px 2px rgb(0 0 0 / 18%);
+  --shadow-button: 0 1px 2px rgb(0 0 0 / 24%);
+  --shadow-floating: 0 20px 25px -5px rgb(0 0 0 / 32%), 0 8px 10px -6px rgb(0 0 0 / 28%);
+  --shadow-alert: 0 10px 38px rgb(0 0 0 / 38%);
+  --product-card-background: rgb(30 31 33 / 82%);
+  --product-card-background-hover: rgb(30 31 33 / 92%);
+  --product-card-border: rgb(255 255 255 / 8%);
   --scrollbar-thumb: rgba(255, 255, 255, 0.14);
   --scrollbar-thumb-hover: rgba(255, 255, 255, 0.28);
 }

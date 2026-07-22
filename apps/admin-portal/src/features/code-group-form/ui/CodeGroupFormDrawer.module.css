@@ -66,8 +66,8 @@
 }
 
 .removeButton:hover {
-  border-color: var(--danger, #f87171);
-  color: var(--danger, #f87171);
+  border-color: var(--danger);
+  color: var(--danger);
 }
 
 .empty {

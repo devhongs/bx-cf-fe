@@ -3,12 +3,12 @@
   align-items: center;
   gap: 18px;
   padding: 16px 20px;
-  background: rgba(255, 255, 255, 0.82); /* Translucent premium glass card */
+  background: var(--product-card-background); /* Translucent premium glass card */
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.65); /* Elegant light reflect border */
+  border: 1px solid var(--product-card-border); /* Elegant light reflect border */
   border-radius: 20px; /* High-end rounded corners */
-  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.03), 0 2px 6px rgba(15, 23, 42, 0.01); /* Soft floating drop shadows */
+  box-shadow: var(--product-card-shadow); /* Soft floating drop shadows */
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   width: 100%;
@@ -18,8 +18,8 @@
 /* Hover and active micro-interactions */
 .card:hover {
   transform: translateY(-2px) scale(1.01);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.06), 0 4px 10px rgba(15, 23, 42, 0.02);
+  background: var(--product-card-background-hover);
+  box-shadow: var(--product-card-shadow-hover);
 }
 
 .card:active {
@@ -34,10 +34,10 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  border: 1.2px solid var(--product-icon-border);
+  border: 1.2px solid color-mix(in srgb, var(--product-icon-accent) 20%, transparent);
   flex-shrink: 0;
   box-sizing: border-box;
-  background: var(--product-icon-background);
+  background: color-mix(in srgb, var(--product-icon-accent) 8%, transparent);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -46,7 +46,8 @@
 }
 
 /* Force standard button reset for sharp Lucide Icons inside */
-.cleanIconButton {
+.iconWrapper .cleanIconButton {
+  color: var(--product-icon-accent);
   background: transparent !important;
   border: none !important;
   padding: 0 !important;
@@ -70,12 +71,12 @@
 }
 
 :global(.dark) .card {
-  background: rgba(30, 31, 33, 0.82);
-  border-color: rgba(255, 255, 255, 0.08);
+  background: var(--product-card-background);
+  border-color: var(--product-card-border);
 }
 
 :global(.dark) .card:hover {
-  background: rgba(30, 31, 33, 0.92);
+  background: var(--product-card-background-hover);
 }
 
 .name {

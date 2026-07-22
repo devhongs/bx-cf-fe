@@ -7,7 +7,7 @@
   background-color: var(--surface-raised);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--pc-login-card-shadow);
 }
 
 /* 좌측 */
@@ -24,7 +24,7 @@
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #4285f4, #34a853, #fbbc05, #ea4335);
+  background: var(--pc-login-logo-gradient);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,7 +34,7 @@
 .logoText {
   font-size: 0.75rem;
   font-weight: 900;
-  color: #fff;
+  color: var(--pc-login-logo-foreground);
   letter-spacing: -0.5px;
 }
 

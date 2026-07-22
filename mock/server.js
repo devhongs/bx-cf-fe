@@ -97,8 +97,9 @@ const server = createServer(async (req, res) => {
   // ── 인증 (JWT 흉내) ──
   if (path === '/auth/login' && method === 'POST') {
     const body = await readBody(req);
-    const user = (db.users ?? []).find((u) => u.usrId === body.usrId);
-    const passwordOk = body.usrPwd === sha256(MOCK_PASSWORD);
+    const credentials = body.data ?? body;
+    const user = (db.users ?? []).find((u) => u.usrId === credentials.usrId);
+    const passwordOk = credentials.usrPwd === sha256(MOCK_PASSWORD);
     // 아이디(db.json users에 존재) + 비밀번호(1111) 둘 다 일치해야 통과
     if (!user || !passwordOk) {
       return send(
@@ -112,7 +113,7 @@ const server = createServer(async (req, res) => {
         }),
       );
     }
-    const authPayload = makeAuthPayload(body.usrId);
+    const authPayload = makeAuthPayload(credentials.usrId);
     return send(req, res, 200, envelope(omitRefreshCookieFields(authPayload)), {
       'Set-Cookie': refreshCookie(authPayload.refreshToken),
     });
@@ -127,6 +128,16 @@ const server = createServer(async (req, res) => {
     return send(req, res, 200, envelope(null), {
       'Set-Cookie': 'refreshToken=; HttpOnly; SameSite=Lax; Path=/auth/refresh-token; Max-Age=0',
     });
+  }
+
+  if (path === '/product/list' && method === 'POST') {
+    const products = (db.products ?? []).map((product) => ({
+      ...product,
+      productId: product.productId ?? product.id,
+      productNm: product.productNm ?? product.name,
+      productDesc: product.productDesc ?? product.description,
+    }));
+    return send(req, res, 200, envelope(products));
   }
 
   // ── 컬렉션 CRUD: /:name, /:name/:id ──

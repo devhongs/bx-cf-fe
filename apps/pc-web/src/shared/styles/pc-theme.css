@@ -1,0 +1,14 @@
+:root {
+  --pc-login-card-shadow: 0 8px 32px rgb(0 0 0 / 40%);
+  --pc-login-logo-gradient: linear-gradient(135deg, #4285f4, #34a853, #fbbc05, #ea4335);
+  --pc-login-logo-foreground: #ffffff;
+  --pc-popover-shadow: 0 10px 30px rgb(0 0 0 / 50%);
+  --pc-settings-panel-shadow: -4px 0 16px rgb(0 0 0 / 60%);
+  --pc-not-found-foreground: #e3e3e3;
+  --pc-dashboard-accent-service: #f9ab00;
+  --pc-dashboard-accent-asset: #34a853;
+  --pc-dashboard-accent-transfer: #4285f4;
+  --pc-dashboard-accent-alarm: #ea4335;
+  --pc-dashboard-accent-product: #a142f4;
+  --pc-dashboard-accent-settings: #5f6368;
+}

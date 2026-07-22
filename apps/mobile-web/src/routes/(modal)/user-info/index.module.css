@@ -13,7 +13,7 @@
   left: 0;
   width: auto;
   height: 1px;
-  background-color: oklch(87.2% 0.01 258.338);
+  background-color: var(--mobile-border-control);
 }
 
 .title {
@@ -23,7 +23,7 @@
 }
 
 .description {
-  color: oklch(55.1% 0.027 264.364);
+  color: var(--mobile-text-secondary);
   font-size: 14px;
   line-height: 20px;
 }
@@ -34,8 +34,8 @@
   bottom: 10px;
   left: 10px;
   height: 40px;
-  border: 1px solid oklch(87.2% 0.01 258.338);
+  border: 1px solid var(--mobile-border-control);
   border-radius: 6px;
-  color: #000;
-  background-color: #fff;
+  color: var(--mobile-text-strong);
+  background-color: var(--mobile-surface);
 }

@@ -28,10 +28,10 @@ export const IconButton: React.FC<IconButtonProps> = ({
   size = 'md',
   icon,
   iconType = 'Circle',
-  iconColor = '#000000',
+  iconColor = 'currentColor',
   iconBackground,
   label = '',
-  labelColor = '#000000',
+  labelColor = 'currentColor',
   className,
   ...props
 }) => {

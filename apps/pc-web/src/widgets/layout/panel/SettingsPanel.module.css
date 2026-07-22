@@ -10,7 +10,7 @@
   overflow-y: auto;
   width: 280px;
   z-index: 50;
-  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--pc-settings-panel-shadow);
   transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
   transform: translateX(0);
 }

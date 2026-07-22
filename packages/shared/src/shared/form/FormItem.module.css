@@ -11,7 +11,7 @@
 
 .required {
   margin-left: 4px;
-  color: #ef4444;
+  color: var(--form-error);
 }
 
 .description {
@@ -20,6 +20,6 @@
 }
 
 .error {
-  color: #ef4444;
+  color: var(--form-error);
   font-size: 0.75rem;
 }

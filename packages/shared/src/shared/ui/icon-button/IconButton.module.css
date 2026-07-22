@@ -1,6 +1,7 @@
 .layout {
   display: inline-flex;
   align-items: center;
+  color: var(--icon-button-foreground);
 }
 
 .layout.circle {

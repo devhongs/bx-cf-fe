@@ -36,10 +36,20 @@ export default defineConfig({
     },
   ],
 
-  /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'pnpm run dev',
-    url: 'http://localhost:3001',
-    reuseExistingServer: !process.env.CI,
-  },
+  /* Run the app against the deterministic local mock API. */
+  webServer: [
+    {
+      command: 'pnpm --dir ../.. run dev:server',
+      url: 'http://localhost:3333/users',
+      reuseExistingServer: !process.env.CI,
+    },
+    {
+      command: 'pnpm run dev',
+      url: 'http://localhost:3001',
+      reuseExistingServer: !process.env.CI,
+      env: {
+        VITE_API_URL: 'http://localhost:3333',
+      },
+    },
+  ],
 });

@@ -26,6 +26,7 @@
     "watch:json-server": "node mock/server.js",
     "check": "turbo check",
     "check:api-paths": "node scripts/check-api-paths.mjs",
+    "check:css-tokens": "node scripts/check-css-tokens.mjs",
     "wbs:pull": "node docs/wbs-pull.js",
     "wbs:sync": "node docs/wbs-sync.js",
     "wbs:force-sync": "node docs/wbs-force-sync.js",

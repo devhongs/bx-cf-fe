@@ -13,20 +13,20 @@
 }
 
 .receiverName {
-  color: #000;
+  color: var(--mobile-text-strong);
   font-size: 18px;
   line-height: 28px;
   font-weight: 500;
 }
 
 .receiverBankName {
-  color: oklch(55.1% 0.027 264.364);
+  color: var(--mobile-text-secondary);
   font-size: 14px;
   line-height: 20px;
 }
 
 .receiverAccountNo {
-  color: oklch(70.7% 0.022 261.325);
+  color: var(--mobile-text-tertiary);
   font-size: 14px;
   line-height: 20px;
 }
@@ -53,7 +53,7 @@
 .amountInput {
   width: 100%;
   padding: 16px 40px 16px 16px;
-  border: 1px solid oklch(87.2% 0.01 258.338);
+  border: 1px solid var(--mobile-border-control);
   border-radius: 12px;
   font-size: 18px;
   line-height: 28px;
@@ -62,7 +62,7 @@
 
 .amountInput:focus {
   outline: none;
-  box-shadow: 0 0 0 2px oklch(62.3% 0.214 259.815);
+  box-shadow: 0 0 0 2px var(--mobile-action-primary);
 }
 
 /* 단위(원) 위치 고정 */
@@ -70,7 +70,7 @@
   position: absolute;
   top: 50%;
   right: 20px;
-  color: oklch(70.7% 0.022 261.325);
+  color: var(--mobile-text-tertiary);
   font-size: 16px;
   line-height: 24px;
   transform: translateY(-50%);
@@ -84,8 +84,8 @@
   margin-bottom: 12px;
   padding: 16px;
   border-radius: 12px;
-  color: oklch(44.6% 0.03 256.802);
-  background-color: oklch(96.7% 0.003 264.542);
+  color: var(--mobile-text-muted);
+  background-color: var(--mobile-surface-subtle);
   font-size: 16px;
   line-height: 24px;
 }
@@ -106,17 +106,17 @@
 
 /* 활성화 상태 (amount 있을 때) */
 .enabled {
-  color: #fff;
-  background-color: oklch(62.3% 0.214 259.815);
+  color: var(--mobile-action-primary-foreground);
+  background-color: var(--mobile-action-primary);
 }
 
 .enabled:hover {
-  background-color: oklch(54.6% 0.245 262.881);
+  background-color: var(--mobile-action-primary-hover);
 }
 
 /* 비활성화 상태 (amount 없을 때) */
 .disabled {
-  color: oklch(70.7% 0.022 261.325);
-  background-color: oklch(92.8% 0.006 264.531);
+  color: var(--mobile-action-disabled-foreground);
+  background-color: var(--mobile-action-disabled-background);
   cursor: not-allowed;
 }

@@ -17,39 +17,39 @@
 
 .formInput {
   padding: 12px;
-  border: 1px solid oklch(87.2% 0.01 258.338);
+  border: 1px solid var(--mobile-border-control);
   border-radius: 8px;
 }
 
 .formSelect {
   width: 100%;
   padding: 12px;
-  border: 1px solid oklch(87.2% 0.01 258.338);
+  border: 1px solid var(--mobile-border-control);
   border-radius: 8px;
   appearance: none;
-  background-color: #fff;
+  background-color: var(--mobile-surface);
   cursor: pointer;
 }
 
 .formSelect:focus {
   outline: none;
-  box-shadow: 0 0 0 2px oklch(62.3% 0.214 259.815);
+  box-shadow: 0 0 0 2px var(--mobile-action-primary);
 }
 
 .selectOption {
-  color: oklch(27.8% 0.033 256.848);
-  background-color: #fff;
+  color: var(--mobile-text-emphasis);
+  background-color: var(--mobile-surface);
 }
 
 .selectOption:hover {
-  background-color: oklch(96.7% 0.003 264.542);
+  background-color: var(--mobile-surface-subtle);
 }
 
 .submitButton {
   padding: 12px;
   border-radius: 8px;
-  color: oklch(27.8% 0.033 256.848);
-  background-color: oklch(87.2% 0.01 258.338);
+  color: var(--mobile-text-emphasis);
+  background-color: var(--mobile-action-secondary);
   font-weight: 500;
   transition: all 150ms;
 }
@@ -81,18 +81,18 @@
   flex-direction: column;
   gap: 4px;
   padding: 12px;
-  border: 1px solid oklch(92.8% 0.006 264.531);
+  border: 1px solid var(--mobile-border-subtle);
   border-radius: 8px;
-  background-color: #fff;
+  background-color: var(--mobile-surface);
 }
 
 .recentName {
-  color: oklch(21% 0.034 264.665);
+  color: var(--mobile-text-primary);
   font-size: 16px;
   font-weight: 600;
 }
 
 .recentNumber {
-  color: oklch(55.1% 0.027 264.364);
+  color: var(--mobile-text-secondary);
   font-size: 14px;
 }

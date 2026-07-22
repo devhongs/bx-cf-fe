@@ -16,8 +16,8 @@ docs/temp_body_*.txt
 .turbo
 apps/*/.turbo
 packages/*/.turbo
-apps/*/playwright-report/data/
-apps/*/test-results/*/
+apps/*/playwright-report/
+apps/*/test-results/
 routeTree.gen.ts
 !apps/admin-portal/src/routeTree.gen.ts
 .pnpm-store/**/*.db-shm

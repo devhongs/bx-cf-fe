@@ -9,8 +9,8 @@
   font-weight: 500;
   line-height: 1.25rem;
   white-space: nowrap;
-  transition: color 0.15s, background-color 0.15s, border-color 0.15s,
-    opacity 0.15s, box-shadow 0.15s;
+  transition: color 0.15s, background-color 0.15s, border-color 0.15s, opacity 0.15s, box-shadow
+    0.15s;
 }
 
 .root:focus-visible {
@@ -34,7 +34,7 @@
 .submit {
   background: var(--accent);
   color: var(--accent-foreground);
-  box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-button);
 }
 
 .default:hover,
@@ -43,24 +43,24 @@
 }
 
 .destructive {
-  background: #dc2626;
-  color: #fff;
-  box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
+  background: var(--danger-action);
+  color: var(--danger-action-foreground);
+  box-shadow: var(--shadow-button);
 }
 
 .destructive:hover {
-  background: #b91c1c;
+  background: var(--danger-action-hover);
 }
 
 .destructive:active {
-  background: #991b1b;
+  background: var(--danger-action-active);
 }
 
 .outline {
   border: 1px solid var(--border);
   background: var(--background);
   color: var(--foreground);
-  box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-button);
 }
 
 .outline:hover {
@@ -74,7 +74,7 @@
 .secondary {
   background: var(--surface-raised);
   color: var(--foreground);
-  box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-button);
 }
 
 .secondary:hover {

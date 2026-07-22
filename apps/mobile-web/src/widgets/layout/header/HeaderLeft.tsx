@@ -24,7 +24,7 @@ export function HeaderLeft({ pageTitle }: HeaderLeftProps) {
     return (
       <button type="button" className={styles.title} onClick={handleUserNameClick}>
         {userName}
-        <ChevronRight className={styles.icon} color="#888888" size={20} />
+        <ChevronRight className={styles.icon} size={20} />
       </button>
     );
   }

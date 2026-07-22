@@ -2,15 +2,15 @@
   position: fixed;
   inset: 0;
   z-index: 50;
-  background: rgb(0 0 0 / 50%);
+  background: var(--overlay-backdrop);
   transition: opacity 0.2s;
 }
 
-.overlay[data-state='open'] {
+.overlay[data-state="open"] {
   opacity: 1;
 }
 
-.overlay[data-state='closed'] {
+.overlay[data-state="closed"] {
   opacity: 0;
 }
 
@@ -28,16 +28,16 @@
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface-elevated);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 8px 10px -6px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-floating);
   transition: opacity 0.2s, transform 0.2s;
 }
 
-.content[data-state='open'] {
+.content[data-state="open"] {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
 }
 
-.content[data-state='closed'] {
+.content[data-state="closed"] {
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.95);
 }

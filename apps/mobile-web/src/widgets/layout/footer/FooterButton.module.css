@@ -26,8 +26,8 @@
 }
 
 .root.selected {
-  background-color: rgba(37, 99, 235, 0.09) !important; /* Soft brand blue active capsule backdrop */
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2); /* Inset glass refraction reflect */
+  background-color: var(--mobile-nav-selected-background) !important;
+  box-shadow: var(--mobile-nav-selected-shadow);
 }
 
 .icon {
@@ -41,14 +41,14 @@
 .icon svg {
   width: 20px; /* Standard premium mobile icon sizing */
   height: 20px;
-  stroke: #6b7280; /* Elegant inactive gray-500 */
+  stroke: var(--mobile-nav-foreground); /* Elegant inactive gray */
   stroke-width: 2.5px; /* Thicker inactive stroke for robust legibility */
   transition: stroke 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s
     cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .selected .icon svg {
-  stroke: #2563eb; /* Vibrant brand blue active color */
+  stroke: var(--mobile-nav-active); /* Vibrant brand blue active color */
   stroke-width: 3.25px; /* 1px thicker active stroke for distinct weight */
   transform: scale(1.08); /* Bouncy micro scaling pop */
 }
@@ -60,13 +60,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #6b7280;
+  color: var(--mobile-nav-foreground);
   font-weight: 500;
   letter-spacing: -0.025em;
   transition: all 300ms;
 }
 
 .selected .label {
-  color: #2563eb;
+  color: var(--mobile-nav-active);
   font-weight: 700;
 }

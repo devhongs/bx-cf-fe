@@ -8,8 +8,8 @@
   padding-inline: 24px;
   background-image: linear-gradient(
     to bottom right,
-    oklch(94.8% 0.028 342.258),
-    oklch(93.2% 0.032 255.585)
+    var(--mobile-not-found-gradient-start),
+    var(--mobile-not-found-gradient-end)
   );
   text-align: center;
 }
@@ -22,7 +22,7 @@
 
 .code {
   margin-bottom: 8px;
-  color: oklch(59.2% 0.249 0.584);
+  color: var(--mobile-not-found-code);
   font-size: 36px;
   line-height: 40px;
   font-weight: 700;
@@ -30,7 +30,7 @@
 
 .title {
   margin-bottom: 8px;
-  color: oklch(37.3% 0.034 259.733);
+  color: var(--mobile-not-found-title);
   font-size: 20px;
   line-height: 28px;
   font-weight: 600;
@@ -39,15 +39,15 @@
 .description {
   margin-bottom: 24px;
   padding-bottom: 20px;
-  color: oklch(44.6% 0.03 256.802);
+  color: var(--mobile-not-found-description);
 }
 
 .homeLink {
   display: inline-block;
   padding: 12px;
   border-radius: 9999px;
-  color: #fff;
-  background-color: oklch(65.6% 0.241 354.308);
+  color: var(--mobile-not-found-action-foreground);
+  background-color: var(--mobile-not-found-action);
   font-size: 16px;
   font-weight: 800;
   transition: all 150ms;

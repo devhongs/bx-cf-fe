@@ -5,7 +5,7 @@
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgb(0 0 0 / 50%);
+  background: var(--overlay-backdrop);
 }
 
 .content {
@@ -23,7 +23,7 @@
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface-elevated);
-  box-shadow: 0 10px 38px rgb(0 0 0 / 20%);
+  box-shadow: var(--shadow-alert);
 }
 
 .title {

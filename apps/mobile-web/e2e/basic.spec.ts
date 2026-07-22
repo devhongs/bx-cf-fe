@@ -2,10 +2,10 @@ import { expect, test } from '@playwright/test';
 
 test.describe('Mobile Web Scenario Test', () => {
   test('should go through login flow and verify 5 products in list', async ({ page }) => {
-    // 1. http://localhost:3001 실행 및 자동으로 로그인 화면 리다이렉트 확인
-    await page.goto('/');
+    // 1. 인증 갱신 상태와 무관하게 로그인 화면에서 시나리오를 시작
+    await page.goto('/login');
 
-    // requireAuth 가드로 인해 /login 으로 리다이렉트 되는지 검증
+    // 로그인 엔트리포인트 진입 확인
     await expect(page).toHaveURL(/.*\/login/);
 
     // 2. 로그인 화면 확인 (Username, Password input이 존재하는지)
@@ -16,9 +16,9 @@ test.describe('Mobile Web Scenario Test', () => {
     await expect(usernameInput).toBeVisible();
     await expect(passwordInput).toBeVisible();
 
-    // 3. 로그인 시도 (id: user1, password: user1)
-    await usernameInput.fill('user1');
-    await passwordInput.fill('user1');
+    // 3. 로컬 mock 서버의 테스트 계정으로 로그인
+    await usernameInput.fill('hongsik.yoo');
+    await passwordInput.fill('1111');
 
     // 로그인 버튼 클릭
     await loginButton.click();

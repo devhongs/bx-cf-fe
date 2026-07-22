@@ -10,7 +10,7 @@
   margin: 0 auto;
   padding: 40px 24px 120px 24px;
   box-sizing: border-box;
-  background: linear-gradient(135deg, #f7f5fb 0%, #ffffff 50%, #f0f9f6 100%);
+  background: var(--mobile-login-background);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -31,9 +31,9 @@
   align-items: center;
   justify-content: center;
   border-radius: 24px;
-  background: linear-gradient(135deg, #ff512f 0%, #dd2476 50%, #7f00ff 100%);
+  background: var(--mobile-login-logo-background);
   margin-bottom: 32px;
-  box-shadow: 0 12px 28px rgba(221, 36, 118, 0.25), 0 4px 10px rgba(127, 0, 255, 0.15);
+  box-shadow: var(--mobile-login-logo-shadow);
   animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
@@ -46,7 +46,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 100%);
+  background: var(--mobile-login-logo-highlight);
   border-radius: 24px;
   pointer-events: none;
 }
@@ -55,11 +55,11 @@
   font-size: 2.2rem;
   font-weight: 900;
   font-style: italic;
-  color: #ffffff;
+  color: var(--mobile-login-logo-foreground);
   letter-spacing: -1.5px;
   margin: 0;
   line-height: 1;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  text-shadow: var(--mobile-login-logo-text-shadow);
 }
 
 @keyframes fadeInDown {
@@ -83,32 +83,32 @@
 .inputField {
   width: 100%;
   height: 52px;
-  background-color: #fafafa;
-  border: 1.5px solid #e0e0e0;
+  background-color: var(--mobile-login-input-background);
+  border: 1.5px solid var(--mobile-login-input-border);
   border-radius: 12px;
   padding: 0 16px;
   font-size: 15px;
-  color: #1c1c1c;
+  color: var(--mobile-login-input-foreground);
   box-sizing: border-box;
   transition: all 0.2s ease-in-out;
 }
 
 .inputField::placeholder {
-  color: #9e9e9e;
+  color: var(--mobile-login-input-placeholder);
 }
 
 .inputField:focus {
-  border-color: #0064e0;
-  background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(0, 100, 224, 0.1);
+  border-color: var(--mobile-login-input-focus-border);
+  background-color: var(--mobile-login-input-focus-background);
+  box-shadow: var(--mobile-login-input-focus-ring);
   outline: none;
 }
 
 .submitBtn {
   width: 100%;
   height: 48px;
-  background: linear-gradient(45deg, #fd5949 0%, #d6249f 60%, #285aeb 100%);
-  color: white;
+  background: var(--mobile-login-submit-background);
+  color: var(--mobile-login-submit-foreground);
   border: none;
   border-radius: 24px;
   font-size: 16px;
@@ -125,7 +125,7 @@
 .submitBtn:hover {
   opacity: 0.95;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(214, 36, 159, 0.25);
+  box-shadow: var(--mobile-login-submit-shadow);
 }
 
 .submitBtn:active {
@@ -133,7 +133,7 @@
 }
 
 .forgotLink {
-  color: #1c2b33;
+  color: var(--mobile-login-link);
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
@@ -143,7 +143,7 @@
 }
 
 .forgotLink:hover {
-  color: #0064e0;
+  color: var(--mobile-login-link-hover);
 }
 
 /* Saved Accounts (Quick Login) */
@@ -159,7 +159,7 @@
 .savedAccountsTitle {
   font-size: 13px;
   font-weight: 600;
-  color: #8e8e8e;
+  color: var(--mobile-login-saved-title);
   text-transform: uppercase;
   letter-spacing: 0.8px;
   display: flex;
@@ -173,7 +173,7 @@
   content: "";
   flex: 1;
   height: 1px;
-  background-color: #dbdbdb;
+  background-color: var(--mobile-login-divider);
 }
 
 .accountsGrid {
@@ -188,19 +188,19 @@
   flex-direction: column;
   align-items: center;
   padding: 16px;
-  background: white;
-  border: 1px solid #efefef;
+  background: var(--mobile-login-account-background);
+  border: 1px solid var(--mobile-login-account-border);
   border-radius: 16px;
   width: 110px;
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--mobile-login-account-shadow);
 }
 
 .accountCard:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  border-color: #d6249f;
+  box-shadow: var(--mobile-login-account-shadow-hover);
+  border-color: var(--mobile-login-account-border-hover);
 }
 
 .avatarWrapper {
@@ -209,7 +209,7 @@
   height: 56px;
   border-radius: 50%;
   padding: 3px;
-  background: linear-gradient(45deg, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+  background: var(--mobile-login-avatar-background);
   margin-bottom: 8px;
 }
 
@@ -217,27 +217,27 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: white;
+  background: var(--mobile-login-avatar-surface);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  color: #1c1c1c;
+  color: var(--mobile-login-input-foreground);
   font-size: 18px;
-  border: 2px solid white;
+  border: 2px solid var(--mobile-login-avatar-surface);
   box-sizing: border-box;
 }
 
 .accountName {
   font-size: 13px;
   font-weight: 600;
-  color: #262626;
+  color: var(--mobile-login-account-name);
   margin-bottom: 2px;
 }
 
 .accountId {
   font-size: 11px;
-  color: #8e8e8e;
+  color: var(--mobile-login-account-id);
 }
 
 /* Bottom Actions (Popup Badge Style) */
@@ -256,36 +256,36 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
+  background-color: var(--mobile-login-action-background);
+  border: 1px solid var(--mobile-login-action-border);
   border-radius: 12px;
   padding: 6px 12px;
   font-size: 11px;
   font-weight: 600;
-  color: #4b5563;
+  color: var(--mobile-login-action-foreground);
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  box-shadow: var(--mobile-login-action-shadow);
   transition: all 0.2s ease;
 }
 
 .popupActionBtn:hover {
-  background-color: #f9fafb;
-  border-color: #d1d5db;
-  color: #1f2937;
+  background-color: var(--mobile-login-action-background-hover);
+  border-color: var(--mobile-login-action-border-hover);
+  color: var(--mobile-login-action-foreground-hover);
   transform: translateY(-1px);
 }
 
 .actionDivider {
   width: 1px;
   height: 12px;
-  background-color: #e5e7eb;
+  background-color: var(--mobile-login-action-border);
 }
 
 .brandWrapper {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #65676b;
+  color: var(--mobile-login-brand);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.5px;

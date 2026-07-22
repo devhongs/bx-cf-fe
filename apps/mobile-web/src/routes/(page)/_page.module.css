@@ -2,7 +2,7 @@
   position: relative;
   min-height: 100dvh;
   overflow: hidden;
-  background-color: #f9f6f0;
+  background-color: var(--mobile-page-background);
 }
 
 .contentLayer {
@@ -21,8 +21,8 @@
   right: 0;
   left: 0;
   height: 64px;
-  border-bottom: 1px solid rgb(255 255 255 / 5%);
-  background-color: rgb(255 255 255 / 10%);
+  border-bottom: 1px solid var(--mobile-page-glass-border);
+  background-color: var(--mobile-page-glass-background);
   backdrop-filter: blur(12px);
 }
 

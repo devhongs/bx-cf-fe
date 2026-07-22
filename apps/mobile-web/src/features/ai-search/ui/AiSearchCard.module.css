@@ -7,10 +7,10 @@
   align-items: center !important;
   justify-content: space-between !important;
   padding: 5px 15px;
-  border: 2px solid oklch(92.8% 0.006 264.531);
+  border: 2px solid var(--mobile-search-border);
   border-radius: 9999px;
   box-sizing: border-box;
-  background-color: rgb(255 255 255 / 45%);
+  background-color: var(--mobile-search-background);
   backdrop-filter: blur(24px);
   cursor: text;
   transition: all 300ms;
@@ -27,7 +27,7 @@
   padding-left: 20px;
   border: none;
   outline: none;
-  color: #5c5850;
+  color: var(--mobile-search-foreground);
   background-color: transparent;
   font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   font-size: 18px;
@@ -37,7 +37,7 @@
 }
 
 .input::placeholder {
-  color: rgb(92 88 80 / 50%);
+  color: var(--mobile-search-placeholder);
 }
 
 .iconWrapper {
@@ -50,7 +50,7 @@
 .icon {
   width: 24px;
   height: 24px;
-  color: #5c5850;
+  color: var(--mobile-search-foreground);
   stroke-width: 1.5;
   transition: transform 300ms;
 }

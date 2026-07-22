@@ -2,12 +2,7 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: linear-gradient(
-    135deg,
-    var(--bg-start, #f5f0f9) 0%,
-    var(--bg-mid, #ebdffa) 40%,
-    var(--bg-end, #f8f3fa) 100%
-  );
+  background: var(--mesh-background);
   z-index: 0;
   transition: background 1.5s ease-in-out;
 }
@@ -17,7 +12,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--mesh-overlay);
   backdrop-filter: blur(25px);
   z-index: 4;
   pointer-events: none;
@@ -25,65 +20,49 @@
 
 /* Sophisticated light pastel themes defining colors for backplates, base mesh, and floating blobs */
 .theme-purple {
-  --bg-start: #f5f0f9;
-  --bg-mid: #ebdffa;
-  --bg-end: #f8f3fa;
-  --mesh-color1: rgba(190, 140, 210, 0.25);
-  --mesh-color2: rgba(150, 110, 190, 0.25);
-  --blob1-color: rgba(230, 180, 240, 0.7);
-  --blob2-color: rgba(195, 160, 235, 0.65);
-  --blob3-color: rgba(240, 205, 245, 0.6);
+  --mesh-background: var(--mesh-purple-background);
+  --mesh-texture: var(--mesh-purple-texture);
+  --mesh-blob-1: var(--mesh-purple-blob-1);
+  --mesh-blob-2: var(--mesh-purple-blob-2);
+  --mesh-blob-3: var(--mesh-purple-blob-3);
 }
 
 .theme-blue {
-  --bg-start: #edf4fa;
-  --bg-mid: #dbedf8;
-  --bg-end: #f2f7fc;
-  --mesh-color1: rgba(120, 175, 225, 0.25);
-  --mesh-color2: rgba(100, 150, 210, 0.25);
-  --blob1-color: rgba(165, 210, 255, 0.7);
-  --blob2-color: rgba(140, 185, 245, 0.65);
-  --blob3-color: rgba(185, 225, 255, 0.6);
+  --mesh-background: var(--mesh-blue-background);
+  --mesh-texture: var(--mesh-blue-texture);
+  --mesh-blob-1: var(--mesh-blue-blob-1);
+  --mesh-blob-2: var(--mesh-blue-blob-2);
+  --mesh-blob-3: var(--mesh-blue-blob-3);
 }
 
 .theme-green {
-  --bg-start: #f0f7f4;
-  --bg-mid: #dbefe9;
-  --bg-end: #f4faf7;
-  --mesh-color1: rgba(130, 205, 185, 0.25);
-  --mesh-color2: rgba(110, 190, 195, 0.25);
-  --blob1-color: rgba(160, 235, 215, 0.65); /* Elegant warm sage mint */
-  --blob2-color: rgba(140, 215, 225, 0.55); /* Soft premium sky teal-blue */
-  --blob3-color: rgba(205, 245, 230, 0.5); /* Clean pistachio warm cream */
+  --mesh-background: var(--mesh-green-background);
+  --mesh-texture: var(--mesh-green-texture);
+  --mesh-blob-1: var(--mesh-green-blob-1);
+  --mesh-blob-2: var(--mesh-green-blob-2);
+  --mesh-blob-3: var(--mesh-green-blob-3);
 }
 
 .theme-slate {
-  --bg-start: #f1f3f5;
-  --bg-mid: #e5e9f0;
-  --bg-end: #f8f9fa;
-  --mesh-color1: rgba(160, 174, 192, 0.25);
-  --mesh-color2: rgba(140, 150, 170, 0.25);
-  --blob1-color: rgba(200, 210, 230, 0.7);
-  --blob2-color: rgba(180, 190, 210, 0.65);
-  --blob3-color: rgba(220, 225, 240, 0.6);
+  --mesh-background: var(--mesh-slate-background);
+  --mesh-texture: var(--mesh-slate-texture);
+  --mesh-blob-1: var(--mesh-slate-blob-1);
+  --mesh-blob-2: var(--mesh-slate-blob-2);
+  --mesh-blob-3: var(--mesh-slate-blob-3);
 }
 
 .theme-cream {
-  --bg-start: #f9f6f0;
-  --bg-mid: #f0eae1;
-  --bg-end: #faf8f4;
-  --mesh-color1: rgba(215, 205, 190, 0.25);
-  --mesh-color2: rgba(200, 190, 175, 0.25);
-  --blob1-color: rgba(230, 220, 205, 0.6); /* Soft warm sand */
-  --blob2-color: rgba(240, 232, 218, 0.55); /* Soft vanilla cream */
-  --blob3-color: rgba(220, 212, 198, 0.5); /* Clean alabaster clay */
+  --mesh-background: var(--mesh-cream-background);
+  --mesh-texture: var(--mesh-cream-texture);
+  --mesh-blob-1: var(--mesh-cream-blob-1);
+  --mesh-blob-2: var(--mesh-cream-blob-2);
+  --mesh-blob-3: var(--mesh-cream-blob-3);
 }
 
 .meshBg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 10% 20%, var(--mesh-color1) 0%, transparent 60%),
-    radial-gradient(circle at 90% 80%, var(--mesh-color2) 0%, transparent 70%);
+  background: var(--mesh-texture);
   z-index: 1;
   transition: background 1.5s ease-in-out;
 }
@@ -103,7 +82,7 @@
   composes: blob;
   width: 320px;
   height: 320px;
-  background: radial-gradient(circle, var(--blob1-color) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--mesh-blob-1) 0%, transparent 70%);
   top: -5%;
   left: -10%;
   animation: float1 25s infinite alternate ease-in-out;
@@ -113,7 +92,7 @@
   composes: blob;
   width: 420px;
   height: 420px;
-  background: radial-gradient(circle, var(--blob2-color) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--mesh-blob-2) 0%, transparent 70%);
   bottom: -10%;
   right: -10%;
   animation: float2 30s infinite alternate ease-in-out;
@@ -123,7 +102,7 @@
   composes: blob;
   width: 360px;
   height: 360px;
-  background: radial-gradient(circle, var(--blob3-color) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--mesh-blob-3) 0%, transparent 70%);
   top: 35%;
   right: -5%;
   animation: float3 28s infinite alternate ease-in-out;

@@ -39,8 +39,32 @@
   height: 28px;
   border-radius: 6px;
   color: var(--card-accent);
-  background-color: var(--card-accent-background);
+  background-color: color-mix(in srgb, var(--card-accent) 10%, transparent);
   flex-shrink: 0;
+}
+
+.serviceAccent {
+  --card-accent: var(--pc-dashboard-accent-service);
+}
+
+.assetAccent {
+  --card-accent: var(--pc-dashboard-accent-asset);
+}
+
+.transferAccent {
+  --card-accent: var(--pc-dashboard-accent-transfer);
+}
+
+.alarmAccent {
+  --card-accent: var(--pc-dashboard-accent-alarm);
+}
+
+.productAccent {
+  --card-accent: var(--pc-dashboard-accent-product);
+}
+
+.settingsAccent {
+  --card-accent: var(--pc-dashboard-accent-settings);
 }
 
 .cardTitle {
