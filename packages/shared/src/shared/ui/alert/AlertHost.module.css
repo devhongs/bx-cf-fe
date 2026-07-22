@@ -1,5 +1,4 @@
-/* mobile-web는 @layer 밖의 전역 리셋(bxui_template.css)을 로드한다.
-   공통 알럿은 세 앱 어디서나 같은 모양을 유지하도록 CSS Module + 테마 토큰으로 고정한다. */
+/* 공통 알럿은 세 앱 어디서나 같은 모양을 유지하도록 CSS Module + 테마 토큰으로 고정한다. */
 
 .overlay {
   position: fixed;

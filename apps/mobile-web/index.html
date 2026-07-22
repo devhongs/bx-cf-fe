@@ -12,6 +12,11 @@
     <link rel="apple-touch-icon" href="/logo192.png" />
     <link rel="manifest" href="/manifest.json" />
     <title>📱 Mobile Web Portal</title>
+    <script>
+      if (localStorage.getItem("theme") !== "light") {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
     <style>
       html, body, #app {
         height: 100% !important;

@@ -45,7 +45,7 @@
   --scrollbar-thumb-hover: rgba(20, 32, 38, 0.38);
 }
 
-:root[data-admin-theme="dark"] {
+.dark {
   color-scheme: dark;
 
   --admin-bg: #10171b;

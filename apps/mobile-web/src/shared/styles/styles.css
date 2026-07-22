@@ -11,6 +11,8 @@ body {
   margin: 0;
   height: 100%;
   font-family: "Pretendard Variable", sans-serif;
+  /* 한글 단어가 중간에서 끊기지 않도록 유지 (기존 공통 UI 템플릿에서 이관) */
+  word-break: keep-all;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

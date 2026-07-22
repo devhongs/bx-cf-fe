@@ -6,7 +6,7 @@ import type { DataTableColumn, Menu } from '@bx/shared';
 import { MenuFormDrawer } from '@/features/menu-form/ui/MenuFormDrawer';
 import { AdminFilterBar } from '@/shared/ui/admin-filter-bar/AdminFilterBar';
 
-import styles from '../admin-page.module.css';
+import styles from './index.module.css';
 
 export function MenusPage() {
   const [search, setSearch] = useState('');

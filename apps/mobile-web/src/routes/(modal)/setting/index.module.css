@@ -1,0 +1,14 @@
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  width: 100%;
+  padding-block: 14px;
+  border-bottom: 1px solid var(--mobile-border-subtle);
+}
+
+.item:last-child {
+  border-bottom: none;
+}

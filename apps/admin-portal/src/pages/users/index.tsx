@@ -6,7 +6,7 @@ import type { DataTableColumn, ManagedUser } from '@bx/shared';
 import { UserFormDrawer } from '@/features/user-form/ui/UserFormDrawer';
 import { AdminFilterBar } from '@/shared/ui/admin-filter-bar/AdminFilterBar';
 
-import styles from '../admin-page.module.css';
+import styles from './index.module.css';
 
 export function UsersPage() {
   const [search, setSearch] = useState('');

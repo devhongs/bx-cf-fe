@@ -1,6 +1,6 @@
 import { useAuthStore } from '@bx/shared';
 
-import styles from '../admin-page.module.css';
+import styles from './index.module.css';
 
 export function ProfilePage() {
   const user = useAuthStore((state) => state.user);

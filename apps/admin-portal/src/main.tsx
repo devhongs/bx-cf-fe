@@ -41,9 +41,6 @@ declare module '@tanstack/react-router' {
 
 const rootElement = document.getElementById('app');
 if (rootElement && !rootElement.innerHTML) {
-  document.documentElement.dataset.adminTheme =
-    document.documentElement.dataset.adminTheme || 'dark';
-
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>

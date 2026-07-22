@@ -15,11 +15,13 @@ vi.mock('@tanstack/react-router', () => ({
 describe('AdminSidebar', () => {
   beforeEach(() => {
     navigate.mockClear();
-    document.documentElement.dataset.adminTheme = 'dark';
+    window.localStorage.clear();
+    document.documentElement.classList.add('dark');
   });
 
   afterEach(() => {
     cleanup();
+    document.documentElement.classList.remove('dark');
   });
 
   it('navigates the admin core menus', () => {
@@ -46,6 +48,6 @@ describe('AdminSidebar', () => {
 
     fireEvent.click(screen.getByRole('button', { name: '라이트 테마' }));
 
-    expect(document.documentElement.dataset.adminTheme).toBe('light');
+    expect(document.documentElement.classList.contains('dark')).toBe(false);
   });
 });

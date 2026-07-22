@@ -27,7 +27,6 @@ import { queryClient } from './queryClient.ts';
 import reportWebVitals from './reportWebVitals.ts';
 import { routeTree } from './routeTree.gen';
 
-import '@/shared/styles/bxui_template.css';
 import '@/shared/styles/styles.css';
 
 // Create a new router instance

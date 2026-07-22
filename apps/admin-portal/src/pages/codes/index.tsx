@@ -6,7 +6,7 @@ import type { CommonCodeGroup, DataTableColumn } from '@bx/shared';
 import { CodeGroupFormDrawer } from '@/features/code-group-form/ui/CodeGroupFormDrawer';
 import { AdminFilterBar } from '@/shared/ui/admin-filter-bar/AdminFilterBar';
 
-import styles from '../admin-page.module.css';
+import styles from './index.module.css';
 
 export function CodesPage() {
   const [search, setSearch] = useState('');

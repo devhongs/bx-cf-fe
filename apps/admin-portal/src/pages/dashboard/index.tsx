@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import type { CSSProperties } from 'react';
 
-import styles from '../admin-page.module.css';
+import styles from './index.module.css';
 
 const metrics = [
   { label: '공통코드 그룹', value: '18', detail: '활성 17', icon: Database },

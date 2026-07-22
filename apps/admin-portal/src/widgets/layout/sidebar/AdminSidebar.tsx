@@ -9,7 +9,6 @@ import {
   UserCog,
   UserRound,
 } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 
 import {
@@ -19,6 +18,7 @@ import {
   PopoverTrigger,
   logout as requestLogout,
   useAuthStore,
+  useTheme,
 } from '@bx/shared';
 
 import styles from './AdminSidebar.module.css';
@@ -49,21 +49,14 @@ export function AdminSidebar() {
   const location = useLocation();
   const user = useAuthStore((state) => state.user);
   const clearAuth = useAuthStore((state) => state.logout);
-  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    if (typeof document === 'undefined') return 'dark';
-    return (document.documentElement.dataset.adminTheme as 'dark' | 'light') || 'dark';
-  });
-
-  useEffect(() => {
-    document.documentElement.dataset.adminTheme = theme;
-  }, [theme]);
+  const { theme, setTheme } = useTheme();
 
   const handleNavigate = (item: NavItem) => {
     navigate({ to: item.path as any });
   };
 
   const toggleTheme = () => {
-    setTheme((current) => (current === 'dark' ? 'light' : 'dark'));
+    setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   const handleLogout = async () => {

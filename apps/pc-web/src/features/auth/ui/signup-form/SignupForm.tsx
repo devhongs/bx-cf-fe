@@ -16,7 +16,9 @@ export interface SignupFormValues {
 export type SignupPayload = Omit<SignupFormValues, 'passwordConfirm'>;
 
 interface SignupFormProps {
+  id?: string;
   defaultValues?: SignupFormValues;
+  showSubmitButton?: boolean;
   onSubmit: (payload: SignupPayload) => void | Promise<void>;
 }
 
@@ -29,14 +31,30 @@ const emptyDefaultValues: SignupFormValues = {
   userType: '',
 };
 
-export function SignupForm({ defaultValues = emptyDefaultValues, onSubmit }: SignupFormProps) {
-  const { form, FormInput, FormSelect } = useAppForm<SignupFormValues>({ defaultValues });
+export function SignupForm({
+  id,
+  defaultValues = emptyDefaultValues,
+  showSubmitButton = true,
+  onSubmit,
+}: SignupFormProps) {
+  const { form, resetToDefaultValues, FormInput, FormSelect } = useAppForm<SignupFormValues>({
+    defaultValues,
+  });
 
   const handleSubmit = ({ passwordConfirm: _passwordConfirm, ...payload }: SignupFormValues) =>
     onSubmit(payload);
 
   return (
-    <AppForm className={styles.form} form={form} onSubmit={handleSubmit}>
+    <AppForm
+      id={id}
+      className={styles.form}
+      form={form}
+      onSubmit={handleSubmit}
+      onReset={(event) => {
+        event.preventDefault();
+        resetToDefaultValues();
+      }}
+    >
       <FormInput label="아이디" name="userId" placeholder="tester01" required minLength={4} />
       <FormInput label="이름" name="name" placeholder="홍길동" required />
       <FormInput
@@ -68,14 +86,15 @@ export function SignupForm({ defaultValues = emptyDefaultValues, onSubmit }: Sig
         name="userType"
         groupCd="SIGNUP_USER_TYPE"
         emptyOption="SELECT"
-        required
       />
 
-      <div className={styles.actions}>
-        <FormSubmitButton className={styles.submit} loadingLabel="처리 중">
-          가입하기
-        </FormSubmitButton>
-      </div>
+      {showSubmitButton && (
+        <div className={styles.actions}>
+          <FormSubmitButton className={styles.submit} loadingLabel="처리 중">
+            가입하기
+          </FormSubmitButton>
+        </div>
+      )}
     </AppForm>
   );
 }
