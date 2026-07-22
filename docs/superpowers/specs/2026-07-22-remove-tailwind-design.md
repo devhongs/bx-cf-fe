@@ -60,8 +60,11 @@ CSS로 유지한다. 변환 범위는 가장 크지만 최종 규칙이 가장 �
 - JSX의 Tailwind 문자열은 해당 화면이나 컴포넌트의 CSS Module 클래스로 변환한다.
 - 스타일이 없는 로직 전용 컴포넌트에는 빈 CSS Module을 만들지 않는다.
 - 정적인 레이아웃·색상·간격을 inline style로 옮기지 않는다.
-- 데이터로 계산되는 너비, 좌표, z-index 같은 런타임 값만 inline style 또는 CSS custom
-  property로 유지한다.
+- 기존 inline style 사용 파일은 기존 인접 파일의 네이밍 관례에 맞는 `*.module.css`를 직접
+  소유하거나 이미 사용하는 Module에 스타일을 추가한다.
+- inline style의 정적 선언은 모두 Module 클래스로 옮긴다. 데이터로 계산되는 너비, 좌표,
+  z-index, 사용자 지정 색상 같은 런타임 값은 CSS custom property만 inline으로 전달하고 실제
+  CSS property 선언은 Module이 소유한다.
 
 ### shared UI 확장 방식
 
