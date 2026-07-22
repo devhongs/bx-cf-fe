@@ -1,7 +1,6 @@
 import { resolve } from 'node:path';
 
 import babel from '@rolldown/plugin-babel';
-import tailwindcss from '@tailwindcss/vite';
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import viteReact, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
@@ -21,7 +20,6 @@ export default defineConfig(({ command }) => ({
     babel({
       presets: [reactCompilerPreset()],
     }),
-    tailwindcss(),
   ],
   server: {
     // 개발 시 API 요청을 백엔드로 프록시해 same-origin으로 만든다 (CORS/크로스도메인 쿠키 문제 회피).

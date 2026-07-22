@@ -216,6 +216,10 @@
   padding: 16px;
 }
 
+.profileActions {
+  margin-top: 16px;
+}
+
 .section h3 {
   margin: 0 0 12px;
   font-size: 0.92rem;
@@ -503,6 +507,7 @@
 
 .dashboardProgress span {
   display: block;
+  width: var(--dashboard-progress);
   height: 100%;
   border-radius: inherit;
   background: linear-gradient(90deg, var(--accent), var(--admin-warning));

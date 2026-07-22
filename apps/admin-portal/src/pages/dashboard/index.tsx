@@ -7,6 +7,7 @@ import {
   ShieldCheck,
   UsersRound,
 } from 'lucide-react';
+import type { CSSProperties } from 'react';
 
 import styles from '../admin-page.module.css';
 
@@ -155,7 +156,9 @@ export function DashboardPage() {
                   className={styles.dashboardProgress}
                   aria-label={`${card.title} 진행률 ${card.progress}%`}
                 >
-                  <span style={{ width: `${card.progress}%` }} />
+                  <span
+                    style={{ '--dashboard-progress': `${card.progress}%` } as CSSProperties}
+                  />
                 </div>
                 <ul className={styles.dashboardMiniList}>
                   {card.items.map((item) => (

@@ -180,7 +180,7 @@ function header(slide, kicker, title, pageNo) {
     ["라우팅", "TanStack Router · 상태 Zustand"],
     ["데이터", "TanStack Query + Axios"],
     ["인증", "JWT 저장 · 401 자동 재발급"],
-    ["UI", "Radix UI + Tailwind v4"],
+    ["UI", "Radix UI + CSS Modules"],
     ["도메인", "auth·user·account·menu·product"],
     ["유틸", "i18n·날짜·포맷·검증·암호화"],
   ].forEach(([l, v], i) => bline(sb.x + 0.2, sb.y + 0.5 + i * 0.31, sb.w - 0.35, l, v, ROT[i % 3]));

@@ -130,7 +130,7 @@ function chip(s, x, y, w, label, color) {
     ['코어', C.blue, ['React 19', 'TypeScript 6', 'Vite 8 (Rolldown)', 'React Compiler']],
     ['모노레포', C.teal, ['pnpm Workspaces', 'Turborepo', 'Biome', 'Madge']],
     ['라우팅 · 상태', C.amber, ['TanStack Router', 'TanStack Query', 'Zustand', 'React Hook Form']],
-    ['UI · 스타일', C.coral, ['Tailwind CSS 4', 'Radix Dialog', 'vaul (drawer)', 'lucide-react']],
+    ['UI · 스타일', C.coral, ['CSS Modules', 'Radix Dialog', 'vaul (drawer)', 'lucide-react']],
     ['통신 · 유틸', '8B7CF6', ['Axios', 'date-fns · dayjs', 'lodash-es', 'i18next · uuid']],
     ['테스트 · Mock', '0EA5A4', ['Playwright (E2E)', 'Vitest', 'Testing Library', 'json-server']],
   ];

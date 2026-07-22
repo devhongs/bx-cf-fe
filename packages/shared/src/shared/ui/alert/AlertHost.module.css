@@ -1,6 +1,5 @@
-/* mobile-web는 @layer 밖의 전역 리셋(bxui_template.css)을 로드하는데, Tailwind v4에서는
-   unlayered CSS가 @layer utilities를 이긴다(p-6/flex 등이 무시됨). 공통 알럿은 3앱 어디서나
-   동일하게 떠야 하므로 Tailwind 대신 CSS module + 테마 토큰으로 스타일을 고정한다. */
+/* mobile-web는 @layer 밖의 전역 리셋(bxui_template.css)을 로드한다.
+   공통 알럿은 세 앱 어디서나 같은 모양을 유지하도록 CSS Module + 테마 토큰으로 고정한다. */
 
 .overlay {
   position: fixed;

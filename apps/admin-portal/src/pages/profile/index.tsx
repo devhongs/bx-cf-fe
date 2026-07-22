@@ -41,7 +41,7 @@ export function ProfilePage() {
             <input type="password" placeholder="새 비밀번호" />
           </label>
         </div>
-        <div style={{ marginTop: 16 }}>
+        <div className={styles.profileActions}>
           <button type="button" className={styles.button}>
             비밀번호 변경
           </button>
