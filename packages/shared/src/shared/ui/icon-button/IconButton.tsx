@@ -52,7 +52,10 @@ export const IconButton: React.FC<IconButtonProps> = ({
       <IconComponent className={styles.icon} stroke={iconColor} size={IconSizeMap[size]} />
       {/* 라벨 */}
       {label.length > 0 && (
-        <span className={cn(styles.label, LabelSizeMap[size])} style={{ color: labelColor }}>
+        <span
+          className={cn(styles.label, LabelSizeMap[size])}
+          style={{ '--icon-label-color': labelColor } as React.CSSProperties}
+        >
           {label}
         </span>
       )}
@@ -69,9 +72,9 @@ const IconSizeMap = {
 };
 
 const LabelSizeMap = {
-  xs: 'text-xs',
-  sm: 'text-sm',
-  md: 'text-base',
-  lg: 'text-lg',
-  xl: 'text-xl',
+  xs: styles.labelXs,
+  sm: styles.labelSm,
+  md: styles.labelMd,
+  lg: styles.labelLg,
+  xl: styles.labelXl,
 };

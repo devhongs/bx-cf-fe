@@ -1,21 +1,44 @@
-@import "tailwindcss";
-
 .layout {
-  /* @apply text-2xl inline-flex items-center; */
-  @apply inline-flex items-center;
+  display: inline-flex;
+  align-items: center;
+}
 
-  &.circle {
-    @apply border rounded-full flex items-center justify-center p-2;
-    background: var(--surface-raised);
-    border-color: var(--border);
-  }
+.layout.circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-raised);
+}
 
-  .icon {
-    /* @apply text-2xl; */
-  }
+.square {
+  border-radius: 0;
+}
 
-  .label {
-    /* @apply text-base ml-1; */
-    @apply ml-1 font-bold;
-  }
+.label {
+  margin-left: 4px;
+  color: var(--icon-label-color);
+  font-weight: 700;
+}
+
+.labelXs {
+  font-size: 0.75rem;
+}
+
+.labelSm {
+  font-size: 0.875rem;
+}
+
+.labelMd {
+  font-size: 1rem;
+}
+
+.labelLg {
+  font-size: 1.125rem;
+}
+
+.labelXl {
+  font-size: 1.25rem;
 }

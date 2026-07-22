@@ -2,11 +2,19 @@
    chains that outrank a single CSS module class, so overriding them needs !important. */
 
 .toaster {
+  --normal-bg: var(--surface-elevated) !important;
+  --normal-text: var(--foreground) !important;
+  --normal-border: var(--border) !important;
+  --border-radius: 8px !important;
+
   font-family: inherit;
 }
 
 .toast {
   gap: 10px;
+  min-height: 64px !important;
+  padding: 14px 16px !important;
+  box-shadow: var(--overlay-shadow) !important;
 }
 
 .content {

@@ -1,13 +1,19 @@
-@import "tailwindcss";
-
 .layout {
-  @apply relative flex flex-col items-center justify-center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-  .image {
-    @apply w-full h-full object-cover;
-  }
+.image {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  object-fit: cover;
+}
 
-  .name {
-    @apply text-sm font-bold pt-2;
-  }
+.name {
+  padding-top: 8px;
+  font-size: 0.875rem;
+  font-weight: 700;
 }

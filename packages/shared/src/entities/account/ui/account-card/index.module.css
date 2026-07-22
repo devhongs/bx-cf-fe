@@ -1,43 +1,63 @@
-@import "tailwindcss";
-
 .card {
-  @apply rounded-lg mb-8 p-5;
+  margin-bottom: 32px;
+  padding: 20px;
   border: 1px solid var(--border);
+  border-radius: 8px;
   background: var(--surface-elevated);
 }
 
 .accountWrapper {
-  @apply flex items-start justify-between;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 .accountText {
-  @apply flex flex-col;
+  display: flex;
+  flex-direction: column;
 }
 
-.accountName {
-  @apply text-base;
-}
+.accountName,
 .accountNo {
-  @apply text-base;
+  font-size: 1rem;
 }
 
 .favoriteButton {
-  @apply text-xl hover:opacity-80 transition;
+  font-size: 1.25rem;
+  transition: opacity 0.15s;
+}
+
+.favoriteButton:hover {
+  opacity: 0.8;
 }
 
 .amountWrapper {
-  @apply mt-4;
+  margin-top: 16px;
 }
 
 .amount {
-  @apply my-12 text-2xl text-center tracking-tight;
+  margin-block: 48px;
+  font-size: 1.5rem;
+  text-align: center;
+  letter-spacing: -0.025em;
 }
 
 .buttonWrapper {
-  @apply mt-5 grid grid-cols-2 gap-3;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
 }
+
 .button {
-  @apply h-10 rounded-lg border border-1 font-medium hover:opacity-90 transition;
-  border-color: var(--foreground);
+  height: 40px;
+  border: 1px solid var(--foreground);
+  border-radius: 8px;
   background: var(--surface-elevated);
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+
+.button:hover {
+  opacity: 0.9;
 }

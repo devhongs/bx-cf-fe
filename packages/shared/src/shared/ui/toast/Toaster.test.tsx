@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { Toaster } from './Toaster';
+import styles from './Toaster.module.css';
 
 afterEach(cleanup);
 
@@ -33,19 +34,13 @@ describe('Toaster', () => {
     expect(toastItem?.getAttribute('data-rich-colors')).not.toBe('true');
   });
 
-  it('drives the toast surface from theme tokens rather than fixed colours', async () => {
+  it('applies the theme-token CSS Module to the toast surface', async () => {
     render(<Toaster />);
     toast('Token check');
 
-    const toaster = (await screen.findByText('Token check')).closest(
-      '[data-sonner-toaster]',
-    ) as HTMLElement;
-    const style = toaster.getAttribute('style') ?? '';
+    const toaster = (await screen.findByText('Token check')).closest('[data-sonner-toaster]');
 
-    // Routing through var() is what lets a light host theme produce a light toast.
-    expect(style).toContain('--normal-bg: var(--surface-elevated)');
-    expect(style).toContain('--normal-text: var(--foreground)');
-    expect(style).toContain('--normal-border: var(--border)');
+    expect(toaster?.className).toContain(styles.toaster);
   });
 
   it('does not pin a theme, so the host app decides light or dark', async () => {

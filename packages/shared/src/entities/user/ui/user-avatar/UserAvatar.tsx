@@ -1,4 +1,5 @@
 import type { BaseProps } from '../../../../shared/types';
+import type { CSSProperties } from 'react';
 
 import styles from './UserAvatar.module.css';
 
@@ -21,7 +22,7 @@ export function UserAvatar({
         src={imageUrl}
         alt={`${name}의 아바타`}
         className={styles.image}
-        style={{ width: size, height: size }}
+        style={{ '--avatar-size': `${size}px` } as CSSProperties}
       />
       {showName && name && <span className={styles.name}>{name}</span>}
     </div>

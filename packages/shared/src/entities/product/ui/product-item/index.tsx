@@ -1,6 +1,7 @@
 import type { Product } from '../../model/product.type';
 import type { BaseProps } from '../../../../shared/types';
 import { IconButton } from '../../../../shared/ui';
+import type { CSSProperties } from 'react';
 
 import styles from './index.module.css';
 
@@ -20,9 +21,9 @@ export function ProductItem({ data, onItemClick = () => null }: ProductItemProps
       <div
         className={styles.iconWrapper}
         style={{
-          backgroundColor: `${iconColor}14`,
-          borderColor: `${iconColor}33`,
-        }}
+          '--product-icon-background': `${iconColor}14`,
+          '--product-icon-border': `${iconColor}33`,
+        } as CSSProperties}
       >
         <IconButton
           iconType={iconType}

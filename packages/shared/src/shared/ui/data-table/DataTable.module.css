@@ -11,6 +11,10 @@
   border-collapse: collapse;
 }
 
+.table col {
+  width: var(--column-width, auto);
+}
+
 .table th,
 .table td {
   height: var(--data-table-row-height, 44px);

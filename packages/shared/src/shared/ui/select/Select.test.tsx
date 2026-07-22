@@ -100,8 +100,8 @@ describe('Select > groupCd', () => {
 
 describe('Select > container', () => {
   it('컨테이너 className을 전달할 수 있다', () => {
-    render(<Select options={options} emptyOption="NONE" containerClassName="w-auto" />);
+    render(<Select options={options} emptyOption="NONE" containerClassName="custom-container" />);
 
-    expect(screen.getByRole('combobox').parentElement?.className).toContain('w-auto');
+    expect(screen.getByRole('combobox').parentElement?.className).toContain('custom-container');
   });
 });

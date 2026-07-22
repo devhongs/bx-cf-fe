@@ -1,4 +1,4 @@
-import type { KeyboardEvent, ReactNode } from 'react';
+import type { CSSProperties, KeyboardEvent, ReactNode } from 'react';
 
 import styles from './DataTable.module.css';
 
@@ -45,7 +45,10 @@ export function DataTable<T>({
       <table className={styles.table}>
         <colgroup>
           {columns.map((column) => (
-            <col key={column.id} style={{ width: column.width }} />
+            <col
+              key={column.id}
+              style={{ '--column-width': column.width } as CSSProperties}
+            />
           ))}
         </colgroup>
         <thead>
