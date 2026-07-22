@@ -148,7 +148,7 @@ slideMaps.push(
     17: "공통  @bx/shared · 도메인 8종",
     19: "도메인  auth · user · account · menu · product · alarm · base-info · common-code",
     21: "라우팅·데이터  TanStack Router · Query · Zustand · Axios",
-    23: "인증·UI  JWT 401 자동재발급 · Radix · Tailwind v4",
+    23: "인증·UI  JWT 401 자동재발급 · Radix · CSS Modules",
     25: "빌드",
     27: "Vite 8 · Biome · Vitest",
     29: "E2E 테스트 자동화",
