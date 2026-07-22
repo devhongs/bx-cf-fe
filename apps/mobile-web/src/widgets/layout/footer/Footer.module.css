@@ -1,5 +1,3 @@
-@import "tailwindcss";
-
 .root {
   position: fixed;
   bottom: 20px;
@@ -34,5 +32,8 @@
 }
 
 .buttonWrapper {
-  @apply flex w-full justify-between items-center;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
 }

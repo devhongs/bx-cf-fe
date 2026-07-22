@@ -1,8 +1,10 @@
 import { Suspense, lazy } from 'react';
-import type { ComponentType } from 'react';
+import type { ComponentType, CSSProperties } from 'react';
 
 import type { ModalConfig } from '@bx/shared';
 import { DialogPrimitive, useModalStore } from '@bx/shared';
+
+import styles from './ModalContainer.module.css';
 
 /* ── 모달 컴포넌트 레지스트리 ── */
 const modalModules = import.meta.glob<Record<string, ComponentType<any>>>(
@@ -60,16 +62,14 @@ export const ModalContainer = ({ index = 0, ...config }: ModalContainerProps) =>
       <DialogPrimitive.Portal>
         {/* 풀스크린: 오버레이 없음, 콘텐츠가 직접 inset-0 채움 */}
         <DialogPrimitive.Content
-          className="fixed inset-0 z-[150] flex flex-col bg-white outline-none"
-          style={{ zIndex: 150 + index }}
+          className={styles.content}
+          style={{ '--modal-z-index': 150 + index } as CSSProperties}
           // 모바일 풀스크린이므로 outside click 닫기 비활성
           onInteractOutside={(e) => e.preventDefault()}
         >
           <Suspense
             fallback={
-              <div className="flex h-full items-center justify-center text-sm text-gray-400">
-                로딩 중...
-              </div>
+              <div className={styles.loading}>로딩 중...</div>
             }
           >
             <Component {...config} />

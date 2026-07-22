@@ -1,5 +1,5 @@
-@import "tailwindcss";
-
 .layout {
-  @apply flex flex-col gap-8;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }

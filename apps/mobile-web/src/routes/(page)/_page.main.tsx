@@ -1,6 +1,8 @@
 import { AiSearchCard } from '@/features/ai-search';
 import { createFileRoute } from '@tanstack/react-router';
 
+import styles from './_page.main.module.css';
+
 function MainPage() {
   const handleSearchClick = () => {
     console.log('AI 검색 클릭됨');
@@ -8,7 +10,7 @@ function MainPage() {
   };
 
   return (
-    <div className="w-full h-[calc(100dvh-176px)] px-4 !flex !flex-col !justify-center !items-center">
+    <div className={styles.page}>
       <AiSearchCard onClick={handleSearchClick} />
     </div>
   );

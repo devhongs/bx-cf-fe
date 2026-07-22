@@ -1,13 +1,21 @@
-@import "tailwindcss";
-
 .layout {
-  @apply flex text-black justify-between items-center p-3 text-2xl;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  color: #000;
+  font-size: 24px;
+  line-height: 32px;
 }
 
 .left {
-  @apply flex flex-row gap-2;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
 }
 
 .right {
-  @apply flex flex-row gap-4;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
 }

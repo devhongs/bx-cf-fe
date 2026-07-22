@@ -1,0 +1,60 @@
+.card {
+  position: relative;
+  display: flex !important;
+  width: calc(100vw - 32px);
+  max-width: 420px;
+  height: 54px;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 5px 15px;
+  border: 2px solid oklch(92.8% 0.006 264.531);
+  border-radius: 9999px;
+  box-sizing: border-box;
+  background-color: rgb(255 255 255 / 45%);
+  backdrop-filter: blur(24px);
+  cursor: text;
+  transition: all 300ms;
+}
+
+.inputArea {
+  flex: 1 1 0% !important;
+  padding-right: 54px;
+}
+
+.input {
+  width: 100%;
+  height: 44px;
+  padding-left: 20px;
+  border: none;
+  outline: none;
+  color: #5c5850;
+  background-color: transparent;
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.025em;
+}
+
+.input::placeholder {
+  color: rgb(92 88 80 / 50%);
+}
+
+.iconWrapper {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  color: #5c5850;
+  stroke-width: 1.5;
+  transition: transform 300ms;
+}
+
+.card:hover .icon {
+  transform: scale(1.1);
+}

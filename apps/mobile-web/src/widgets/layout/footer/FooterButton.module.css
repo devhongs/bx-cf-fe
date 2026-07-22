@@ -1,45 +1,56 @@
-@import "tailwindcss";
-
 .root {
-  @apply flex-1 flex flex-col items-center justify-center h-11 rounded-full bg-transparent transition-all duration-300 gap-1 cursor-pointer;
+  display: flex;
+  height: 44px;
+  flex: 1 1 0%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   padding: 0 !important;
   margin: 0 !important;
   border: none !important;
+  border-radius: 9999px;
   outline: none !important;
   background: none !important;
   box-sizing: border-box !important;
+  cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
+  transition: all 300ms;
 
   /* Active press scaling feedback */
-  &:active {
-    transform: scale(0.95);
-  }
+}
 
-  &.selected {
-    background-color: rgba(37, 99, 235, 0.09); /* Soft brand blue active capsule backdrop */
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2); /* Inset glass refraction reflect */
-  }
+.root:active {
+  transform: scale(0.95);
+}
+
+.root.selected {
+  background-color: rgba(37, 99, 235, 0.09) !important; /* Soft brand blue active capsule backdrop */
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2); /* Inset glass refraction reflect */
 }
 
 .icon {
-  @apply flex items-center justify-center transition-all duration-300;
+  display: flex;
   height: 20px; /* Force stable height matching SVG */
+  align-items: center;
+  justify-content: center;
+  transition: all 300ms;
+}
 
-  svg {
-    stroke: #6b7280; /* Elegant inactive gray-500 */
-    stroke-width: 2.5px; /* Thicker inactive stroke for robust legibility */
-    width: 20px; /* Standard premium mobile icon sizing */
-    height: 20px;
-    transition: stroke 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s
-      cubic-bezier(0.25, 1, 0.5, 1);
-  }
+.icon svg {
+  width: 20px; /* Standard premium mobile icon sizing */
+  height: 20px;
+  stroke: #6b7280; /* Elegant inactive gray-500 */
+  stroke-width: 2.5px; /* Thicker inactive stroke for robust legibility */
+  transition: stroke 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s
+    cubic-bezier(0.25, 1, 0.5, 1);
+}
 
-  .selected & svg {
-    stroke: #2563eb; /* Vibrant brand blue active color */
-    stroke-width: 3.25px; /* 1px thicker active stroke for distinct weight */
-    transform: scale(1.08); /* Bouncy micro scaling pop */
-  }
+.selected .icon svg {
+  stroke: #2563eb; /* Vibrant brand blue active color */
+  stroke-width: 3.25px; /* 1px thicker active stroke for distinct weight */
+  transform: scale(1.08); /* Bouncy micro scaling pop */
 }
 
 .label {
@@ -49,9 +60,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  @apply text-gray-500 font-medium tracking-tight transition-all duration-300;
+  color: #6b7280;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  transition: all 300ms;
+}
 
-  .selected & {
-    @apply font-bold text-blue-600;
-  }
+.selected .label {
+  color: #2563eb;
+  font-weight: 700;
 }

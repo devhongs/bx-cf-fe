@@ -1,10 +1,11 @@
-@import "tailwindcss";
-
 .title {
-  @apply text-black font-bold flex items-center;
+  display: flex;
+  align-items: center;
+  color: #000;
+  font-weight: 700;
+}
 
-  .icon {
-    @apply flex items-center;
-    /* 필요하다면 ml-1 등으로 좌우 여백도 추가 */
-  }
+.icon {
+  display: flex;
+  align-items: center;
 }

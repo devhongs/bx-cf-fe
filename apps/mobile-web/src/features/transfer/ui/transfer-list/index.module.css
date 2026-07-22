@@ -1,48 +1,98 @@
-@import "tailwindcss";
-
 .transferListContainer {
-  @apply flex flex-col gap-4;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
+
 .transferTitle {
-  @apply text-[20px] font-bold;
+  font-size: 20px;
+  font-weight: 700;
 }
+
 .transferForm {
-  @apply flex flex-col gap-4;
-
-  .formInput {
-    @apply p-3 border border-gray-300 rounded-lg;
-  }
-
-  .formSelect {
-    @apply w-full p-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer;
-  }
-  .selectOption {
-    @apply bg-white text-gray-800 hover:bg-gray-100;
-  }
-  .submitButton {
-    @apply p-3 rounded-lg bg-gray-300 text-gray-800 font-medium hover:opacity-90 transition;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
+
+.formInput {
+  padding: 12px;
+  border: 1px solid oklch(87.2% 0.01 258.338);
+  border-radius: 8px;
+}
+
+.formSelect {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid oklch(87.2% 0.01 258.338);
+  border-radius: 8px;
+  appearance: none;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.formSelect:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px oklch(62.3% 0.214 259.815);
+}
+
+.selectOption {
+  color: oklch(27.8% 0.033 256.848);
+  background-color: #fff;
+}
+
+.selectOption:hover {
+  background-color: oklch(96.7% 0.003 264.542);
+}
+
+.submitButton {
+  padding: 12px;
+  border-radius: 8px;
+  color: oklch(27.8% 0.033 256.848);
+  background-color: oklch(87.2% 0.01 258.338);
+  font-weight: 500;
+  transition: all 150ms;
+}
+
+.submitButton:hover {
+  opacity: 0.9;
+}
+
 .recentSection {
-  @apply mt-4;
+  margin-top: 16px;
 }
 
 .recentTitle {
-  @apply text-[18px] mb-4;
+  margin-bottom: 16px;
+  font-size: 18px;
 }
 
 .recentList {
-  @apply flex flex-col gap-2 max-h-[calc(100vh-420px)] overflow-y-auto pr-1;
+  display: flex;
+  max-height: calc(100vh - 420px);
+  overflow-y: auto;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 4px;
 }
 
 .recentItem {
-  @apply flex flex-col gap-1 p-3 rounded-lg border border-gray-200 bg-white;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid oklch(92.8% 0.006 264.531);
+  border-radius: 8px;
+  background-color: #fff;
 }
 
 .recentName {
-  @apply text-[16px] font-semibold text-gray-900;
+  color: oklch(21% 0.034 264.665);
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .recentNumber {
-  @apply text-[14px] text-gray-500;
+  color: oklch(55.1% 0.027 264.364);
+  font-size: 14px;
 }
