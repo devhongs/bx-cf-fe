@@ -32,7 +32,7 @@ export function ComponentsPage() {
           </div>
           <div className={styles.grid}>
             {/* SVG를 React 컴포넌트로 import — props(크기)와 CSS color(currentColor)로 제어 */}
-            <div className={styles.sample} style={{ color: 'var(--color-accent, #10b981)' }}>
+            <div className={`${styles.sample} ${styles.svgSample}`}>
               <SampleLogo width={40} height={40} aria-hidden="true" />
               <span className={styles.sampleName}>sample-logo.svg?react</span>
             </div>

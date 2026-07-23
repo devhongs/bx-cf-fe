@@ -56,6 +56,10 @@
   background-color: var(--background-deep);
 }
 
+.svgSample {
+  color: var(--accent);
+}
+
 .sampleName {
   color: var(--accent-subtle);
   font-size: 14px;
