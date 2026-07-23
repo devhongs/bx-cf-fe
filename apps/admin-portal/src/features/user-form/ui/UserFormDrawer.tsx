@@ -1,9 +1,6 @@
-import { useEffect, useState } from 'react';
-
 import { openConfirm, useCreateUser, useDeleteUser, useFetchUser, useUpdateUser } from '@bx/shared';
 import type { ManagedUser, UseYn, UserPayload, UserType } from '@bx/shared';
 
-import { getApiErrorMessage } from '@/shared/lib/getApiErrorMessage';
 import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
 import { AppForm, useAppForm } from '@/shared/ui/admin-form';
 
@@ -49,7 +46,6 @@ interface UserFormDrawerProps {
 
 export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawerProps) {
   const isUpdateMode = usrId != null;
-  const [submitError, setSubmitError] = useState('');
 
   const { data: detail } = useFetchUser(usrId ?? '', {
     enabled: open && isUpdateMode,
@@ -60,29 +56,18 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
   const defaultValues = toFormValues(user);
   const { form, FormInput, FormSelect } = useAppForm<UserFormValues>({ open, defaultValues });
 
-  useEffect(() => {
-    if (!open) return;
-    setSubmitError('');
-  }, [open]);
-
   const createMutation = useCreateUser();
   const updateMutation = useUpdateUser();
   const deleteMutation = useDeleteUser();
   const pending = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending;
 
-  const handleSubmit = async (values: UserFormValues) => {
-    setSubmitError('');
+  // 성공 시에만 닫는다. 실패는 공통 에러 알럿(MutationCache.onError)이 처리한다.
+  const handleSubmit = (values: UserFormValues) => {
     const payload = toPayload(values);
-
-    try {
-      if (isUpdateMode) {
-        await updateMutation.mutateAsync({ usrId, payload });
-      } else {
-        await createMutation.mutateAsync(payload);
-      }
-      onClose();
-    } catch (error) {
-      setSubmitError(getApiErrorMessage(error, '저장에 실패했습니다.'));
+    if (isUpdateMode) {
+      updateMutation.mutate({ usrId, payload }, { onSuccess: onClose });
+    } else {
+      createMutation.mutate(payload, { onSuccess: onClose });
     }
   };
 
@@ -94,13 +79,7 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
     });
     if (!confirmed) return;
 
-    setSubmitError('');
-    try {
-      await deleteMutation.mutateAsync(usrId);
-      onClose();
-    } catch (error) {
-      setSubmitError(getApiErrorMessage(error, '삭제에 실패했습니다.'));
-    }
+    deleteMutation.mutate(usrId, { onSuccess: onClose });
   };
 
   return (
@@ -135,7 +114,6 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
         <FormSelect label="사용여부" name="useYn" groupCd="USER_STATUS" emptyOption="SELECT" />
         <FormInput label="부서" name="deptName" />
         <FormInput label="직책" name="positDivName" />
-        {submitError && <p className={styles.formError}>{submitError}</p>}
       </AppForm>
     </AdminDrawer>
   );

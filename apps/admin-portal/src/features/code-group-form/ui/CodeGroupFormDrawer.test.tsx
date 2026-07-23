@@ -6,9 +6,10 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { CodeGroupFormDrawer } from './CodeGroupFormDrawer';
 
+/** 드로어는 `mutate(vars, { onSuccess })`로 성공 시에만 닫는다. 성공을 흉내낸다. */
 const mutation = {
   isPending: false,
-  mutateAsync: vi.fn(),
+  mutate: vi.fn((_vars: unknown, opts?: { onSuccess?: () => void }) => opts?.onSuccess?.()),
 };
 
 const { toastSuccess } = vi.hoisted(() => ({ toastSuccess: vi.fn() }));
@@ -105,7 +106,6 @@ describe('CodeGroupFormDrawer', () => {
 
   it('저장 성공 시 드로어를 닫고 토스트는 직접 띄우지 않는다', async () => {
     const handleClose = vi.fn();
-    mutation.mutateAsync.mockResolvedValue(undefined);
     toastSuccess.mockReset();
 
     render(<CodeGroupFormDrawer open onClose={handleClose} />);

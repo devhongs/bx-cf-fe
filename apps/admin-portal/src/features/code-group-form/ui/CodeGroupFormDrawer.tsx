@@ -1,5 +1,4 @@
 import { Plus, Trash2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
 
 import {
   Button,
@@ -12,7 +11,6 @@ import {
 } from '@bx/shared';
 import type { CommonCode, CommonCodeGroup, CommonCodeReplacePayload } from '@bx/shared';
 
-import { getApiErrorMessage } from '@/shared/lib/getApiErrorMessage';
 import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
 import { AppForm, useAppForm } from '@/shared/ui/admin-form';
 
@@ -94,7 +92,6 @@ export function CodeGroupFormDrawer({
   onClose,
 }: CodeGroupFormDrawerProps) {
   const isUpdateMode = groupCd != null;
-  const [submitError, setSubmitError] = useState('');
 
   const { data: detailData } = useFetchCommonCodeGroup(groupCd ?? '', {
     enabled: open && isUpdateMode,
@@ -109,29 +106,18 @@ export function CodeGroupFormDrawer({
   });
   const { fields, append, remove } = useFieldArray({ control: form.control, name: 'codes' });
 
-  useEffect(() => {
-    if (!open) return;
-    setSubmitError('');
-  }, [open]);
-
   const createMutation = useCreateCommonCodeGroup();
   const replaceMutation = useReplaceCommonCodes();
   const deleteMutation = useDeleteCommonCodeGroup();
   const pending = createMutation.isPending || replaceMutation.isPending || deleteMutation.isPending;
 
-  const handleSubmit = async (values: CodeGroupFormValues) => {
-    setSubmitError('');
+  // 성공 시에만 닫는다. 실패는 공통 에러 알럿(MutationCache.onError)이 처리한다.
+  const handleSubmit = (values: CodeGroupFormValues) => {
     const payload = toPayload(values);
-
-    try {
-      if (isUpdateMode) {
-        await replaceMutation.mutateAsync({ groupCd, payload });
-      } else {
-        await createMutation.mutateAsync(payload);
-      }
-      onClose();
-    } catch (error) {
-      setSubmitError(getApiErrorMessage(error, '저장에 실패했습니다.'));
+    if (isUpdateMode) {
+      replaceMutation.mutate({ groupCd, payload }, { onSuccess: onClose });
+    } else {
+      createMutation.mutate(payload, { onSuccess: onClose });
     }
   };
 
@@ -143,13 +129,7 @@ export function CodeGroupFormDrawer({
     });
     if (!confirmed) return;
 
-    setSubmitError('');
-    try {
-      await deleteMutation.mutateAsync(groupCd);
-      onClose();
-    } catch (error) {
-      setSubmitError(getApiErrorMessage(error, '삭제에 실패했습니다.'));
-    }
+    deleteMutation.mutate(groupCd, { onSuccess: onClose });
   };
 
   return (
@@ -250,8 +230,6 @@ export function CodeGroupFormDrawer({
             </>
           )}
         </section>
-
-        {submitError && <p className={styles.formError}>{submitError}</p>}
       </AppForm>
     </AdminDrawer>
   );

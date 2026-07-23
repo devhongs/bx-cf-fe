@@ -19,21 +19,12 @@ const defaultValues: MenuFormValues = {
 
 function TestMenuForm({
   defaultValues: values = defaultValues,
-  submitError = '',
   onSubmit = vi.fn(),
 }: {
   defaultValues?: MenuFormValues;
-  submitError?: string;
   onSubmit?: Parameters<typeof MenuForm>[0]['onSubmit'];
 }) {
-  return (
-    <MenuForm
-      id="test-menu-form"
-      defaultValues={values}
-      submitError={submitError}
-      onSubmit={onSubmit}
-    />
-  );
+  return <MenuForm id="test-menu-form" defaultValues={values} onSubmit={onSubmit} />;
 }
 
 const submitForm = () => {
@@ -43,8 +34,8 @@ const submitForm = () => {
 describe('MenuForm', () => {
   afterEach(cleanup);
 
-  it('renders menu fields and submit error', () => {
-    render(<TestMenuForm submitError="저장에 실패했습니다." />);
+  it('renders menu fields', () => {
+    render(<TestMenuForm />);
 
     expect(screen.getByLabelText(/메뉴코드/)).toBeTruthy();
     expect(screen.getByLabelText(/메뉴유형/)).toBeTruthy();
@@ -52,7 +43,6 @@ describe('MenuForm', () => {
     expect(screen.getByLabelText(/경로/)).toBeTruthy();
     expect(screen.getByLabelText(/정렬/)).toBeTruthy();
     expect(screen.getByLabelText(/노출여부/)).toBeTruthy();
-    expect(screen.getByText('저장에 실패했습니다.')).toBeTruthy();
   });
 
   it('shows common required errors before submit', async () => {

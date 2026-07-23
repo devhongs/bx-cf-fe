@@ -1,9 +1,6 @@
-import { useEffect, useState } from 'react';
-
 import { openConfirm, useCreateMenu, useDeleteMenu, useFetchMenu, useUpdateMenu } from '@bx/shared';
 import type { Menu } from '@bx/shared';
 
-import { getApiErrorMessage } from '@/shared/lib/getApiErrorMessage';
 import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
 import type { MenuFormPayload, MenuFormValues } from '../model/menu-form.type';
 import { MenuForm } from './MenuForm';
@@ -32,7 +29,6 @@ interface MenuFormDrawerProps {
 
 export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDrawerProps) {
   const isUpdateMode = menuId != null;
-  const [submitError, setSubmitError] = useState('');
 
   const { data: detail } = useFetchMenu(menuId ?? -1, {
     enabled: open && isUpdateMode,
@@ -42,28 +38,17 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
 
   const defaultValues = toFormValues(menu);
 
-  useEffect(() => {
-    if (!open) return;
-    setSubmitError('');
-  }, [open]);
-
   const createMutation = useCreateMenu();
   const updateMutation = useUpdateMenu();
   const deleteMutation = useDeleteMenu();
   const pending = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending;
 
-  const handleSubmit = async (payload: MenuFormPayload) => {
-    setSubmitError('');
-
-    try {
-      if (isUpdateMode) {
-        await updateMutation.mutateAsync({ menuId, payload });
-      } else {
-        await createMutation.mutateAsync(payload);
-      }
-      onClose();
-    } catch (error) {
-      setSubmitError(getApiErrorMessage(error, '저장에 실패했습니다.'));
+  // 성공 시에만 닫는다. 실패는 공통 에러 알럿(MutationCache.onError)이 처리한다.
+  const handleSubmit = (payload: MenuFormPayload) => {
+    if (isUpdateMode) {
+      updateMutation.mutate({ menuId, payload }, { onSuccess: onClose });
+    } else {
+      createMutation.mutate(payload, { onSuccess: onClose });
     }
   };
 
@@ -75,13 +60,7 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
     });
     if (!confirmed) return;
 
-    setSubmitError('');
-    try {
-      await deleteMutation.mutateAsync(menuId);
-      onClose();
-    } catch (error) {
-      setSubmitError(getApiErrorMessage(error, '삭제에 실패했습니다.'));
-    }
+    deleteMutation.mutate(menuId, { onSuccess: onClose });
   };
 
   return (
@@ -109,13 +88,7 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
         </>
       }
     >
-      <MenuForm
-        id={FORM_ID}
-        open={open}
-        defaultValues={defaultValues}
-        submitError={submitError}
-        onSubmit={handleSubmit}
-      />
+      <MenuForm id={FORM_ID} open={open} defaultValues={defaultValues} onSubmit={handleSubmit} />
     </AdminDrawer>
   );
 }

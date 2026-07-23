@@ -24,10 +24,13 @@ vi.mock('@bx/shared', () => ({
   useAuthStore: (selector: (state: { user: { usrId: string } }) => unknown) =>
     selector({ user: { usrId: 'admin' } }),
   useFetchMenu: () => ({ data: undefined }),
-  useCreateMenu: () => ({ isPending: mutationState.createPending, mutateAsync: mocks.createMenu }),
-  useUpdateMenu: () => ({ isPending: mutationState.updatePending, mutateAsync: mocks.updateMenu }),
-  useDeleteMenu: () => ({ isPending: mutationState.deletePending, mutateAsync: mocks.deleteMenu }),
+  useCreateMenu: () => ({ isPending: mutationState.createPending, mutate: mocks.createMenu }),
+  useUpdateMenu: () => ({ isPending: mutationState.updatePending, mutate: mocks.updateMenu }),
+  useDeleteMenu: () => ({ isPending: mutationState.deletePending, mutate: mocks.deleteMenu }),
 }));
+
+/** 드로어는 `mutate(vars, { onSuccess })`로 성공 시에만 닫는다. 성공을 흉내낸다. */
+const succeed = (_vars: unknown, opts?: { onSuccess?: () => void }) => opts?.onSuccess?.();
 
 vi.mock('@/shared/ui/admin-drawer/AdminDrawer', () => ({
   AdminDrawer: ({ children, footer }: { children: ReactNode; footer: ReactNode }) => (
@@ -57,9 +60,9 @@ describe('MenuFormDrawer', () => {
     mutationState.createPending = false;
     mutationState.updatePending = false;
     mutationState.deletePending = false;
-    mocks.createMenu.mockReset().mockResolvedValue(undefined);
-    mocks.updateMenu.mockReset().mockResolvedValue(undefined);
-    mocks.deleteMenu.mockReset().mockResolvedValue(undefined);
+    mocks.createMenu.mockReset().mockImplementation(succeed);
+    mocks.updateMenu.mockReset().mockImplementation(succeed);
+    mocks.deleteMenu.mockReset().mockImplementation(succeed);
     mocks.toastSuccess.mockReset();
   });
 

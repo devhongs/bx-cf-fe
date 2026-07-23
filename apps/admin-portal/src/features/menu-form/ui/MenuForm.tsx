@@ -18,7 +18,6 @@ interface MenuFormProps {
   /** 드로어에 얹을 때 열림 상태를 넘기면 재오픈 시 폼이 초기값으로 돌아간다. */
   open?: boolean;
   defaultValues?: MenuFormValues;
-  submitError?: string;
   onSubmit: (payload: MenuFormPayload) => void | Promise<void>;
 }
 
@@ -37,7 +36,6 @@ export function MenuForm({
   id,
   open,
   defaultValues = emptyDefaultValues,
-  submitError,
   onSubmit,
 }: MenuFormProps) {
   const { form, FormInput, FormSelect } = useAppForm<MenuFormValues>({ open, defaultValues });
@@ -57,7 +55,6 @@ export function MenuForm({
       />
       <FormInput label="정렬" name="sortSeq" type="number" />
       <FormSelect label="노출여부" name="visibleYn" groupCd="VISIBLE_YN" emptyOption="SELECT" />
-      {submitError && <p className={styles.formError}>{submitError}</p>}
     </AppForm>
   );
 }
