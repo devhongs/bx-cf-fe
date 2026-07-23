@@ -6,7 +6,7 @@ import {
   type UseFormReturn,
 } from 'react-hook-form';
 
-import { cn } from '../ui/lib/cn';
+import { cn } from '../lib/utils/cn';
 import styles from './Form.module.css';
 import { type FormFieldStyle, FormFieldStyleProvider } from './form-style-context';
 

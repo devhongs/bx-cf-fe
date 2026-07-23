@@ -2,7 +2,7 @@ import * as Icons from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import type React from 'react';
 
-import { cn } from '../lib/cn';
+import { cn } from '../../lib/utils/cn';
 
 import styles from './IconButton.module.css';
 

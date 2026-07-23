@@ -1,5 +1,5 @@
 import type React from 'react';
-import { cn } from '../lib/cn';
+import { cn } from '../../lib/utils/cn';
 import styles from './MeshBackground.module.css';
 
 export type MeshBackgroundTheme = 'purple' | 'blue' | 'green' | 'slate' | 'cream';

@@ -8,7 +8,7 @@ import {
 import type { ComponentProps } from 'react';
 import { Toaster as SonnerToaster } from 'sonner';
 
-import { cn } from '../lib/cn';
+import { cn } from '../../lib/utils/cn';
 
 import styles from './Toaster.module.css';
 

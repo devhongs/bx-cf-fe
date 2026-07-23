@@ -1,9 +1,9 @@
 import type React from 'react';
 import type { FC, ReactNode } from 'react';
 
+import { cn } from '../../lib/utils/cn';
+import { getSlot } from '../../lib/utils/component-util';
 import type { BaseProps } from '../../types';
-import { cn } from '../lib/cn';
-import { getSlot } from '../lib/component-util';
 
 import styles from './Page.module.css';
 

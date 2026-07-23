@@ -16,10 +16,10 @@ import type { FC, ReactNode } from 'react';
 import type * as React from 'react';
 
 import { useModal } from '../../hooks';
+import { cn } from '../../lib/utils/cn';
+import { getSlot } from '../../lib/utils/component-util';
 import type { BaseProps } from '../../types';
 import { IconButton } from '../icon-button/IconButton';
-import { cn } from '../lib/cn';
-import { getSlot } from '../lib/component-util';
 import styles from './Modal.module.css';
 
 export interface ModalProps extends BaseProps {

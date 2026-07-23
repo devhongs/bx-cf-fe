@@ -7,9 +7,9 @@ import {
   useController,
 } from 'react-hook-form';
 
-import { cn } from '../ui/lib/cn';
-import { useFormFieldStyle } from './form-style-context';
+import { cn } from '../lib/utils/cn';
 import styles from './FormItem.module.css';
+import { useFormFieldStyle } from './form-style-context';
 import { type FieldRuleProps, buildFieldRules } from './rules';
 
 export type FormItemControl<TValues extends FieldValues> = ControllerRenderProps<
