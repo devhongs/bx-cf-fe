@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "storybook": "concurrently --kill-others-on-fail -n hub,shared,pc,admin,mobile \"pnpm dev:hub\" \"pnpm dev:shared\" \"pnpm dev:pc\" \"pnpm dev:admin\" \"pnpm dev:mobile\"",
+    "storybook": "concurrently --kill-others-on-fail -n shared,pc,admin,mobile,hub \"pnpm dev:shared\" \"pnpm dev:pc\" \"pnpm dev:admin\" \"pnpm dev:mobile\" \"pnpm wait:targets && pnpm dev:hub\"",
     "dev:hub": "storybook dev --config-dir hub --port 6005 --no-open",
     "dev:shared": "storybook dev --config-dir shared --port 6006 --no-open",
     "dev:pc": "storybook dev --config-dir pc --port 6007 --no-open",
@@ -15,6 +15,7 @@
     "build:pc": "storybook build --config-dir pc --output-dir dist/pc",
     "build:admin": "storybook build --config-dir admin --output-dir dist/admin",
     "build:mobile": "storybook build --config-dir mobile --output-dir dist/mobile",
+    "wait:targets": "node scripts/wait-for-storybooks.mjs",
     "test": "vitest run --passWithNoTests",
     "check": "tsc --noEmit"
   },

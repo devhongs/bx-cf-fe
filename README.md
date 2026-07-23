@@ -54,6 +54,34 @@ pnpm dev:server    # Mock API 서버 (3333)
 
 ---
 
+## 📚 Storybook Composition
+
+`apps/storybook` 한 workspace가 Hub·Shared·PC·Admin·Mobile의 다섯 config profile을 관리합니다. 각 대상 Storybook은 자기 앱의 전역 CSS와 source story만 로드하고, Hub는 Composition으로 네 카탈로그를 한 사이드바에서 연결합니다.
+
+```bash
+pnpm storybook          # Hub와 네 대상 Storybook 동시 실행
+pnpm storybook:hub      # Hub만 실행
+pnpm storybook:shared   # Shared만 실행
+pnpm storybook:pc       # PC만 실행
+pnpm storybook:admin    # Admin만 실행
+pnpm storybook:mobile   # Mobile만 실행
+pnpm build:storybook    # 다섯 Storybook 정적 빌드
+```
+
+| 카탈로그 | 로컬 URL | 초기 전시 범위 |
+| :--- | :--- | :--- |
+| Hub | [http://localhost:6005](http://localhost:6005) | Composition 탐색 |
+| Shared | [http://localhost:6006](http://localhost:6006) | CSS token, 공통 Button |
+| PC | [http://localhost:6007](http://localhost:6007) | CSS token, PopoverPanel |
+| Admin | [http://localhost:6008](http://localhost:6008) | CSS token, AdminFilterBar |
+| Mobile | [http://localhost:6009](http://localhost:6009) | CSS token, AiSearchCard (390 × 844 viewport) |
+
+재사용 컴포넌트 story는 `packages/shared`의 원본 컴포넌트 옆에, 앱 전용 story는 각 앱의 원본 옆에 둡니다. `apps/storybook/stories`에는 token처럼 여러 카탈로그가 함께 쓰는 전시용 story만 둡니다.
+
+현재 단계는 저장소의 CSS 변수를 token source로 사용하는 경량 POC입니다. Figma 연동, token JSON 생성, MSW, router/auth provider, interaction test는 사용 사례가 확인된 뒤 확장합니다.
+
+---
+
 ## 🌐 백엔드 연결 (Vite Proxy ↔ Mock ↔ Spring)
 
 개발 기본값은 앱별 `.env`의 `VITE_API_URL=/channel/backend/api/v1`입니다. 브라우저는 같은 origin의 dev server로 요청하고, Vite proxy가 Spring 서버로 전달해 CORS/크로스도메인 쿠키 문제를 피합니다.
@@ -206,6 +234,8 @@ Admin의 코드·메뉴 등록/수정/삭제는 해당 관리 화면의 목록 Q
 | `pnpm dev:pc` / `dev:mobile` / `dev:admin` | 개별 앱 구동 |
 | `pnpm dev:server` | Mock API 서버 (`mock/server.js`, 3333) |
 | `pnpm dev:all` | 전체 앱 + Mock API 동시 구동 |
+| `pnpm storybook` | Composition Hub와 Shared·PC·Admin·Mobile Storybook 동시 구동 |
+| `pnpm storybook:<hub\|shared\|pc\|admin\|mobile>` | Storybook profile 개별 구동 |
 
 ### 검증 / 빌드
 | 명령 | 설명 |
@@ -217,6 +247,7 @@ Admin의 코드·메뉴 등록/수정/삭제는 해당 관리 화면의 목록 Q
 | `pnpm check:css-tokens` | CSS Modules와 컴포넌트 소스의 raw color 사용 여부 검사 |
 | `pnpm test` | 전체 workspace 단위 테스트 (Vitest, Turborepo 캐싱) |
 | `pnpm build` | 프로덕션 통합 빌드 (Turborepo 캐싱) |
+| `pnpm build:storybook` | 다섯 Storybook 정적 빌드 |
 
 > **단위 테스트**: `pc-web`, `mobile-web`, `admin-portal`, `@bx/shared`에 Vitest 설정과 `test` 스크립트가 있으며, 루트 `pnpm test`가 Turborepo를 통해 전체 workspace 테스트를 실행합니다. 테스트 파일이 아직 없는 workspace도 `--passWithNoTests`로 정상 종료합니다. 현재 GitHub Actions workflow에는 `pnpm test` 단계가 포함되어 있지 않습니다.
 
