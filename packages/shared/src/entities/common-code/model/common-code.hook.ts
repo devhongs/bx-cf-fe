@@ -18,7 +18,6 @@ import {
 } from './common-code.queries';
 import type {
   CommonCode,
-  CommonCodeAuthParams,
   CommonCodeGroup,
   CommonCodeGroupPayload,
   CommonCodeGroupQueryParams,
@@ -105,13 +104,13 @@ export const useReplaceCommonCodes = (
   options?: UseMutationOptions<
     void,
     Error,
-    { groupCd: string; payload: CommonCodeReplacePayload } & CommonCodeAuthParams,
+    { groupCd: string; payload: CommonCodeReplacePayload },
     unknown
   >,
 ): UseMutationResult<
   void,
   Error,
-  { groupCd: string; payload: CommonCodeReplacePayload } & CommonCodeAuthParams,
+  { groupCd: string; payload: CommonCodeReplacePayload },
   unknown
 > => {
   const queryClient = useQueryClient();

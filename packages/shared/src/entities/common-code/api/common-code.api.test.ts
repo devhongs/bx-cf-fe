@@ -97,13 +97,11 @@ describe('common code api', () => {
       items: [{ code: 'Y', codeNm: '사용', sortSeq: 1, useYn: 'Y' as const }],
     };
 
-    await replaceCommonCodes('USE_YN', payload, 'admin');
+    await replaceCommonCodes('USE_YN', payload);
 
-    expect(postSpy).toHaveBeenCalledWith(
-      '/system/common-codes/USE_YN/replace',
-      { data: payload },
-      { headers: { 'X-Auth-User': 'admin' } },
-    );
+    expect(postSpy).toHaveBeenCalledWith('/system/common-codes/USE_YN/replace', {
+      data: payload,
+    });
   });
 
   it('fetches and mutates common codes under a group', async () => {

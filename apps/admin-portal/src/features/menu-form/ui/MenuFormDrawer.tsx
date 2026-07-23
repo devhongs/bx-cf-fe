@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import {
   openConfirm,
   toast,
-  useAuthStore,
   useCreateMenu,
   useDeleteMenu,
   useFetchMenu,
@@ -58,7 +57,6 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
   const createMutation = useCreateMenu();
   const updateMutation = useUpdateMenu();
   const deleteMutation = useDeleteMenu();
-  const authUser = useAuthStore((state) => state.user!.usrId);
   const pending = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending;
 
   const handleSubmit = async (payload: MenuFormPayload) => {
@@ -66,9 +64,9 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
 
     try {
       if (isUpdateMode) {
-        await updateMutation.mutateAsync({ menuId, payload, authUser });
+        await updateMutation.mutateAsync({ menuId, payload });
       } else {
-        await createMutation.mutateAsync({ payload, authUser });
+        await createMutation.mutateAsync(payload);
       }
       toast.success('저장되었습니다.');
       onClose();
@@ -87,7 +85,7 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
 
     setSubmitError('');
     try {
-      await deleteMutation.mutateAsync({ menuId, authUser });
+      await deleteMutation.mutateAsync(menuId);
       onClose();
     } catch (error) {
       setSubmitError(getApiErrorMessage(error, '삭제에 실패했습니다.'));

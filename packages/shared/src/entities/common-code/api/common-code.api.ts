@@ -2,7 +2,6 @@ import { httpService } from '../../../shared/ajax/http.service';
 
 import type {
   CommonCode,
-  CommonCodeAuthParams,
   CommonCodeGroup,
   CommonCodeGroupPayload,
   CommonCodeGroupQueryParams,
@@ -31,22 +30,13 @@ export const updateCommonCodeGroup = (
     data: payload,
   });
 
-const authUserHeader = ({ authUser }: CommonCodeAuthParams) => ({
-  headers: { 'X-Auth-User': authUser },
-});
-
 export const replaceCommonCodes = (
   groupCd: string,
   payload: CommonCodeReplacePayload,
-  authUser: string,
 ): Promise<void> =>
-  httpService.post<void>(
-    `/system/common-codes/${encodeURIComponent(groupCd)}/replace`,
-    {
-      data: payload,
-    },
-    authUserHeader({ authUser }),
-  );
+  httpService.post<void>(`/system/common-codes/${encodeURIComponent(groupCd)}/replace`, {
+    data: payload,
+  });
 
 export const deleteCommonCodeGroup = (groupCd: string): Promise<void> =>
   httpService.delete<void>(`/system/common-codes/groups/${encodeURIComponent(groupCd)}`);

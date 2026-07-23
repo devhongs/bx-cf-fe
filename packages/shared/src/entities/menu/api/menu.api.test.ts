@@ -49,30 +49,18 @@ describe('menu api', () => {
     const payload = { menuCd: 'DASHBOARD', menuNm: '대시보드', useYn: 'Y' as const };
     const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue({});
 
-    await createMenu(payload, 'admin');
-    await updateMenu(1, payload, 'admin');
+    await createMenu(payload);
+    await updateMenu(1, payload);
 
-    expect(postSpy).toHaveBeenNthCalledWith(
-      1,
-      '/system/menus/create',
-      { data: payload },
-      { headers: { 'X-Auth-User': 'admin' } },
-    );
-    expect(postSpy).toHaveBeenNthCalledWith(
-      2,
-      '/system/menus/1/update',
-      { data: payload },
-      { headers: { 'X-Auth-User': 'admin' } },
-    );
+    expect(postSpy).toHaveBeenNthCalledWith(1, '/system/menus/create', { data: payload });
+    expect(postSpy).toHaveBeenNthCalledWith(2, '/system/menus/1/update', { data: payload });
   });
 
   it('deletes menus through the generated delete endpoint', async () => {
     const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue(undefined);
 
-    await deleteMenu(1, 'admin');
+    await deleteMenu(1);
 
-    expect(postSpy).toHaveBeenCalledWith('/system/menus/1/delete', undefined, {
-      headers: { 'X-Auth-User': 'admin' },
-    });
+    expect(postSpy).toHaveBeenCalledWith('/system/menus/1/delete');
   });
 });

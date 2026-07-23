@@ -13,7 +13,6 @@ import {
   updateCommonCodeGroup,
 } from '../api/common-code.api';
 import type {
-  CommonCodeAuthParams,
   CommonCodeGroupPayload,
   CommonCodeGroupQueryParams,
   CommonCodePayload,
@@ -61,11 +60,10 @@ export const replaceCommonCodesMutation = () => ({
   mutationFn: ({
     groupCd,
     payload,
-    authUser,
   }: {
     groupCd: string;
     payload: CommonCodeReplacePayload;
-  } & CommonCodeAuthParams) => replaceCommonCodes(groupCd, payload, authUser),
+  }) => replaceCommonCodes(groupCd, payload),
 });
 
 export const deleteCommonCodeGroupMutation = () => ({

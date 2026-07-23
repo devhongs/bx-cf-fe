@@ -30,6 +30,3 @@ export type CommonCodeQueryParams = Partial<CommonCode & CommonCodePayload & Leg
 export type CommonCodeReplacePayload = Omit<CommonCodeReplaceApiPayload, 'items'> & {
   items: CommonCodePayload[];
 };
-export type CommonCodeAuthParams = {
-  authUser: string;
-};

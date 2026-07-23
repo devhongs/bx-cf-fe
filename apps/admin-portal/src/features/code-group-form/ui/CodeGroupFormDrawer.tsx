@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 import {
   openConfirm,
-  useAuthStore,
   useCreateCommonCodeGroup,
   useDeleteCommonCodeGroup,
   useFetchCommonCodeGroup,
@@ -123,17 +122,15 @@ export function CodeGroupFormDrawer({
   const createMutation = useCreateCommonCodeGroup();
   const replaceMutation = useReplaceCommonCodes();
   const deleteMutation = useDeleteCommonCodeGroup();
-  const userId = useAuthStore((state) => state.user?.usrId);
   const pending = createMutation.isPending || replaceMutation.isPending || deleteMutation.isPending;
 
   const handleSubmit = async (values: CodeGroupFormValues) => {
     setSubmitError('');
     const payload = toPayload(values);
-    const authUser = userId ?? 'admin';
 
     try {
       if (isUpdateMode) {
-        await replaceMutation.mutateAsync({ groupCd, payload, authUser });
+        await replaceMutation.mutateAsync({ groupCd, payload });
       } else {
         await createMutation.mutateAsync({ groupCd: payload.groupCd, ...payload.group });
       }
