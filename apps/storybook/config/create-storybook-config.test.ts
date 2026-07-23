@@ -1,3 +1,5 @@
+import { dirname } from 'node:path';
+
 import { describe, expect, it } from 'vitest';
 
 import { createStorybookConfig } from './create-storybook-config';
@@ -20,11 +22,18 @@ describe('createStorybookConfig', () => {
     });
 
     const merged = await config.viteFinal?.({}, {} as never);
+    const staticDirectories = config.staticDirs;
+
+    if (!Array.isArray(staticDirectories) || typeof staticDirectories[0] !== 'string') {
+      throw new TypeError('Expected the shared public directory to be a string path.');
+    }
+
+    const [publicDirectory] = staticDirectories;
 
     expect(merged?.define).toEqual({ 'process.env': {} });
     expect(merged?.resolve?.alias).toEqual({ '@': '/workspace/app/src' });
     expect(merged?.resolve?.dedupe).toEqual(['react', 'react-dom']);
-    expect(merged?.server?.fs?.allow).toEqual([expect.stringMatching(/bx-cf-fe$/)]);
+    expect(merged?.server?.fs?.allow).toEqual([dirname(publicDirectory)]);
     expect(merged?.plugins).toEqual([
       expect.objectContaining({
         name: 'vite-plugin-svgr',
