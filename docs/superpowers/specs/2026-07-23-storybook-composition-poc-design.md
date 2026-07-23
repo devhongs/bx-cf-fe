@@ -187,10 +187,12 @@ Hub는 통합 탐색용이다. Controls, Docs, 테스트 addon 등 대상 Storyb
 `apps/storybook/package.json`은 다음 목적의 스크립트를 제공한다.
 
 - 개별 개발: `dev:hub`, `dev:shared`, `dev:pc`, `dev:admin`, `dev:mobile`
-- 전체 개발: `dev`
+- 전체 개발: `storybook`
 - 개별 빌드: `build:hub`, `build:shared`, `build:pc`, `build:admin`, `build:mobile`
-- 전체 빌드: `build`
+- 전체 빌드: `build:all`
 - 타입 검사: `check`
+
+Storybook workspace에는 일반 `dev`와 `build` 스크립트를 만들지 않는다. 기존 루트 `turbo dev`와 `turbo build`가 Storybook 서버 또는 정적 빌드를 자동 포함하지 않도록 Storybook 실행을 명시적인 전용 명령으로 격리한다.
 
 루트 `package.json`에는 사용자가 기억하기 쉬운 프록시 스크립트를 추가한다.
 
