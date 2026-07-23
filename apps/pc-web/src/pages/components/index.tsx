@@ -1,3 +1,5 @@
+import SampleLogo from '@/assets/sample-logo.svg?react';
+
 import styles from './index.module.css';
 
 const componentSamples = ['Button', 'Input', 'Select', 'Modal'];
@@ -21,6 +23,19 @@ export function ComponentsPage() {
                 <span className={styles.sampleName}>{name}</span>
               </div>
             ))}
+          </div>
+        </section>
+
+        <section className={styles.panel}>
+          <div className={styles.panelHeader}>
+            <h2 className={styles.panelTitle}>SVGR</h2>
+          </div>
+          <div className={styles.grid}>
+            {/* SVG를 React 컴포넌트로 import — props(크기)와 CSS color(currentColor)로 제어 */}
+            <div className={styles.sample} style={{ color: 'var(--color-accent, #10b981)' }}>
+              <SampleLogo width={40} height={40} aria-hidden="true" />
+              <span className={styles.sampleName}>sample-logo.svg?react</span>
+            </div>
           </div>
         </section>
       </div>

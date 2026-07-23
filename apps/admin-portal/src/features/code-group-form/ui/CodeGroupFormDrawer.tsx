@@ -64,12 +64,10 @@ type CodeGroupSavePayload = { groupCd: string } & CommonCodeReplacePayload;
 
 const toPayload = (values: CodeGroupFormValues): CodeGroupSavePayload => ({
   groupCd: values.groupCd.trim(),
-  group: {
-    groupNm: values.groupNm.trim(),
-    groupDesc: values.groupDesc.trim() || undefined,
-    useYn: values.useYn,
-  },
-  items: values.codes.map((row, index) => ({
+  groupNm: values.groupNm.trim(),
+  groupDesc: values.groupDesc.trim() || undefined,
+  useYn: values.useYn,
+  codes: values.codes.map((row, index) => ({
     code: row.code.trim(),
     codeNm: row.codeNm.trim(),
     sortSeq: index + 1,
@@ -134,7 +132,7 @@ export function CodeGroupFormDrawer({
       if (isUpdateMode) {
         await replaceMutation.mutateAsync({ groupCd, payload });
       } else {
-        await createMutation.mutateAsync({ groupCd: payload.groupCd, ...payload.group });
+        await createMutation.mutateAsync(payload);
       }
       onClose();
     } catch (error) {

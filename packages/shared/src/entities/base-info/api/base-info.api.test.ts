@@ -41,28 +41,24 @@ describe('base info api', () => {
     expect(result).toEqual(menus);
   });
 
-  it('fetches base info common codes from group list and group code endpoints', async () => {
+  it('fetches base info common codes from the generated integrated list endpoint', async () => {
     const groups = [
       {
         groupCd: 'USE_YN',
         groupNm: '사용 여부',
+        codes: [{ code: 'Y', codeNm: '사용' }],
       },
       {
         groupCd: 'RISK_GRADE',
         groupNm: '위험 등급',
+        codes: [{ groupCd: 'RISK_GRADE', code: 'LOW', codeNm: '낮음' }],
       },
     ];
-    const postSpy = vi
-      .spyOn(httpService, 'post')
-      .mockResolvedValueOnce(groups)
-      .mockResolvedValueOnce([{ code: 'Y', codeNm: '사용' }])
-      .mockResolvedValueOnce([{ groupCd: 'RISK_GRADE', code: 'LOW', codeNm: '낮음' }]);
+    const postSpy = vi.spyOn(httpService, 'post').mockResolvedValueOnce(groups);
 
     const result = await fetchBaseInfoCommonCodes();
 
-    expect(postSpy).toHaveBeenNthCalledWith(1, '/system/common-codes/groups/list');
-    expect(postSpy).toHaveBeenNthCalledWith(2, '/system/common-codes/groups/USE_YN/codes/list');
-    expect(postSpy).toHaveBeenNthCalledWith(3, '/system/common-codes/groups/RISK_GRADE/codes/list');
+    expect(postSpy).toHaveBeenCalledWith('/system/common-codes/list');
     expect(result).toEqual([
       {
         groupCd: 'USE_YN',

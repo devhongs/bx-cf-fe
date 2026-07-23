@@ -2,7 +2,7 @@ import { LOCAL_CODE_MAP } from '../../constants/local-codes';
 import { CONFIG } from '../../constants/siteConfig';
 import type { CodeItem } from '../../types/index';
 
-import { $formatUtils } from './common.format';
+import { $formatUtils } from './format-util';
 import { session } from './storage-util';
 
 type CodeMap = Record<string, Array<CodeItem>>;

@@ -15,20 +15,40 @@ export const fetchCommonCodeGroups = (
   httpService.post<Array<CommonCodeGroup>>('/system/common-codes/groups/list');
 
 export const fetchCommonCodeGroup = (groupCd: string): Promise<Array<CommonCodeGroup>> =>
-  httpService.post<Array<CommonCodeGroup>>('/system/common-codes/list', {
-    data: { groupCd },
-  });
+  httpService.post<Array<CommonCodeGroup>>(
+    `/system/common-codes/${encodeURIComponent(groupCd)}/detail`,
+  );
 
 export const createCommonCodeGroup = (payload: CommonCodeGroupPayload): Promise<void> =>
-  httpService.post<void>('/system/common-codes/groups/create', { data: payload });
+  httpService.post<void>('/system/common-codes/create', {
+    data: { ...payload, codes: payload.codes ?? [] },
+  });
+
+const toReplacePayload = (
+  group: CommonCodeGroup,
+  overrides: CommonCodeGroupPayload = {},
+  codes: CommonCodePayload[] = group.codes ?? [],
+): CommonCodeReplacePayload => ({
+  groupNm: overrides.groupNm ?? group.groupNm ?? '',
+  groupDesc: overrides.groupDesc ?? group.groupDesc,
+  systemYn: overrides.systemYn ?? group.systemYn,
+  useYn: overrides.useYn ?? group.useYn,
+  sortSeq: overrides.sortSeq,
+  codes,
+});
+
+const fetchFirstCommonCodeGroup = async (groupCd: string): Promise<CommonCodeGroup> => {
+  const groups = await fetchCommonCodeGroup(groupCd);
+  return groups[0] ?? { groupCd, groupNm: groupCd, codes: [] };
+};
 
 export const updateCommonCodeGroup = (
   groupCd: string,
   payload: CommonCodeGroupPayload,
 ): Promise<void> =>
-  httpService.post<void>(`/system/common-codes/groups/${encodeURIComponent(groupCd)}/update`, {
-    data: payload,
-  });
+  fetchFirstCommonCodeGroup(groupCd).then((group) =>
+    replaceCommonCodes(groupCd, toReplacePayload(group, payload)),
+  );
 
 export const replaceCommonCodes = (
   groupCd: string,
@@ -39,17 +59,19 @@ export const replaceCommonCodes = (
   });
 
 export const deleteCommonCodeGroup = (groupCd: string): Promise<void> =>
-  httpService.delete<void>(`/system/common-codes/groups/${encodeURIComponent(groupCd)}`);
+  httpService.post<void>(`/system/common-codes/${encodeURIComponent(groupCd)}/delete`);
 
 export const fetchCommonCodes = (groupCd: string): Promise<Array<CommonCode>> =>
-  httpService.post<Array<CommonCode>>(
-    `/system/common-codes/groups/${encodeURIComponent(groupCd)}/codes/list`,
+  fetchCommonCodeGroup(groupCd).then((groups) =>
+    (groups[0]?.codes ?? []).map((code) => ({
+      ...code,
+      groupCd: code.groupCd ?? groupCd,
+    })),
   );
 
 export const createCommonCode = (groupCd: string, payload: CommonCodePayload): Promise<void> =>
-  httpService.post<void>(
-    `/system/common-codes/groups/${encodeURIComponent(groupCd)}/codes/create`,
-    { data: payload },
+  fetchFirstCommonCodeGroup(groupCd).then((group) =>
+    replaceCommonCodes(groupCd, toReplacePayload(group, {}, [...(group.codes ?? []), payload])),
   );
 
 export const updateCommonCode = (
@@ -57,12 +79,25 @@ export const updateCommonCode = (
   code: string,
   payload: CommonCodePayload,
 ): Promise<void> =>
-  httpService.post<void>(
-    `/system/common-codes/groups/${encodeURIComponent(groupCd)}/codes/${encodeURIComponent(code)}/update`,
-    { data: payload },
+  fetchFirstCommonCodeGroup(groupCd).then((group) =>
+    replaceCommonCodes(
+      groupCd,
+      toReplacePayload(
+        group,
+        {},
+        (group.codes ?? []).map((item) => (item.code === code ? { ...item, ...payload } : item)),
+      ),
+    ),
   );
 
 export const deleteCommonCode = (groupCd: string, code: string): Promise<void> =>
-  httpService.delete<void>(
-    `/system/common-codes/groups/${encodeURIComponent(groupCd)}/codes/${encodeURIComponent(code)}`,
+  fetchFirstCommonCodeGroup(groupCd).then((group) =>
+    replaceCommonCodes(
+      groupCd,
+      toReplacePayload(
+        group,
+        {},
+        (group.codes ?? []).filter((item) => item.code !== code),
+      ),
+    ),
   );

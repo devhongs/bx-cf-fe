@@ -10,23 +10,28 @@ type LegacyListParams = {
 };
 
 export type CommonCodeGroupListItem = SystemSchemas['CommonCodeGroupListResponse'];
-export type CommonCodeGroupDetail = SystemSchemas['CommonCodeGroupDetailResDto'];
-export type CommonCodeGroup = CommonCodeGroupListItem & Partial<CommonCodeGroupDetail>;
-type CommonCodeGroupCreatePayload = SystemSchemas['CommonCodeGroupCreateRequest']['data'];
-type CommonCodeGroupUpdatePayload = SystemSchemas['CommonCodeGroupUpdateRequest']['data'];
+type CommonCodeGroupDetailItem = SystemSchemas['CommonCodeGroupDetailDetailResponse'];
+type CommonCodeGroupDetailListItem = SystemSchemas['CommonCodeGroupDetailListResponse'];
+export type CommonCodeGroup = CommonCodeGroupListItem &
+  Partial<CommonCodeGroupDetailItem> &
+  Partial<CommonCodeGroupDetailListItem>;
+type CommonCodeCreateCreatePayload = SystemSchemas['CommonCodeCreateCreateRequest']['data'];
 type CommonCodeReplaceApiPayload = SystemSchemas['CommonCodeReplaceReplaceRequest']['data'];
+export type CommonCode = SystemSchemas['CommonCodeListResponse'] &
+  NonNullable<CommonCodeGroupDetailItem['codes']>[number] &
+  NonNullable<CommonCodeGroupDetailListItem['codes']>[number];
+type CommonCodeCreatePayload = SystemSchemas['CommonCodeCreateRequest']['data'];
+type CommonCodeReplacePayloadItem = SystemSchemas['CommonCodeReplaceRequest']['data'];
+export type CommonCodePayload = Partial<CommonCodeCreatePayload & CommonCodeReplacePayloadItem>;
+export type CommonCodeQueryParams = Partial<CommonCode & CommonCodePayload & LegacyListParams>;
 export type CommonCodeGroupPayload = Partial<
-  CommonCodeGroupCreatePayload & CommonCodeGroupUpdatePayload
->;
+  Omit<CommonCodeCreateCreatePayload, 'codes'> & Omit<CommonCodeReplaceApiPayload, 'codes'>
+> & {
+  codes?: CommonCodePayload[];
+};
 export type CommonCodeGroupQueryParams = Partial<
   CommonCodeGroupListItem & CommonCodeGroupPayload & LegacyListParams
 >;
-
-export type CommonCode = SystemSchemas['CommonCodeListResponse'];
-type CommonCodeCreatePayload = SystemSchemas['CommonCodeCreateRequest']['data'];
-type CommonCodeUpdatePayload = SystemSchemas['CommonCodeUpdateRequest']['data'];
-export type CommonCodePayload = Partial<CommonCodeCreatePayload & CommonCodeUpdatePayload>;
-export type CommonCodeQueryParams = Partial<CommonCode & CommonCodePayload & LegacyListParams>;
-export type CommonCodeReplacePayload = Omit<CommonCodeReplaceApiPayload, 'items'> & {
-  items: CommonCodePayload[];
+export type CommonCodeReplacePayload = Partial<Omit<CommonCodeReplaceApiPayload, 'codes'>> & {
+  codes: CommonCodePayload[];
 };

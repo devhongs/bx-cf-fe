@@ -60,10 +60,16 @@
     "turbo": "^2.0.4",
     "typescript": "^6.0.3",
     "vite": "^8.0.13",
+    "vite-plugin-svgr": "^5.2.0",
     "vitest": "^4.1.6",
     "web-vitals": "^5.2.0"
   },
   "pnpm": {
-    "allowedBuildScripts": ["core-js-pure", "esbuild", "unrs-resolver", "@biomejs/biome"]
+    "allowedBuildScripts": [
+      "core-js-pure",
+      "esbuild",
+      "unrs-resolver",
+      "@biomejs/biome"
+    ]
   }
 }

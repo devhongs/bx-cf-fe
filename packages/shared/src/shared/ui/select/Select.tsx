@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import type { CodeGroupCd } from '../../constants/local-codes';
 import { cn } from '../../lib/utils/cn';
-import { $codeUtils } from '../../lib/utils/common.code';
+import { $codeUtils } from '../../lib/utils/code-util';
 import styles from './Select.module.css';
 
 export interface SelectOption {

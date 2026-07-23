@@ -13,8 +13,13 @@ export interface BaseInfoVersion {
   version: string;
 }
 
-export type BaseInfoCommonCode = SystemSchemas['CommonCodeListResponse'];
-export type BaseInfoCommonCodeGroup = SystemSchemas['CommonCodeGroupListResponse'] & {
+export type BaseInfoCommonCode = NonNullable<
+  SystemSchemas['CommonCodeGroupDetailListResponse']['codes']
+>[number];
+export type BaseInfoCommonCodeGroup = Omit<
+  SystemSchemas['CommonCodeGroupDetailListResponse'],
+  'codes'
+> & {
   children?: BaseInfoCommonCode[];
 };
 export type BaseInfoMenu = SystemSchemas['MenuListResponse'];
