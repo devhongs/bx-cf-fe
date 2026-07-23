@@ -1,8 +1,8 @@
 import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
 
-import { isApiError } from '../ajax/api-error';
+import { isApiError } from '../../ajax/api-error';
 
-import { handleApiError } from './error/handleApiError';
+import { handleApiError } from '../error/handleApiError';
 
 /**
  * 통신 에러의 중앙 처리 지점.

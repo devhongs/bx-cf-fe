@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { ApiError } from '../ajax/api-error';
-import { useAlertStore } from '../model/alert/alert.store';
+import { ApiError } from '../../ajax/api-error';
+import { useAlertStore } from '../../model/alert/alert.store';
 
-import { createQueryClient } from './queryClient';
+import { createQueryClient } from './create-query-client';
 
 const queuedMessages = () => useAlertStore.getState().queue.map((entry) => entry.message);
 

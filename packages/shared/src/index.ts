@@ -14,6 +14,6 @@ export * from './shared/form';
 export * from './shared/hooks';
 export * from './shared/model';
 export * from './shared/lib/utils';
-export * from './shared/lib/queryClient';
+export * from './shared/lib/react-query/create-query-client';
 export * from './shared/constants';
 export * from './shared/ui';
