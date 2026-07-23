@@ -6,7 +6,6 @@ import type { QueryHookOptions } from '../../../shared/types';
 import {
   commonCodeGroupDetailQuery,
   commonCodeGroupListQuery,
-  commonCodeListQuery,
   commonCodeQueryKeys,
   createCommonCodeGroupMutation,
   createCommonCodeMutation,
@@ -17,12 +16,10 @@ import {
   updateCommonCodeMutation,
 } from './common-code.queries';
 import type {
-  CommonCode,
   CommonCodeGroup,
   CommonCodeGroupPayload,
   CommonCodeGroupQueryParams,
   CommonCodePayload,
-  CommonCodeQueryParams,
   CommonCodeReplacePayload,
 } from './common-code.type';
 
@@ -38,14 +35,6 @@ export const useFetchCommonCodeGroup = (
   options?: QueryHookOptions<Array<CommonCodeGroup>>,
 ): UseQueryResult<Array<CommonCodeGroup>, Error> => {
   return useQuery({ ...options, ...commonCodeGroupDetailQuery(groupCd) });
-};
-
-export const useFetchCommonCodeList = (
-  groupCd: string,
-  params?: CommonCodeQueryParams,
-  options?: QueryHookOptions<Array<CommonCode>>,
-): UseQueryResult<Array<CommonCode>, Error> => {
-  return useQuery({ ...options, ...commonCodeListQuery(groupCd, params) });
 };
 
 export const useCreateCommonCodeGroup = (

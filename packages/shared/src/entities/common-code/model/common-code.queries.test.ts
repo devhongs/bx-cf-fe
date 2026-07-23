@@ -17,13 +17,6 @@ describe('common code query keys', () => {
       'detail',
       'USE_YN',
     ]);
-    expect(commonCodeQueryKeys.codeList('USE_YN')).toEqual([
-      'common-code',
-      'codes',
-      'USE_YN',
-      'list',
-      undefined,
-    ]);
   });
 
   it('creates group list query options from the key object pattern', () => {

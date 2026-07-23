@@ -7,7 +7,6 @@ import {
   useCreateCommonCodeGroup,
   useDeleteCommonCodeGroup,
   useFetchCommonCodeGroup,
-  useFetchCommonCodeList,
   useFieldArray,
   useReplaceCommonCodes,
 } from '@bx/shared';
@@ -103,11 +102,7 @@ export function CodeGroupFormDrawer({
   });
   const group = detailData?.[0] ?? fallback;
 
-  const { data: codeData } = useFetchCommonCodeList(groupCd ?? '', undefined, {
-    enabled: open && isUpdateMode,
-    retry: false,
-  });
-  const defaultValues = toFormValues(group, codeData ?? []);
+  const defaultValues = toFormValues(group, group?.codes ?? []);
   const { form, FormInput, FormSelect, FormTextarea } = useAppForm<CodeGroupFormValues>({
     open,
     defaultValues,

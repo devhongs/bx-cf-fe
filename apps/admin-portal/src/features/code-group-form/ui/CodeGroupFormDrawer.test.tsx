@@ -18,8 +18,18 @@ vi.mock('@bx/shared', async (importOriginal) => {
     ...actual,
     useCreateCommonCodeGroup: () => mutation,
     useDeleteCommonCodeGroup: () => mutation,
-    useFetchCommonCodeGroup: () => ({ data: undefined }),
-    useFetchCommonCodeList: () => ({ data: undefined }),
+    useFetchCommonCodeGroup: (groupCd: string) => ({
+      data: groupCd
+        ? [
+            {
+              groupCd,
+              groupNm: '사용 여부',
+              useYn: 'Y',
+              codes: [{ groupCd, code: 'Y', codeNm: '사용', sortSeq: 1, useYn: 'Y' }],
+            },
+          ]
+        : undefined,
+    }),
     useReplaceCommonCodes: () => mutation,
   };
 });
@@ -36,6 +46,15 @@ vi.mock('@/shared/ui/admin-drawer/AdminDrawer', () => ({
 afterEach(cleanup);
 
 describe('CodeGroupFormDrawer', () => {
+  it('그룹 상세 응답의 codes로 코드 행을 채운다', () => {
+    render(<CodeGroupFormDrawer open groupCd="USE_YN" onClose={vi.fn()} />);
+
+    expect(document.querySelector<HTMLInputElement>('input[name="codes.0.code"]')?.value).toBe('Y');
+    expect(document.querySelector<HTMLInputElement>('input[name="codes.0.codeNm"]')?.value).toBe(
+      '사용',
+    );
+  });
+
   it('코드 추가를 소프트 강조 아이콘 액션으로 렌더링한다', () => {
     render(<CodeGroupFormDrawer open onClose={vi.fn()} />);
 

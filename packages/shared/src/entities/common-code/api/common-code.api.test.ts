@@ -9,7 +9,6 @@ import {
   deleteCommonCodeGroup,
   fetchCommonCodeGroup,
   fetchCommonCodeGroups,
-  fetchCommonCodes,
   replaceCommonCodes,
   updateCommonCode,
   updateCommonCodeGroup,
@@ -120,11 +119,10 @@ describe('common code api', () => {
     });
   });
 
-  it('fetches and mutates common codes through group detail and replace endpoints', async () => {
+  it('mutates common codes through group detail and replace endpoints', async () => {
     const payload = { groupCd: 'USE_YN', code: 'Y', codeNm: '사용', useYn: 'Y' as const };
     const postSpy = vi
       .spyOn(httpService, 'post')
-      .mockResolvedValueOnce([{ groupCd: 'USE_YN', groupNm: '사용 여부', codes: [] }])
       .mockResolvedValueOnce([{ groupCd: 'USE_YN', groupNm: '사용 여부', codes: [] }])
       .mockResolvedValueOnce(undefined)
       .mockResolvedValueOnce([
@@ -132,13 +130,11 @@ describe('common code api', () => {
       ])
       .mockResolvedValueOnce(undefined);
 
-    await fetchCommonCodes('USE_YN');
     await createCommonCode('USE_YN', payload);
     await updateCommonCode('USE_YN', 'Y', payload);
 
     expect(postSpy).toHaveBeenNthCalledWith(1, '/system/common-codes/USE_YN/detail');
-    expect(postSpy).toHaveBeenNthCalledWith(2, '/system/common-codes/USE_YN/detail');
-    expect(postSpy).toHaveBeenNthCalledWith(3, '/system/common-codes/USE_YN/replace', {
+    expect(postSpy).toHaveBeenNthCalledWith(2, '/system/common-codes/USE_YN/replace', {
       data: {
         groupNm: '사용 여부',
         groupDesc: undefined,
@@ -148,8 +144,8 @@ describe('common code api', () => {
         codes: [payload],
       },
     });
-    expect(postSpy).toHaveBeenNthCalledWith(4, '/system/common-codes/USE_YN/detail');
-    expect(postSpy).toHaveBeenNthCalledWith(5, '/system/common-codes/USE_YN/replace', {
+    expect(postSpy).toHaveBeenNthCalledWith(3, '/system/common-codes/USE_YN/detail');
+    expect(postSpy).toHaveBeenNthCalledWith(4, '/system/common-codes/USE_YN/replace', {
       data: {
         groupNm: '사용 여부',
         groupDesc: undefined,

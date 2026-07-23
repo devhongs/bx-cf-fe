@@ -1,7 +1,6 @@
 import { httpService } from '../../../shared/ajax/http.service';
 
 import type {
-  CommonCode,
   CommonCodeGroup,
   CommonCodeGroupPayload,
   CommonCodeGroupQueryParams,
@@ -60,14 +59,6 @@ export const replaceCommonCodes = (
 
 export const deleteCommonCodeGroup = (groupCd: string): Promise<void> =>
   httpService.post<void>(`/system/common-codes/${encodeURIComponent(groupCd)}/delete`);
-
-export const fetchCommonCodes = (groupCd: string): Promise<Array<CommonCode>> =>
-  fetchCommonCodeGroup(groupCd).then((groups) =>
-    (groups[0]?.codes ?? []).map((code) => ({
-      ...code,
-      groupCd: code.groupCd ?? groupCd,
-    })),
-  );
 
 export const createCommonCode = (groupCd: string, payload: CommonCodePayload): Promise<void> =>
   fetchFirstCommonCodeGroup(groupCd).then((group) =>

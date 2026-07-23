@@ -23,7 +23,6 @@ export type CommonCode = SystemSchemas['CommonCodeListResponse'] &
 type CommonCodeCreatePayload = SystemSchemas['CommonCodeCreateRequest']['data'];
 type CommonCodeReplacePayloadItem = SystemSchemas['CommonCodeReplaceRequest']['data'];
 export type CommonCodePayload = Partial<CommonCodeCreatePayload & CommonCodeReplacePayloadItem>;
-export type CommonCodeQueryParams = Partial<CommonCode & CommonCodePayload & LegacyListParams>;
 export type CommonCodeGroupPayload = Partial<
   Omit<CommonCodeCreateCreatePayload, 'codes'> & Omit<CommonCodeReplaceApiPayload, 'codes'>
 > & {

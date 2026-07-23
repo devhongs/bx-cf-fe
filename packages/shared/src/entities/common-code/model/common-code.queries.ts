@@ -7,7 +7,6 @@ import {
   deleteCommonCodeGroup,
   fetchCommonCodeGroup,
   fetchCommonCodeGroups,
-  fetchCommonCodes,
   replaceCommonCodes,
   updateCommonCode,
   updateCommonCodeGroup,
@@ -16,7 +15,6 @@ import type {
   CommonCodeGroupPayload,
   CommonCodeGroupQueryParams,
   CommonCodePayload,
-  CommonCodeQueryParams,
   CommonCodeReplacePayload,
 } from './common-code.type';
 
@@ -25,8 +23,6 @@ export const commonCodeQueryKeys = {
   groupList: (params?: CommonCodeGroupQueryParams) =>
     ['common-code', 'groups', 'list', params] as const,
   groupDetail: (groupCd: string) => ['common-code', 'groups', 'detail', groupCd] as const,
-  codeList: (groupCd: string, params?: CommonCodeQueryParams) =>
-    ['common-code', 'codes', groupCd, 'list', params] as const,
 };
 
 export const commonCodeGroupListQuery = (params?: CommonCodeGroupQueryParams) =>
@@ -39,12 +35,6 @@ export const commonCodeGroupDetailQuery = (groupCd: string) =>
   queryOptions({
     queryKey: commonCodeQueryKeys.groupDetail(groupCd),
     queryFn: () => fetchCommonCodeGroup(groupCd),
-  });
-
-export const commonCodeListQuery = (groupCd: string, params?: CommonCodeQueryParams) =>
-  queryOptions({
-    queryKey: commonCodeQueryKeys.codeList(groupCd, params),
-    queryFn: () => fetchCommonCodes(groupCd),
   });
 
 export const createCommonCodeGroupMutation = () => ({
