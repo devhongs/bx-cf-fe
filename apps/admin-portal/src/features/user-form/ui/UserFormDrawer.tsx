@@ -1,4 +1,10 @@
-import { openConfirm, useCreateUser, useDeleteUser, useFetchUser, useUpdateUser } from '@bx/shared';
+import {
+  openDeleteConfirm,
+  useCreateUser,
+  useDeleteUser,
+  useFetchUser,
+  useUpdateUser,
+} from '@bx/shared';
 import type { ManagedUser, UseYn, UserPayload, UserType } from '@bx/shared';
 
 import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
@@ -73,11 +79,7 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
 
   const handleDelete = async () => {
     if (!isUpdateMode) return;
-
-    const confirmed = await openConfirm({
-      message: `'${user?.usrNm ?? usrId}' 사용자를 삭제하시겠습니까?`,
-    });
-    if (!confirmed) return;
+    if (!(await openDeleteConfirm())) return;
 
     deleteMutation.mutate(usrId, { onSuccess: onClose });
   };

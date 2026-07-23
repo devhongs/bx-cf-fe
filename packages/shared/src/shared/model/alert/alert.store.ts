@@ -58,3 +58,13 @@ export const openAlert = async (config: Omit<AlertConfig, 'cancelText'>): Promis
  */
 export const openConfirm = (config: AlertConfig): Promise<boolean> =>
   useAlertStore.getState().open({ cancelText: '취소', ...config });
+
+/** 삭제 confirm 기본 문구. 사이트별로 다르면 여기만 고친다. */
+export const DEFAULT_DELETE_CONFIRM_MESSAGE = '삭제하시겠습니까?';
+
+/**
+ * 삭제 confirm 공통 헬퍼. 문구·확인 버튼('삭제')이 기본값으로 채워진 openConfirm이다.
+ * 대상 이름을 넣고 싶으면 `message`로 덮어쓴다.
+ */
+export const openDeleteConfirm = (config?: Partial<AlertConfig>): Promise<boolean> =>
+  openConfirm({ message: DEFAULT_DELETE_CONFIRM_MESSAGE, confirmText: '삭제', ...config });

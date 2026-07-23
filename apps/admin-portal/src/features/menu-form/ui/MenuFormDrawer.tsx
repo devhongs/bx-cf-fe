@@ -1,4 +1,10 @@
-import { openConfirm, useCreateMenu, useDeleteMenu, useFetchMenu, useUpdateMenu } from '@bx/shared';
+import {
+  openDeleteConfirm,
+  useCreateMenu,
+  useDeleteMenu,
+  useFetchMenu,
+  useUpdateMenu,
+} from '@bx/shared';
 import type { Menu } from '@bx/shared';
 
 import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
@@ -54,11 +60,7 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
 
   const handleDelete = async () => {
     if (!isUpdateMode) return;
-
-    const confirmed = await openConfirm({
-      message: `'${menu?.menuNm ?? menuId}' 메뉴를 삭제하시겠습니까?`,
-    });
-    if (!confirmed) return;
+    if (!(await openDeleteConfirm())) return;
 
     deleteMutation.mutate(menuId, { onSuccess: onClose });
   };

@@ -1,6 +1,12 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { openAlert, openConfirm, useAlertStore } from './alert.store';
+import {
+  DEFAULT_DELETE_CONFIRM_MESSAGE,
+  openAlert,
+  openConfirm,
+  openDeleteConfirm,
+  useAlertStore,
+} from './alert.store';
 
 beforeEach(() => {
   useAlertStore.setState({ queue: [] });
@@ -65,5 +71,22 @@ describe('openAlert', () => {
     openAlert({ message: '저장했습니다.' });
 
     expect(current().cancelText).toBeUndefined();
+  });
+});
+
+describe('openDeleteConfirm', () => {
+  it('기본 삭제 문구와 확인 버튼 "삭제"로 confirm을 연다', () => {
+    openDeleteConfirm();
+
+    expect(current().message).toBe(DEFAULT_DELETE_CONFIRM_MESSAGE);
+    expect(current().confirmText).toBe('삭제');
+    expect(current().cancelText).toBe('취소');
+  });
+
+  it('message를 넘기면 대상 이름 등으로 덮어쓸 수 있다', () => {
+    openDeleteConfirm({ message: "'홍길동' 사용자를 삭제하시겠습니까?" });
+
+    expect(current().message).toBe("'홍길동' 사용자를 삭제하시겠습니까?");
+    expect(current().confirmText).toBe('삭제');
   });
 });

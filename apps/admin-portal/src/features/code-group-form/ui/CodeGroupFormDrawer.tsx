@@ -2,7 +2,7 @@ import { Plus, Trash2 } from 'lucide-react';
 
 import {
   Button,
-  openConfirm,
+  openDeleteConfirm,
   useCreateCommonCodeGroup,
   useDeleteCommonCodeGroup,
   useFetchCommonCodeGroup,
@@ -123,11 +123,7 @@ export function CodeGroupFormDrawer({
 
   const handleDelete = async () => {
     if (!isUpdateMode) return;
-
-    const confirmed = await openConfirm({
-      message: `'${group?.groupNm ?? groupCd}' 그룹을 삭제하시겠습니까?`,
-    });
-    if (!confirmed) return;
+    if (!(await openDeleteConfirm())) return;
 
     deleteMutation.mutate(groupCd, { onSuccess: onClose });
   };
