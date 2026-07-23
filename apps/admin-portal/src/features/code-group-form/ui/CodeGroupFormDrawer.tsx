@@ -1,6 +1,8 @@
+import { Plus, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import {
+  Button,
   openConfirm,
   useCreateCommonCodeGroup,
   useDeleteCommonCodeGroup,
@@ -191,13 +193,16 @@ export function CodeGroupFormDrawer({
         <section className={`${codeStyles.section} ${styles.fieldFull}`}>
           <div className={codeStyles.header}>
             <h3>코드 목록</h3>
-            <button
+            <Button
               type="button"
-              className={styles.button}
+              size="sm"
+              variant="outline"
+              className={codeStyles.addButton}
               onClick={() => append({ code: '', codeNm: '', useYn: 'Y' })}
             >
+              <Plus aria-hidden="true" />
               코드 추가
-            </button>
+            </Button>
           </div>
 
           {fields.length === 0 ? (
@@ -244,7 +249,7 @@ export function CodeGroupFormDrawer({
                       aria-label={`${index + 1}번째 코드 삭제`}
                       onClick={() => remove(index)}
                     >
-                      ×
+                      <Trash2 aria-hidden="true" />
                     </button>
                   </div>
                 ))}

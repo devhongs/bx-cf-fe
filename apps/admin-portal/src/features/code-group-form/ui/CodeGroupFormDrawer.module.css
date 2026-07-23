@@ -21,6 +21,22 @@
   font-weight: 600;
 }
 
+.header .addButton {
+  border-color: color-mix(in srgb, var(--accent) 62%, var(--border));
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.header .addButton:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.header .addButton:focus-visible {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
 /* 정렬 / 코드 / 코드명 / 사용여부 / 삭제 */
 .row {
   display: grid;
@@ -57,17 +73,33 @@
 }
 
 .removeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
   height: 36px;
-  border: 1px solid var(--border);
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--danger) 62%, var(--border));
   border-radius: 6px;
-  background: transparent;
-  color: var(--muted);
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+  color: var(--danger);
   cursor: pointer;
+  transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.removeButton svg {
+  width: 15px;
+  height: 15px;
 }
 
 .removeButton:hover {
   border-color: var(--danger);
-  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 17%, transparent);
+}
+
+.removeButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--danger) 35%, transparent);
 }
 
 .empty {
