@@ -170,7 +170,10 @@ export namespace system {
       };
       get?: never;
       put?: never;
-      /** 공통코드 그룹 및 코드 일괄 교체 */
+      /**
+       * 공통코드 그룹 및 상세코드 일괄 교체
+       * @description 그룹 정보를 수정하고 기존 상세코드를 삭제한 뒤 codes 목록으로 다시 등록한다. codes가 빈 배열이면 기존 상세코드 전체 삭제로 처리한다.
+       */
       post: operations['replaceCommonCodes'];
       delete?: never;
       options?: never;
@@ -187,7 +190,10 @@ export namespace system {
       };
       get?: never;
       put?: never;
-      /** 그룹별 공통코드 및 상세코드 조회 */
+      /**
+       * 그룹별 공통코드 및 상세코드 조회
+       * @description 경로의 groupCd에 해당하는 그룹과 상세코드 목록을 조회한다.
+       */
       post: operations['getCommonCodeGroupDetail'];
       delete?: never;
       options?: never;
@@ -204,7 +210,10 @@ export namespace system {
       };
       get?: never;
       put?: never;
-      /** 공통코드 그룹 및 상세코드 통합 삭제 */
+      /**
+       * 공통코드 그룹 및 상세코드 통합 삭제
+       * @description 경로의 groupCd에 해당하는 상세코드 전체와 그룹을 함께 삭제한다.
+       */
       post: operations['deleteCommonCodes'];
       delete?: never;
       options?: never;
@@ -221,7 +230,10 @@ export namespace system {
       };
       get?: never;
       put?: never;
-      /** 전체 공통코드 그룹 및 상세코드 목록 조회 */
+      /**
+       * 전체 공통코드 그룹 및 상세코드 목록 조회
+       * @description 요청 본문 없이 전체 그룹과 각 그룹의 상세코드 목록을 조회한다.
+       */
       post: operations['getCommonCodeGroupDetails'];
       delete?: never;
       options?: never;
@@ -238,7 +250,10 @@ export namespace system {
       };
       get?: never;
       put?: never;
-      /** 공통코드 그룹 목록 조회 */
+      /**
+       * 공통코드 그룹 목록 조회
+       * @description 상세코드를 제외한 공통코드 그룹 목록을 조회한다.
+       */
       post: operations['getCommonCodeGroups'];
       delete?: never;
       options?: never;
@@ -255,7 +270,10 @@ export namespace system {
       };
       get?: never;
       put?: never;
-      /** 공통코드 그룹 및 상세코드 통합 등록 */
+      /**
+       * 공통코드 그룹 및 상세코드 통합 등록
+       * @description 그룹 정보와 codes 상세코드 목록을 함께 등록한다. codes가 빈 배열이면 그룹만 등록한다.
+       */
       post: operations['createCommonCodes'];
       delete?: never;
       options?: never;
@@ -984,7 +1002,11 @@ export namespace system {
        *       "codeNm": "사용",
        *       "codeDesc": "string",
        *       "sortSeq": "1",
-       *       "useYn": "Y"
+       *       "useYn": "Y",
+       *       "createdBy": "admin",
+       *       "updatedBy": "admin",
+       *       "createdAt": "2026-01-01T09:00:00+09:00",
+       *       "updatedAt": "2026-01-01T10:00:00+09:00"
        *     }
        */
       CommonCodeDetailResponse: {
@@ -1014,6 +1036,28 @@ export namespace system {
          * @enum {string}
          */
         useYn?: 'Y' | 'N';
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
+        /**
+         * Format: date-time
+         * @description 생성 일시
+         * @example 2026-01-01T09:00:00+09:00
+         */
+        createdAt?: string;
+        /**
+         * Format: date-time
+         * @description 수정 일시
+         * @example 2026-01-01T10:00:00+09:00
+         */
+        updatedAt?: string;
       };
       /**
        * @example {
@@ -1197,7 +1241,11 @@ export namespace system {
        *           "codeNm": "사용",
        *           "codeDesc": "string",
        *           "sortSeq": "1",
-       *           "useYn": "Y"
+       *           "useYn": "Y",
+       *           "createdBy": "admin",
+       *           "updatedBy": "admin",
+       *           "createdAt": "2026-01-01T09:00:00+09:00",
+       *           "updatedAt": "2026-01-01T10:00:00+09:00"
        *         }
        *       ]
        *     }
@@ -1277,6 +1325,28 @@ export namespace system {
            * @enum {string}
            */
           useYn?: 'Y' | 'N';
+          /**
+           * @description 생성자 ID
+           * @example admin
+           */
+          createdBy?: string;
+          /**
+           * @description 수정자 ID
+           * @example admin
+           */
+          updatedBy?: string;
+          /**
+           * Format: date-time
+           * @description 생성 일시
+           * @example 2026-01-01T09:00:00+09:00
+           */
+          createdAt?: string;
+          /**
+           * Format: date-time
+           * @description 수정 일시
+           * @example 2026-01-01T10:00:00+09:00
+           */
+          updatedAt?: string;
         }[];
       };
       /**
@@ -1357,7 +1427,7 @@ export namespace system {
            * @example 1
            */
           sortSeq?: number;
-          /** @description 등록할 상세코드 목록 */
+          /** @description 등록할 상세코드 목록(빈 배열이면 그룹만 등록) */
           codes: {
             /**
              * @description 공통코드
@@ -1474,7 +1544,7 @@ export namespace system {
            * @example 1
            */
           sortSeq?: number;
-          /** @description 교체할 상세코드 전체 목록 */
+          /** @description 교체할 상세코드 전체 목록(빈 배열이면 기존 상세코드 전체 삭제) */
           codes: {
             /**
              * @description 공통코드
@@ -1955,7 +2025,9 @@ export namespace system {
           /**
            * @example {
            *       "data": {
-           *         "menuIds": "string"
+           *         "menuIds": [
+           *           0
+           *         ]
            *       }
            *     }
            */
@@ -2121,7 +2193,18 @@ export namespace system {
            *         "systemYn": "N",
            *         "useYn": "Y",
            *         "sortSeq": "1",
-           *         "codes": "string"
+           *         "codes": [
+           *           {
+           *             "code": "Y",
+           *             "codeNm": "사용",
+           *             "codeDesc": "string",
+           *             "sortSeq": "1",
+           *             "useYn": "Y",
+           *             "validFrom": "2026-01-01",
+           *             "validTo": "2026-12-31",
+           *             "extraData": "{}"
+           *           }
+           *         ]
            *       }
            *     }
            */
@@ -2296,7 +2379,18 @@ export namespace system {
            *         "systemYn": "N",
            *         "useYn": "Y",
            *         "sortSeq": "1",
-           *         "codes": "string"
+           *         "codes": [
+           *           {
+           *             "code": "Y",
+           *             "codeNm": "사용",
+           *             "codeDesc": "string",
+           *             "sortSeq": "1",
+           *             "useYn": "Y",
+           *             "validFrom": "2026-01-01",
+           *             "validTo": "2026-12-31",
+           *             "extraData": "{}"
+           *           }
+           *         ]
            *       }
            *     }
            */
