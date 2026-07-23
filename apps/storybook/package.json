@@ -1,0 +1,36 @@
+{
+  "name": "@bx/storybook",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "storybook": "concurrently --kill-others-on-fail -n hub,shared,pc,admin,mobile \"pnpm dev:hub\" \"pnpm dev:shared\" \"pnpm dev:pc\" \"pnpm dev:admin\" \"pnpm dev:mobile\"",
+    "dev:hub": "storybook dev --config-dir hub --port 6005 --no-open",
+    "dev:shared": "storybook dev --config-dir shared --port 6006 --no-open",
+    "dev:pc": "storybook dev --config-dir pc --port 6007 --no-open",
+    "dev:admin": "storybook dev --config-dir admin --port 6008 --no-open",
+    "dev:mobile": "storybook dev --config-dir mobile --port 6009 --no-open",
+    "build:all": "pnpm build:shared && pnpm build:pc && pnpm build:admin && pnpm build:mobile && pnpm build:hub",
+    "build:hub": "storybook build --config-dir hub --output-dir dist/hub",
+    "build:shared": "storybook build --config-dir shared --output-dir dist/shared",
+    "build:pc": "storybook build --config-dir pc --output-dir dist/pc",
+    "build:admin": "storybook build --config-dir admin --output-dir dist/admin",
+    "build:mobile": "storybook build --config-dir mobile --output-dir dist/mobile",
+    "test": "vitest run --passWithNoTests",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@storybook/addon-docs": "10.5.3",
+    "@storybook/react-vite": "10.5.3",
+    "@types/node": "^25.9.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "concurrently": "^9.2.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "storybook": "10.5.3",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.13",
+    "vite-plugin-svgr": "^5.2.0",
+    "vitest": "^4.1.6"
+  }
+}
