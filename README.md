@@ -19,6 +19,7 @@
 | Vite | `8.0.x` |
 | TanStack Query | `5.100.x` |
 | TanStack Router | `1.130.x` |
+| SVGR | `vite-plugin-svgr 5.2.x` |
 | pnpm | `11.1.3` |
 
 ---
@@ -213,6 +214,7 @@ Admin의 코드·메뉴 등록/수정/삭제는 해당 관리 화면의 목록 Q
 | `pnpm lint` | Biome 린트 |
 | `pnpm format` | Biome 일괄 포맷팅 |
 | `pnpm check:api-paths` | `httpService` 경로가 generated OpenAPI 경로와 맞는지 검사 |
+| `pnpm check:css-tokens` | CSS Modules와 컴포넌트 소스의 raw color 사용 여부 검사 |
 | `pnpm test` | 전체 workspace 단위 테스트 (Vitest, Turborepo 캐싱) |
 | `pnpm build` | 프로덕션 통합 빌드 (Turborepo 캐싱) |
 
@@ -430,7 +432,22 @@ TanStack Query key는 `xxxQueryKeys = { all, list, detail, ... }` 객체 패턴�
 * 앱별 동작이나 스타일이 필요하면 shared 기본 컴포넌트를 조합하거나 확장하고, wrapper와 스타일은 해당 앱 내부에 둡니다.
 * 앱에 먼저 구현한 기능이라도 재사용 범위가 넓어지면 shared UI로 승격합니다.
 
-### 6. 공통 상수 (`@bx/shared/.../constants`)
+### 6. 스타일링 원칙 (CSS Modules)
+* 스타일은 **CSS Modules(`*.module.css`)만 사용**합니다. Tailwind CSS는 제거했으며, utility class 기반 스타일을 새로 추가하지 않습니다.
+* 컴포넌트는 `import styles from './Component.module.css'` 형태로 스타일을 가져오고, 앱별 스타일은 해당 앱 내부에 둡니다.
+* 공통 컴포넌트 스타일은 `packages/shared/src/shared/ui` 또는 `packages/shared/src/shared/form`의 컴포넌트 옆 CSS Module에 둡니다.
+* 색상은 가능한 한 앱/공통 테마 토큰 CSS variable을 사용합니다. raw hex/rgb 색상은 `pnpm check:css-tokens`로 검사합니다.
+* 전역 CSS는 reset, theme token, 앱 shell처럼 전역이어야 하는 최소 범위에만 사용합니다.
+
+### 7. SVG 자산과 SVGR
+세 앱(`pc-web`, `mobile-web`, `admin-portal`)의 Vite 설정에는 `vite-plugin-svgr`가 포함되어 있습니다.
+
+* SVG를 React 컴포넌트로 사용할 때는 `import Icon from './icon.svg?react'`처럼 `?react` 접미사를 붙입니다.
+* `?react`가 없는 SVG import는 기존 Vite 동작대로 URL 문자열로 취급합니다.
+* 앱에서 공유되는 정적 이미지는 `public/assets/images/**`에 두고, 앱 전용 소스 SVG는 각 앱의 `src/assets`에 둡니다.
+* 단순 아이콘 버튼은 가능하면 SVG 파일을 직접 조작하기보다 기존 shared UI와 아이콘 자산을 조합합니다.
+
+### 8. 공통 상수 (`@bx/shared/.../constants`)
 | 모듈 | 내용 |
 | :--- | :--- |
 | `api.ts` | `API_URL`(env 주입), `IS_MOCK_API`, `API_CONFIG`(타임아웃·재시도) |
