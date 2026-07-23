@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { $codeUtils, DataTable, useFetchCommonCodeGroupList } from '@bx/shared';
 import type { CommonCodeGroup, DataTableColumn } from '@bx/shared';
@@ -16,14 +16,12 @@ export function CodesPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedGroupCd, setSelectedGroupCd] = useState<string | undefined>();
 
-  const filteredGroups = useMemo(() => {
-    return groups.filter((group) => {
-      const keyword = `${group.groupCd ?? ''} ${group.groupNm ?? ''}`.toLowerCase();
-      const matchesSearch = keyword.includes(search.toLowerCase());
-      const matchesStatus = !status || group.useYn === status;
-      return matchesSearch && matchesStatus;
-    });
-  }, [groups, search, status]);
+  const filteredGroups = groups.filter((group) => {
+    const keyword = `${group.groupCd ?? ''} ${group.groupNm ?? ''}`.toLowerCase();
+    const matchesSearch = keyword.includes(search.toLowerCase());
+    const matchesStatus = !status || group.useYn === status;
+    return matchesSearch && matchesStatus;
+  });
 
   const selected = groups.find((group) => group.groupCd === selectedGroupCd);
 

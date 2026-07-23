@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { $codeUtils, DataTable, Select, useFetchUserList } from '@bx/shared';
 import type { DataTableColumn, ManagedUser } from '@bx/shared';
@@ -17,15 +17,13 @@ export function UsersPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedUsrId, setSelectedUsrId] = useState<string | undefined>();
 
-  const filteredUsers = useMemo(() => {
-    return users.filter((user) => {
-      const keyword = `${user.usrId} ${user.usrNm} ${user.deptName ?? ''}`.toLowerCase();
-      const matchesSearch = keyword.includes(search.toLowerCase());
-      const matchesStatus = !status || user.useYn === status;
-      const matchesType = !userType || user.userType === userType;
-      return matchesSearch && matchesStatus && matchesType;
-    });
-  }, [users, search, status, userType]);
+  const filteredUsers = users.filter((user) => {
+    const keyword = `${user.usrId} ${user.usrNm} ${user.deptName ?? ''}`.toLowerCase();
+    const matchesSearch = keyword.includes(search.toLowerCase());
+    const matchesStatus = !status || user.useYn === status;
+    const matchesType = !userType || user.userType === userType;
+    return matchesSearch && matchesStatus && matchesType;
+  });
 
   const selected = users.find((user) => user.usrId === selectedUsrId);
 

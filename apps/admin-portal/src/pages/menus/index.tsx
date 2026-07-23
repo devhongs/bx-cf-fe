@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { $codeUtils, DataTable, useFetchMenuList } from '@bx/shared';
 import type { DataTableColumn, Menu } from '@bx/shared';
@@ -16,14 +16,12 @@ export function MenusPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedMenuId, setSelectedMenuId] = useState<number | undefined>();
 
-  const filteredMenus = useMemo(() => {
-    return menus.filter((menu) => {
-      const keyword = `${menu.menuCd ?? ''} ${menu.menuNm ?? ''} ${menu.path ?? ''}`.toLowerCase();
-      const matchesSearch = keyword.includes(search.toLowerCase());
-      const matchesStatus = !status || menu.useYn === status;
-      return matchesSearch && matchesStatus;
-    });
-  }, [menus, search, status]);
+  const filteredMenus = menus.filter((menu) => {
+    const keyword = `${menu.menuCd ?? ''} ${menu.menuNm ?? ''} ${menu.path ?? ''}`.toLowerCase();
+    const matchesSearch = keyword.includes(search.toLowerCase());
+    const matchesStatus = !status || menu.useYn === status;
+    return matchesSearch && matchesStatus;
+  });
 
   const selected = menus.find((menu) => menu.menuId === selectedMenuId);
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type * as React from 'react';
 import {
   type FieldValues,
   FormProvider,
@@ -7,8 +7,8 @@ import {
 } from 'react-hook-form';
 
 import { cn } from '../ui/lib/cn';
-import { type FormFieldStyle, FormFieldStyleProvider } from './form-style-context';
 import styles from './Form.module.css';
+import { type FormFieldStyle, FormFieldStyleProvider } from './form-style-context';
 
 export interface FormProps<TValues extends FieldValues, TPayload = TValues>
   extends Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onSubmit'>,
@@ -29,16 +29,13 @@ export function Form<TValues extends FieldValues, TPayload = TValues>({
   errorClassName,
   ...props
 }: FormProps<TValues, TPayload>) {
-  const fieldStyle = React.useMemo<FormFieldStyle>(
-    () => ({
-      controlClassName,
-      fieldClassName,
-      labelClassName,
-      descriptionClassName,
-      errorClassName,
-    }),
-    [controlClassName, fieldClassName, labelClassName, descriptionClassName, errorClassName],
-  );
+  const fieldStyle: FormFieldStyle = {
+    controlClassName,
+    fieldClassName,
+    labelClassName,
+    descriptionClassName,
+    errorClassName,
+  };
 
   return (
     <FormFieldStyleProvider value={fieldStyle}>
