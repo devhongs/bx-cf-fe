@@ -36,6 +36,7 @@ export const commonCodeGroupDetailQuery = (groupCd: string) =>
   queryOptions({
     queryKey: commonCodeQueryKeys.groupDetail(groupCd),
     queryFn: () => fetchCommonCodeGroup(groupCd),
+    staleTime: 0,
   });
 
 export const createCommonCodeGroupMutation = () => ({
