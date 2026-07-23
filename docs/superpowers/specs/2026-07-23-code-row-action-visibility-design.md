@@ -1,37 +1,37 @@
-# Code Row Action Visibility Design
+# 코드 행 액션 시인성 개선 디자인
 
-## Goal
+## 목표
 
-Make the code-list add and row-delete actions immediately recognizable in the admin code-group drawer without competing with the drawer's primary save action.
+관리자 코드 그룹 드로어에서 `코드 추가`와 행 삭제 액션을 즉시 알아볼 수 있게 개선한다. 단, 드로어의 주요 액션인 `저장` 버튼보다 강하게 보이지 않도록 시각적 위계를 유지한다.
 
-## Visual Hierarchy
+## 시각적 위계
 
-- Keep the footer `저장` button as the only solid accent action in the drawer.
-- Render `코드 추가` as a compact soft-accent button: accent-colored border, icon, and label with a lightly tinted accent background.
-- Render each row delete control as a compact soft-danger icon button: danger-colored border and trash icon with a lightly tinted danger background.
-- Show the danger treatment in the default state, not only on hover, so the destructive meaning remains visible on touch devices and before pointer interaction.
-- Increase the tint and border contrast on hover while preserving readable foreground contrast in both admin light and dark themes.
-- Use an accent focus ring for add and a danger focus ring for delete. Keep the existing disabled treatment where applicable.
+- 드로어 안에서 단색 강조 배경은 하단 `저장` 버튼에만 사용한다.
+- `코드 추가`는 강조색 테두리·아이콘·레이블과 옅은 강조색 배경을 조합한 작은 소프트 강조 버튼으로 표현한다.
+- 각 행의 삭제 버튼은 위험색 테두리·휴지통 아이콘과 옅은 위험색 배경을 조합한 작은 소프트 위험 아이콘 버튼으로 표현한다.
+- 삭제의 위험 의미가 터치 기기와 포인터 진입 전에도 드러나도록 기본 상태부터 위험색을 노출한다.
+- 호버 상태에서는 배경색 농도와 테두리 대비를 높이되, 관리자 라이트·다크 테마 모두에서 전경색 대비를 유지한다.
+- 추가 버튼에는 강조색 포커스 링을, 삭제 버튼에는 위험색 포커스 링을 사용한다. 비활성 상태가 필요한 경우 기존 처리 방식을 유지한다.
 
-## Components
+## 컴포넌트 구성
 
-- `CodeGroupFormDrawer` continues to use the shared `Button` for `코드 추가`, adding only an app-specific class for the soft-accent presentation.
-- The row delete control remains local to the editable grid because its 32–36 px layout and row-removal behavior are specific to this form. Replace the ambiguous multiplication sign with Lucide's `Trash2` icon.
-- Keep the existing accessible row-specific label (`N번째 코드 삭제`) on each icon-only delete button.
-- No shared button variant is added: this is currently a single admin-specific treatment, so promoting it to shared UI would be premature.
+- `CodeGroupFormDrawer`의 `코드 추가`는 공용 `Button`을 계속 사용하고, 소프트 강조 표현을 위한 앱 전용 클래스만 추가한다.
+- 행 삭제 컨트롤의 32~36px 레이아웃과 행 제거 동작은 이 폼에 특화되어 있으므로 편집 그리드 내부 구현으로 유지한다. 의미가 모호한 곱하기 기호 대신 Lucide의 `Trash2` 아이콘을 사용한다.
+- 아이콘 전용 삭제 버튼에는 기존의 행별 접근성 레이블(`N번째 코드 삭제`)을 유지한다.
+- 현재는 관리자 화면 한 곳에서만 필요한 표현이므로 공용 버튼 변형을 새로 추가하지 않는다.
 
-## Interaction and Data Flow
+## 상호작용과 데이터 흐름
 
-The change is visual only. `코드 추가` still appends an empty code row, and row delete still removes the matching field-array index immediately. Group deletion, save behavior, validation, API calls, and confirmation behavior remain unchanged.
+이번 변경은 시각 표현만 다룬다. `코드 추가`는 기존과 같이 빈 코드 행을 추가하고, 행 삭제는 해당 필드 배열 인덱스를 즉시 제거한다. 그룹 삭제, 저장, 유효성 검사, API 호출, 확인창 동작은 변경하지 않는다.
 
-## Verification
+## 검증
 
-- Extend the drawer component test to confirm the add action keeps its icon and receives the local soft-accent class.
-- Render at least one code row and verify its delete button has the row-specific accessible name and a trash SVG icon.
-- Verify the remove action still deletes only the selected row.
-- Run the focused component test, admin type check, and the repository CSS-token check if available.
-- Visually check light and dark admin themes to confirm the controls are more visible than input borders while remaining less prominent than `저장`.
+- 드로어 컴포넌트 테스트에서 추가 버튼이 아이콘을 유지하고 앱 전용 소프트 강조 클래스를 받는지 확인한다.
+- 코드 행을 하나 이상 렌더링해 삭제 버튼에 행별 접근성 이름과 휴지통 SVG 아이콘이 있는지 확인한다.
+- 삭제 동작이 선택한 행만 제거하는지 확인한다.
+- 관련 컴포넌트 테스트, 관리자 타입 검사, 저장소의 CSS 토큰 검사를 실행한다.
+- 관리자 라이트·다크 테마에서 두 액션이 입력 필드 테두리보다 잘 보이고 `저장` 버튼보다는 덜 강조되는지 시각적으로 확인한다.
 
-## Scope
+## 범위
 
-This change affects only the code-list add and row-delete controls in the code-group drawer. It does not redesign footer actions, introduce delete confirmation for unsaved code rows, widen the editable grid, or change shared button APIs.
+이번 변경은 코드 그룹 드로어의 코드 목록 추가 및 행 삭제 컨트롤에만 적용한다. 하단 액션을 재설계하거나, 저장 전 코드 행 삭제에 확인창을 추가하거나, 편집 그리드 폭을 넓히거나, 공용 버튼 API를 변경하지 않는다.
