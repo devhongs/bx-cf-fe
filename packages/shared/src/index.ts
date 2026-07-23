@@ -9,6 +9,7 @@ export * from './entities/user';
 export * from './shared/ajax/api-error';
 export * from './shared/ajax/http.service';
 export * from './shared/lib/error/handleApiError';
+export * from './shared/lib/success/handleMutationSuccess';
 export * from './shared/types';
 export * from './shared/form';
 export * from './shared/hooks';

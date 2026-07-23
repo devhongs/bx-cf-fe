@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
@@ -11,11 +11,14 @@ const mutation = {
   mutateAsync: vi.fn(),
 };
 
+const { toastSuccess } = vi.hoisted(() => ({ toastSuccess: vi.fn() }));
+
 vi.mock('@bx/shared', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@bx/shared')>();
 
   return {
     ...actual,
+    toast: { success: toastSuccess },
     useCreateCommonCodeGroup: () => mutation,
     useDeleteCommonCodeGroup: () => mutation,
     useFetchCommonCodeGroup: (groupCd: string) => ({
@@ -98,5 +101,23 @@ describe('CodeGroupFormDrawer', () => {
       'SECOND',
     );
     expect(document.querySelector('input[name="codes.1.code"]')).toBeNull();
+  });
+
+  it('저장 성공 시 드로어를 닫고 토스트는 직접 띄우지 않는다', async () => {
+    const handleClose = vi.fn();
+    mutation.mutateAsync.mockResolvedValue(undefined);
+    toastSuccess.mockReset();
+
+    render(<CodeGroupFormDrawer open onClose={handleClose} />);
+
+    fireEvent.change(screen.getByLabelText(/그룹코드/), { target: { value: 'TEST_GROUP' } });
+    fireEvent.change(screen.getByLabelText(/그룹명/), { target: { value: '테스트 그룹' } });
+    fireEvent.click(screen.getByRole('button', { name: '저장' }));
+
+    await waitFor(() => {
+      expect(handleClose).toHaveBeenCalledOnce();
+    });
+    // 성공 토스트는 이제 공통(MutationCache + meta.success)이 담당한다.
+    expect(toastSuccess).not.toHaveBeenCalled();
   });
 });

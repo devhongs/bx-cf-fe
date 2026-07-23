@@ -76,7 +76,7 @@ describe('MenuFormDrawer', () => {
     );
   });
 
-  it('shows a success toast after saving a menu', async () => {
+  it('closes the drawer after saving without toasting directly', async () => {
     const handleClose = vi.fn();
 
     render(<MenuFormDrawer open menuId={1} onClose={handleClose} />);
@@ -84,8 +84,9 @@ describe('MenuFormDrawer', () => {
     fireEvent.click(screen.getByRole('button', { name: '저장' }));
 
     await waitFor(() => {
-      expect(mocks.toastSuccess).toHaveBeenCalledWith('저장되었습니다.');
+      expect(handleClose).toHaveBeenCalledOnce();
     });
-    expect(handleClose).toHaveBeenCalledOnce();
+    // 성공 토스트는 이제 공통(MutationCache + meta.success)이 담당한다. 드로어는 직접 띄우지 않는다.
+    expect(mocks.toastSuccess).not.toHaveBeenCalled();
   });
 });

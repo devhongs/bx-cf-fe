@@ -3,6 +3,7 @@ import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
 import { isApiError } from '../../ajax/api-error';
 
 import { handleApiError } from '../error/handleApiError';
+import { handleMutationSuccess } from '../success/handleMutationSuccess';
 
 /**
  * 통신 에러의 중앙 처리 지점.
@@ -17,6 +18,9 @@ export const createQueryClient = () =>
       },
     }),
     mutationCache: new MutationCache({
+      onSuccess: (_data, _variables, _context, mutation) => {
+        handleMutationSuccess(mutation.meta?.success);
+      },
       onError: (error, _variables, _context, mutation) => {
         void handleApiError(error, mutation.meta?.error);
       },

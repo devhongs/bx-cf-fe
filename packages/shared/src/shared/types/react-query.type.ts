@@ -1,6 +1,7 @@
 import type { UseQueryOptions } from '@tanstack/react-query';
 
 import type { ErrorPolicy } from '../lib/error/handleApiError';
+import type { SuccessMeta } from '../lib/success/handleMutationSuccess';
 
 export type QueryHookOptions<TQueryFnData, TData = TQueryFnData, TError = Error> = Omit<
   UseQueryOptions<TQueryFnData, TError, TData, any>,
@@ -14,6 +15,8 @@ export type QueryHookOptions<TQueryFnData, TData = TQueryFnData, TError = Error>
 export type AppQueryMeta = {
   /** 화면별 에러 처리 정책 — handleApiError가 읽는다. */
   error?: ErrorPolicy;
+  /** 뮤테이션 성공 토스트 opt-in — handleMutationSuccess가 읽는다. */
+  success?: SuccessMeta;
 };
 
 declare module '@tanstack/react-query' {

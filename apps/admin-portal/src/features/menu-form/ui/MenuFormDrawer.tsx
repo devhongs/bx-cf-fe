@@ -1,13 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import {
-  openConfirm,
-  toast,
-  useCreateMenu,
-  useDeleteMenu,
-  useFetchMenu,
-  useUpdateMenu,
-} from '@bx/shared';
+import { openConfirm, useCreateMenu, useDeleteMenu, useFetchMenu, useUpdateMenu } from '@bx/shared';
 import type { Menu } from '@bx/shared';
 
 import { getApiErrorMessage } from '@/shared/lib/getApiErrorMessage';
@@ -68,7 +61,6 @@ export function MenuFormDrawer({ open, menuId, fallback, onClose }: MenuFormDraw
       } else {
         await createMutation.mutateAsync(payload);
       }
-      toast.success('저장되었습니다.');
       onClose();
     } catch (error) {
       setSubmitError(getApiErrorMessage(error, '저장에 실패했습니다.'));
