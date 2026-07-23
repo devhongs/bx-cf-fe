@@ -5,6 +5,7 @@ import { commonCodeGroupListQuery, commonCodeQueryKeys } from './common-code.que
 describe('common code query keys', () => {
   it('uses the entity query key object pattern', () => {
     expect(commonCodeQueryKeys.all).toEqual(['common-code']);
+    expect(commonCodeQueryKeys.groupLists()).toEqual(['common-code', 'groups', 'list']);
     expect(commonCodeQueryKeys.groupList({ useYn: 'Y' })).toEqual([
       'common-code',
       'groups',

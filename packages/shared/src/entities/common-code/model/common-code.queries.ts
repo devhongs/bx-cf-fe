@@ -20,8 +20,9 @@ import type {
 
 export const commonCodeQueryKeys = {
   all: ['common-code'] as const,
+  groupLists: () => [...commonCodeQueryKeys.all, 'groups', 'list'] as const,
   groupList: (params?: CommonCodeGroupQueryParams) =>
-    ['common-code', 'groups', 'list', params] as const,
+    [...commonCodeQueryKeys.groupLists(), params] as const,
   groupDetail: (groupCd: string) => ['common-code', 'groups', 'detail', groupCd] as const,
 };
 

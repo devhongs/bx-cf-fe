@@ -1,4 +1,9 @@
-import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
+import type {
+  QueryClient,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type { QueryHookOptions } from '../../../shared/types';
@@ -22,6 +27,17 @@ import type {
   CommonCodePayload,
   CommonCodeReplacePayload,
 } from './common-code.type';
+
+const invalidateCommonCodeQueries = async (queryClient: QueryClient) => {
+  await queryClient.invalidateQueries({
+    queryKey: commonCodeQueryKeys.all,
+    refetchType: 'none',
+  });
+  await queryClient.refetchQueries({
+    queryKey: commonCodeQueryKeys.groupLists(),
+    type: 'active',
+  });
+};
 
 export const useFetchCommonCodeGroupList = (
   params?: CommonCodeGroupQueryParams,
@@ -107,7 +123,7 @@ export const useReplaceCommonCodes = (
     ...replaceCommonCodesMutation(),
     ...options,
     onSuccess: async (data, variables, onMutateResult, context) => {
-      await queryClient.invalidateQueries({ queryKey: commonCodeQueryKeys.all });
+      await invalidateCommonCodeQueries(queryClient);
       options?.onSuccess?.(data, variables, onMutateResult, context);
     },
   });
