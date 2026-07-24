@@ -40,18 +40,16 @@ interface CodeGroupFormValues {
   codes: CodeRowValues[];
 }
 
-const toCodeRow = (code: CommonCode): CodeRowValues => ({
-  code: code.code ?? '',
-  codeNm: code.codeNm ?? '',
-  useYn: code.useYn ?? 'Y',
-});
-
-const toFormValues = (group?: CommonCodeGroup, codes: CommonCode[] = []): CodeGroupFormValues => ({
+const toFormValues = (group?: CommonCodeGroup): CodeGroupFormValues => ({
   groupCd: group?.groupCd ?? '',
   groupNm: group?.groupNm ?? '',
   groupDesc: group?.groupDesc ?? '',
   useYn: group?.useYn ?? 'Y',
-  codes: codes.map(toCodeRow),
+  codes: (group?.codes ?? []).map((code: CommonCode) => ({
+    code: code.code ?? '',
+    codeNm: code.codeNm ?? '',
+    useYn: code.useYn ?? 'Y',
+  })),
 });
 
 /**
@@ -99,7 +97,7 @@ export function CodeGroupFormDrawer({
   });
   const group = detailData?.[0] ?? fallback;
 
-  const defaultValues = toFormValues(group, group?.codes ?? []);
+  const defaultValues = toFormValues(group);
   const { form, FormInput, FormSelect, FormTextarea } = useAppForm<CodeGroupFormValues>({
     open,
     defaultValues,

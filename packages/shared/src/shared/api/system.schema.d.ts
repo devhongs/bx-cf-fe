@@ -997,6 +997,8 @@ export namespace system {
       };
       /**
        * @example {
+       *       "codeId": 0,
+       *       "groupId": 0,
        *       "groupCd": "string",
        *       "code": "Y",
        *       "codeNm": "사용",
@@ -1010,6 +1012,16 @@ export namespace system {
        *     }
        */
       CommonCodeDetailResponse: {
+        /**
+         * Format: int64
+         * @description 공통코드 ID
+         */
+        codeId?: number;
+        /**
+         * Format: int64
+         * @description 공통코드 그룹 ID
+         */
+        groupId?: number;
         /** @description 공통코드 그룹 코드 */
         groupCd?: string;
         /**
@@ -1061,6 +1073,7 @@ export namespace system {
       };
       /**
        * @example {
+       *       "groupId": 0,
        *       "groupCd": "USE_YN",
        *       "groupNm": "사용 여부",
        *       "groupDesc": "string",
@@ -1093,6 +1106,11 @@ export namespace system {
        *     }
        */
       CommonCodeGroupDetailListResponse: {
+        /**
+         * Format: int64
+         * @description 공통코드 그룹 ID
+         */
+        groupId?: number;
         /**
          * @description 공통코드 그룹 코드
          * @example USE_YN
@@ -1225,6 +1243,7 @@ export namespace system {
       };
       /**
        * @example {
+       *       "groupId": 0,
        *       "groupCd": "USE_YN",
        *       "groupNm": "사용 여부",
        *       "groupDesc": "string",
@@ -1236,6 +1255,8 @@ export namespace system {
        *       "updatedAt": "2026-06-25T16:01:14+09:00",
        *       "codes": [
        *         {
+       *           "codeId": 0,
+       *           "groupId": 0,
        *           "groupCd": "string",
        *           "code": "Y",
        *           "codeNm": "사용",
@@ -1251,6 +1272,11 @@ export namespace system {
        *     }
        */
       CommonCodeGroupDetailDetailResponse: {
+        /**
+         * Format: int64
+         * @description 공통코드 그룹 ID
+         */
+        groupId?: number;
         /**
          * @description 공통코드 그룹 코드
          * @example USE_YN
@@ -1299,6 +1325,16 @@ export namespace system {
         updatedAt?: string;
         /** @description 공통코드 목록 */
         codes?: {
+          /**
+           * Format: int64
+           * @description 공통코드 ID
+           */
+          codeId?: number;
+          /**
+           * Format: int64
+           * @description 공통코드 그룹 ID
+           */
+          groupId?: number;
           /** @description 공통코드 그룹 코드 */
           groupCd?: string;
           /**
