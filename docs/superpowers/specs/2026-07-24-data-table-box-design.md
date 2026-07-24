@@ -5,8 +5,9 @@
 관리자 목록 화면에서 검색 조건, 조회, 등록, 다중 선택 액션과 테이블의 역할을 명확히 구분한다.
 
 - 조회와 초기화는 검색 조건 영역에 배치한다.
-- 등록은 검색 영역 우측의 페이지 주요 액션으로 유지한다.
-- 삭제와 기타 다중 선택 액션은 행이 선택된 동안에만 테이블 상단에 노출한다.
+- 등록과 데이터 관련 액션은 테이블 상단에 함께 배치한다.
+- 등록은 선택 여부와 관계없이 항상 노출한다.
+- 삭제와 기타 다중 선택 액션은 행이 선택된 동안에만 등록 왼쪽에 노출한다.
 - 업무 페이지가 선택 상태를 직접 관리하지 않도록 `DataTableBox`가 선택 상태를 소유한다.
 
 ## 화면 구조
@@ -15,11 +16,8 @@
 <AdminFilterBar
   searchValue={draftSearch}
   statusValue={draftStatus}
-  resultLabel={`${rows.length}개 그룹`}
-  primaryActionLabel="그룹 등록"
   onSearch={handleSearch}
   onReset={handleReset}
-  onPrimaryAction={openCreateDrawer}
 />
 
 <DataTableBox rows={rows} getRowId={getGroupRowId}>
@@ -27,6 +25,8 @@
     <BulkActionBar onDelete={handleBulkDelete}>
       {/* 업무별 상태 변경·기타 액션을 필요할 때 추가 */}
     </BulkActionBar>
+
+    <Button onClick={openCreateDrawer}>등록</Button>
   </DataTableBox.Header>
 
   <DataTableBox.Table
@@ -37,7 +37,7 @@
 </DataTableBox>
 ```
 
-필터 영역은 `DataTableBox` 밖에 둔다. `DataTableBox`는 테이블과 테이블 선택 액션만 담당한다.
+필터 영역은 `DataTableBox` 밖에 둔다. `DataTableBox`는 전체/선택 건수, 데이터 액션과 테이블을 담당한다.
 
 ## 컴포넌트 책임
 
@@ -56,8 +56,11 @@
 
 ### `DataTableBox.Header`
 
-- `selectionCount`가 0이면 렌더링하지 않는다.
-- 선택 항목이 있을 때만 다중 선택 액션 영역을 렌더링한다.
+- 항상 렌더링한다.
+- 선택 전에는 전체 건수를 표시한다.
+- 선택 후에는 선택 건수와 선택 해제를 표시한다.
+- 등록 버튼은 선택 여부와 관계없이 우측 끝에 유지한다.
+- 선택 항목이 있을 때만 등록 왼쪽에 다중 선택 액션을 렌더링한다.
 - 테이블과 하나의 박스로 보이도록 하단 구분선만 갖는다.
 
 ### `DataTableBox.Table`
@@ -70,16 +73,19 @@
 ### `BulkActionBar`
 
 - `DataTableBox` Context에서 선택 개수와 선택 항목을 읽는다.
-- 선택 개수, 업무별 추가 액션, 선택 해제, 삭제를 표시한다.
+- 선택 항목이 있을 때만 업무별 추가 액션과 삭제를 표시한다.
 - 삭제 클릭 시 확인 후 `onDelete(selectedItems)`를 호출한다.
-- 삭제 콜백이 성공하면 선택을 초기화한다.
-- 삭제 콜백이 실패하면 선택을 유지하고, 기존 전역 오류 처리를 따른다.
+- 삭제 콜백이 반환값 없이 성공하면 선택을 초기화한다.
+- 삭제 콜백이 항목 배열을 반환하면 해당 항목만 선택 상태로 유지한다.
+- 삭제 콜백이 실패하면 기존 선택을 유지하고, 기존 전역 오류 처리를 따른다.
 - 비동기 삭제 중에는 중복 실행을 막는다.
 
 ## 삭제 콜백 계약
 
 ```ts
-type BulkDeleteHandler<T> = (selectedItems: T[]) => void | Promise<void>;
+type BulkDeleteHandler<T> = (
+  selectedItems: T[],
+) => void | T[] | Promise<void | T[]>;
 ```
 
 `DataTableBox`와 `BulkActionBar`는 실제 삭제 API를 알지 않는다. 코드 그룹, 메뉴, 사용자 등 각 업무 화면이 콜백으로 삭제 작업을 제공한다.
@@ -87,12 +93,20 @@ type BulkDeleteHandler<T> = (selectedItems: T[]) => void | Promise<void>;
 ```tsx
 <BulkActionBar
   onDelete={async (selectedItems) => {
-    await Promise.all(
-      selectedItems.map((item) => deleteGroup.mutateAsync(item.groupCd)),
+    const { failed } = await deleteSelectedItems(
+      selectedItems,
+      (item) => deleteGroup.mutateAsync(item.groupCd),
     );
+
+    return failed;
   }}
 />
 ```
+
+- `undefined` 반환: 전체 삭제 성공으로 보고 선택을 초기화한다.
+- 빈 배열 반환: 전체 삭제 성공으로 보고 선택을 초기화한다.
+- 항목 배열 반환: 부분 실패 또는 삭제 제외 항목으로 보고 해당 항목만 선택을 유지한다.
+- 예외 발생: 삭제 실행 자체가 실패한 것으로 보고 기존 선택을 유지한다.
 
 ## 조회 동작
 
@@ -102,7 +116,9 @@ type BulkDeleteHandler<T> = (selectedItems: T[]) => void | Promise<void>;
 - `appliedSearch`, `appliedStatus`: 현재 목록에 적용된 조건
 - 조회 버튼 또는 검색어 입력란의 Enter로 draft 값을 applied 값에 반영한다.
 - 초기화는 draft와 applied 값을 함께 비우고 전체 목록을 표시한다.
-- 결과 건수와 등록 버튼은 필터 영역 우측에 유지한다.
+- 조회 영역에는 데이터 액션을 배치하지 않는다.
+- 결과 건수와 등록 버튼은 `DataTableBox.Header`에 배치한다.
+- 버튼명은 업무명을 붙이지 않고 `조회`, `초기화`, `등록`, `삭제`로 통일한다.
 
 ## 위치
 
@@ -122,17 +138,21 @@ type BulkDeleteHandler<T> = (selectedItems: T[]) => void | Promise<void>;
 - 데이터 변경으로 현재 행 집합이 바뀌면 존재하지 않는 선택 항목을 제거한다.
 - 페이지 이동 시 기존 `DataTable` 정책에 따라 선택을 초기화한다.
 - 삭제 성공 시 선택을 초기화한다.
-- 삭제 실패 시 선택을 유지한다.
+- 부분 실패 시 콜백이 반환한 항목만 선택을 유지한다.
+- 삭제 콜백이 예외를 던지면 기존 선택을 유지한다.
 - 삭제 진행 중 삭제 버튼을 비활성화한다.
 
 ## 테스트
 
-- 선택 전에는 `DataTableBox.Header`가 렌더링되지 않는다.
-- 행 선택 시 선택 개수와 액션바가 표시된다.
-- 선택 해제 시 헤더가 사라진다.
+- 선택 전에는 전체 건수와 등록 버튼이 표시된다.
+- 행 선택 시 전체 건수가 선택 개수와 선택 해제로 전환된다.
+- 선택 시 일괄 작업과 삭제가 등록 버튼 왼쪽에 추가된다.
+- 선택 중에도 등록 버튼이 유지된다.
+- 선택 해제 시 일괄 작업과 삭제만 사라진다.
 - 삭제 클릭 시 정확한 `selectedItems`가 콜백에 전달된다.
 - 삭제 성공 시 선택이 초기화된다.
-- 삭제 실패 시 선택이 유지된다.
+- 부분 실패 반환 항목만 선택이 유지된다.
+- 삭제 콜백이 예외를 던지면 기존 선택이 유지된다.
 - 조회 버튼과 Enter가 조건을 적용한다.
 - 초기화가 입력 조건과 적용 조건을 모두 비운다.
 - 기존 단독 `DataTable`의 테두리, 정렬, 페이지네이션 동작은 유지된다.
