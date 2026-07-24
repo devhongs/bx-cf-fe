@@ -302,7 +302,7 @@ useDataTableBoxSelection<T>(): DataTableBoxSelection<T>
 ```ts
 export type BulkDeleteHandler<T> = (
   selectedItems: T[],
-) => void | T[] | Promise<void | T[]>;
+) => undefined | T[] | Promise<undefined | T[]>;
 
 export interface BulkActionBarProps<T> {
   children?: ReactNode;
