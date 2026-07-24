@@ -46,16 +46,14 @@ describe('common code api', () => {
   });
 
   it('fetches a common code group detail through the generated detail endpoint', async () => {
-    const group = [
-      {
-        groupCd: 'USE_YN',
-        groupNm: '사용 여부',
-        codes: [
-          { groupCd: 'USE_YN', code: 'Y', codeNm: '사용' },
-          { groupCd: 'USE_YN', code: 'N', codeNm: '미사용' },
-        ],
-      },
-    ];
+    const group = {
+      groupCd: 'USE_YN',
+      groupNm: '사용 여부',
+      codes: [
+        { groupCd: 'USE_YN', code: 'Y', codeNm: '사용' },
+        { groupCd: 'USE_YN', code: 'N', codeNm: '미사용' },
+      ],
+    };
     const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue(group);
 
     const result = await fetchCommonCodeGroup('USE_YN');
@@ -78,7 +76,7 @@ describe('common code api', () => {
   it('updates common code groups through the generated replace endpoint', async () => {
     const postSpy = vi
       .spyOn(httpService, 'post')
-      .mockResolvedValueOnce([{ groupCd: 'USE_YN', groupNm: '사용 여부', codes: [] }])
+      .mockResolvedValueOnce({ groupCd: 'USE_YN', groupNm: '사용 여부', codes: [] })
       .mockResolvedValueOnce(undefined);
 
     await updateCommonCodeGroup('USE_YN', { groupNm: '사용 여부 변경', useYn: 'Y' });
@@ -123,11 +121,13 @@ describe('common code api', () => {
     const payload = { groupCd: 'USE_YN', code: 'Y', codeNm: '사용', useYn: 'Y' as const };
     const postSpy = vi
       .spyOn(httpService, 'post')
-      .mockResolvedValueOnce([{ groupCd: 'USE_YN', groupNm: '사용 여부', codes: [] }])
+      .mockResolvedValueOnce({ groupCd: 'USE_YN', groupNm: '사용 여부', codes: [] })
       .mockResolvedValueOnce(undefined)
-      .mockResolvedValueOnce([
-        { groupCd: 'USE_YN', groupNm: '사용 여부', codes: [{ code: 'Y', codeNm: '사용' }] },
-      ])
+      .mockResolvedValueOnce({
+        groupCd: 'USE_YN',
+        groupNm: '사용 여부',
+        codes: [{ code: 'Y', codeNm: '사용' }],
+      })
       .mockResolvedValueOnce(undefined);
 
     await createCommonCode('USE_YN', payload);
@@ -160,9 +160,11 @@ describe('common code api', () => {
   it('deletes common codes through the generated replace endpoint', async () => {
     const postSpy = vi
       .spyOn(httpService, 'post')
-      .mockResolvedValueOnce([
-        { groupCd: 'USE_YN', groupNm: '사용 여부', codes: [{ code: 'Y', codeNm: '사용' }] },
-      ])
+      .mockResolvedValueOnce({
+        groupCd: 'USE_YN',
+        groupNm: '사용 여부',
+        codes: [{ code: 'Y', codeNm: '사용' }],
+      })
       .mockResolvedValueOnce(undefined);
 
     await deleteCommonCode('USE_YN', 'Y');

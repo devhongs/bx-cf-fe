@@ -66,8 +66,36 @@
   font-weight: 500;
 }
 
+.loadingSample {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.loadingActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.loadingResult {
+  color: var(--muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
 @media (min-width: 768px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .loadingSample {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }

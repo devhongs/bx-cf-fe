@@ -83,12 +83,7 @@ export function MenusPage() {
           />
         </div>
 
-        <MenuFormDrawer
-          open={drawerOpen}
-          menuId={selectedMenuId}
-          fallback={selected}
-          onClose={closeDrawer}
-        />
+        <MenuFormDrawer open={drawerOpen} menu={selected} onClose={closeDrawer} />
       </div>
     </section>
   );

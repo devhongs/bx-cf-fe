@@ -19,15 +19,19 @@ const mocks = vi.hoisted(() => ({
   toastSuccess: vi.fn(),
 }));
 
-vi.mock('@bx/shared', () => ({
-  toast: { success: mocks.toastSuccess },
-  useAuthStore: (selector: (state: { user: { usrId: string } }) => unknown) =>
-    selector({ user: { usrId: 'admin' } }),
-  useFetchMenu: () => ({ data: undefined }),
-  useCreateMenu: () => ({ isPending: mutationState.createPending, mutate: mocks.createMenu }),
-  useUpdateMenu: () => ({ isPending: mutationState.updatePending, mutate: mocks.updateMenu }),
-  useDeleteMenu: () => ({ isPending: mutationState.deletePending, mutate: mocks.deleteMenu }),
-}));
+vi.mock('@bx/shared', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@bx/shared')>();
+
+  return {
+    ...actual,
+    toast: { success: mocks.toastSuccess },
+    useAuthStore: (selector: (state: { user: { usrId: string } }) => unknown) =>
+      selector({ user: { usrId: 'admin' } }),
+    useCreateMenu: () => ({ isPending: mutationState.createPending, mutate: mocks.createMenu }),
+    useUpdateMenu: () => ({ isPending: mutationState.updatePending, mutate: mocks.updateMenu }),
+    useDeleteMenu: () => ({ isPending: mutationState.deletePending, mutate: mocks.deleteMenu }),
+  };
+});
 
 /** 드로어는 `mutate(vars, { onSuccess })`로 성공 시에만 닫는다. 성공을 흉내낸다. */
 const succeed = (_vars: unknown, opts?: { onSuccess?: () => void }) => opts?.onSuccess?.();
@@ -42,14 +46,24 @@ vi.mock('@/shared/ui/admin-drawer/AdminDrawer', () => ({
 }));
 
 vi.mock('./MenuForm', () => ({
-  MenuForm: ({ id, onSubmit }: { id: string; onSubmit: (payload: unknown) => Promise<void> }) => (
+  MenuForm: ({
+    id,
+    defaultValues,
+    onSubmit,
+  }: {
+    id: string;
+    defaultValues: { menuNm: string };
+    onSubmit: (payload: unknown) => Promise<void>;
+  }) => (
     <form
       id={id}
       onSubmit={(event) => {
         event.preventDefault();
         void onSubmit({ menuCd: 'MENU001', menuNm: '메뉴 관리' });
       }}
-    />
+    >
+      <span>{defaultValues.menuNm}</span>
+    </form>
   ),
 }));
 
@@ -69,7 +83,13 @@ describe('MenuFormDrawer', () => {
   it('shows the common processing label while any mutation is pending', () => {
     mutationState.deletePending = true;
 
-    render(<MenuFormDrawer open menuId={1} onClose={vi.fn()} />);
+    render(
+      <MenuFormDrawer
+        open
+        menu={{ menuId: 1, menuCd: 'MENU001', menuNm: '메뉴 관리' }}
+        onClose={vi.fn()}
+      />,
+    );
 
     expect((screen.getByRole('button', { name: '삭제 중' }) as HTMLButtonElement).disabled).toBe(
       true,
@@ -82,7 +102,13 @@ describe('MenuFormDrawer', () => {
   it('closes the drawer after saving without toasting directly', async () => {
     const handleClose = vi.fn();
 
-    render(<MenuFormDrawer open menuId={1} onClose={handleClose} />);
+    render(
+      <MenuFormDrawer
+        open
+        menu={{ menuId: 1, menuCd: 'MENU001', menuNm: '메뉴 관리' }}
+        onClose={handleClose}
+      />,
+    );
 
     fireEvent.click(screen.getByRole('button', { name: '저장' }));
 
@@ -91,5 +117,17 @@ describe('MenuFormDrawer', () => {
     });
     // 성공 토스트는 이제 공통(MutationCache + meta.success)이 담당한다. 드로어는 직접 띄우지 않는다.
     expect(mocks.toastSuccess).not.toHaveBeenCalled();
+  });
+
+  it('uses the selected list row as form values without fetching detail data', () => {
+    render(
+      <MenuFormDrawer
+        open
+        menu={{ menuId: 1, menuCd: 'MENU001', menuNm: '메뉴 관리' }}
+        onClose={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByText('메뉴 관리')).toBeTruthy();
   });
 });

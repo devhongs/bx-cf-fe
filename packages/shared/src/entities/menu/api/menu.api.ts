@@ -1,13 +1,23 @@
 import { httpService } from '../../../shared/ajax/http.service';
+import type { HttpLoadingOptions } from '../../../shared/ajax/http.service';
 
 import type { Menu, MenuPayload, MenuQueryParams } from '../model/menu.type';
 
 export const fetchMenuList = <T extends Menu = Menu>(
   _params?: MenuQueryParams,
-): Promise<Array<T>> => httpService.post<Array<T>>('/system/menus/list');
+  options?: HttpLoadingOptions,
+): Promise<Array<T>> =>
+  options
+    ? httpService.post<Array<T>>('/system/menus/list', undefined, options)
+    : httpService.post<Array<T>>('/system/menus/list');
 
-export const fetchMenu = <T extends Menu = Menu>(menuId: number): Promise<T> =>
-  httpService.post<T>(`/system/menus/${encodeURIComponent(menuId)}/detail`);
+export const fetchMenu = <T extends Menu = Menu>(
+  menuId: number,
+  options?: HttpLoadingOptions,
+): Promise<T> =>
+  options
+    ? httpService.post<T>(`/system/menus/${encodeURIComponent(menuId)}/detail`, undefined, options)
+    : httpService.post<T>(`/system/menus/${encodeURIComponent(menuId)}/detail`);
 
 export const createMenu = (payload: MenuPayload): Promise<void> =>
   httpService.post<void>('/system/menus/create', { data: payload });

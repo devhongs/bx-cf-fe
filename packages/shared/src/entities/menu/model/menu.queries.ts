@@ -1,5 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import type { HttpLoadingOptions } from '../../../shared/ajax/http.service';
+
 import { createMenu, deleteMenu, fetchMenu, fetchMenuList, updateMenu } from '../api/menu.api';
 import type { Menu, MenuPayload, MenuQueryParams } from './menu.type';
 
@@ -10,16 +12,22 @@ export const menuQueryKeys = {
   detail: (id: number) => ['menu', 'detail', id] as const,
 };
 
-export const menuListQuery = <T extends Menu = Menu>(params?: MenuQueryParams) =>
+export const menuListQuery = <T extends Menu = Menu>(
+  params?: MenuQueryParams,
+  options?: HttpLoadingOptions,
+) =>
   queryOptions({
     queryKey: menuQueryKeys.list(params),
-    queryFn: () => fetchMenuList<T>(params),
+    queryFn: () => fetchMenuList<T>(params, options),
   });
 
-export const menuDetailQuery = <T extends Menu = Menu>(menuId: number) =>
+export const menuDetailQuery = <T extends Menu = Menu>(
+  menuId: number,
+  options?: HttpLoadingOptions,
+) =>
   queryOptions({
     queryKey: menuQueryKeys.detail(menuId),
-    queryFn: () => fetchMenu<T>(menuId),
+    queryFn: () => fetchMenu<T>(menuId, options),
   });
 
 export const createMenuMutation = () => ({

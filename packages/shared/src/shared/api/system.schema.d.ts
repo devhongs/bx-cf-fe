@@ -2295,7 +2295,7 @@ export namespace system {
               msg?: string;
               /** @description 요청 추적 ID */
               requestId?: string;
-              payload?: components['schemas']['CommonCodeGroupDetailDetailResponse'][];
+              payload?: components['schemas']['CommonCodeGroupDetailDetailResponse'];
             };
           };
         };

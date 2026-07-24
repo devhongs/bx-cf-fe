@@ -27,23 +27,17 @@ const mockCommonCodeData = vi.hoisted(() => {
   return {
     groups: [useYnGroup, userTypeGroup],
     details: {
-      USE_YN: [
-        {
-          ...useYnGroup,
-          codes: [
-            { groupCd: 'USE_YN', code: 'Y', codeNm: '사용', sortSeq: 1, useYn: 'Y' },
-            { groupCd: 'USE_YN', code: 'N', codeNm: '미사용', sortSeq: 2, useYn: 'Y' },
-          ],
-        },
-      ],
-      USER_TYPE: [
-        {
-          ...userTypeGroup,
-          codes: [
-            { groupCd: 'USER_TYPE', code: 'ADMIN', codeNm: '관리자', sortSeq: 1, useYn: 'Y' },
-          ],
-        },
-      ],
+      USE_YN: {
+        ...useYnGroup,
+        codes: [
+          { groupCd: 'USE_YN', code: 'Y', codeNm: '사용', sortSeq: 1, useYn: 'Y' },
+          { groupCd: 'USE_YN', code: 'N', codeNm: '미사용', sortSeq: 2, useYn: 'Y' },
+        ],
+      },
+      USER_TYPE: {
+        ...userTypeGroup,
+        codes: [{ groupCd: 'USER_TYPE', code: 'ADMIN', codeNm: '관리자', sortSeq: 1, useYn: 'Y' }],
+      },
     },
   };
 });
@@ -57,7 +51,7 @@ vi.mock('@bx/shared', async (importOriginal) => {
       data: mockCommonCodeData.groups,
     }),
     useFetchCommonCodeGroup: (groupCd: string) => ({
-      data: mockCommonCodeData.details[groupCd as keyof typeof mockCommonCodeData.details] ?? [],
+      data: mockCommonCodeData.details[groupCd as keyof typeof mockCommonCodeData.details],
     }),
     useCreateCommonCodeGroup: () => ({ isPending: false, mutateAsync: vi.fn() }),
     useUpdateCommonCodeGroup: () => ({ isPending: false, mutateAsync: vi.fn() }),

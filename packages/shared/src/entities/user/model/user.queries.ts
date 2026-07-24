@@ -1,5 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import type { HttpLoadingOptions } from '../../../shared/ajax/http.service';
+
 import { createUser, deleteUser, fetchUser, fetchUserList, updateUser } from '../api/user.api';
 import type { UserPayload, UserQueryParams } from './user.type';
 
@@ -9,16 +11,16 @@ export const userQueryKeys = {
   detail: (usrId: string) => ['user', 'detail', usrId] as const,
 };
 
-export const userListQuery = (params?: UserQueryParams) =>
+export const userListQuery = (params?: UserQueryParams, options?: HttpLoadingOptions) =>
   queryOptions({
     queryKey: userQueryKeys.list(params),
-    queryFn: () => fetchUserList(params),
+    queryFn: () => fetchUserList(params, options),
   });
 
-export const userDetailQuery = (usrId: string) =>
+export const userDetailQuery = (usrId: string, options?: HttpLoadingOptions) =>
   queryOptions({
     queryKey: userQueryKeys.detail(usrId),
-    queryFn: () => fetchUser(usrId),
+    queryFn: () => fetchUser(usrId, options),
   });
 
 export const createUserMutation = () => ({

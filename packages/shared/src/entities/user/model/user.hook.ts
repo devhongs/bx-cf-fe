@@ -1,6 +1,7 @@
 import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { splitHttpLoadingOptions } from '../../../shared/ajax/http.service';
 import type { QueryHookOptions } from '../../../shared/types';
 
 import {
@@ -17,14 +18,16 @@ export const useFetchUserList = (
   params?: UserQueryParams,
   options?: QueryHookOptions<Array<ManagedUser>>,
 ): UseQueryResult<Array<ManagedUser>, Error> => {
-  return useQuery({ ...options, ...userListQuery(params) });
+  const { loadingOptions, remainingOptions } = splitHttpLoadingOptions(options);
+  return useQuery({ ...remainingOptions, ...userListQuery(params, loadingOptions) });
 };
 
 export const useFetchUser = (
   usrId: string,
   options?: QueryHookOptions<ManagedUser>,
 ): UseQueryResult<ManagedUser, Error> => {
-  return useQuery({ ...options, ...userDetailQuery(usrId) });
+  const { loadingOptions, remainingOptions } = splitHttpLoadingOptions(options);
+  return useQuery({ ...remainingOptions, ...userDetailQuery(usrId, loadingOptions) });
 };
 
 export const useCreateUser = (

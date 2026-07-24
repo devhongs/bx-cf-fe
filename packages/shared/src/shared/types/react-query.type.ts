@@ -1,12 +1,14 @@
 import type { UseQueryOptions } from '@tanstack/react-query';
 
+import type { HttpLoadingOptions } from '../ajax/http.service';
 import type { ErrorPolicy } from '../lib/error/handleApiError';
 import type { SuccessMeta } from '../lib/success/handleMutationSuccess';
 
 export type QueryHookOptions<TQueryFnData, TData = TQueryFnData, TError = Error> = Omit<
   UseQueryOptions<TQueryFnData, TError, TData, any>,
   'queryKey' | 'queryFn'
->;
+> &
+  HttpLoadingOptions;
 
 /**
  * useQuery/useMutation의 `meta`에 넣을 수 있는 값.

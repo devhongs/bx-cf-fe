@@ -1,4 +1,4 @@
-import { httpService } from '../../../shared/ajax/http.service';
+import { type HttpLoadingOptions, httpService } from '../../../shared/ajax/http.service';
 
 import type {
   ManagedUser,
@@ -27,11 +27,22 @@ const toUserListApiRequest = (params?: UserQueryParams): UserListApiRequest | un
   return request as UserListApiRequest | undefined;
 };
 
-export const fetchUserList = (params?: UserQueryParams): Promise<Array<ManagedUser>> =>
-  httpService.post<Array<ManagedUser>>('/users/list', toUserListApiRequest(params));
+export const fetchUserList = (
+  params?: UserQueryParams,
+  options?: HttpLoadingOptions,
+): Promise<Array<ManagedUser>> =>
+  options
+    ? httpService.post<Array<ManagedUser>>('/users/list', toUserListApiRequest(params), options)
+    : httpService.post<Array<ManagedUser>>('/users/list', toUserListApiRequest(params));
 
-export const fetchUser = (usrId: string): Promise<ManagedUser> =>
-  httpService.post<ManagedUser>(`/users/detail/${encodeURIComponent(usrId)}`);
+export const fetchUser = (usrId: string, options?: HttpLoadingOptions): Promise<ManagedUser> =>
+  options
+    ? httpService.post<ManagedUser>(
+        `/users/detail/${encodeURIComponent(usrId)}`,
+        undefined,
+        options,
+      )
+    : httpService.post<ManagedUser>(`/users/detail/${encodeURIComponent(usrId)}`);
 
 export const createUser = (payload: UserPayload): Promise<void> =>
   httpService.post<void>('/users/create', { data: payload });

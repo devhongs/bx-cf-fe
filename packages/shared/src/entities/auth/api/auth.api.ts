@@ -3,6 +3,7 @@ import axios from 'axios';
 import { apiErrorFromEnvelope, toApiError } from '../../../shared/ajax/api-error';
 import { httpService } from '../../../shared/ajax/http.service';
 import { API_CONFIG, API_URL } from '../../../shared/constants';
+import { withGlobalLoading } from '../../../shared/model/loading/loading.store';
 
 import type { LoginApiRequest, LoginRequest, LoginResponse } from '../model/auth.type';
 
@@ -26,18 +27,19 @@ export const logout = (): Promise<void> => httpService.post<void>('/auth/logout'
  * 주의: httpService(인터셉터 포함)를 거치면 401 → refresh 재시도 로직이
  * 재귀적으로 호출될 수 있으므로, raw axios로 직접 호출한다.
  */
-export const refreshTokenApi = async (): Promise<LoginResponse> => {
-  const url = '/auth/refresh-token';
-  try {
-    const { data } = await axios.post(`${API_URL}${url}`, undefined, {
-      headers: { 'Content-Type': 'application/json' },
-      timeout: API_CONFIG.TIMEOUT,
-      withCredentials: true,
-    });
-    if (!data?.success) throw apiErrorFromEnvelope(data ?? {}, { url });
-    return data.payload as LoginResponse;
-  } catch (error) {
-    // httpService를 우회하므로 에러 정규화도 여기서 직접 한다.
-    throw toApiError(error, { url });
-  }
-};
+export const refreshTokenApi = (): Promise<LoginResponse> =>
+  withGlobalLoading(async () => {
+    const url = '/auth/refresh-token';
+    try {
+      const { data } = await axios.post(`${API_URL}${url}`, undefined, {
+        headers: { 'Content-Type': 'application/json' },
+        timeout: API_CONFIG.TIMEOUT,
+        withCredentials: true,
+      });
+      if (!data?.success) throw apiErrorFromEnvelope(data ?? {}, { url });
+      return data.payload as LoginResponse;
+    } catch (error) {
+      // httpService를 우회하므로 에러 정규화도 여기서 직접 한다.
+      throw toApiError(error, { url });
+    }
+  });

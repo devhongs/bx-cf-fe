@@ -92,6 +92,202 @@ export namespace auth {
       /**
        * @example {
        *       "data": {
+       *         "usrNm": "홍길동",
+       *         "positDivName": "차장",
+       *         "deptName": "채널개발팀"
+       *       }
+       *     }
+       */
+      UserUpdateRequest: {
+        /**
+         * @example {
+         *       "usrNm": "홍길동",
+         *       "positDivName": "차장",
+         *       "deptName": "채널개발팀"
+         *     }
+         */
+        data: {
+          /**
+           * @description 사용자명
+           * @example 홍길동
+           */
+          usrNm: string;
+          /**
+           * @description 직위명
+           * @example 차장
+           */
+          positDivName?: string;
+          /**
+           * @description 부서명
+           * @example 채널개발팀
+           */
+          deptName?: string;
+        };
+      };
+      /**
+       * @example {
+       *       "data": {
+       *         "usrId": "hong.gildong",
+       *         "usrNm": "홍길동",
+       *         "positDivName": "과장",
+       *         "deptName": "채널개발팀",
+       *         "usrPwd": "string"
+       *       }
+       *     }
+       */
+      UserCreateRequest: {
+        /**
+         * @example {
+         *       "usrId": "hong.gildong",
+         *       "usrNm": "홍길동",
+         *       "positDivName": "과장",
+         *       "deptName": "채널개발팀",
+         *       "usrPwd": "string"
+         *     }
+         */
+        data: {
+          /**
+           * @description 사용자 ID
+           * @example hong.gildong
+           */
+          usrId: string;
+          /**
+           * @description 사용자명
+           * @example 홍길동
+           */
+          usrNm: string;
+          /**
+           * @description 직위명
+           * @example 과장
+           */
+          positDivName?: string;
+          /**
+           * @description 부서명
+           * @example 채널개발팀
+           */
+          deptName?: string;
+          /**
+           * Format: password
+           * @description 비밀번호
+           */
+          usrPwd: string;
+        };
+      };
+      /**
+       * @example {
+       *       "usrId": "hong.gildong",
+       *       "usrNm": "홍길동",
+       *       "positDivName": "과장",
+       *       "deptName": "채널개발팀",
+       *       "createdBy": "admin",
+       *       "createdAt": "2026-07-23T09:00:00+09:00",
+       *       "updatedBy": "admin",
+       *       "updatedAt": "2026-07-23T10:00:00+09:00"
+       *     }
+       */
+      UserListResponse: {
+        /**
+         * @description 사용자 ID
+         * @example hong.gildong
+         */
+        usrId?: string;
+        /**
+         * @description 사용자명
+         * @example 홍길동
+         */
+        usrNm?: string;
+        /**
+         * @description 직위명
+         * @example 과장
+         */
+        positDivName?: string;
+        /**
+         * @description 부서명
+         * @example 채널개발팀
+         */
+        deptName?: string;
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
+        /**
+         * Format: date-time
+         * @description 생성 일시
+         * @example 2026-07-23T09:00:00+09:00
+         */
+        createdAt?: string;
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
+        /**
+         * Format: date-time
+         * @description 수정 일시
+         * @example 2026-07-23T10:00:00+09:00
+         */
+        updatedAt?: string;
+      };
+      /**
+       * @example {
+       *       "usrId": "hong.gildong",
+       *       "usrNm": "홍길동",
+       *       "positDivName": "과장",
+       *       "deptName": "채널개발팀",
+       *       "createdBy": "admin",
+       *       "createdAt": "2026-07-23T09:00:00+09:00",
+       *       "updatedBy": "admin",
+       *       "updatedAt": "2026-07-23T10:00:00+09:00"
+       *     }
+       */
+      UserDetailResponse: {
+        /**
+         * @description 사용자 ID
+         * @example hong.gildong
+         */
+        usrId?: string;
+        /**
+         * @description 사용자명
+         * @example 홍길동
+         */
+        usrNm?: string;
+        /**
+         * @description 직위명
+         * @example 과장
+         */
+        positDivName?: string;
+        /**
+         * @description 부서명
+         * @example 채널개발팀
+         */
+        deptName?: string;
+        /**
+         * @description 생성자 ID
+         * @example admin
+         */
+        createdBy?: string;
+        /**
+         * Format: date-time
+         * @description 생성 일시
+         * @example 2026-07-23T09:00:00+09:00
+         */
+        createdAt?: string;
+        /**
+         * @description 수정자 ID
+         * @example admin
+         */
+        updatedBy?: string;
+        /**
+         * Format: date-time
+         * @description 수정 일시
+         * @example 2026-07-23T10:00:00+09:00
+         */
+        updatedAt?: string;
+      };
+      /**
+       * @example {
+       *       "data": {
        *         "usrId": "hong.gildong",
        *         "usrPwd": "string"
        *       }

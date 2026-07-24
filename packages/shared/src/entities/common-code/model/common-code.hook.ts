@@ -6,6 +6,7 @@ import type {
 } from '@tanstack/react-query';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { splitHttpLoadingOptions } from '../../../shared/ajax/http.service';
 import type { QueryHookOptions } from '../../../shared/types';
 
 import {
@@ -43,14 +44,22 @@ export const useFetchCommonCodeGroupList = (
   params?: CommonCodeGroupQueryParams,
   options?: QueryHookOptions<Array<CommonCodeGroup>>,
 ): UseQueryResult<Array<CommonCodeGroup>, Error> => {
-  return useQuery({ ...options, ...commonCodeGroupListQuery(params) });
+  const { loadingOptions, remainingOptions } = splitHttpLoadingOptions(options);
+  return useQuery({
+    ...remainingOptions,
+    ...commonCodeGroupListQuery(params, loadingOptions),
+  });
 };
 
 export const useFetchCommonCodeGroup = (
   groupCd: string,
-  options?: QueryHookOptions<Array<CommonCodeGroup>>,
-): UseQueryResult<Array<CommonCodeGroup>, Error> => {
-  return useQuery({ ...options, ...commonCodeGroupDetailQuery(groupCd) });
+  options?: QueryHookOptions<CommonCodeGroup>,
+): UseQueryResult<CommonCodeGroup, Error> => {
+  const { loadingOptions, remainingOptions } = splitHttpLoadingOptions(options);
+  return useQuery({
+    ...remainingOptions,
+    ...commonCodeGroupDetailQuery(groupCd, loadingOptions),
+  });
 };
 
 export const useCreateCommonCodeGroup = (

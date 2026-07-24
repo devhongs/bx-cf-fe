@@ -1,0 +1,36 @@
+.boundary {
+  position: relative;
+}
+
+.portalTarget {
+  position: absolute;
+  z-index: 90;
+  inset: 0;
+  pointer-events: none;
+}
+
+.overlay {
+  z-index: 90;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--overlay-backdrop) 55%, transparent);
+  cursor: progress;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.viewportOverlay {
+  position: fixed;
+}
+
+.containerOverlay {
+  position: absolute;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  color: var(--accent);
+  filter: drop-shadow(0 2px 5px rgb(0 0 0 / 24%));
+}

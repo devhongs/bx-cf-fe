@@ -1,4 +1,4 @@
-import { httpService } from '../../../shared/ajax/http.service';
+import { type HttpLoadingOptions, httpService } from '../../../shared/ajax/http.service';
 
 import type {
   BaseInfoCommonCode,
@@ -31,20 +31,38 @@ const toBaseInfoCommonCodeGroup = (
   };
 };
 
-export const fetchBaseInfoVersions = async (): Promise<BaseInfoVersion[]> => {
-  const versions = await httpService.post<BaseInfoReferenceDataVersion[]>(
-    '/system/reference-data/versions/latest',
-    allReferenceDataVersionsRequest,
-  );
+export const fetchBaseInfoVersions = async (
+  options?: HttpLoadingOptions,
+): Promise<BaseInfoVersion[]> => {
+  const versions = options
+    ? await httpService.post<BaseInfoReferenceDataVersion[]>(
+        '/system/reference-data/versions/latest',
+        allReferenceDataVersionsRequest,
+        options,
+      )
+    : await httpService.post<BaseInfoReferenceDataVersion[]>(
+        '/system/reference-data/versions/latest',
+        allReferenceDataVersionsRequest,
+      );
   return versions.map(toBaseInfoVersion);
 };
 
-export const fetchBaseInfoMenus = (): Promise<BaseInfoMenu[]> =>
-  httpService.post<BaseInfoMenu[]>('/system/menus/list');
+export const fetchBaseInfoMenus = (options?: HttpLoadingOptions): Promise<BaseInfoMenu[]> =>
+  options
+    ? httpService.post<BaseInfoMenu[]>('/system/menus/list', undefined, options)
+    : httpService.post<BaseInfoMenu[]>('/system/menus/list');
 
-export const fetchBaseInfoCommonCodes = async (): Promise<BaseInfoCommonCodeGroup[]> => {
-  const groups = await httpService.post<
-    Array<BaseInfoCommonCodeGroup & { codes?: BaseInfoCommonCode[] }>
-  >('/system/common-codes/list');
+export const fetchBaseInfoCommonCodes = async (
+  options?: HttpLoadingOptions,
+): Promise<BaseInfoCommonCodeGroup[]> => {
+  const groups = options
+    ? await httpService.post<Array<BaseInfoCommonCodeGroup & { codes?: BaseInfoCommonCode[] }>>(
+        '/system/common-codes/list',
+        undefined,
+        options,
+      )
+    : await httpService.post<Array<BaseInfoCommonCodeGroup & { codes?: BaseInfoCommonCode[] }>>(
+        '/system/common-codes/list',
+      );
   return groups.map(toBaseInfoCommonCodeGroup);
 };

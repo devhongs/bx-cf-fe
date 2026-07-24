@@ -6,6 +6,7 @@ import type {
 } from '@tanstack/react-query';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { splitHttpLoadingOptions } from '../../../shared/ajax/http.service';
 import type { QueryHookOptions } from '../../../shared/types';
 
 import {
@@ -33,7 +34,8 @@ export const useFetchMenuList = <T extends Menu = Menu>(
   params?: MenuQueryParams,
   options?: QueryHookOptions<Array<T>>,
 ): UseQueryResult<Array<T>, Error> => {
-  return useQuery({ ...options, ...fetchMenuListQuery<T>(params) });
+  const { loadingOptions, remainingOptions } = splitHttpLoadingOptions(options);
+  return useQuery({ ...remainingOptions, ...fetchMenuListQuery<T>(params, loadingOptions) });
 };
 
 /**
@@ -44,7 +46,8 @@ export const useFetchMenu = <T extends Menu = Menu>(
   menuId: number,
   options?: QueryHookOptions<T>,
 ): UseQueryResult<T, Error> => {
-  return useQuery({ ...options, ...fetchMenuQuery<T>(menuId) });
+  const { loadingOptions, remainingOptions } = splitHttpLoadingOptions(options);
+  return useQuery({ ...remainingOptions, ...fetchMenuQuery<T>(menuId, loadingOptions) });
 };
 
 /**

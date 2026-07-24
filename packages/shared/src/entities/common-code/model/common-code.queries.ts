@@ -1,5 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import type { HttpLoadingOptions } from '../../../shared/ajax/http.service';
+
 import {
   createCommonCode,
   createCommonCodeGroup,
@@ -26,16 +28,19 @@ export const commonCodeQueryKeys = {
   groupDetail: (groupCd: string) => ['common-code', 'groups', 'detail', groupCd] as const,
 };
 
-export const commonCodeGroupListQuery = (params?: CommonCodeGroupQueryParams) =>
+export const commonCodeGroupListQuery = (
+  params?: CommonCodeGroupQueryParams,
+  options?: HttpLoadingOptions,
+) =>
   queryOptions({
     queryKey: commonCodeQueryKeys.groupList(params),
-    queryFn: () => fetchCommonCodeGroups(params),
+    queryFn: () => fetchCommonCodeGroups(params, options),
   });
 
-export const commonCodeGroupDetailQuery = (groupCd: string) =>
+export const commonCodeGroupDetailQuery = (groupCd: string, options?: HttpLoadingOptions) =>
   queryOptions({
     queryKey: commonCodeQueryKeys.groupDetail(groupCd),
-    queryFn: () => fetchCommonCodeGroup(groupCd),
+    queryFn: () => fetchCommonCodeGroup(groupCd, options),
     staleTime: 0,
   });
 

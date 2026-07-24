@@ -1,5 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import type { HttpLoadingOptions } from '../../../shared/ajax/http.service';
+
 import { createProduct, deleteProduct, fetchProduct, fetchProductList } from '../api/product.api';
 import type { Product, ProductQueryParams } from './product.type';
 
@@ -10,16 +12,16 @@ export const productQueryKeys = {
 };
 
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용
-export const fetchProductListQuery = (params?: ProductQueryParams) =>
+export const fetchProductListQuery = (params?: ProductQueryParams, options?: HttpLoadingOptions) =>
   queryOptions({
     queryKey: productQueryKeys.list(params),
-    queryFn: () => fetchProductList(params),
+    queryFn: () => fetchProductList(params, options),
   });
 
-export const fetchProductQuery = (productId: number) =>
+export const fetchProductQuery = (productId: number, options?: HttpLoadingOptions) =>
   queryOptions({
     queryKey: productQueryKeys.detail(productId),
-    queryFn: () => fetchProduct(productId),
+    queryFn: () => fetchProduct(productId, options),
   });
 
 // 상품 생성 뮤테이션 옵션

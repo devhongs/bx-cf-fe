@@ -2,7 +2,7 @@
 
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import type { ReactNode } from 'react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CodeGroupFormDrawer } from './CodeGroupFormDrawer';
 
@@ -12,7 +12,13 @@ const mutation = {
   mutate: vi.fn((_vars: unknown, opts?: { onSuccess?: () => void }) => opts?.onSuccess?.()),
 };
 
-const { toastSuccess } = vi.hoisted(() => ({ toastSuccess: vi.fn() }));
+const { detailQuery, toastSuccess } = vi.hoisted(() => ({
+  detailQuery: {
+    data: undefined as Record<string, unknown> | undefined,
+    isPending: false,
+  },
+  toastSuccess: vi.fn(),
+}));
 
 vi.mock('@bx/shared', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@bx/shared')>();
@@ -22,18 +28,7 @@ vi.mock('@bx/shared', async (importOriginal) => {
     toast: { success: toastSuccess },
     useCreateCommonCodeGroup: () => mutation,
     useDeleteCommonCodeGroup: () => mutation,
-    useFetchCommonCodeGroup: (groupCd: string) => ({
-      data: groupCd
-        ? [
-            {
-              groupCd,
-              groupNm: '사용 여부',
-              useYn: 'Y',
-              codes: [{ groupCd, code: 'Y', codeNm: '사용', sortSeq: 1, useYn: 'Y' }],
-            },
-          ]
-        : undefined,
-    }),
+    useFetchCommonCodeGroup: () => detailQuery,
     useReplaceCommonCodes: () => mutation,
   };
 });
@@ -50,13 +45,42 @@ vi.mock('@/shared/ui/admin-drawer/AdminDrawer', () => ({
 afterEach(cleanup);
 
 describe('CodeGroupFormDrawer', () => {
+  beforeEach(() => {
+    detailQuery.data = undefined;
+    detailQuery.isPending = false;
+  });
+
   it('그룹 상세 응답의 codes로 코드 행을 채운다', () => {
+    detailQuery.data = {
+      groupCd: 'USE_YN',
+      groupNm: '사용 여부',
+      useYn: 'Y',
+      codes: [{ groupCd: 'USE_YN', code: 'Y', codeNm: '사용', sortSeq: 1, useYn: 'Y' }],
+    };
+
     render(<CodeGroupFormDrawer open groupCd="USE_YN" onClose={vi.fn()} />);
 
     expect(document.querySelector<HTMLInputElement>('input[name="codes.0.code"]')?.value).toBe('Y');
     expect(document.querySelector<HTMLInputElement>('input[name="codes.0.codeNm"]')?.value).toBe(
       '사용',
     );
+  });
+
+  it('수정 상세를 조회하는 동안 빈 폼을 렌더링하지 않는다', () => {
+    detailQuery.isPending = true;
+
+    render(<CodeGroupFormDrawer open groupCd="USE_YN" onClose={vi.fn()} />);
+
+    expect(screen.getByText('코드 그룹 정보를 불러오는 중입니다.')).toBeTruthy();
+    expect(screen.queryByLabelText(/그룹코드/)).toBeNull();
+  });
+
+  it('수정 상세 데이터가 없으면 empty 상태를 표시한다', () => {
+    render(<CodeGroupFormDrawer open groupCd="USE_YN" onClose={vi.fn()} />);
+
+    expect(screen.getByText('코드 그룹 정보가 없습니다.')).toBeTruthy();
+    expect(screen.queryByRole('button', { name: '다시 시도' })).toBeNull();
+    expect(screen.queryByLabelText(/그룹코드/)).toBeNull();
   });
 
   it('코드 추가를 소프트 강조 아이콘 액션으로 렌더링한다', () => {

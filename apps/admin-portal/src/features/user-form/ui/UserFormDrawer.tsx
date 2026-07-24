@@ -1,16 +1,9 @@
-import {
-  openDeleteConfirm,
-  useCreateUser,
-  useDeleteUser,
-  useFetchUser,
-  useUpdateUser,
-} from '@bx/shared';
+import { useCreateUser, useDeleteUser, useUpdateUser } from '@bx/shared';
 import type { ManagedUser, UseYn, UserPayload, UserType } from '@bx/shared';
 
 import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
+import { AdminDrawerFormActions } from '@/shared/ui/admin-drawer/AdminDrawerFormActions';
 import { AppForm, useAppForm } from '@/shared/ui/admin-form';
-
-import styles from '@/shared/ui/admin-form/AdminForm.module.css';
 
 const FORM_ID = 'admin-user-form';
 
@@ -43,21 +36,14 @@ const toPayload = (values: UserFormValues): UserPayload => ({
 
 interface UserFormDrawerProps {
   open: boolean;
-  /** 수정 대상 사용자 id. 없으면 등록 모드 */
-  usrId?: string;
-  /** 목록 행 데이터 — 상세 응답이 오기 전이나 실패했을 때 초기값으로 사용 */
-  fallback?: ManagedUser;
+  /** 수정 대상 사용자. 없으면 등록 모드 */
+  user?: ManagedUser;
   onClose: () => void;
 }
 
-export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawerProps) {
+export function UserFormDrawer({ open, user, onClose }: UserFormDrawerProps) {
+  const usrId = user?.usrId;
   const isUpdateMode = usrId != null;
-
-  const { data: detail } = useFetchUser(usrId ?? '', {
-    enabled: open && isUpdateMode,
-    retry: false,
-  });
-  const user = detail ?? fallback;
 
   const defaultValues = toFormValues(user);
   const { form, FormInput, FormSelect } = useAppForm<UserFormValues>({ open, defaultValues });
@@ -77,9 +63,8 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (!isUpdateMode) return;
-    if (!(await openDeleteConfirm())) return;
 
     deleteMutation.mutate(usrId, { onSuccess: onClose });
   };
@@ -92,21 +77,12 @@ export function UserFormDrawer({ open, usrId, fallback, onClose }: UserFormDrawe
       storageKey="admin-drawer:users"
       onClose={onClose}
       footer={
-        <>
-          {isUpdateMode && (
-            <button
-              type="button"
-              className={styles.dangerButton}
-              disabled={pending}
-              onClick={() => void handleDelete()}
-            >
-              {deleteMutation.isPending ? '삭제 중' : '삭제'}
-            </button>
-          )}
-          <button type="submit" form={FORM_ID} className={styles.button} disabled={pending}>
-            {pending ? '처리 중' : '저장'}
-          </button>
-        </>
+        <AdminDrawerFormActions
+          formId={FORM_ID}
+          pending={pending}
+          deletePending={deleteMutation.isPending}
+          onDelete={isUpdateMode ? handleDelete : undefined}
+        />
       }
     >
       <AppForm id={FORM_ID} form={form} onSubmit={handleSubmit}>

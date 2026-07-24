@@ -1,4 +1,4 @@
-import { httpService } from '../../../shared/ajax/http.service';
+import { type HttpLoadingOptions, httpService } from '../../../shared/ajax/http.service';
 
 import type { Product, ProductListApiRequest, ProductQueryParams } from '../model/product.type';
 
@@ -24,11 +24,18 @@ const toProductListApiRequest = (
   return request as ProductListApiRequest | undefined;
 };
 
-export const fetchProductList = (params?: ProductQueryParams): Promise<Array<Product>> =>
-  httpService.post<Array<Product>>('/product/list', toProductListApiRequest(params));
+export const fetchProductList = (
+  params?: ProductQueryParams,
+  options?: HttpLoadingOptions,
+): Promise<Array<Product>> =>
+  options
+    ? httpService.post<Array<Product>>('/product/list', toProductListApiRequest(params), options)
+    : httpService.post<Array<Product>>('/product/list', toProductListApiRequest(params));
 
-export const fetchProduct = (id: number): Promise<Product> =>
-  httpService.post<Product>(`/product/detail/${id}`);
+export const fetchProduct = (id: number, options?: HttpLoadingOptions): Promise<Product> =>
+  options
+    ? httpService.post<Product>(`/product/detail/${id}`, undefined, options)
+    : httpService.post<Product>(`/product/detail/${id}`);
 
 export const createProduct = (payload: Product): Promise<Product> =>
   httpService.post<Product>('/products', payload);

@@ -25,14 +25,12 @@ describe('common code mutation invalidation', () => {
         return [{ groupCd: 'USE_YN', groupNm: '사용 여부', useYn: 'Y' }];
       }
       if (url === '/system/common-codes/USE_YN/detail') {
-        return [
-          {
-            groupCd: 'USE_YN',
-            groupNm: '사용 여부',
-            useYn: 'Y',
-            codes: [{ groupCd: 'USE_YN', code: 'Y', codeNm: '사용', useYn: 'Y' }],
-          },
-        ];
+        return {
+          groupCd: 'USE_YN',
+          groupNm: '사용 여부',
+          useYn: 'Y',
+          codes: [{ groupCd: 'USE_YN', code: 'Y', codeNm: '사용', useYn: 'Y' }],
+        };
       }
       if (url === '/system/common-codes/USE_YN/replace') {
         return undefined;
@@ -83,14 +81,12 @@ describe('common code mutation invalidation', () => {
 
 describe('common code detail freshness', () => {
   it('상세 조회는 비활성화 후 다시 활성화되면 캐시가 있어도 재조회한다', async () => {
-    const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue([
-      {
-        groupCd: 'USE_YN',
-        groupNm: '사용 여부',
-        useYn: 'Y',
-        codes: [{ groupCd: 'USE_YN', code: 'Y', codeNm: '사용', useYn: 'Y' }],
-      },
-    ]);
+    const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue({
+      groupCd: 'USE_YN',
+      groupNm: '사용 여부',
+      useYn: 'Y',
+      codes: [{ groupCd: 'USE_YN', code: 'Y', codeNm: '사용', useYn: 'Y' }],
+    });
     const queryClient = new QueryClient({
       defaultOptions: {
         queries: {
@@ -119,6 +115,33 @@ describe('common code detail freshness', () => {
 
     await waitFor(() => {
       expect(postSpy).toHaveBeenCalledTimes(2);
+    });
+  });
+});
+
+describe('common code loading options', () => {
+  it('조회 훅의 showSpinner 옵션을 HTTP 요청에 전달한다', async () => {
+    const postSpy = vi.spyOn(httpService, 'post').mockResolvedValue([]);
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: { retry: false },
+      },
+    });
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    );
+
+    const listHook = renderHook(
+      () => useFetchCommonCodeGroupList(undefined, { showSpinner: false }),
+      { wrapper },
+    );
+
+    await waitFor(() => {
+      expect(listHook.result.current.isSuccess).toBe(true);
+    });
+
+    expect(postSpy).toHaveBeenCalledWith('/system/common-codes/groups/list', undefined, {
+      showSpinner: false,
     });
   });
 });

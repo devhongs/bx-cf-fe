@@ -1,12 +1,17 @@
 import axios from 'axios';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { httpService } from '../../../shared/ajax/http.service';
 import { API_CONFIG } from '../../../shared/constants';
+import { useGlobalLoadingStore } from '../../../shared/model/loading/loading.store';
 
 import { login, refreshTokenApi } from './auth.api';
 
 describe('auth api', () => {
+  beforeEach(() => {
+    useGlobalLoadingStore.setState({ pendingCount: 0 });
+  });
+
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -50,5 +55,34 @@ describe('auth api', () => {
       undefined,
       expect.objectContaining({ timeout: API_CONFIG.TIMEOUT, withCredentials: true }),
     );
+  });
+
+  it('tracks raw refresh requests in the global loading state', async () => {
+    let completeRequest: (() => void) | undefined;
+    vi.spyOn(axios, 'post').mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          completeRequest = () =>
+            resolve({
+              data: {
+                success: true,
+                payload: {
+                  usrId: 'user',
+                  accessToken: 'access',
+                  accessTokenExpiresAt: '20991231235959',
+                },
+              },
+            });
+        }),
+    );
+
+    const request = refreshTokenApi();
+
+    expect(useGlobalLoadingStore.getState().pendingCount).toBe(1);
+
+    completeRequest?.();
+    await request;
+
+    expect(useGlobalLoadingStore.getState().pendingCount).toBe(0);
   });
 });

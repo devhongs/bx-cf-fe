@@ -171,6 +171,16 @@ function TestTextareaForm({ onSubmit }: { onSubmit: (values: ProfileValues) => v
   );
 }
 
+function TestPendingSubmitForm({ onSubmit }: { onSubmit: () => Promise<void> }) {
+  const form = useForm<Record<string, never>>({ defaultValues: {} });
+
+  return (
+    <Form form={form} onSubmit={onSubmit}>
+      <FormSubmitButton loadingLabel="처리 중">저장</FormSubmitButton>
+    </Form>
+  );
+}
+
 const getFormElement = () =>
   screen.getByRole('button', { name: '가입하기' }).closest('form') as HTMLFormElement;
 
@@ -184,6 +194,26 @@ describe('Form components (rules mode)', () => {
 
     expect(submitButton.className).toContain(buttonStyles.submit);
     expect(submitButton.className).not.toContain(buttonStyles.destructive);
+  });
+
+  it('shows a spinner while submitting', async () => {
+    let resolveSubmit: (() => void) | undefined;
+    const handleSubmit = vi.fn(
+      () =>
+        new Promise<void>((resolve) => {
+          resolveSubmit = resolve;
+        }),
+    );
+
+    render(<TestPendingSubmitForm onSubmit={handleSubmit} />);
+
+    fireEvent.click(screen.getByRole('button', { name: '저장' }));
+
+    const submitButton = await screen.findByRole('button', { name: '처리 중' });
+    expect((submitButton as HTMLButtonElement).disabled).toBe(true);
+    expect(submitButton.querySelector('[data-slot="spinner"]')).not.toBeNull();
+
+    resolveSubmit?.();
   });
 
   it('shows required errors on submit and submits values after validation passes', async () => {

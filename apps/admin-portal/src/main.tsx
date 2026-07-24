@@ -7,6 +7,7 @@ import {
   API_CONFIG,
   API_URL,
   AlertHost,
+  GlobalLoadingOverlay,
   Toaster,
   createHttpAuthConfig,
   httpService,
@@ -46,6 +47,7 @@ if (rootElement && !rootElement.innerHTML) {
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
+        <GlobalLoadingOverlay />
         <Toaster />
         <AlertHost />
       </QueryClientProvider>

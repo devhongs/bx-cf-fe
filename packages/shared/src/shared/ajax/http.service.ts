@@ -8,6 +8,7 @@ import type {
 
 import { isExpiredTokenCode, isFatalAuthCode } from '../constants/error-codes';
 import { encodeQueryString } from '../lib/utils';
+import { useGlobalLoadingStore } from '../model/loading/loading.store';
 
 import { apiErrorFromEnvelope, toApiError } from './api-error';
 
@@ -24,6 +25,27 @@ export interface ApiResponse<T = unknown> {
   msg: string;
   payload: T;
 }
+
+export interface HttpLoadingOptions {
+  /** false면 이 요청은 전역 로딩 오버레이 집계에서 제외한다. */
+  showSpinner?: boolean;
+}
+
+export interface HttpRequestOptions extends AxiosRequestConfig, HttpLoadingOptions {}
+
+export const splitHttpLoadingOptions = <TOptions extends HttpLoadingOptions>(
+  options?: TOptions,
+): {
+  loadingOptions?: HttpLoadingOptions;
+  remainingOptions: Omit<TOptions, keyof HttpLoadingOptions>;
+} => {
+  const { showSpinner, ...remainingOptions } = options ?? ({} as TOptions);
+
+  return {
+    loadingOptions: showSpinner === undefined ? undefined : { showSpinner },
+    remainingOptions,
+  };
+};
 
 /**
  * JWT 인증 설정.
@@ -219,7 +241,7 @@ export class HttpService {
   async get<T>(
     url: string,
     queryParam?: Record<string, any>,
-    options?: AxiosRequestConfig,
+    options?: HttpRequestOptions,
   ): Promise<T> {
     return this.execute<T>(
       { method: HttpMethod.GET, url: encodeQueryString(url), queryParam },
@@ -227,19 +249,19 @@ export class HttpService {
     );
   }
 
-  async post<T>(url: string, payload?: unknown, options?: AxiosRequestConfig): Promise<T> {
+  async post<T>(url: string, payload?: unknown, options?: HttpRequestOptions): Promise<T> {
     return this.execute<T>({ method: HttpMethod.POST, url, payload: payload ?? {} }, options);
   }
 
-  async put<T>(url: string, payload?: unknown, options?: AxiosRequestConfig): Promise<T> {
+  async put<T>(url: string, payload?: unknown, options?: HttpRequestOptions): Promise<T> {
     return this.execute<T>({ method: HttpMethod.PUT, url, payload }, options);
   }
 
-  async patch<T>(url: string, payload?: unknown, options?: AxiosRequestConfig): Promise<T> {
+  async patch<T>(url: string, payload?: unknown, options?: HttpRequestOptions): Promise<T> {
     return this.execute<T>({ method: HttpMethod.PATCH, url, payload }, options);
   }
 
-  async delete<T>(url: string, payload?: unknown, options?: AxiosRequestConfig): Promise<T> {
+  async delete<T>(url: string, payload?: unknown, options?: HttpRequestOptions): Promise<T> {
     return this.execute<T>({ method: HttpMethod.DELETE, url, payload }, options);
   }
 
@@ -258,9 +280,13 @@ export class HttpService {
    * 모든 실패를 ApiError로 정규화해서 던진다.
    * (envelope success:false / HTTP 에러 / 네트워크 실패 / 취소 모두 동일한 모양)
    */
-  private async execute<T>(args: RequestArgs, options?: AxiosRequestConfig): Promise<T> {
+  private async execute<T>(args: RequestArgs, options?: HttpRequestOptions): Promise<T> {
+    const { showSpinner = true, ...requestOptions } = options ?? {};
+    const { start, finish } = useGlobalLoadingStore.getState();
+    if (showSpinner) start();
+
     try {
-      const { data } = await this.httpRequest<ApiResponse<T>>(args, options);
+      const { data } = await this.httpRequest<ApiResponse<T>>(args, requestOptions);
 
       if (data.success) {
         return data.payload;
@@ -269,6 +295,8 @@ export class HttpService {
       throw apiErrorFromEnvelope(data, { url: args.url });
     } catch (error) {
       throw toApiError(error, { url: args.url });
+    } finally {
+      if (showSpinner) finish();
     }
   }
 }

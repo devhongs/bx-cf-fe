@@ -1,7 +1,12 @@
 import { Outlet, createFileRoute, useLocation } from '@tanstack/react-router';
 import { Menu, PanelRightOpen } from 'lucide-react';
 
-import { createBaseInfoMenuCacheScope, ensureBaseInfoBootstrapped, useAuthStore } from '@bx/shared';
+import {
+  LoadingOverlayBoundary,
+  createBaseInfoMenuCacheScope,
+  ensureBaseInfoBootstrapped,
+  useAuthStore,
+} from '@bx/shared';
 
 import { queryClient } from '@/queryClient';
 import { LayoutProvider, useLayout } from '@/shared/context/LayoutContext';
@@ -50,7 +55,7 @@ function PageLayoutContent() {
   return (
     <div className={styles.root}>
       <NavSidebar />
-      <div className={styles.shell}>
+      <LoadingOverlayBoundary className={styles.shell}>
         {/* Global Header */}
         <header className={styles.header}>
           <div className={styles.headerGroup}>
@@ -83,7 +88,7 @@ function PageLayoutContent() {
         <main className={styles.content}>
           <Outlet />
         </main>
-      </div>
+      </LoadingOverlayBoundary>
       <SettingsPanel />
     </div>
   );

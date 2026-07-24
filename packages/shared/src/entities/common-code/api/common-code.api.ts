@@ -1,4 +1,4 @@
-import { httpService } from '../../../shared/ajax/http.service';
+import { type HttpLoadingOptions, httpService } from '../../../shared/ajax/http.service';
 
 import type {
   CommonCodeGroup,
@@ -10,13 +10,29 @@ import type {
 
 export const fetchCommonCodeGroups = (
   _params?: CommonCodeGroupQueryParams,
+  options?: HttpLoadingOptions,
 ): Promise<Array<CommonCodeGroup>> =>
-  httpService.post<Array<CommonCodeGroup>>('/system/common-codes/groups/list');
+  options
+    ? httpService.post<Array<CommonCodeGroup>>(
+        '/system/common-codes/groups/list',
+        undefined,
+        options,
+      )
+    : httpService.post<Array<CommonCodeGroup>>('/system/common-codes/groups/list');
 
-export const fetchCommonCodeGroup = (groupCd: string): Promise<Array<CommonCodeGroup>> =>
-  httpService.post<Array<CommonCodeGroup>>(
-    `/system/common-codes/${encodeURIComponent(groupCd)}/detail`,
-  );
+export const fetchCommonCodeGroup = (
+  groupCd: string,
+  options?: HttpLoadingOptions,
+): Promise<CommonCodeGroup> =>
+  options
+    ? httpService.post<CommonCodeGroup>(
+        `/system/common-codes/${encodeURIComponent(groupCd)}/detail`,
+        undefined,
+        options,
+      )
+    : httpService.post<CommonCodeGroup>(
+        `/system/common-codes/${encodeURIComponent(groupCd)}/detail`,
+      );
 
 export const createCommonCodeGroup = (payload: CommonCodeGroupPayload): Promise<void> =>
   httpService.post<void>('/system/common-codes/create', {
@@ -37,8 +53,7 @@ const toReplacePayload = (
 });
 
 const fetchFirstCommonCodeGroup = async (groupCd: string): Promise<CommonCodeGroup> => {
-  const groups = await fetchCommonCodeGroup(groupCd);
-  return groups[0] ?? { groupCd, groupNm: groupCd, codes: [] };
+  return fetchCommonCodeGroup(groupCd);
 };
 
 export const updateCommonCodeGroup = (

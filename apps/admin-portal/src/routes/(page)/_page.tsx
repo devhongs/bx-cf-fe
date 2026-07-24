@@ -1,6 +1,11 @@
 import { Outlet, createFileRoute } from '@tanstack/react-router';
 
-import { createBaseInfoMenuCacheScope, ensureBaseInfoBootstrapped, useAuthStore } from '@bx/shared';
+import {
+  LoadingOverlayBoundary,
+  createBaseInfoMenuCacheScope,
+  ensureBaseInfoBootstrapped,
+  useAuthStore,
+} from '@bx/shared';
 
 import { queryClient } from '@/queryClient';
 import { requireAuth } from '@/shared/guards/requireAuth';
@@ -12,11 +17,11 @@ function PageLayout() {
   return (
     <div className={styles.layout}>
       <AdminSidebar />
-      <div className={styles.content}>
+      <LoadingOverlayBoundary className={styles.content}>
         <main className={styles.main}>
           <Outlet />
         </main>
-      </div>
+      </LoadingOverlayBoundary>
     </div>
   );
 }

@@ -105,12 +105,7 @@ export function UsersPage() {
           />
         </div>
 
-        <UserFormDrawer
-          open={drawerOpen}
-          usrId={selectedUsrId}
-          fallback={selected}
-          onClose={closeDrawer}
-        />
+        <UserFormDrawer open={drawerOpen} user={selected} onClose={closeDrawer} />
       </div>
     </section>
   );

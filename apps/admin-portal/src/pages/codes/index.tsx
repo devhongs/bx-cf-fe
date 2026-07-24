@@ -23,8 +23,6 @@ export function CodesPage() {
     return matchesSearch && matchesStatus;
   });
 
-  const selected = groups.find((group) => group.groupCd === selectedGroupCd);
-
   const columns: Array<DataTableColumn<CommonCodeGroup>> = [
     { id: 'groupCd', header: '그룹코드', width: '150px', cell: (row) => row.groupCd },
     { id: 'groupNm', header: '그룹명', cell: (row) => row.groupNm },
@@ -87,17 +85,12 @@ export function CodesPage() {
             columns={columns}
             rows={filteredGroups}
             getRowId={(row) => row.groupCd || row.groupId || ''}
-            selectedId={selected?.groupCd}
+            selectedId={selectedGroupCd}
             onRowSelect={(row) => openGroupDrawer(row.groupCd)}
           />
         </div>
 
-        <CodeGroupFormDrawer
-          open={drawerOpen}
-          groupCd={selectedGroupCd}
-          fallback={selected}
-          onClose={closeDrawer}
-        />
+        <CodeGroupFormDrawer open={drawerOpen} groupCd={selectedGroupCd} onClose={closeDrawer} />
       </div>
     </section>
   );

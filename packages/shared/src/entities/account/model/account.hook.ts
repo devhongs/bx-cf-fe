@@ -1,6 +1,7 @@
 import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { splitHttpLoadingOptions } from '../../../shared/ajax/http.service';
 import type { QueryHookOptions } from '../../../shared/types';
 
 import {
@@ -24,9 +25,10 @@ export const useFetchAccountList = <T extends Account = Account>(
   params: AccountsQueryParams,
   options?: QueryHookOptions<Array<T>>,
 ): UseQueryResult<Array<T>, Error> => {
+  const { loadingOptions, remainingOptions } = splitHttpLoadingOptions(options);
   return useQuery({
-    ...options,
-    ...fetchAccountListQuery<T>(params),
+    ...remainingOptions,
+    ...fetchAccountListQuery<T>(params, loadingOptions),
   });
 };
 
@@ -38,9 +40,10 @@ export const useFetchAccount = <T extends Account = Account>(
   accountNo: string,
   options?: QueryHookOptions<T>,
 ): UseQueryResult<T, Error> => {
+  const { loadingOptions, remainingOptions } = splitHttpLoadingOptions(options);
   return useQuery({
-    ...options,
-    ...fetchAccountQuery<T>(accountNo),
+    ...remainingOptions,
+    ...fetchAccountQuery<T>(accountNo, loadingOptions),
   });
 };
 
@@ -53,9 +56,10 @@ export const useFetchRecentAccountList = <T extends Account = Account>(
   params: AccountsQueryParams,
   options?: QueryHookOptions<Array<T>>,
 ): UseQueryResult<Array<T>, Error> => {
+  const { loadingOptions, remainingOptions } = splitHttpLoadingOptions(options);
   return useQuery({
-    ...options,
-    ...fetchRecentAccountListQuery<T>(params),
+    ...remainingOptions,
+    ...fetchRecentAccountListQuery<T>(params, loadingOptions),
   });
 };
 

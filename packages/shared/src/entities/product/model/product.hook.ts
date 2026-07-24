@@ -1,6 +1,7 @@
 import type { UseMutationOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { splitHttpLoadingOptions } from '../../../shared/ajax/http.service';
 import type { QueryHookOptions } from '../../../shared/types';
 
 import {
@@ -21,7 +22,8 @@ export const useFetchProductList = (
   params?: ProductQueryParams,
   options?: QueryHookOptions<Array<Product>>,
 ): UseQueryResult<Array<Product>, Error> => {
-  return useQuery({ ...options, ...fetchProductListQuery(params) });
+  const { loadingOptions, remainingOptions } = splitHttpLoadingOptions(options);
+  return useQuery({ ...remainingOptions, ...fetchProductListQuery(params, loadingOptions) });
 };
 
 /**
@@ -32,7 +34,8 @@ export const useFetchProduct = (
   productId: number,
   options?: QueryHookOptions<Product>,
 ): UseQueryResult<Product, Error> => {
-  return useQuery({ ...options, ...fetchProductQuery(productId) });
+  const { loadingOptions, remainingOptions } = splitHttpLoadingOptions(options);
+  return useQuery({ ...remainingOptions, ...fetchProductQuery(productId, loadingOptions) });
 };
 
 /**

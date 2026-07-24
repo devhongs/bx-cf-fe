@@ -1,3 +1,4 @@
+import type { HttpLoadingOptions } from '../../../shared/ajax/http.service';
 import { CONFIG } from '../../../shared/constants';
 import { session } from '../../../shared/lib/utils';
 import type { CodeItem } from '../../../shared/types';
@@ -23,7 +24,7 @@ import {
   normalizeBaseInfoType,
 } from './base-info.type';
 
-export interface BaseInfoBootstrapOptions {
+export interface BaseInfoBootstrapOptions extends HttpLoadingOptions {
   menuCacheScope?: string;
 }
 
@@ -110,16 +111,19 @@ const hydrateAvailableCachedBaseInfo = (options?: BaseInfoBootstrapOptions): voi
 
 const fetchBaseInfoData = <TType extends BaseInfoType>(
   type: TType,
+  options?: HttpLoadingOptions,
 ): Promise<BaseInfoDataMap[TType]> => {
   if (type === 'CODE') {
-    return fetchBaseInfoCommonCodes() as Promise<BaseInfoDataMap[TType]>;
+    return fetchBaseInfoCommonCodes(options) as Promise<BaseInfoDataMap[TType]>;
   }
 
-  return fetchBaseInfoMenus() as Promise<BaseInfoDataMap[TType]>;
+  return fetchBaseInfoMenus(options) as Promise<BaseInfoDataMap[TType]>;
 };
 
-const createVersionMap = async (): Promise<Map<BaseInfoType, string>> => {
-  const versions = await fetchBaseInfoVersions();
+const createVersionMap = async (
+  options?: HttpLoadingOptions,
+): Promise<Map<BaseInfoType, string>> => {
+  const versions = await fetchBaseInfoVersions(options);
 
   return versions.reduce<Map<BaseInfoType, string>>((acc, item) => {
     const type = normalizeBaseInfoType(item.type);
@@ -146,7 +150,7 @@ const bootstrapBaseInfoType = async <TType extends BaseInfoType>(
   }
 
   try {
-    const data = await fetchBaseInfoData(type);
+    const data = await fetchBaseInfoData(type, options);
     const cache = writeBaseInfoCache(type, serverVersion, data, scope);
     hydrateCachedBaseInfo(cache);
     result.refreshed.push(type);
@@ -163,7 +167,7 @@ export const bootstrapBaseInfo = async (
   let versionMap: Map<BaseInfoType, string>;
 
   try {
-    versionMap = await createVersionMap();
+    versionMap = await createVersionMap(options);
   } catch (error) {
     hydrateAvailableCachedBaseInfo(options);
     result.failed.push({ stage: 'versions', error });

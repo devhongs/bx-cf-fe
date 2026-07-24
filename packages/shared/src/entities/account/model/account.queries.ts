@@ -1,5 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import type { HttpLoadingOptions } from '../../../shared/ajax/http.service';
+
 import {
   createAccount,
   deleteAccount,
@@ -19,24 +21,31 @@ export const accountQueryKeys = {
 };
 
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용
-export const fetchAccountListQuery = <T extends Account = Account>(params: AccountsQueryParams) =>
+export const fetchAccountListQuery = <T extends Account = Account>(
+  params: AccountsQueryParams,
+  options?: HttpLoadingOptions,
+) =>
   queryOptions({
     queryKey: accountQueryKeys.list(params),
-    queryFn: () => fetchAccountList<T>(params),
+    queryFn: () => fetchAccountList<T>(params, options),
   });
 
-export const fetchAccountQuery = <T extends Account = Account>(accountNo: string) =>
+export const fetchAccountQuery = <T extends Account = Account>(
+  accountNo: string,
+  options?: HttpLoadingOptions,
+) =>
   queryOptions({
     queryKey: accountQueryKeys.detail(accountNo),
-    queryFn: () => fetchAccount<T>(accountNo),
+    queryFn: () => fetchAccount<T>(accountNo, options),
   });
 
 export const fetchRecentAccountListQuery = <T extends Account = Account>(
   params: AccountsQueryParams,
+  options?: HttpLoadingOptions,
 ) =>
   queryOptions({
     queryKey: accountQueryKeys.recentList(params),
-    queryFn: () => fetchRecentAccountList<T>(params),
+    queryFn: () => fetchRecentAccountList<T>(params, options),
   });
 
 // 계좌 생성 뮤테이션 옵션

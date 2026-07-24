@@ -1,5 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import type { HttpLoadingOptions } from '../../../shared/ajax/http.service';
+
 import { createAlarm, deleteAlarm, fetchAlarm, fetchAlarmList } from '../api/alarm.api';
 import type { Alarm, AlarmsQueryParams } from './alarm.type';
 
@@ -10,16 +12,22 @@ export const alarmQueryKeys = {
 };
 
 // 개별 Named Export와 v5 queryOptions 헬퍼 적용
-export const fetchAlarmListQuery = <T extends Alarm = Alarm>(params?: AlarmsQueryParams) =>
+export const fetchAlarmListQuery = <T extends Alarm = Alarm>(
+  params?: AlarmsQueryParams,
+  options?: HttpLoadingOptions,
+) =>
   queryOptions({
     queryKey: alarmQueryKeys.list(params),
-    queryFn: () => fetchAlarmList<T>(params),
+    queryFn: () => fetchAlarmList<T>(params, options),
   });
 
-export const fetchAlarmQuery = <T extends Alarm = Alarm>(alarmId: number) =>
+export const fetchAlarmQuery = <T extends Alarm = Alarm>(
+  alarmId: number,
+  options?: HttpLoadingOptions,
+) =>
   queryOptions({
     queryKey: alarmQueryKeys.detail(alarmId),
-    queryFn: () => fetchAlarm<T>(alarmId),
+    queryFn: () => fetchAlarm<T>(alarmId, options),
   });
 
 // 개별 Named Export 뮤테이션 옵션
