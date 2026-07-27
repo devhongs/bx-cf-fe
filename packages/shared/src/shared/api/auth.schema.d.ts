@@ -5,6 +5,91 @@
 
 export namespace auth {
   export interface paths {
+    '/users/{userId}/update': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      get?: never;
+      put?: never;
+      /** 사용자 수정 */
+      post: operations['updateUser'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/users/{userId}/detail': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      get?: never;
+      put?: never;
+      /** 사용자 상세 조회 */
+      post: operations['getUser'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/users/{userId}/delete': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      get?: never;
+      put?: never;
+      /** 사용자 물리 삭제 */
+      post: operations['deleteUser'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/users/list': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      get?: never;
+      put?: never;
+      /** 사용자 목록 조회 */
+      post: operations['getUsers'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
+    '/users/create': {
+      parameters: {
+        query?: never;
+        header?: never;
+        path?: never;
+        cookie?: never;
+      };
+      get?: never;
+      put?: never;
+      /** 사용자 등록 */
+      post: operations['createUser'];
+      delete?: never;
+      options?: never;
+      head?: never;
+      patch?: never;
+      trace?: never;
+    };
     '/refresh-token': {
       parameters: {
         query?: never;
@@ -466,6 +551,203 @@ export namespace auth {
   }
   export type $defs = Record<string, never>;
   export interface operations {
+    updateUser: {
+      parameters: {
+        query?: never;
+        header?: {
+          'X-Auth-User'?: string;
+          'X-Auth-Roles'?: string;
+        };
+        path: {
+          userId: string;
+        };
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          /**
+           * @example {
+           *       "data": {
+           *         "usrNm": "홍길동",
+           *         "positDivName": "차장",
+           *         "deptName": "채널개발팀"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['UserUpdateRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: Record<string, never>;
+            };
+          };
+        };
+      };
+    };
+    getUser: {
+      parameters: {
+        query?: never;
+        header?: {
+          'X-Auth-Roles'?: string;
+        };
+        path: {
+          userId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: components['schemas']['UserDetailResponse'];
+            };
+          };
+        };
+      };
+    };
+    deleteUser: {
+      parameters: {
+        query?: never;
+        header?: {
+          'X-Auth-User'?: string;
+          'X-Auth-Roles'?: string;
+        };
+        path: {
+          userId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: Record<string, never>;
+            };
+          };
+        };
+      };
+    };
+    getUsers: {
+      parameters: {
+        query?: never;
+        header?: {
+          'X-Auth-Roles'?: string;
+        };
+        path?: never;
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: components['schemas']['UserListResponse'][];
+            };
+          };
+        };
+      };
+    };
+    createUser: {
+      parameters: {
+        query?: never;
+        header?: {
+          'X-Auth-User'?: string;
+          'X-Auth-Roles'?: string;
+        };
+        path?: never;
+        cookie?: never;
+      };
+      requestBody: {
+        content: {
+          /**
+           * @example {
+           *       "data": {
+           *         "usrId": "hong.gildong",
+           *         "usrNm": "홍길동",
+           *         "positDivName": "과장",
+           *         "deptName": "채널개발팀",
+           *         "usrPwd": "string"
+           *       }
+           *     }
+           */
+          'application/json': components['schemas']['UserCreateRequest'];
+        };
+      };
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            '*/*': {
+              /** @description 성공 여부 */
+              success?: boolean;
+              /** @description 응답 코드 */
+              code?: string;
+              /** @description 응답 메시지 */
+              msg?: string;
+              /** @description 요청 추적 ID */
+              requestId?: string;
+              payload?: Record<string, never>;
+            };
+          };
+        };
+      };
+    };
     refreshToken: {
       parameters: {
         query?: never;
