@@ -9,9 +9,9 @@
   grid-column: span 12;
 }
 
-/** 필드 한 칸의 배치. 12칸 기준으로 폭을 정하고, 줄바꿈은 그리드가 알아서 한다. */
+/** 좁게 쓰는 필드만 FieldCell로 감싼다. 줄바꿈은 12칸이 차면 그리드가 알아서 한다. */
 .form > .cell {
-  grid-column: span var(--field-cols, 6);
+  grid-column: span var(--field-cols, 12);
 }
 
 /* 좁은 화면에서는 배치를 무시하고 한 줄에 하나씩 */

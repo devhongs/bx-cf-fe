@@ -40,24 +40,20 @@ export function MenuForm({
 
   return (
     <AppForm id={id} form={form} onSubmit={handleSubmit}>
-      <FieldCell>
+      <FieldCell cols={6}>
         <FormInput label="메뉴코드" name="menuCd" required />
       </FieldCell>
-      <FieldCell>
+      <FieldCell cols={6}>
         <FormSelect label="메뉴유형" name="menuType" groupCd="MENU_TYPE" emptyOption="SELECT" />
       </FieldCell>
 
-      <FieldCell cols={12}>
-        <FormInput label="메뉴명" name="menuNm" required />
-      </FieldCell>
-      <FieldCell cols={12}>
-        <FormInput label="경로" name="path" placeholder="/example" />
-      </FieldCell>
+      <FormInput label="메뉴명" name="menuNm" required />
+      <FormInput label="경로" name="path" placeholder="/example" />
 
-      <FieldCell>
+      <FieldCell cols={6}>
         <FormInput label="정렬" name="sortSeq" type="number" />
       </FieldCell>
-      <FieldCell>
+      <FieldCell cols={6}>
         <FormSelect label="노출여부" name="visibleYn" groupCd="VISIBLE_YN" emptyOption="SELECT" />
       </FieldCell>
     </AppForm>

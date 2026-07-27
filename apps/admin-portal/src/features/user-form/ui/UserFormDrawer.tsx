@@ -86,22 +86,22 @@ export function UserFormDrawer({ open, user, onClose }: UserFormDrawerProps) {
       }
     >
       <AppForm id={FORM_ID} form={form} onSubmit={handleSubmit}>
-        <FieldCell>
+        <FieldCell cols={6}>
           <FormInput label="아이디" name="usrId" readOnly={isUpdateMode} required />
         </FieldCell>
-        <FieldCell>
+        <FieldCell cols={6}>
           <FormSelect label="유형" name="userType" groupCd="USER_TYPE" emptyOption="SELECT" />
         </FieldCell>
-        <FieldCell>
+        <FieldCell cols={6}>
           <FormInput label="이름" name="usrNm" required />
         </FieldCell>
-        <FieldCell>
+        <FieldCell cols={6}>
           <FormSelect label="사용여부" name="useYn" groupCd="USER_STATUS" emptyOption="SELECT" />
         </FieldCell>
-        <FieldCell>
+        <FieldCell cols={6}>
           <FormInput label="부서" name="deptName" />
         </FieldCell>
-        <FieldCell>
+        <FieldCell cols={6}>
           <FormInput label="직책" name="positDivName" />
         </FieldCell>
       </AppForm>
