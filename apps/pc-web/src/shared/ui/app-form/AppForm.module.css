@@ -1,3 +1,26 @@
+.form {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--form-gap, 16px);
+}
+
+/* FieldCell로 감싸지 않은 자식(액션 영역·안내 문구 등)은 한 줄 전체를 쓴다 */
+.form > * {
+  grid-column: span 12;
+}
+
+/** 필드 한 칸의 배치. 12칸 기준으로 폭을 정하고, 줄바꿈은 그리드가 알아서 한다. */
+.form > .cell {
+  grid-column: span var(--field-cols, 6);
+}
+
+/* 좁은 화면에서는 배치를 무시하고 한 줄에 하나씩 */
+@media (max-width: 640px) {
+  .form > .cell {
+    grid-column: span 12;
+  }
+}
+
 .control {
   border-color: var(--border);
   color: var(--foreground);

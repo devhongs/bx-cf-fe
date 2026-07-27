@@ -1,8 +1,6 @@
-import { AppForm, useAppForm } from '@/shared/ui/admin-form';
+import { AppForm, FieldCell, useAppForm } from '@/shared/ui/admin-form';
 
 import type { MenuFormPayload, MenuFormValues } from '../model/menu-form.type';
-
-import styles from '@/shared/ui/admin-form/AdminForm.module.css';
 
 const emptyDefaultValues: MenuFormValues = {
   menuCd: '',
@@ -20,8 +18,6 @@ interface MenuFormProps {
   defaultValues?: MenuFormValues;
   onSubmit: (payload: MenuFormPayload) => void | Promise<void>;
 }
-
-const fullFieldClassName = `${styles.field} ${styles.fieldFull}`;
 
 const toPayload = (values: MenuFormValues): MenuFormPayload => ({
   menuCd: values.menuCd.trim(),
@@ -44,17 +40,26 @@ export function MenuForm({
 
   return (
     <AppForm id={id} form={form} onSubmit={handleSubmit}>
-      <FormInput label="메뉴코드" name="menuCd" required />
-      <FormSelect label="메뉴유형" name="menuType" groupCd="MENU_TYPE" emptyOption="SELECT" />
-      <FormInput label="메뉴명" name="menuNm" required fieldClassName={fullFieldClassName} />
-      <FormInput
-        label="경로"
-        name="path"
-        placeholder="/example"
-        fieldClassName={fullFieldClassName}
-      />
-      <FormInput label="정렬" name="sortSeq" type="number" />
-      <FormSelect label="노출여부" name="visibleYn" groupCd="VISIBLE_YN" emptyOption="SELECT" />
+      <FieldCell>
+        <FormInput label="메뉴코드" name="menuCd" required />
+      </FieldCell>
+      <FieldCell>
+        <FormSelect label="메뉴유형" name="menuType" groupCd="MENU_TYPE" emptyOption="SELECT" />
+      </FieldCell>
+
+      <FieldCell cols={12}>
+        <FormInput label="메뉴명" name="menuNm" required />
+      </FieldCell>
+      <FieldCell cols={12}>
+        <FormInput label="경로" name="path" placeholder="/example" />
+      </FieldCell>
+
+      <FieldCell>
+        <FormInput label="정렬" name="sortSeq" type="number" />
+      </FieldCell>
+      <FieldCell>
+        <FormSelect label="노출여부" name="visibleYn" groupCd="VISIBLE_YN" emptyOption="SELECT" />
+      </FieldCell>
     </AppForm>
   );
 }

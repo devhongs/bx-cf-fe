@@ -18,7 +18,7 @@ export function CodeListFields({ control }: CodeListFieldsProps) {
   const { fields, append, remove } = useFieldArray({ control, name: 'codes' });
 
   return (
-    <section className={`${styles.section} ${adminStyles.fieldFull}`}>
+    <section className={styles.section}>
       <div className={styles.header}>
         <h3>코드 목록</h3>
         <Button

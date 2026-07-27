@@ -8,11 +8,9 @@ import type { CommonCode, CommonCodeGroup, CommonCodeReplacePayload } from '@bx/
 
 import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
 import { AdminDrawerFormActions } from '@/shared/ui/admin-drawer/AdminDrawerFormActions';
-import { AppForm, useAppForm } from '@/shared/ui/admin-form';
+import { AppForm, FieldCell, useAppForm } from '@/shared/ui/admin-form';
 import type { CodeGroupFormValues } from '../model/code-group-form.type';
 import { CodeListFields } from './CodeListFields';
-
-import styles from '@/shared/ui/admin-form/AdminForm.module.css';
 
 import codeStyles from './CodeGroupFormDrawer.module.css';
 
@@ -47,8 +45,6 @@ const toPayload = (values: CodeGroupFormValues): CodeGroupSavePayload => ({
     useYn: row.useYn,
   })),
 });
-
-const fullFieldClassName = `${styles.field} ${styles.fieldFull}`;
 
 interface CodeGroupFormDrawerProps {
   open: boolean;
@@ -126,12 +122,23 @@ export function CodeGroupFormDrawer({ open, groupCd, onClose }: CodeGroupFormDra
       )}
       {isDetailReady && (
         <AppForm id={FORM_ID} form={form} onSubmit={handleSubmit}>
-          <FormInput label="그룹코드" name="groupCd" readOnly={isUpdateMode} required />
-          <FormSelect label="사용여부" name="useYn" groupCd="USE_YN" emptyOption="SELECT" />
-          <FormInput label="그룹명" name="groupNm" required fieldClassName={fullFieldClassName} />
-          <FormTextarea label="설명" name="groupDesc" fieldClassName={fullFieldClassName} />
+          <FieldCell>
+            <FormInput label="그룹코드" name="groupCd" readOnly={isUpdateMode} required />
+          </FieldCell>
+          <FieldCell>
+            <FormSelect label="사용여부" name="useYn" groupCd="USE_YN" emptyOption="SELECT" />
+          </FieldCell>
 
-          <CodeListFields control={form.control} />
+          <FieldCell cols={12}>
+            <FormInput label="그룹명" name="groupNm" required />
+          </FieldCell>
+          <FieldCell cols={12}>
+            <FormTextarea label="설명" name="groupDesc" />
+          </FieldCell>
+
+          <FieldCell cols={12}>
+            <CodeListFields control={form.control} />
+          </FieldCell>
         </AppForm>
       )}
     </AdminDrawer>
