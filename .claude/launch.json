@@ -30,6 +30,16 @@
       ],
       "port": 3101,
       "autoPort": false
+    },
+    {
+      "name": "storybook-shared",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "export PATH=\"$HOME/.nvm/versions/node/v22.23.1/bin:$PATH\" && pnpm --filter @bx/storybook dev:shared"
+      ],
+      "port": 6006,
+      "autoPort": false
     }
   ]
 }

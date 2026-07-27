@@ -1,7 +1,7 @@
-import { Plus, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import type { ReactNode } from 'react';
 
-import { Select } from '@bx/shared';
+import { Button, Select } from '@bx/shared';
 
 import styles from './AdminFilterBar.module.css';
 
@@ -10,12 +10,11 @@ interface AdminFilterBarProps {
   searchPlaceholder?: string;
   statusValue?: string;
   statusGroupCd?: string;
-  resultLabel?: string;
-  primaryActionLabel?: string;
   extra?: ReactNode;
   onSearchChange: (value: string) => void;
   onStatusChange?: (value: string) => void;
-  onPrimaryAction?: () => void;
+  onSearch: () => void;
+  onReset: () => void;
 }
 
 export function AdminFilterBar({
@@ -23,15 +22,20 @@ export function AdminFilterBar({
   searchPlaceholder = '검색어 입력',
   statusValue = '',
   statusGroupCd = 'USE_YN',
-  resultLabel,
-  primaryActionLabel,
   extra,
   onSearchChange,
   onStatusChange,
-  onPrimaryAction,
+  onSearch,
+  onReset,
 }: AdminFilterBarProps) {
   return (
-    <div className={styles.bar}>
+    <form
+      className={styles.bar}
+      onSubmit={(event) => {
+        event.preventDefault();
+        onSearch();
+      }}
+    >
       <label className={styles.search}>
         <Search size={15} />
         <input
@@ -54,16 +58,14 @@ export function AdminFilterBar({
 
       {extra}
 
-      <div className={styles.spacer} />
-
-      {resultLabel && <span className={styles.result}>{resultLabel}</span>}
-
-      {primaryActionLabel && onPrimaryAction && (
-        <button type="button" className={styles.primary} onClick={onPrimaryAction}>
-          <Plus size={15} />
-          <span>{primaryActionLabel}</span>
-        </button>
-      )}
-    </div>
+      <div className={styles.actions}>
+        <Button type="submit" variant="secondary" className={styles.searchButton}>
+          조회
+        </Button>
+        <Button type="button" variant="outline" onClick={onReset}>
+          초기화
+        </Button>
+      </div>
+    </form>
   );
 }

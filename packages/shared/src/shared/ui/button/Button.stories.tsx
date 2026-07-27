@@ -1,4 +1,5 @@
 import { Button } from './Button';
+import styles from './Button.stories.module.css';
 
 export default {
   title: 'UI/Button',
@@ -10,7 +11,7 @@ export default {
 
 export const Variants = {
   render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+    <div className={styles.variants}>
       <Button>Default</Button>
       <Button variant="submit">Submit</Button>
       <Button variant="secondary">Secondary</Button>

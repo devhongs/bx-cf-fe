@@ -9,16 +9,21 @@ export default {
 
 function AdminFilterBarExample() {
   const [searchValue, setSearchValue] = useState('');
-  const [actionCount, setActionCount] = useState(0);
+  const [submittedValue, setSubmittedValue] = useState('');
 
   return (
-    <AdminFilterBar
-      searchValue={searchValue}
-      resultLabel={`Actions ${actionCount}`}
-      primaryActionLabel="Add item"
-      onSearchChange={setSearchValue}
-      onPrimaryAction={() => setActionCount((count) => count + 1)}
-    />
+    <>
+      <AdminFilterBar
+        searchValue={searchValue}
+        onSearchChange={setSearchValue}
+        onSearch={() => setSubmittedValue(searchValue)}
+        onReset={() => {
+          setSearchValue('');
+          setSubmittedValue('');
+        }}
+      />
+      <p>조회 조건: {submittedValue || '전체'}</p>
+    </>
   );
 }
 

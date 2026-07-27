@@ -1,6 +1,7 @@
 export * from './alert/AlertHost';
 export * from './button/Button';
 export * from './data-table/DataTable';
+export * from './data-table-box/DataTableBox';
 export * from './dialog';
 export * from './drawer';
 export * from './icon-button/IconButton';

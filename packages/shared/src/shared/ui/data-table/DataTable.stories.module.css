@@ -1,0 +1,8 @@
+.selectionExample {
+  display: grid;
+  gap: 8px;
+}
+
+.selectionSummary {
+  font-size: 0.8rem;
+}

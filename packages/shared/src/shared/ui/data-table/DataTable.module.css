@@ -1,7 +1,7 @@
 .tableWrap {
   overflow: auto;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border: var(--data-table-border, 1px solid var(--border));
+  border-radius: var(--data-table-border-radius, 8px);
   background: var(--surface);
 }
 
@@ -75,4 +75,110 @@
   height: 180px;
   color: var(--muted);
   text-align: center;
+}
+
+/* 선택 체크박스 열 */
+.selectCell {
+  width: 44px;
+  text-align: center;
+}
+
+.checkbox {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.checkbox:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* 정렬 헤더 */
+.sortButton {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.sortButton:hover {
+  color: var(--foreground);
+}
+
+.sortIcon {
+  font-size: 0.7em;
+  color: var(--muted);
+}
+
+/* 인라인 편집 */
+.editableDisplay {
+  width: 100%;
+  padding: 2px 6px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: text;
+}
+
+.editableDisplay:hover {
+  border-color: var(--border);
+  background: var(--surface-raised);
+}
+
+.editableInput {
+  width: 100%;
+  padding: 2px 6px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--foreground);
+  font: inherit;
+}
+
+/* 페이지네이션 */
+.pagination {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+}
+
+.pageButton {
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.pageButton:hover:not(:disabled) {
+  background: var(--surface-raised);
+}
+
+.pageButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pageInfo {
+  color: var(--faint);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
 }
