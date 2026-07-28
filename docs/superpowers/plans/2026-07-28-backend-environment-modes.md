@@ -23,6 +23,7 @@
 ## File Map
 
 - Create `scripts/vite-api-environment.mjs`: mode별 프록시 환경을 읽고 기본값 및 시작 로그를 제공한다.
+- Create `scripts/vite-api-environment.d.mts`: Vite 설정이 공용 `.mjs` 해석기를 타입 안전하게 import하도록 선언한다.
 - Create `scripts/vite-api-environment.test.mjs`: 실제 앱 환경파일과 공용 해석기를 검증한다.
 - Create `scripts/vite-config-api-proxy.test.mjs`: 세 Vite 설정이 mode별 proxy target을 사용하는지 검증한다.
 - Create `scripts/backend-environment-scripts.test.mjs`: 루트 실행 명령이 올바른 Vite mode를 전달하는지 검증한다.
@@ -39,6 +40,7 @@
 **Files:**
 - Create: `scripts/vite-api-environment.test.mjs`
 - Create: `scripts/vite-api-environment.mjs`
+- Create: `scripts/vite-api-environment.d.mts`
 - Create: `apps/pc-web/.env.remote`
 - Create: `apps/pc-web/.env.spring`
 - Create: `apps/pc-web/.env.mock`
