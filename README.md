@@ -32,25 +32,34 @@ pnpm install
 ```
 
 ### 2. 개발 서버 실행
-전체 앱을 한 번에 확인할 때는 `dev:all`을 사용합니다. 이 명령은 Mock API 서버도 함께 띄우지만, 앱이 mock을 사용하려면 각 앱 `.env`의 `VITE_API_URL`을 `http://localhost:3333`으로 전환해야 합니다.
+
+연결할 백엔드를 명령으로 선택합니다. 예를 들어 PC 앱을 로컬 Spring(`http://127.0.0.1:18081`)에 연결하려면:
 
 ```bash
-pnpm dev:all
+pnpm dev:pc:spring
+```
+
+원격 Spring은 `:remote`, 로컬 Spring은 `:spring`, Mock은 `:mock`을 사용합니다.
+
+```bash
+pnpm dev:pc:remote
+pnpm dev:mobile:spring
+pnpm dev:admin:mock
+```
+
+Mock 모드는 API 서버를 별도 터미널에서 함께 실행해야 합니다.
+
+```bash
+pnpm dev:server
+pnpm dev:pc:mock
 ```
 
 > **가동 포트**
+>
 > - 💻 **PC 웹**: [http://localhost:3000](http://localhost:3000)
 > - 📱 **모바일 웹**: [http://localhost:3001](http://localhost:3001)
 > - ⚙️ **관리자 포탈**: [http://localhost:3002](http://localhost:3002)
-> - 📡 **Mock API**: [http://localhost:3333](http://localhost:3333)
-
-개별 구동:
-```bash
-pnpm dev:pc        # PC 웹 (3000)
-pnpm dev:mobile    # 모바일 웹 (3001)
-pnpm dev:admin     # 관리자 포탈 (3002)
-pnpm dev:server    # Mock API 서버 (3333)
-```
+> - 📡 **Mock API**: [http://127.0.0.1:3333](http://127.0.0.1:3333)
 
 ---
 
@@ -84,28 +93,32 @@ pnpm build:storybook    # 다섯 Storybook 정적 빌드
 
 ## 🌐 백엔드 연결 (Vite Proxy ↔ Mock ↔ Spring)
 
-개발 기본값은 앱별 `.env`의 `VITE_API_URL=/channel/backend/api/v1`입니다. 브라우저는 같은 origin의 dev server로 요청하고, Vite proxy가 Spring 서버로 전달해 CORS/크로스도메인 쿠키 문제를 피합니다.
+개발 중에는 소스를 수정하지 않고 Vite mode와 앱별 물리 환경 파일로 연결 대상을 선택합니다. `remote`와 `spring`은 브라우저가 같은 origin의 Vite dev server로 요청하고, Vite proxy가 선택한 Spring 서버로 전달해 CORS/크로스도메인 쿠키 문제를 피합니다.
 
-| 연결 방식 | URL / Target | 비고 |
-| :--- | :--- | :--- |
-| **개발 기본** (Vite proxy) | `VITE_API_URL=/channel/backend/api/v1` → `http://192.168.110.217` | PC/Mobile/Admin 개발 기본값 |
-| **운영** (Nginx same-origin) | `VITE_API_URL=/channel/backend/api/v1` | 빌드/배포 기본값 |
-| **Mock** (`mock/server.js`) | `http://localhost:3333` | 프로토타이핑·UI 개발용, 필요 시 env 전환 |
-| **로컬 Spring 직접 연결** | `http://localhost:18081/channel/backend/api/v1` | 로컬 백엔드 직접 기동 시 |
+| Mode | 환경 파일 | 앱 API URL | Vite proxy target | 실행 예시 |
+| :--- | :--- | :--- | :--- | :--- |
+| `remote` | `.env.remote` | `/channel/backend/api/v1` | `http://192.168.110.217` | `pnpm dev:pc:remote` |
+| `spring` | `.env.spring` | `/channel/backend/api/v1` | `http://127.0.0.1:18081` | `pnpm dev:pc:spring` |
+| `mock` | `.env.mock` | `http://127.0.0.1:3333` | 사용하지 않음 | `pnpm dev:server` + `pnpm dev:pc:mock` |
+| `production` | `.env.production` | `/channel/backend/api/v1` | Nginx same-origin | `pnpm build` |
 
 > **핵심**: Mock 서버([mock/server.js](mock/server.js))는 Spring과 **동일한 계약**(공통 envelope + JWT 인증)을 흉내냅니다. 따라서 앱은 **단일 코드패스**로 동작하며, mock에서 검증한 인증·통신 로직이 Spring 연동 시 그대로 유지됩니다. (`pnpm dev:server`로 구동, Node 내장 모듈만 사용해 의존성 없음)
 
+각 앱은 아래 파일을 독립적으로 가집니다.
+
 ```bash
-# apps/pc-web/.env · apps/mobile-web/.env · apps/admin-portal/.env
-VITE_API_URL=/channel/backend/api/v1                         # 개발 기본: Vite proxy → Spring
-#VITE_API_URL=http://localhost:3333                          # Mock 사용 시
-#VITE_API_URL=http://localhost:18081/channel/backend/api/v1   # 로컬 Spring 직접 연결 시
+apps/pc-web/.env.remote
+apps/pc-web/.env.spring
+apps/pc-web/.env.mock
+# apps/mobile-web, apps/admin-portal에도 같은 세 파일이 있습니다.
 ```
 
-* `.env`는 **각 앱 디렉토리**에 위치해야 합니다(Vite는 앱별로 로드). 루트 `.env`는 Vite 앱이 읽지 않습니다.
-* `.env.production`은 `pnpm build` 시 적용됩니다.
-* `VITE_API_URL`을 상대경로로 두면 앱의 `vite.config.ts` proxy 설정을 타고, 절대 URL로 두면 브라우저가 해당 서버로 직접 요청합니다.
-* Mock 서버는 `db.json`을 그대로 서빙하되 모든 응답을 envelope로 감싸고, `/auth/*` 엔드포인트는 Spring 형태의 가짜 토큰(먼 미래 만료)을 발급합니다. (`db.json` 변경 시 mock 서버 재시작 필요)
+- 환경 파일은 **각 앱 디렉토리**에 위치해야 합니다. 루트 `.env`는 Vite 앱이 읽지 않습니다.
+- 개인별 주소 변경은 추적 파일을 수정하지 말고 같은 앱에 `.env.remote.local`, `.env.spring.local`, `.env.mock.local`을 만듭니다. 이 파일들은 Git에서 제외됩니다.
+- `VITE_API_URL`을 상대 경로로 두면 앱의 `vite.config.ts` proxy를 타고, 절대 URL로 두면 브라우저가 해당 서버로 직접 요청합니다.
+- entity API wrapper에는 `/system/menus/list` 같은 상대 API 경로만 두고 호스트 주소를 넣지 않습니다.
+- `API_DOCS_URLS`는 `pnpm gen:api`가 OpenAPI 문서를 가져올 주소이며, 앱의 런타임 백엔드 선택과는 별개입니다.
+- Mock 서버는 `db.json`을 그대로 서빙하되 모든 응답을 envelope로 감싸고, `/auth/*` 엔드포인트는 Spring 형태의 가짜 토큰(먼 미래 만료)을 발급합니다. (`db.json` 변경 시 mock 서버 재시작 필요)
 
 ### 공통 응답 규격 (envelope)
 실서버 응답은 공통부(`success`/`code`/`msg`)와 데이터부(`payload`)로 구성됩니다. `httpService`가 `payload`를 자동 언래핑하여 반환합니다.
@@ -228,12 +241,16 @@ Admin의 코드·메뉴 등록/수정/삭제는 해당 관리 화면의 목록 Q
 ## 📜 실행 스크립트 (Scripts)
 
 ### 개발 서버
+
 | 명령 | 설명 |
 | :--- | :--- |
 | `pnpm dev` | 전체 앱 병렬 실행 (Turborepo) |
 | `pnpm dev:pc` / `dev:mobile` / `dev:admin` | 개별 앱 구동 |
+| `pnpm dev:<pc\|mobile\|admin>:remote` | 선택 앱 → 원격 Spring (`192.168.110.217`) |
+| `pnpm dev:<pc\|mobile\|admin>:spring` | 선택 앱 → 로컬 Spring (`127.0.0.1:18081`) |
+| `pnpm dev:<pc\|mobile\|admin>:mock` | 선택 앱 → 로컬 Mock (`127.0.0.1:3333`) |
 | `pnpm dev:server` | Mock API 서버 (`mock/server.js`, 3333) |
-| `pnpm dev:all` | 전체 앱 + Mock API 동시 구동 |
+| `pnpm dev:all` | 전체 앱(기본 `.env`) + Mock API 서버 동시 구동 |
 | `pnpm storybook` | Composition Hub와 Shared·PC·Admin·Mobile Storybook 동시 구동 |
 | `pnpm storybook:<hub\|shared\|pc\|admin\|mobile>` | Storybook profile 개별 구동 |
 
