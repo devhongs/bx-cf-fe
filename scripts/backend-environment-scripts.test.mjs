@@ -6,13 +6,13 @@ const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url),
 
 const expected = {
   'dev:pc:remote': 'turbo dev --filter=pc-web -- --mode remote',
-  'dev:pc:spring': 'turbo dev --filter=pc-web -- --mode spring',
+  'dev:pc:nest': 'turbo dev --filter=pc-web -- --mode nest',
   'dev:pc:mock': 'turbo dev --filter=pc-web -- --mode mock',
   'dev:admin:remote': 'turbo dev --filter=admin-portal -- --mode remote',
-  'dev:admin:spring': 'turbo dev --filter=admin-portal -- --mode spring',
+  'dev:admin:nest': 'turbo dev --filter=admin-portal -- --mode nest',
   'dev:admin:mock': 'turbo dev --filter=admin-portal -- --mode mock',
   'dev:mobile:remote': 'turbo dev --filter=mobile-web -- --mode remote',
-  'dev:mobile:spring': 'turbo dev --filter=mobile-web -- --mode spring',
+  'dev:mobile:nest': 'turbo dev --filter=mobile-web -- --mode nest',
   'dev:mobile:mock': 'turbo dev --filter=mobile-web -- --mode mock',
 };
 

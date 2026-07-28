@@ -23,9 +23,9 @@ describe('vite API environment', () => {
     });
   });
 
-  it.each(appDirs)('loads spring mode for %s', (envDir) => {
-    expect(loadApiEnvironment({ mode: 'spring', envDir })).toEqual({
-      mode: 'spring',
+  it.each(appDirs)('loads nest mode for %s', (envDir) => {
+    expect(loadApiEnvironment({ mode: 'nest', envDir })).toEqual({
+      mode: 'nest',
       apiUrl: '/channel/backend/api/v1',
       proxyTarget: 'http://127.0.0.1:18081',
     });
@@ -42,12 +42,12 @@ describe('vite API environment', () => {
   it('formats a startup diagnostic without hiding the selected target', () => {
     expect(
       formatApiEnvironmentLog({
-        mode: 'spring',
+        mode: 'nest',
         apiUrl: '/channel/backend/api/v1',
         proxyTarget: 'http://127.0.0.1:18081',
       }),
     ).toBe(
-      '[vite-api] mode=spring apiUrl=/channel/backend/api/v1 proxyTarget=http://127.0.0.1:18081',
+      '[vite-api] mode=nest apiUrl=/channel/backend/api/v1 proxyTarget=http://127.0.0.1:18081',
     );
   });
 });

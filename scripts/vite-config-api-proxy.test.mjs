@@ -20,8 +20,8 @@ describe('app Vite API proxies', () => {
     expect(config.server.proxy['/channel'].target).toBe('http://192.168.110.217');
   });
 
-  it.each(configs)('%s uses the local Spring proxy target', async (_name, module) => {
-    const config = await resolveConfig(module, 'spring');
+  it.each(configs)('%s uses the local Nest proxy target', async (_name, module) => {
+    const config = await resolveConfig(module, 'nest');
     expect(config.server.proxy['/channel'].target).toBe('http://127.0.0.1:18081');
   });
 });
