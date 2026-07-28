@@ -3,6 +3,7 @@ apps/*/node_modules
 packages/*/node_modules
 .DS_Store
 .env.local
+.env.*.local
 dist
 apps/*/dist
 packages/*/dist
