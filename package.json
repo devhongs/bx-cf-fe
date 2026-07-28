@@ -81,11 +81,6 @@
     "web-vitals": "^5.2.0"
   },
   "pnpm": {
-    "allowedBuildScripts": [
-      "core-js-pure",
-      "esbuild",
-      "unrs-resolver",
-      "@biomejs/biome"
-    ]
+    "allowedBuildScripts": ["core-js-pure", "esbuild", "unrs-resolver", "@biomejs/biome"]
   }
 }
