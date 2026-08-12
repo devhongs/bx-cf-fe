@@ -73,7 +73,9 @@ jobs:
         run: pnpm check
 
       - name: Run Code Linter
-        run: pnpm lint
+        # `biome ci`는 lint에 더해 포맷·import 정렬까지 검사한다.
+        # `biome lint`만 돌리면 포맷 위반이 CI를 통과해 계속 쌓인다.
+        run: pnpm lint:ci
 
       - name: Generate README HTML (landing)
         # README.md → landing/assets/fe.readme.html 재생성.
