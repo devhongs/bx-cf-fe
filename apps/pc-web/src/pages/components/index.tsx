@@ -1,8 +1,7 @@
+import { Button, fetchProductList, withGlobalLoading } from '@bx/shared';
 import { useQueryClient } from '@tanstack/react-query';
 import { EyeOffIcon, PlayIcon } from 'lucide-react';
 import { useState } from 'react';
-
-import { Button, fetchProductList, withGlobalLoading } from '@bx/shared';
 
 import SampleLogo from '@/assets/sample-logo.svg?react';
 

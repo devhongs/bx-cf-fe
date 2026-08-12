@@ -1,8 +1,6 @@
-import { Bell, Settings } from 'lucide-react';
-
-import { useModal } from '@bx/shared';
 import type { BaseProps } from '@bx/shared';
-import { IconButton } from '@bx/shared';
+import { IconButton, useModal } from '@bx/shared';
+import { Bell, Settings } from 'lucide-react';
 
 import styles from './HeaderRight.module.css';
 

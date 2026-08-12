@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import type { CommonCodeGroup, DataTableColumn } from '@bx/shared';
 
 import {
   $codeUtils,
@@ -6,7 +6,7 @@ import {
   useDeleteCommonCodeGroup,
   useFetchCommonCodeGroupList,
 } from '@bx/shared';
-import type { CommonCodeGroup, DataTableColumn } from '@bx/shared';
+import { useState } from 'react';
 
 import { CodeGroupFormDrawer } from '@/features/code-group-form/ui/CodeGroupFormDrawer';
 import { deleteSelectedItems } from '@/shared/lib/deleteSelectedItems';

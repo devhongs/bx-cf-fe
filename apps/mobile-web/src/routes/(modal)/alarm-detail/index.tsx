@@ -1,6 +1,6 @@
-import { AlarmDetail } from '@/features/alarm/ui/alarm-detail';
 import type { ModalConfig } from '@bx/shared';
 import { Modal } from '@bx/shared';
+import { AlarmDetail } from '@/features/alarm/ui/alarm-detail';
 
 interface AlarmDetailModalProps extends ModalConfig {
   dummy?: any;

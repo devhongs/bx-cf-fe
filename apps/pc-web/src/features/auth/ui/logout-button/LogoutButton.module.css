@@ -12,7 +12,9 @@
   font-size: 0.74rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.15s, color 0.15s;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
 }
 
 .button:hover {

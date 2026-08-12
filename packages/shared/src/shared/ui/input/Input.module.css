@@ -10,7 +10,10 @@
   font-size: 0.875rem;
   line-height: 1.25rem;
   box-shadow: var(--shadow-control);
-  transition: color 0.15s, border-color 0.15s, box-shadow 0.15s;
+  transition:
+    color 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .input::placeholder {

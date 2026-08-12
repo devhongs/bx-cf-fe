@@ -1,13 +1,12 @@
+import { Drawer, DrawerContent, DrawerDescription, DrawerTitle } from '@bx/shared';
 import { X } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
 import type {
   CSSProperties,
   KeyboardEvent,
   ReactNode,
   PointerEvent as ReactPointerEvent,
 } from 'react';
-
-import { Drawer, DrawerContent, DrawerDescription, DrawerTitle } from '@bx/shared';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import styles from './AdminDrawer.module.css';
 

@@ -11,11 +11,9 @@
   justify-content: center;
   padding: clamp(28px, 7vw, 72px);
   border-right: 1px solid var(--border);
-  background: linear-gradient(
-      160deg,
-      color-mix(in srgb, var(--accent) 12%, transparent),
-      transparent 42%
-    ), var(--surface);
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 42%),
+    var(--surface);
 }
 
 .brand {

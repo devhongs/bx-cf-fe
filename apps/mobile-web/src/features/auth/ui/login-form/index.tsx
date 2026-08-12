@@ -1,8 +1,7 @@
+import { Input, local, openAlert, STORAGE_KEYS, sha256, useLogin } from '@bx/shared';
 import { useNavigate } from '@tanstack/react-router';
 import { KeyRound, LogIn, UserPlus } from 'lucide-react';
 import { useState } from 'react';
-
-import { Input, STORAGE_KEYS, local, openAlert, sha256, useLogin } from '@bx/shared';
 
 import styles from './index.module.css';
 

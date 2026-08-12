@@ -1,8 +1,9 @@
 // import { AccountList } from '@/features/account-list'
-import { useLocation } from '@tanstack/react-router';
+
+import type { BaseProps } from '@bx/shared';
 
 import { cn } from '@bx/shared';
-import type { BaseProps } from '@bx/shared';
+import { useLocation } from '@tanstack/react-router';
 
 import styles from './Header.module.css';
 import { HeaderLeft } from './HeaderLeft';

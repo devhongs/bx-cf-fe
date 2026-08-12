@@ -1,3 +1,12 @@
+import {
+  Popover,
+  PopoverClose,
+  PopoverPrimitive,
+  PopoverTrigger,
+  logout as requestLogout,
+  useAuthStore,
+  useTheme,
+} from '@bx/shared';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import {
   Braces,
@@ -10,16 +19,6 @@ import {
   UserRound,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
-
-import {
-  Popover,
-  PopoverClose,
-  PopoverPrimitive,
-  PopoverTrigger,
-  logout as requestLogout,
-  useAuthStore,
-  useTheme,
-} from '@bx/shared';
 
 import styles from './AdminSidebar.module.css';
 

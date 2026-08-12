@@ -1,5 +1,5 @@
-import { httpService } from '../../../shared/ajax/http.service';
 import type { HttpLoadingOptions } from '../../../shared/ajax/http.service';
+import { httpService } from '../../../shared/ajax/http.service';
 
 import type { Menu, MenuPayload, MenuQueryParams } from '../model/menu.type';
 

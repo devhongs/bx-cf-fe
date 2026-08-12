@@ -1,6 +1,5 @@
+import type { Alarm, BaseProps } from '@bx/shared';
 import { useFetchAlarm } from '@bx/shared';
-import type { Alarm } from '@bx/shared';
-import type { BaseProps } from '@bx/shared';
 
 interface AlarmDetailProps extends BaseProps {
   alarmId: number;

@@ -8,8 +8,11 @@
   overflow: hidden;
   width: 240px;
   min-width: 240px;
-  transition: width 0.2s ease-in-out, min-width 0.2s ease-in-out, border-right-color 0.2s, opacity
-    0.2s;
+  transition:
+    width 0.2s ease-in-out,
+    min-width 0.2s ease-in-out,
+    border-right-color 0.2s,
+    opacity 0.2s;
 }
 
 .collapsed {
@@ -61,7 +64,9 @@
   font-weight: 400;
   cursor: pointer;
   text-align: left;
-  transition: background-color 0.15s, color 0.15s;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
   width: 100%;
 }
 

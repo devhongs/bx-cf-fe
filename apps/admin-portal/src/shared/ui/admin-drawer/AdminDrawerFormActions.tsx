@@ -1,4 +1,4 @@
-import { Spinner, openDeleteConfirm } from '@bx/shared';
+import { openDeleteConfirm, Spinner } from '@bx/shared';
 
 import styles from '@/shared/ui/admin-form/AdminForm.module.css';
 

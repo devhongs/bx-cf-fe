@@ -1,10 +1,10 @@
-import axios from 'axios';
 import type {
   AxiosInstance,
   AxiosPromise,
   AxiosRequestConfig,
   InternalAxiosRequestConfig,
 } from 'axios';
+import axios from 'axios';
 
 import { isExpiredTokenCode, isFatalAuthCode } from '../constants/error-codes';
 import { encodeQueryString } from '../lib/utils';

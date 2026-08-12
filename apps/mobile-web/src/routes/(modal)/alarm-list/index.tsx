@@ -1,6 +1,6 @@
-import { AlarmList } from '@/features/alarm/ui/alarm-list';
 import type { ModalConfig } from '@bx/shared';
 import { Button, Modal } from '@bx/shared';
+import { AlarmList } from '@/features/alarm/ui/alarm-list';
 
 interface AlarmListModalProps extends ModalConfig {}
 

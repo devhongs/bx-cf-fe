@@ -101,7 +101,10 @@
   line-height: 28px;
   font-weight: 500;
   transform: translateX(-50%); /* 화면 중앙 정렬 + 아래 여백 */
-  transition: color 200ms, background-color 200ms, border-color 200ms;
+  transition:
+    color 200ms,
+    background-color 200ms,
+    border-color 200ms;
 }
 
 /* 활성화 상태 (amount 있을 때) */

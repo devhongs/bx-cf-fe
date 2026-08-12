@@ -1,6 +1,5 @@
-import { redirect } from '@tanstack/react-router';
-
 import { ensureValidAuthSession, useAuthStore } from '@bx/shared';
+import { redirect } from '@tanstack/react-router';
 
 export const requireAuth = async ({ location, context }: any) => {
   const hasValidSession = await ensureValidAuthSession();

@@ -11,7 +11,9 @@
   width: 280px;
   z-index: 50;
   box-shadow: var(--pc-settings-panel-shadow);
-  transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+  transition:
+    transform 0.25s ease-in-out,
+    opacity 0.25s ease-in-out;
   transform: translateX(0);
 }
 
@@ -47,7 +49,9 @@
   background: transparent;
   color: var(--muted);
   cursor: pointer;
-  transition: background-color 0.15s, color 0.15s;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
 }
 
 .closeBtn:hover {
@@ -216,7 +220,9 @@
   background-color: var(--muted);
   top: 3px;
   left: 3px;
-  transition: transform 0.2s, background-color 0.2s;
+  transition:
+    transform 0.2s,
+    background-color 0.2s;
 }
 
 .toggleOn {

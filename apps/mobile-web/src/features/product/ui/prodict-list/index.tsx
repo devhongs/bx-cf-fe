@@ -1,7 +1,5 @@
-import { useFetchProductList } from '@bx/shared';
-import type { Product } from '@bx/shared';
-import { ProductItem } from '@bx/shared';
-import type { BaseProps } from '@bx/shared';
+import type { BaseProps, Product } from '@bx/shared';
+import { ProductItem, useFetchProductList } from '@bx/shared';
 
 import styles from './index.module.css';
 

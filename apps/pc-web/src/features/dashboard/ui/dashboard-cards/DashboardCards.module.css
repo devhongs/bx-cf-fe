@@ -15,7 +15,10 @@
   border-radius: 12px;
   cursor: pointer;
   text-align: left;
-  transition: background-color 0.15s, border-color 0.15s, transform 0.15s;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    transform 0.15s;
 }
 
 .card:hover {

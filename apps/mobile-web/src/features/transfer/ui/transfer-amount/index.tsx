@@ -1,10 +1,6 @@
+import type { BankId, BaseProps } from '@bx/shared';
+import { $codeUtils, Button, formatAccountNumberByBank, Input } from '@bx/shared';
 import { useEffect, useState } from 'react';
-
-import { $codeUtils } from '@bx/shared';
-import type { BankId } from '@bx/shared';
-import { formatAccountNumberByBank } from '@bx/shared';
-import type { BaseProps } from '@bx/shared';
-import { Button, Input } from '@bx/shared';
 
 import styles from './index.module.css';
 

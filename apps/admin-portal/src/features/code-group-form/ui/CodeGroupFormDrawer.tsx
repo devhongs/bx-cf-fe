@@ -1,18 +1,17 @@
+import type { CommonCode, CommonCodeGroup, CommonCodeReplacePayload } from '@bx/shared';
 import {
   useCreateCommonCodeGroup,
   useDeleteCommonCodeGroup,
   useFetchCommonCodeGroup,
   useReplaceCommonCodes,
 } from '@bx/shared';
-import type { CommonCode, CommonCodeGroup, CommonCodeReplacePayload } from '@bx/shared';
 
 import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
 import { AdminDrawerFormActions } from '@/shared/ui/admin-drawer/AdminDrawerFormActions';
 import { AppForm, FieldCell, useAppForm } from '@/shared/ui/admin-form';
 import type { CodeGroupFormValues } from '../model/code-group-form.type';
-import { CodeListFields } from './CodeListFields';
-
 import codeStyles from './CodeGroupFormDrawer.module.css';
+import { CodeListFields } from './CodeListFields';
 
 const FORM_ID = 'admin-code-group-form';
 

@@ -1,12 +1,11 @@
-import { Outlet, createFileRoute, useLocation } from '@tanstack/react-router';
-import { Menu, PanelRightOpen } from 'lucide-react';
-
 import {
-  LoadingOverlayBoundary,
   createBaseInfoMenuCacheScope,
   ensureBaseInfoBootstrapped,
+  LoadingOverlayBoundary,
   useAuthStore,
 } from '@bx/shared';
+import { createFileRoute, Outlet, useLocation } from '@tanstack/react-router';
+import { Menu, PanelRightOpen } from 'lucide-react';
 
 import { queryClient } from '@/queryClient';
 import { LayoutProvider, useLayout } from '@/shared/context/LayoutContext';

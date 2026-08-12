@@ -1,6 +1,6 @@
-import { TransferList } from '@/features/transfer/ui/transfer-list';
 import type { ModalConfig } from '@bx/shared';
 import { Modal } from '@bx/shared';
+import { TransferList } from '@/features/transfer/ui/transfer-list';
 
 interface TransferListModalProps extends ModalConfig {
   dummy?: any;

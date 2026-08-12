@@ -1,6 +1,4 @@
-import { useNavigate } from '@tanstack/react-router';
-import { LogOut, User } from 'lucide-react';
-
+import type { ModalConfig } from '@bx/shared';
 import {
   DialogDescription,
   DialogHeader,
@@ -9,7 +7,8 @@ import {
   useLogout,
   useModal,
 } from '@bx/shared';
-import type { ModalConfig } from '@bx/shared';
+import { useNavigate } from '@tanstack/react-router';
+import { LogOut, User } from 'lucide-react';
 
 import styles from './index.module.css';
 

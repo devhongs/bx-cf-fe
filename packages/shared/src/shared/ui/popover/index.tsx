@@ -28,10 +28,10 @@ PopoverContent.displayName = PopoverPrimitive.Content.displayName;
 
 export {
   Popover,
-  PopoverTrigger,
   PopoverAnchor,
   PopoverClose,
   PopoverContent,
   // raw Radix 네임스페이스 재노출 — 앱에서 직접 의존성 추가 없이 사용
   PopoverPrimitive,
+  PopoverTrigger,
 };

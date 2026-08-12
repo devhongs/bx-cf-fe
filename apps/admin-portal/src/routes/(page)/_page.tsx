@@ -1,11 +1,10 @@
-import { Outlet, createFileRoute } from '@tanstack/react-router';
-
 import {
-  LoadingOverlayBoundary,
   createBaseInfoMenuCacheScope,
   ensureBaseInfoBootstrapped,
+  LoadingOverlayBoundary,
   useAuthStore,
 } from '@bx/shared';
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 
 import { queryClient } from '@/queryClient';
 import { requireAuth } from '@/shared/guards/requireAuth';

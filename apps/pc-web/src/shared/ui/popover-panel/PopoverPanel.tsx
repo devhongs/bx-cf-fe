@@ -1,6 +1,5 @@
-import { X } from 'lucide-react';
-
 import { PopoverPrimitive } from '@bx/shared';
+import { X } from 'lucide-react';
 
 import styles from './PopoverPanel.module.css';
 

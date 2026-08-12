@@ -1,17 +1,16 @@
-import { QueryClientProvider } from '@tanstack/react-query';
-import { RouterProvider, createRouter } from '@tanstack/react-router';
-import { StrictMode } from 'react';
-import ReactDOM from 'react-dom/client';
-
 import {
+  AlertHost,
   API_CONFIG,
   API_URL,
-  AlertHost,
-  GlobalLoadingOverlay,
-  Toaster,
   createHttpAuthConfig,
+  GlobalLoadingOverlay,
   httpService,
+  Toaster,
 } from '@bx/shared';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { createRouter, RouterProvider } from '@tanstack/react-router';
+import { StrictMode } from 'react';
+import ReactDOM from 'react-dom/client';
 
 httpService.init({
   baseURL: API_URL,

@@ -1,6 +1,6 @@
-import { ProductList } from '@/features/product/ui/prodict-list';
 import { Page } from '@bx/shared';
 import { createFileRoute } from '@tanstack/react-router';
+import { ProductList } from '@/features/product/ui/prodict-list';
 
 function ProductPage() {
   return (

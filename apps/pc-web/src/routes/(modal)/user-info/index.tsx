@@ -1,7 +1,7 @@
-import { User } from 'lucide-react';
+import type { ModalConfig } from '@bx/shared';
 
 import { DialogHeader, DialogTitle, useAuthStore } from '@bx/shared';
-import type { ModalConfig } from '@bx/shared';
+import { User } from 'lucide-react';
 
 import styles from './index.module.css';
 

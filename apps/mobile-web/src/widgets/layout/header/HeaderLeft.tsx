@@ -1,8 +1,6 @@
-import { ChevronRight } from 'lucide-react';
-
-import { useUserName } from '@bx/shared';
-import { useModal } from '@bx/shared';
 import type { BaseProps } from '@bx/shared';
+import { useModal, useUserName } from '@bx/shared';
+import { ChevronRight } from 'lucide-react';
 
 import styles from './HeaderLeft.module.css';
 

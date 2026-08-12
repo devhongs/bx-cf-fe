@@ -1,9 +1,8 @@
+import { local, STORAGE_KEYS, sha256, useLogin } from '@bx/shared';
 import { useNavigate } from '@tanstack/react-router';
 import { LockKeyhole, ShieldCheck } from 'lucide-react';
-import { useState } from 'react';
 import type { FormEvent } from 'react';
-
-import { STORAGE_KEYS, local, sha256, useLogin } from '@bx/shared';
+import { useState } from 'react';
 
 import styles from './index.module.css';
 

@@ -1,6 +1,19 @@
 import {
-  type CSSProperties,
+  type ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type OnChangeFn,
+  type PaginationState,
+  type RowSelectionState,
+  type SortingState,
+  useReactTable,
+} from '@tanstack/react-table';
+import clsx from 'clsx';
+import {
   type ComponentPropsWithoutRef,
+  type CSSProperties,
   type KeyboardEvent,
   type ReactNode,
   useEffect,
@@ -8,20 +21,6 @@ import {
   useRef,
   useState,
 } from 'react';
-
-import {
-  type ColumnDef,
-  type OnChangeFn,
-  type PaginationState,
-  type RowSelectionState,
-  type SortingState,
-  flexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
-import clsx from 'clsx';
 
 import styles from './DataTable.module.css';
 

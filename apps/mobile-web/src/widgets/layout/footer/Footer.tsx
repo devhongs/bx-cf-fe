@@ -1,11 +1,9 @@
-import { useLocation, useRouter } from '@tanstack/react-router';
-import { Ellipsis, House, SquareChartGantt, WalletMinimal } from 'lucide-react';
-
 import type { BaseProps } from '@bx/shared';
 import { cn } from '@bx/shared';
-import { FooterButton } from './FooterButton';
-
+import { useLocation, useRouter } from '@tanstack/react-router';
+import { Ellipsis, House, SquareChartGantt, WalletMinimal } from 'lucide-react';
 import styles from './Footer.module.css';
+import { FooterButton } from './FooterButton';
 
 interface FooterProps extends BaseProps {}
 

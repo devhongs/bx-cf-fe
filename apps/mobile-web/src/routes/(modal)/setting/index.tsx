@@ -1,12 +1,7 @@
+import type { ModalConfig } from '@bx/shared';
+import { IconButton, Modal, useLogout, useModal, useTheme } from '@bx/shared';
 import { useNavigate } from '@tanstack/react-router';
 import { LogOut, Moon, Sun } from 'lucide-react';
-
-import { useLogout } from '@bx/shared';
-import { useModal } from '@bx/shared';
-import type { ModalConfig } from '@bx/shared';
-import { IconButton } from '@bx/shared';
-import { Modal } from '@bx/shared';
-import { useTheme } from '@bx/shared';
 
 import styles from './index.module.css';
 

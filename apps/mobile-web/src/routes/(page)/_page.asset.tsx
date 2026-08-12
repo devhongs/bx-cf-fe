@@ -1,5 +1,5 @@
-import { AssetList } from '@/features/asset/ui/asset-list';
 import { createFileRoute } from '@tanstack/react-router';
+import { AssetList } from '@/features/asset/ui/asset-list';
 
 function AssetPage() {
   return <AssetList />;

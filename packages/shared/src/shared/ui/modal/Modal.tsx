@@ -1,4 +1,5 @@
 import { ArrowLeft, X } from 'lucide-react';
+import type * as React from 'react';
 /**
  * Modal — 레이아웃 셸 컴포넌트
  *
@@ -13,7 +14,6 @@ import { ArrowLeft, X } from 'lucide-react';
  *   </Modal>
  */
 import type { FC, ReactNode } from 'react';
-import type * as React from 'react';
 
 import { useModal } from '../../hooks';
 import { cn } from '../../lib/utils/cn';

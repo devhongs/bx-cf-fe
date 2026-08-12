@@ -1,8 +1,6 @@
-import { useState } from 'react';
-
-import { DialogDescription, DialogHeader, DialogTitle } from '@bx/shared';
 import type { ModalConfig } from '@bx/shared';
-import { useModal } from '@bx/shared';
+import { DialogDescription, DialogHeader, DialogTitle, useModal } from '@bx/shared';
+import { useState } from 'react';
 
 import styles from './index.module.css';
 

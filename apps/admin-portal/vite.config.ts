@@ -2,8 +2,7 @@ import { resolve } from 'node:path';
 
 import babel from '@rolldown/plugin-babel';
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
-import viteReact from '@vitejs/plugin-react';
-import { reactCompilerPreset } from '@vitejs/plugin-react';
+import viteReact, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
 

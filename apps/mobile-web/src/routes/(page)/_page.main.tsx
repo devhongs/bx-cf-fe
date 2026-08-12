@@ -1,5 +1,5 @@
-import { AiSearchCard } from '@/features/ai-search';
 import { createFileRoute } from '@tanstack/react-router';
+import { AiSearchCard } from '@/features/ai-search';
 
 import styles from './_page.main.module.css';
 

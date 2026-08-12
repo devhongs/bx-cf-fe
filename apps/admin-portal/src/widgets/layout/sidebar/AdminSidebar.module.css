@@ -87,7 +87,10 @@
   font-size: 0.82rem;
   font-weight: 600;
   text-align: left;
-  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    color 0.15s;
 }
 
 .navItem:hover {
@@ -138,7 +141,10 @@
   color: var(--foreground);
   cursor: pointer;
   text-align: left;
-  transition: background-color 0.15s, border-color 0.15s, transform 0.15s;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    transform 0.15s;
 }
 
 .profileButton:hover {
@@ -199,7 +205,9 @@
   box-shadow: var(--admin-panel-shadow);
   outline: 0;
   transform-origin: var(--radix-popover-content-transform-origin);
-  transition: opacity 0.15s, transform 0.15s;
+  transition:
+    opacity 0.15s,
+    transform 0.15s;
 }
 
 .accountPopover[data-state="open"] {
@@ -227,7 +235,10 @@
   cursor: pointer;
   font-size: 0.74rem;
   font-weight: 500;
-  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    color 0.15s;
 }
 
 .accountMenuItem:hover {

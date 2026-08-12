@@ -1,10 +1,6 @@
+import type { Account, BaseProps } from '@bx/shared';
+import { AccountCard, useFetchAccountList, useModal, useSetFavoriteAccount } from '@bx/shared';
 import { useEffect, useState } from 'react';
-
-import type { Account } from '@bx/shared';
-import { useFetchAccountList, useSetFavoriteAccount } from '@bx/shared';
-import { AccountCard } from '@bx/shared';
-import { useModal } from '@bx/shared';
-import type { BaseProps } from '@bx/shared';
 
 interface AssetListProps extends BaseProps {
   dummy?: any;

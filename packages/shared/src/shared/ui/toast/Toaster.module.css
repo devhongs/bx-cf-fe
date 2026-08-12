@@ -70,7 +70,9 @@
   color: var(--foreground) !important;
   font-size: 12px !important;
   font-weight: 500 !important;
-  transition: background-color 120ms ease, border-color 120ms ease !important;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease !important;
 }
 
 .actionButton:hover,
@@ -99,7 +101,10 @@
   background: transparent !important;
   color: var(--muted) !important;
   opacity: 0;
-  transition: opacity 100ms ease, background-color 120ms ease, color 120ms ease !important;
+  transition:
+    opacity 100ms ease,
+    background-color 120ms ease,
+    color 120ms ease !important;
 }
 
 .toast:hover .closeButton,

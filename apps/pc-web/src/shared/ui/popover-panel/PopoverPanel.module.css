@@ -10,7 +10,9 @@
   flex-direction: column;
   gap: 12px;
   transform-origin: var(--radix-popover-content-transform-origin);
-  transition: opacity 0.15s, transform 0.15s;
+  transition:
+    opacity 0.15s,
+    transform 0.15s;
 }
 
 .content[data-state="open"] {
@@ -46,7 +48,9 @@
   cursor: pointer;
   padding: 4px;
   border-radius: 6px;
-  transition: background-color 0.15s, color 0.15s;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
 }
 
 .closeBtn:hover {

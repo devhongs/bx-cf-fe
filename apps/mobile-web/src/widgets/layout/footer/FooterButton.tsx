@@ -1,6 +1,5 @@
-import type React from 'react';
-
 import { cn } from '@bx/shared';
+import type React from 'react';
 
 import styles from './FooterButton.module.css';
 

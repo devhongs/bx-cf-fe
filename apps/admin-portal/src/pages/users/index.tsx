@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import type { DataTableColumn, ManagedUser } from '@bx/shared';
 
 import { $codeUtils, DataTableBox, Select, useDeleteUser, useFetchUserList } from '@bx/shared';
-import type { DataTableColumn, ManagedUser } from '@bx/shared';
+import { useState } from 'react';
 
 import { UserFormDrawer } from '@/features/user-form/ui/UserFormDrawer';
 import { deleteSelectedItems } from '@/shared/lib/deleteSelectedItems';

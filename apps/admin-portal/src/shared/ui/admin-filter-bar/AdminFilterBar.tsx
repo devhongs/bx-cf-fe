@@ -1,7 +1,6 @@
+import { Button, Select } from '@bx/shared';
 import { Search } from 'lucide-react';
 import type { ReactNode } from 'react';
-
-import { Button, Select } from '@bx/shared';
 
 import styles from './AdminFilterBar.module.css';
 

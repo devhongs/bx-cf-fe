@@ -1,5 +1,5 @@
+import type { ManagedUser, UserPayload, UserType, UseYn } from '@bx/shared';
 import { useCreateUser, useDeleteUser, useUpdateUser } from '@bx/shared';
-import type { ManagedUser, UseYn, UserPayload, UserType } from '@bx/shared';
 
 import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
 import { AdminDrawerFormActions } from '@/shared/ui/admin-drawer/AdminDrawerFormActions';

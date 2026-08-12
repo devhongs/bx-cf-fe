@@ -54,13 +54,8 @@ export const updateCommonCodeGroupMutation = () => ({
 });
 
 export const replaceCommonCodesMutation = () => ({
-  mutationFn: ({
-    groupCd,
-    payload,
-  }: {
-    groupCd: string;
-    payload: CommonCodeReplacePayload;
-  }) => replaceCommonCodes(groupCd, payload),
+  mutationFn: ({ groupCd, payload }: { groupCd: string; payload: CommonCodeReplacePayload }) =>
+    replaceCommonCodes(groupCd, payload),
 });
 
 export const deleteCommonCodeGroupMutation = () => ({

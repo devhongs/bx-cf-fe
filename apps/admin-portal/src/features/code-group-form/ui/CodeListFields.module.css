@@ -80,7 +80,11 @@
   background: color-mix(in srgb, var(--danger) 10%, transparent);
   color: var(--danger);
   cursor: pointer;
-  transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+  transition:
+    color 0.15s,
+    background-color 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .removeButton svg {

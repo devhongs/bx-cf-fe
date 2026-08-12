@@ -1,6 +1,5 @@
+import { local, STORAGE_KEYS, sha256, useLogin } from '@bx/shared';
 import { useNavigate } from '@tanstack/react-router';
-
-import { STORAGE_KEYS, local, sha256, useLogin } from '@bx/shared';
 
 import { LoginForm, type LoginPayload } from '@/features/auth/ui/login-form';
 

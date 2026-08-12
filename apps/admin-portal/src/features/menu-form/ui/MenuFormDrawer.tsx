@@ -1,5 +1,5 @@
-import { useCreateMenu, useDeleteMenu, useUpdateMenu } from '@bx/shared';
 import type { Menu } from '@bx/shared';
+import { useCreateMenu, useDeleteMenu, useUpdateMenu } from '@bx/shared';
 
 import { AdminDrawer } from '@/shared/ui/admin-drawer/AdminDrawer';
 import { AdminDrawerFormActions } from '@/shared/ui/admin-drawer/AdminDrawerFormActions';

@@ -74,15 +74,15 @@ DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
 export {
   Dialog,
-  DialogPortal,
-  DialogOverlay,
-  DialogTrigger,
   DialogClose,
   DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
   DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
   // raw Radix 네임스페이스 재노출 — 앱에서 직접 의존성 추가 없이 사용 (예: 풀스크린 모달)
   DialogPrimitive,
+  DialogTitle,
+  DialogTrigger,
 };

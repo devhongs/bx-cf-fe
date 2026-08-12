@@ -1,11 +1,9 @@
-import { Plus, Trash2 } from 'lucide-react';
-
-import { Button, FormInput, FormSelect, useFieldArray } from '@bx/shared';
 import type { UseBaseFormReturn } from '@bx/shared';
 
-import type { CodeGroupFormValues } from '../model/code-group-form.type';
-
+import { Button, FormInput, FormSelect, useFieldArray } from '@bx/shared';
+import { Plus, Trash2 } from 'lucide-react';
 import adminStyles from '@/shared/ui/admin-form/AdminForm.module.css';
+import type { CodeGroupFormValues } from '../model/code-group-form.type';
 import styles from './CodeListFields.module.css';
 
 const cellFieldClassName = `${adminStyles.field} ${styles.cell}`;

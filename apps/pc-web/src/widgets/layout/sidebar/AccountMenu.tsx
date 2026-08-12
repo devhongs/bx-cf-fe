@@ -1,7 +1,6 @@
+import { Popover, PopoverClose, PopoverTrigger, useAuthStore, useTheme } from '@bx/shared';
 import { useNavigate } from '@tanstack/react-router';
 import { Moon, Sun, User } from 'lucide-react';
-
-import { Popover, PopoverClose, PopoverTrigger, useAuthStore, useTheme } from '@bx/shared';
 
 import { LogoutButton } from '@/features/auth/ui/logout-button';
 import { PopoverPanel } from '@/shared/ui/popover-panel/PopoverPanel';

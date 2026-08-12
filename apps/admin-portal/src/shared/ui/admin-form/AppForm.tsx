@@ -1,4 +1,4 @@
-import { type FieldValues, Form, type FormProps, cn } from '@bx/shared';
+import { cn, type FieldValues, Form, type FormProps } from '@bx/shared';
 
 import styles from './AdminForm.module.css';
 

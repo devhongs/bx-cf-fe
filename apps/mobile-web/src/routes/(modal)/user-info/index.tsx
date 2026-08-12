@@ -1,6 +1,5 @@
-import { UserAvatar, useUserName } from '@bx/shared';
 import type { ModalConfig } from '@bx/shared';
-import { Modal } from '@bx/shared';
+import { Modal, UserAvatar, useUserName } from '@bx/shared';
 
 import styles from './index.module.css';
 

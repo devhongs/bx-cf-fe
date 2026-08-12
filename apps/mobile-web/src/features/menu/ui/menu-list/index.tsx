@@ -1,7 +1,5 @@
-import { useFetchMenuList } from '@bx/shared';
-import type { Menu } from '@bx/shared';
-import { MenuItem } from '@bx/shared';
-import type { BaseProps } from '@bx/shared';
+import type { BaseProps, Menu } from '@bx/shared';
+import { MenuItem, useFetchMenuList } from '@bx/shared';
 
 import styles from './index.module.css';
 

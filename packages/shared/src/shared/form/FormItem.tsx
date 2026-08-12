@@ -10,7 +10,7 @@ import {
 import { cn } from '../lib/utils/cn';
 import styles from './FormItem.module.css';
 import { useFormFieldStyle } from './form-style-context';
-import { type FieldRuleProps, buildFieldRules } from './rules';
+import { buildFieldRules, type FieldRuleProps } from './rules';
 
 export type FormItemControl<TValues extends FieldValues> = ControllerRenderProps<
   TValues,

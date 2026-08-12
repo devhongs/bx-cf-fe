@@ -1,5 +1,5 @@
 export * from './api/account.api';
-export * from './model/account-format';
 export * from './model/account.hook';
 export * from './model/account.type';
+export * from './model/account-format';
 export * from './ui/account-card';

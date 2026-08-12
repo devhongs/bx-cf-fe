@@ -1,9 +1,8 @@
 // @vitest-environment jsdom
 
+import { VALIDATION_MESSAGES } from '@bx/shared';
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-
-import { VALIDATION_MESSAGES } from '@bx/shared';
 
 import type { MenuFormValues } from '../model/menu-form.type';
 import { MenuForm } from './MenuForm';

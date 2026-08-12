@@ -9,8 +9,12 @@
   font-weight: 500;
   line-height: 1.25rem;
   white-space: nowrap;
-  transition: color 0.15s, background-color 0.15s, border-color 0.15s, opacity 0.15s, box-shadow
-    0.15s;
+  transition:
+    color 0.15s,
+    background-color 0.15s,
+    border-color 0.15s,
+    opacity 0.15s,
+    box-shadow 0.15s;
 }
 
 .root:focus-visible {

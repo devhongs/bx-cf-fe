@@ -1,7 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router';
-
-import { MenuList } from '@/features/menu/ui/menu-list';
 import { Page } from '@bx/shared';
+import { createFileRoute } from '@tanstack/react-router';
+import { MenuList } from '@/features/menu/ui/menu-list';
 
 function MenuPage() {
   return (

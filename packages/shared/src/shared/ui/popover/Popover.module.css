@@ -6,7 +6,9 @@
   border-radius: 12px;
   background: var(--surface-elevated);
   box-shadow: var(--shadow-floating);
-  transition: opacity 0.2s, transform 0.2s;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
 }
 
 .content[data-state="open"] {

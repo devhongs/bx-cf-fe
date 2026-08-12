@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import type { DataTableColumn, Menu } from '@bx/shared';
 
 import { $codeUtils, DataTableBox, useDeleteMenu, useFetchMenuList } from '@bx/shared';
-import type { DataTableColumn, Menu } from '@bx/shared';
+import { useState } from 'react';
 
 import { MenuFormDrawer } from '@/features/menu-form/ui/MenuFormDrawer';
 import { deleteSelectedItems } from '@/shared/lib/deleteSelectedItems';

@@ -1,9 +1,7 @@
-import { Suspense, lazy } from 'react';
-import type { CSSProperties, ComponentType } from 'react';
-
-import { Dialog, DialogContent } from '@bx/shared';
 import type { ModalConfig } from '@bx/shared';
-import { useModalStore } from '@bx/shared';
+import { Dialog, DialogContent, useModalStore } from '@bx/shared';
+import type { ComponentType, CSSProperties } from 'react';
+import { lazy, Suspense } from 'react';
 
 import styles from './ModalContainer.module.css';
 

@@ -1,11 +1,14 @@
+import type { Account, BankId, BaseProps } from '@bx/shared';
+import {
+  $codeUtils,
+  Button,
+  formatAccountNumberByBank,
+  Input,
+  Select,
+  useFetchRecentAccountList,
+  useModal,
+} from '@bx/shared';
 import { useEffect, useState } from 'react';
-
-import { $codeUtils, useFetchRecentAccountList } from '@bx/shared';
-import type { Account, BankId } from '@bx/shared';
-import { useModal } from '@bx/shared';
-import { formatAccountNumberByBank } from '@bx/shared';
-import type { BaseProps } from '@bx/shared';
-import { Button, Input, Select } from '@bx/shared';
 
 import styles from './index.module.css';
 

@@ -1,6 +1,5 @@
-import { useNavigate } from '@tanstack/react-router';
-
 import { useLogout } from '@bx/shared';
+import { useNavigate } from '@tanstack/react-router';
 
 import styles from './LogoutButton.module.css';
 

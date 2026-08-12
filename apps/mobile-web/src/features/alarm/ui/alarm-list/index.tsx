@@ -1,8 +1,5 @@
-import type { Alarm } from '@bx/shared';
-import { useFetchAlarmList } from '@bx/shared';
-import { AlarmCard } from '@bx/shared';
-import { useModal } from '@bx/shared';
-import type { BaseProps } from '@bx/shared';
+import type { Alarm, BaseProps } from '@bx/shared';
+import { AlarmCard, useFetchAlarmList, useModal } from '@bx/shared';
 
 import styles from './index.module.css';
 

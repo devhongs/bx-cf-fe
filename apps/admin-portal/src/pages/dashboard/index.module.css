@@ -42,11 +42,9 @@
   min-width: 0;
   border: 1px solid var(--border);
   border-radius: 8px;
-  background: linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--accent) 10%, transparent),
-      transparent 48%
-    ), var(--surface);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent 48%),
+    var(--surface);
   box-shadow: var(--admin-panel-shadow);
   padding: 18px;
 }
