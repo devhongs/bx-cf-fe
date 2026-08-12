@@ -49,12 +49,7 @@ export function SettingModal(_props: ModalConfig) {
       </div>
 
       {/* 로그아웃 */}
-      <button
-        type="button"
-        onClick={handleLogout}
-        disabled={isPending}
-        className={styles.logout}
-      >
+      <button type="button" onClick={handleLogout} disabled={isPending} className={styles.logout}>
         <LogOut size={16} />
         <span className={styles.logoutLabel}>로그아웃</span>
       </button>

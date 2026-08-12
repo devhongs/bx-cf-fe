@@ -1,6 +1,6 @@
-import type { Menu } from '../../model/menu.type';
 import type { BaseProps } from '../../../../shared/types';
 import { IconButton } from '../../../../shared/ui';
+import type { Menu } from '../../model/menu.type';
 
 import styles from './index.module.css';
 

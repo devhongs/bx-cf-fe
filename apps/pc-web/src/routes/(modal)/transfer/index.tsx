@@ -51,11 +51,7 @@ export function TransferModal(_props: ModalConfig) {
       </div>
 
       <div className={styles.actions}>
-        <button
-          type="button"
-          onClick={() => close()}
-          className={styles.cancel}
-        >
+        <button type="button" onClick={() => close()} className={styles.cancel}>
           취소
         </button>
         <button

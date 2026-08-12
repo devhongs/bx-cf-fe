@@ -80,10 +80,7 @@ export function FormItem<TValues extends FieldValues>({
   return (
     <div className={cn(styles.item, className ?? style.fieldClassName)}>
       {label && (
-        <label
-          className={cn(styles.label, labelClassName ?? style.labelClassName)}
-          htmlFor={id}
-        >
+        <label className={cn(styles.label, labelClassName ?? style.labelClassName)} htmlFor={id}>
           {label}
           {required && (
             <span aria-hidden="true" className={styles.required}>
@@ -107,10 +104,7 @@ export function FormItem<TValues extends FieldValues>({
         </p>
       )}
       {message && (
-        <p
-          className={cn(styles.error, errorClassName ?? style.errorClassName)}
-          id={errorId}
-        >
+        <p className={cn(styles.error, errorClassName ?? style.errorClassName)} id={errorId}>
           {message}
         </p>
       )}

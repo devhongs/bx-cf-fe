@@ -47,11 +47,7 @@ const DrawerOverlay = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Overlay
-    ref={ref}
-    className={cn(styles.overlay, className)}
-    {...props}
-  />
+  <DrawerPrimitive.Overlay ref={ref} className={cn(styles.overlay, className)} {...props} />
 ));
 DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 
@@ -99,14 +95,10 @@ const DrawerContent = React.forwardRef<
         {...props}
       >
         {/* 드래그 핸들 */}
-        {!hideHandle && !fullscreen && (
-          <div className={styles.handle} />
-        )}
+        {!hideHandle && !fullscreen && <div className={styles.handle} />}
         {/* X 버튼 (풀스크린일 때만 기본 표시) */}
         {!hideClose && fullscreen && (
-          <DrawerClose
-            className={styles.close}
-          >
+          <DrawerClose className={styles.close}>
             <X size={18} />
             <span className={styles.visuallyHidden}>닫기</span>
           </DrawerClose>
@@ -133,11 +125,7 @@ const DrawerTitle = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
 >(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Title
-    ref={ref}
-    className={cn(styles.title, className)}
-    {...props}
-  />
+  <DrawerPrimitive.Title ref={ref} className={cn(styles.title, className)} {...props} />
 ));
 DrawerTitle.displayName = DrawerPrimitive.Title.displayName;
 
@@ -145,11 +133,7 @@ const DrawerDescription = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>
 >(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Description
-    ref={ref}
-    className={cn(styles.description, className)}
-    {...props}
-  />
+  <DrawerPrimitive.Description ref={ref} className={cn(styles.description, className)} {...props} />
 ));
 DrawerDescription.displayName = DrawerPrimitive.Description.displayName;
 

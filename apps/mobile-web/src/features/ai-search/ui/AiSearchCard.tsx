@@ -16,10 +16,7 @@ export function AiSearchCard({ onClick }: AiSearchCardProps) {
   };
 
   return (
-    <div
-      onClick={handleCardClick}
-      className={styles.card}
-    >
+    <div onClick={handleCardClick} className={styles.card}>
       {/* 좌측 입력 영역 */}
       <div className={styles.inputArea}>
         <input

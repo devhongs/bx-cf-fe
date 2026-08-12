@@ -63,9 +63,7 @@ const ModalComponent: React.FC<ModalProps> = ({
             onClick={() => closeModal()}
           />
         </div>
-        <div className={styles.title}>
-          {TitleSlot ?? title}
-        </div>
+        <div className={styles.title}>{TitleSlot ?? title}</div>
         <div className={styles.headerSpacer} />
       </div>
 

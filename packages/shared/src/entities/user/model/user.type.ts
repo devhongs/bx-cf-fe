@@ -42,5 +42,4 @@ export interface UserListApiRequest {
   data?: Partial<ManagedUser>;
 }
 
-export type UserPayload = Partial<ManagedUser> &
-  Pick<ManagedUser, 'usrId' | 'usrNm' | 'userType'>;
+export type UserPayload = Partial<ManagedUser> & Pick<ManagedUser, 'usrId' | 'usrNm' | 'userType'>;

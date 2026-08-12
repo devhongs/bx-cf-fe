@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import type { ComponentType, CSSProperties } from 'react';
+import type { CSSProperties, ComponentType } from 'react';
 
 import type { ModalConfig } from '@bx/shared';
 import { DialogPrimitive, useModalStore } from '@bx/shared';
@@ -67,11 +67,7 @@ export const ModalContainer = ({ index = 0, ...config }: ModalContainerProps) =>
           // 모바일 풀스크린이므로 outside click 닫기 비활성
           onInteractOutside={(e) => e.preventDefault()}
         >
-          <Suspense
-            fallback={
-              <div className={styles.loading}>로딩 중...</div>
-            }
-          >
+          <Suspense fallback={<div className={styles.loading}>로딩 중...</div>}>
             <Component {...config} />
           </Suspense>
         </DialogPrimitive.Content>

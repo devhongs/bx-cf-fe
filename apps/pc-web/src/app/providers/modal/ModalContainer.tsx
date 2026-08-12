@@ -67,9 +67,7 @@ export function ModalContainer({ index = 0, ...config }: ModalContainerProps) {
         style={{ '--modal-z-index': 200 + index } as CSSProperties}
         hideClose
       >
-        <Suspense
-          fallback={<div className={styles.loading}>로딩 중...</div>}
-        >
+        <Suspense fallback={<div className={styles.loading}>로딩 중...</div>}>
           <Component {...config} />
         </Suspense>
       </DialogContent>

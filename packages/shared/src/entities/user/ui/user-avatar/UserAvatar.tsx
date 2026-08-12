@@ -1,5 +1,5 @@
-import type { BaseProps } from '../../../../shared/types';
 import type { CSSProperties } from 'react';
+import type { BaseProps } from '../../../../shared/types';
 
 import styles from './UserAvatar.module.css';
 

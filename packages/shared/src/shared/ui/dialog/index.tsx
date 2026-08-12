@@ -15,11 +15,7 @@ const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Overlay
-    ref={ref}
-    className={cn(styles.overlay, className)}
-    {...props}
-  />
+  <DialogPrimitive.Overlay ref={ref} className={cn(styles.overlay, className)} {...props} />
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
@@ -36,16 +32,10 @@ const DialogContent = React.forwardRef<
 >(({ className, children, hideClose = false, ...props }, ref) => (
   <DialogPortal>
     <DialogOverlay />
-    <DialogPrimitive.Content
-      ref={ref}
-      className={cn(styles.content, className)}
-      {...props}
-    >
+    <DialogPrimitive.Content ref={ref} className={cn(styles.content, className)} {...props}>
       {children}
       {!hideClose && (
-        <DialogClose
-          className={styles.close}
-        >
+        <DialogClose className={styles.close}>
           <X size={16} />
           <span className={styles.visuallyHidden}>닫기</span>
         </DialogClose>
@@ -70,11 +60,7 @@ const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Title
-    ref={ref}
-    className={cn(styles.title, className)}
-    {...props}
-  />
+  <DialogPrimitive.Title ref={ref} className={cn(styles.title, className)} {...props} />
 ));
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
 
@@ -82,11 +68,7 @@ const DialogDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Description
-    ref={ref}
-    className={cn(styles.description, className)}
-    {...props}
-  />
+  <DialogPrimitive.Description ref={ref} className={cn(styles.description, className)} {...props} />
 ));
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
 

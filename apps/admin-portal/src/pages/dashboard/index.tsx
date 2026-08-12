@@ -156,9 +156,7 @@ export function DashboardPage() {
                   className={styles.dashboardProgress}
                   aria-label={`${card.title} 진행률 ${card.progress}%`}
                 >
-                  <span
-                    style={{ '--dashboard-progress': `${card.progress}%` } as CSSProperties}
-                  />
+                  <span style={{ '--dashboard-progress': `${card.progress}%` } as CSSProperties} />
                 </div>
                 <ul className={styles.dashboardMiniList}>
                   {card.items.map((item) => (

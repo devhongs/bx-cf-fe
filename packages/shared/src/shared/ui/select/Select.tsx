@@ -58,12 +58,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
 
     return (
       <div className={cn(styles.container, containerClassName)}>
-        <select
-          className={cn(styles.select, className)}
-          ref={ref}
-          required={required}
-          {...props}
-        >
+        <select className={cn(styles.select, className)} ref={ref} required={required} {...props}>
           {empty && (
             <option value={empty.value} disabled={empty.disabled}>
               {empty.label}

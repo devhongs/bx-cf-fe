@@ -22,9 +22,7 @@ export function ProductPage() {
           {products?.map((product) => (
             <li key={product.productId} className={styles.item}>
               <p className={styles.name}>{product.productNm}</p>
-              {product.productDesc && (
-                <p className={styles.description}>{product.productDesc}</p>
-              )}
+              {product.productDesc && <p className={styles.description}>{product.productDesc}</p>}
             </li>
           ))}
         </ul>
