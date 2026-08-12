@@ -1,5 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  // 루트 스크립트(mock 서버·API 생성)가 읽는 환경변수. 캐시 키에는 넣지 않고 그대로 넘긴다.
+  "globalPassThroughEnv": ["PORT", "API_DOCS_URLS"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
