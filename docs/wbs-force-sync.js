@@ -82,7 +82,7 @@ function getAllIssueNumbers() {
       }
     `;
     const res = runGraphQL(query);
-    if (!res || !res.data || !res.data.repository) break;
+    if (!res?.data?.repository) break;
     const conn = res.data.repository.issues;
     numbers.push(...conn.nodes.map((n) => n.number));
     if (!conn.pageInfo.hasNextPage) break;

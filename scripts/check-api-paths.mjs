@@ -1,4 +1,4 @@
-import { readFile, readdir, stat } from 'node:fs/promises';
+import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -41,8 +41,6 @@ const ALLOWLIST = [
     reason: 'temporary user management endpoints are used by FE before backend OpenAPI is ready',
   },
 ];
-
-const HTTP_METHODS = ['get', 'post', 'put', 'patch', 'delete'];
 
 const toFsPath = (relativePath) => fileURLToPath(new URL(relativePath, ROOT_DIR));
 
